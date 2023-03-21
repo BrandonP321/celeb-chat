@@ -1,0 +1,14 @@
+{
+  "name": "celeb-chat",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": "https://github.com/BrandonP321/celeb-chat.git",
+  "author": "Brandon Phillips <brandon.phillips@bphillips.dev>",
+  "license": "MIT",
+  "packageManager": "yarn@3.5.0",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
