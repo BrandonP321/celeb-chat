@@ -1,0 +1,8 @@
+@import "../../styles/uiBase.scss";
+
+.chatBar {
+    background-color: $bodyBgPrimary;
+    width: 100%;
+    max-width: 20rem;
+    border-right: 2px solid black;
+}

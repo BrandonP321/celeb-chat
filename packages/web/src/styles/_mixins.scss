@@ -1,0 +1,43 @@
+// Needs to be included in any web client package that uses BrowserUtils to lock/unlock page scroll
+@mixin GlobalBrowserUtilsStyles() {
+    html[data-scroll-locked="true"] {
+
+        body {
+            position: fixed;
+            overflow-y: scroll;
+        }
+    }
+    
+    body {
+        min-height: 100%;
+    }
+}
+
+// @mixin ScrollbarWidth($width: 1rem) {
+
+// 	&::-webkit-scrollbar {
+//         width: $width;
+//     }
+// }
+
+// @mixin ScrollbarThumb($bgColor: rgba($colorScrollbar, 0.7), $bgColorHover: $colorScrollbar, $trackColor: $siteBg, $borderRadius: 1rem) {
+
+// 	&::-webkit-scrollbar-thumb {
+//         background-color: $bgColor;
+//         transition: all .2s;
+//         border-radius: 1rem;
+//         border: 4px solid $trackColor;
+        
+//         &:hover {
+//             background-color: $bgColorHover;
+//         }
+//     }
+// }
+
+// @mixin ScrollbarTrack($bgColor: $siteBg) {
+
+// 	&::-webkit-scrollbar-track {
+//         background-color: $bgColor;
+//         @content;
+//     }
+// }
