@@ -1,4 +1,6 @@
-export type TMessage = {
+import { ChatCompletionRequestMessage } from "openai";
+
+export type TMessage = ChatCompletionRequestMessage & {
 
 };
 
@@ -15,7 +17,40 @@ export const mockChats: TChat[] = [
         id: "1",
         displayName: "Dumbledore",
         recipientDescription: "Dumbledore from the sixth harry potter movie",
-        messages: [],
+        messages: [
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+            { content: "Hello person", role: "user" },
+            { content: "Hello user", role: "assistant" },
+        ],
         lastMessage: "How are you today?"
     },
     {

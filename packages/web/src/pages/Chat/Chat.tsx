@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import {
     ChatCompletionRequestMessage,
@@ -8,6 +8,8 @@ import {
     OpenAIApi,
 } from 'openai';
 import styles from "./Chat.module.scss";
+import { TMessage } from 'data/mock/mockChats';
+import { matchPath } from 'react-router-dom';
 
 enum OpenAIModel {
     Davinci = "davinci",
@@ -24,15 +26,19 @@ const model = OpenAIModel.GPT3Turbo;
 
 const getTrainingMsg = (character: string) => (
     `For the rest of this conversation, you will be texting me while impersonating ${character}.  Specifically, you will also take on any stereotypical traits of ${character}.  Also, if ${character} has any specific speech patterns, attempt to mimic those speech patterns in your response.`
-)
+);
 
-export namespace Chat {
+namespace Chat {
     export type Props = {
-
+        chatCache: React.MutableRefObject<ChatCache>;
     };
+
+    export type ChatCache = {
+        [key: string]: TMessage[];
+      }
 };
 
-function Chat(props: Chat.Props) {
+function Chat({ chatCache }: Chat.Props) {
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [messages, setMessagesState] = useState<ChatCompletionRequestMessage[]>([]);
@@ -46,6 +52,17 @@ function Chat(props: Chat.Props) {
         setMessages([constructMsg(getTrainingMsg(character))])
 
     }, [])
+
+    const fetchChat = () => {
+        const { params } = matchPath("/chat/:chatId", window.location.pathname) ?? {}
+        
+        const cachedChat = chatCache.current?.[params?.chatId || -1];
+
+        if (!params ?? !cachedChat) {
+            return alert("Unabled")
+        };
+
+    }
 
     const setMessages = (data: ChatCompletionRequestMessage[]) => {
         setMessagesState(data);

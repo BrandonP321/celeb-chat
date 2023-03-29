@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -8,6 +8,8 @@ import { Chat } from "@/Pages";
 import { AppLayout } from "@/Components";
 
 function App() {
+  const chatCache = useRef<Chat.ChatCache>({});
+
   return (
     <Router>
       <AppLayout>
