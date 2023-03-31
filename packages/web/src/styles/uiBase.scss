@@ -3,3 +3,11 @@
 @import "font";
 @import "mixins";
 @import "responsive";
+
+// SHADOWS
+$boxShadowDark: 0 0 1rem 0rem rgba(0, 0, 0, 0.5);
+
+.pageMain {
+  padding: 1rem;
+  overflow-y: auto;
+}

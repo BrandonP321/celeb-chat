@@ -4,27 +4,32 @@
 // @include GlobalCssVars();
 
 * {
-	scroll-behavior: smooth;
+  // scroll-behavior: smooth;
 
-	// set custom scroll styles for devices that have a cursor
-	// @include nonTouchDevice() {
-	// 	@include ScrollbarWidth();
+  // set custom scroll styles for devices that have a cursor
+  @include nonTouchDevice() {
+    @include ScrollbarWidth();
 
-	// 	@include ScrollbarTrack();
+    @include ScrollbarTrack();
 
-	// 	@include ScrollbarThumb();
-	// }
+    @include ScrollbarThumb();
+  }
 }
 
 :root {
-	// #{$primaryBgCssVar}: green;
 }
 
 html {
-	color: $textPrimary;
-	font-family: $fontPrimary;
+  color: $textPrimary;
+  font-family: $fontPrimary;
+  height: 100%;
 }
 
 body {
-	background-color: $bodyBgPrimary;
+  background-color: $bodyBgPrimary;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
 }

@@ -14,7 +14,7 @@ function App() {
     <Router>
       <AppLayout>
         <Routes>
-          <Route path="/chat/:chatId" element={<Chat />} />
+          <Route path="/chat/:chatId" element={<Chat chatCache={chatCache} />} />
         </Routes>
       </AppLayout>
     </Router>
