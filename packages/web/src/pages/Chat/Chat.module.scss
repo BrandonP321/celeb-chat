@@ -9,13 +9,18 @@ $defaultFormHeight: calc(
   $inputLineHeight + (($inputVerticalPadding + $inputBorderWidth) * 2)
 );
 $maxInputHeight: calc(
-  ($inputLineHeight * 7) + (($inputVerticalPadding + $inputBorderWidth) * 2)
+  ($inputLineHeight * 2) + (($inputVerticalPadding + $inputBorderWidth) * 2)
 );
 
 .input,
 .inputWrapper {
   font-size: $inputFontSize;
   line-height: $inputLineHeight;
+}
+
+.inputWrapper,
+.sendBtn {
+  min-width: 0;
 }
 
 .inputWrapper {
@@ -30,11 +35,14 @@ $maxInputHeight: calc(
   pointer-events: none;
   background-color: $bodyBgPrimary;
   color: transparent;
+  word-wrap: break-word;
+  flex: 1 1 0;
 
   // This unique handling avoids weird jumps in the UI as textarea grows
   &::after {
     content: attr(data-replicated-value) " ";
     white-space: pre-wrap;
+    word-wrap: break-word;
   }
 }
 
