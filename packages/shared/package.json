@@ -1,0 +1,12 @@
+{
+  "name": "@celeb-chat/shared",
+  "packageManager": "yarn@3.5.0",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "mongoose": "^6.6.0"
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
