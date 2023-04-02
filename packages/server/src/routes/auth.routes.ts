@@ -2,7 +2,7 @@ import express from "express";
 import { Routes } from "@celeb-chat/shared/src/api/routes";
 import {
   // AuthStatusController,
-  // LoginUserController,
+  LoginUserController,
   RegisterUserController,
   // SignoutUserController,
 } from "@/Controllers/auth.controllers";
@@ -12,7 +12,7 @@ import {
 const router = express.Router();
 
 router.post(Routes.Auth.Register(), RegisterUserController);
-// router.post(Routes.Auth.Login({}), LoginUserController);
+router.post(Routes.Auth.Login(), LoginUserController);
 // router.post(Routes.Auth.Signout({}), AuthJwt, GetUserMiddleware, SignoutUserController);
 // router.get(Routes.Auth.CheckIsUserAuthed({}), AuthJwt, AuthStatusController);
 

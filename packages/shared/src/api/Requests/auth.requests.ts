@@ -41,3 +41,30 @@ export namespace RegisterAccountRequest {
 
   export type Error = APIErrorResponse<typeof ErrorCode>;
 }
+
+export namespace LoginRequest {
+  type ReqBody = {
+    email: string;
+    password: string;
+  };
+
+  export type Response = UserModel.ShallowJSON;
+
+  export type Request = APIRequest<{}, ReqBody, Response>;
+
+  export const ErrorCode = {
+    ...DefaultErrors.ErrorCode,
+    InvalidEmailOrPassword: "InvalidEmailOrPassword",
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...DefaultErrors.Errors,
+    InvalidEmailOrPassword: {
+      status: HttpStatusCode.Unauthorized,
+      errCode: ErrorCode.InvalidEmailOrPassword,
+      msg: "Email or password is incorrect",
+    },
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}

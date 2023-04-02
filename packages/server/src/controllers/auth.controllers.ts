@@ -1,5 +1,6 @@
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import {
+  LoginRequest,
   // AuthStatusRequest,
   // LoginUserRequest,
   // RegisterUserRequest,
@@ -76,62 +77,56 @@ export const RegisterUserController: TRouteController<
   );
 };
 
-// export const LoginUserController: TRouteController<
-//   LoginUserRequest.TRequest,
-//   {}
-// > = async (req, res) => {
-//   const inputValidationErrors = AuthUtils.ValidateLoginFields(req.body);
+const loginErrors = new ControllerErrors(LoginRequest.Errors);
 
-//   if (Object.keys(inputValidationErrors).length > 0) {
-//     return ControllerUtils.respondWithErr(
-//       ReqUserLoginErrors.InvalidFieldInput({
-//         invalidFields: inputValidationErrors,
-//       }),
-//       res
-//     );
-//   }
+export const LoginUserController: TRouteController<
+  LoginRequest.Request,
+  {}
+> = async (req, res) => {
+  // TODO: implement input validation
+  // const inputValidationErrors = AuthUtils.ValidateLoginFields(req.body);
 
-//   db.User.findOne(
-//     { email: req.body.email },
-//     async (err: CallbackError, user: UserModel.Document) => {
-//       if (err || !user) {
-//         return ControllerUtils.respondWithErr(
-//           ReqUserLoginErrors.IncorrectEmailOrPassword({}),
-//           res
-//         );
-//       }
+  // if (Object.keys(inputValidationErrors).length > 0) {
+  //   return ControllerUtils.respondWithErr(
+  //     ReqUserLoginErrors.InvalidFieldInput({
+  //       invalidFields: inputValidationErrors,
+  //     }),
+  //     res
+  //   );
+  // }
 
-//       const isValidPassword = await user.validatePassword(req.body.password);
+  db.User.findOne(
+    { email: req.body.email },
+    async (err: CallbackError, user: UserModel.Document) => {
+      if (err || !user) {
+        return loginErrors.error.InvalidEmailOrPassword(res);
+      }
 
-//       if (!isValidPassword) {
-//         return ControllerUtils.respondWithErr(
-//           ReqUserLoginErrors.IncorrectEmailOrPassword({}),
-//           res
-//         );
-//       }
+      const isValidPassword = await user.validatePassword(req.body.password);
 
-//       // generate and set auth tokens in response header
-//       const { tokenHashId, tokens } = await JWTUtils.generateAndSetTokens(
-//         user.id,
-//         res
-//       );
+      if (!isValidPassword) {
+        return loginErrors.error.InvalidEmailOrPassword(res);
+      }
 
-//       if (!tokens) {
-//         return ControllerUtils.respondWithUnexpectedErr(
-//           res,
-//           "Unable to generate auth tokens to login"
-//         );
-//       }
+      // generate and set auth tokens in response header
+      const { tokenHashId, tokens } = await JWTUtils.generateAndSetTokens(
+        user.id,
+        res
+      );
 
-//       // add jwt id to user's doc in db
-//       await user.addJWTHash(tokenHashId);
+      if (!tokens) {
+        return loginErrors.error.InternalServerError(res);
+      }
 
-//       const userJSON = await user.toShallowJSON();
+      // add jwt id to user's doc in db
+      await user.addJWTHash(tokenHashId);
 
-//       return res.json(userJSON).end();
-//     }
-//   );
-// };
+      const userJSON = await user.toShallowJSON();
+
+      return res.json(userJSON).end();
+    }
+  );
+};
 
 // /** Signs user out of all devices by invalidating all refresh tokens */
 // export const SignoutUserController: TRouteController<
