@@ -1,7 +1,4 @@
-import {
-  DefaultErrors,
-  TAPIRequest,
-} from "@celeb-chat/shared/src/api/Requests";
+import { DefaultErrors, APIRequest } from "@celeb-chat/shared/src/api/Requests";
 import { Response } from "express";
 import { TRouteController } from "@/Controllers";
 import { ControllerErrors } from "@/Utils";
@@ -16,7 +13,7 @@ const haveUserReAuth = (res: Response, errMsg?: string) => {
 
 /** Middleware for protected API endpoints.  Authenticates user via JWTs sent in request header */
 export const AuthJwt: TRouteController<
-  TAPIRequest<{}, {}, {}>,
+  APIRequest<{}, {}, {}>,
   JWTResLocals
 > = async (req, res, next) => {
   try {

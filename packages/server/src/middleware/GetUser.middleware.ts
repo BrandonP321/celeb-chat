@@ -1,8 +1,5 @@
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
-import {
-  DefaultErrors,
-  TAPIRequest,
-} from "@celeb-chat/shared/src/api/Requests";
+import { DefaultErrors, APIRequest } from "@celeb-chat/shared/src/api/Requests";
 import { TRouteController } from "@/Controllers/index";
 import { JWTResLocals, ControllerErrors } from "@/Utils";
 import db from "@/Models";
@@ -18,7 +15,7 @@ const GetUserErrors = new ControllerErrors(DefaultErrors.Errors);
  * by AuthJWT() middleware, which gets the user's id from auth tokens
  */
 export const GetUserMiddleware: TRouteController<
-  TAPIRequest<{}, {}, {}>,
+  APIRequest<{}, {}, {}>,
   TUserDocLocals
 > = async (req, res, next) => {
   try {

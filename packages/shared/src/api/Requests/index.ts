@@ -2,7 +2,7 @@ import { HttpStatusCode } from "./HttpStatusCodes";
 
 // TODO: look at optimizing this
 /** Data required to construct API Request */
-export type TAPIRequest<
+export type APIRequest<
   UrlParams extends {} = {},
   ReqBody = {},
   ResBody = {}

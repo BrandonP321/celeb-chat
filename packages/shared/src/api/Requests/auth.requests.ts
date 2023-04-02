@@ -1,12 +1,23 @@
-import { APIErrorResponse, APIErrors, DefaultErrors } from ".";
+import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
+import { UserModel } from "../models/User.model";
 import { HttpStatusCode } from "./HttpStatusCodes";
 
 export namespace RegisterAccountRequest {
-  export type Response = {};
+  type ReqBody = {
+    email: string;
+    username: string;
+    password: string;
+  };
+
+  export type Response = UserModel.ShallowJSON;
+
+  export type Request = APIRequest<{}, ReqBody, Response>;
 
   export const ErrorCode = {
     ...DefaultErrors.ErrorCode,
     EmailTaken: "EmailTaken",
+    UsernameTaken: "UsernameTaken",
+    InvalidFieldInput: "InvalidFieldInput",
   } as const;
 
   export const Errors: APIErrors<typeof ErrorCode> = {
@@ -15,6 +26,16 @@ export namespace RegisterAccountRequest {
       status: HttpStatusCode.BadRequest,
       errCode: ErrorCode.EmailTaken,
       msg: "Email Taken",
+    },
+    UsernameTaken: {
+      status: HttpStatusCode.BadRequest,
+      errCode: ErrorCode.UsernameTaken,
+      msg: "Username taken",
+    },
+    InvalidFieldInput: {
+      status: HttpStatusCode.BadRequest,
+      errCode: ErrorCode.InvalidFieldInput,
+      msg: "Registration fields don't meet the required format",
     },
   } as const;
 

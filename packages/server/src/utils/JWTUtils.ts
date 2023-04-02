@@ -11,8 +11,7 @@ type TAuthTokens = {
   rToken: string;
 };
 
-// const authTokenCookieName = "authTokens";
-const authTokenHeaderName = "Authorization";
+const authTokenCookieName = "authTokens";
 
 /**
  * JWT utility class with commented out methods that were used when JWTs were stored in http cookies.  Am leaving this code commented out to serve
@@ -26,35 +25,31 @@ export class JWTUtils {
   };
 
   /** Stores access & refresh tokens in http secured cookies */
-  // public static generateTokenCookies = (tokens: TAuthTokens, res: Response) => {
-  // 	const maxAgeSeconds = parseInt(process.env.REFRESH_TOKEN_EXPIRES_IN.split("s")[0]);
-  // 	const maxAgeMs = maxAgeSeconds && (maxAgeSeconds * 1000);
+  public static generateTokenCookies = (tokens: TAuthTokens, res: Response) => {
+    const maxAgeSeconds = parseInt(
+      (process.env.REFRESH_TOKEN_EXPIRES_IN ?? "604800s").split("s")[0]
+    );
+    const maxAgeMs = maxAgeSeconds && maxAgeSeconds * 1000;
 
-  // 	res.cookie(authTokenCookieName, JSON.stringify(tokens), {
-  // 		httpOnly: true,
-  // 		secure: true,
-  // 		// max age should be equivalent to the life span of a refresh token
-  // 		maxAge: maxAgeMs,
-  // 		sameSite: true
-  // 	})
-  // }
-
-  /**
-   * Auth tokens must be sent in header rather than in cookie because safari
-   * won't allow cross-site cookie tracking, and PROD server is hosted on
-   * different domain than PROD site
-   */
-  public static setTokenHeader = (tokens: TAuthTokens, res: Response) => {
-    res.set(authTokenHeaderName, JSON.stringify(tokens));
+    res.cookie(authTokenCookieName, JSON.stringify(tokens), {
+      httpOnly: true,
+      // TODO: false if local
+      // secure: true,
+      secure: false,
+      maxAge: maxAgeMs,
+      // TODO: false if local
+      // sameSite: true,
+      sameSite: false,
+    });
   };
 
   /** Gets JWT auth cookie, returning undefined if no cookie exists */
-  // public static getTokensFromCookie = (req: Request) => {
-  // 	const cookie: undefined | string = req.cookies?.[authTokenCookieName];
-  // 	const parsedCookie: undefined | TAuthTokens = cookie && JSON.parse(cookie);
+  public static getTokensFromCookie = (req: Request) => {
+    const cookie: undefined | string = req.cookies?.[authTokenCookieName];
+    const parsedCookie: undefined | TAuthTokens = cookie && JSON.parse(cookie);
 
-  // 	return parsedCookie;
-  // }
+    return parsedCookie;
+  };
 
   public static getTokensFromHeader = (req: Request) => {
     try {
@@ -68,13 +63,13 @@ export class JWTUtils {
     }
   };
 
-  // public static destroyTokenCookie = (res: Response) => {
-  // 	res.clearCookie(authTokenCookieName, {
-  // 		httpOnly: true,
-  // 		secure: true,
-  // 		sameSite: true
-  // 	});
-  // }
+  public static destroyTokenCookie = (res: Response) => {
+    res.clearCookie(authTokenCookieName, {
+      httpOnly: true,
+      secure: true,
+      sameSite: true,
+    });
+  };
 
   /** Returns new access & refresh tokens */
   public static generateTokens = (userId: string, tokenHashId: string) => {
@@ -98,7 +93,7 @@ export class JWTUtils {
     const authTokens = this.generateTokens(userId, newTokenHash);
 
     if (authTokens) {
-      this.setTokenHeader(authTokens, res);
+      this.generateTokenCookies(authTokens, res);
     }
 
     return { tokens: authTokens, tokenHashId: newTokenHash };
