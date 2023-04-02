@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ChatCard.module.scss";
-import { TChat } from "data/mock/mockChats";
-import { Link, matchPath, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
+import { MessagelessChat } from "@/Slices/Chats/ChatsSlice";
+import { ChatUtils } from "utils";
 
 export namespace ChatCard {
-  export type Props = TChat & {
+  export type Props = MessagelessChat & {
     onClick?: () => void;
   };
 }
 
 function ChatCard(props: ChatCard.Props) {
-  const {
-    displayName,
-    messages,
-    recipientDescription,
-    lastMessage,
-    id,
-    onClick,
-  } = props;
+  const { displayName, lastMessage, id, onClick } = props;
 
   const [isSelected, setIsSelected] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    const { params } =
-      matchPath("/chat/:chatId", window.location.pathname) ?? {};
+    const activeChatId = ChatUtils.getChatIdFromChatUrl();
 
-    setIsSelected(params?.chatId === id);
+    setIsSelected(activeChatId === id);
   }, [location, id]);
 
   return (

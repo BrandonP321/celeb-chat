@@ -1,16 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import {
-  ChatCompletionRequestMessage,
   ChatCompletionResponseMessageRoleEnum,
-  ChatCompletionRequestMessageRoleEnum,
   Configuration,
   OpenAIApi,
 } from "openai";
 import styles from "./Chat.module.scss";
-import { mockChats, TChat, TMessage } from "data/mock/mockChats";
-import { ChatUtils } from "utils/ChatUtils";
-import { useLocation } from "react-router-dom";
+import { TChat } from "data/mock/mockChats";
+import { useAppDispatch, useChat } from "@/Hooks";
+import { Actions } from "@/Slices";
+import { ChatUtils } from "utils";
 
 enum OpenAIModel {
   Davinci = "davinci",
@@ -25,140 +24,64 @@ const openai = new OpenAIApi(configuration);
 
 const model = OpenAIModel.GPT3Turbo;
 
-const getTrainingMsg = (character: string) =>
-  `For the rest of this conversation, you will be texting me while impersonating ${character}.  Specifically, you will also take on any stereotypical traits of ${character}.  Also, if ${character} has any specific speech patterns, attempt to mimic those speech patterns in your response.`;
+const fetchChatCompletion = (chat: TChat, msgInput: string) => {
+  const msg = ChatUtils.constructMsg(msgInput);
 
-const asyncFetchChat = (chatId: string, chatCache: Chat.ChatCache) => {
-  return new Promise<TChat>((resolve, reject) => {
-    const cachedChat = chatCache?.[chatId];
-
-    if (cachedChat) {
-      return resolve(cachedChat);
-    }
-
-    const response = mockChats.find((chat) => chat.id === chatId);
-    // temp training message
-    response?.messages?.unshift({
-      content: getTrainingMsg(response.recipientDescription),
-      role: "user",
-    });
-
-    if (response) {
-      return resolve(response);
-    } else {
-      return reject("Chat does no exist");
-    }
+  return openai.createChatCompletion({
+    model,
+    messages: [...chat.messages, msg],
   });
 };
 
 namespace Chat {
-  export type Props = {
-    chatCache: React.MutableRefObject<ChatCache>;
-  };
-
-  export type ChatCache = {
-    [key: string]: TChat;
-  };
+  export type Props = {};
 }
 
-function Chat({ chatCache }: Chat.Props) {
-  const chatIdRef = useRef<string | null>(null);
+function Chat(props: Chat.Props) {
+  const chat = useChat();
+  const dispatch = useAppDispatch();
+
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [messages, setMessagesState] = useState<TMessage[]>([]);
-  const location = useLocation();
 
-  useEffect(() => {
-    const chatId = ChatUtils.getChatIdFromChatUrl();
-    if (chatId) {
-      chatIdRef.current = chatId;
-      fetchChat(chatId);
-    } else {
-      alert("Unable to get chat id");
-    }
-  }, [location]);
-
-  const fetchChat = (chatId: string) => {
-    setLoading(true);
-
-    if (!chatId) {
-      alert("Unableto get chat ID");
-      setLoading(false);
-    } else {
-      asyncFetchChat(chatId, chatCache.current)
-        .then((res) => {
-          setMessages(res, chatId);
-        })
-        .catch((errMsg) => {
-          alert(errMsg);
-        })
-        .finally(() => setLoading(false));
-    }
-  };
-
-  const getCachedChat = () => {
-    return !!chatIdRef.current && chatCache.current?.[chatIdRef.current];
-  };
-
-  const setMessages = (data: TChat, chatId: string) => {
-    setMessagesState(data.messages);
-    chatCache.current = {
-      ...chatCache.current,
-      [chatId]: data,
-    };
-  };
-
-  const sendMsg = (msg: string) => {
-    const chatId = chatIdRef.current;
-    const cachedChat = getCachedChat();
-
-    if (!chatId || !cachedChat) {
+  const sendMsg = (msgInput: string) => {
+    if (!chat) {
       return;
     }
 
     setInput("");
     setLoading(true);
 
-    cachedChat.messages.push(constructMsg(msg));
+    const message = ChatUtils.constructMsg(msgInput);
 
-    setMessages(cachedChat, chatId);
+    fetchChatCompletion(chat, msgInput)
+      .then(({ data }) => {
+        const incomingMsg = data.choices[0].message;
 
-    openai
-      .createChatCompletion({
-        model,
-        messages: cachedChat.messages,
-      })
-      .then((res) => {
-        const msgObj = res.data.choices[0].message;
-
-        if (msgObj) {
-          cachedChat.messages.push(msgObj);
-          setMessages(cachedChat, chatId);
+        if (incomingMsg) {
+          dispatch(Actions.Chat.addMsg({ chat, message: incomingMsg }));
         } else {
-          alert("error sending message, please refresh");
+          console.log("Error parsing incoming message");
         }
-
-        setLoading(false);
       })
       .catch((err) => {
-        alert("error sending message, please refresh");
-        setLoading(false);
-      });
-  };
+        console.log({ err });
+      })
+      .finally(() => setLoading(false));
 
-  const constructMsg = (
-    msg: string,
-    role?: ChatCompletionResponseMessageRoleEnum
-  ): ChatCompletionRequestMessage => ({
-    content: msg,
-    role: role || ChatCompletionRequestMessageRoleEnum.User,
-  });
+    dispatch(
+      Actions.Chat.addMsg({
+        message,
+        chat,
+      })
+    );
+  };
 
   return (
     <div className={styles.pageMain}>
       <div className={styles.scrollableContentWrapper}>
         <div className={styles.messages}>
-          {messages.map(
+          {chat?.messages?.map(
             (msg, i) =>
               i !== 0 && (
                 <p
