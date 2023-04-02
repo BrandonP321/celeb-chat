@@ -1,5 +1,6 @@
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import {
+  AuthStatusRequest,
   LoginRequest,
   // AuthStatusRequest,
   // LoginUserRequest,
@@ -8,6 +9,7 @@ import {
   // ReqUserRegisterErrors,
   // SignoutUserRequest,
   RegisterAccountRequest,
+  SignoutRequest,
 } from "@celeb-chat/shared/src/api/Requests/auth.requests";
 // import { AuthUtils } from "@celeb-chat/shared/src/utils/AuthUtils";
 import { JWTResLocals, JWTUtils, ControllerErrors } from "@/Utils";
@@ -128,30 +130,31 @@ export const LoginUserController: TRouteController<
   );
 };
 
+const signoutErrors = new ControllerErrors(SignoutRequest.Errors);
+
 // /** Signs user out of all devices by invalidating all refresh tokens */
-// export const SignoutUserController: TRouteController<
-//   SignoutUserRequest.TRequest,
-//   TUserDocLocals
-// > = async (req, res) => {
-//   try {
-//     const user = res.locals.user;
+export const SignoutUserController: TRouteController<
+  SignoutRequest.Request,
+  TUserDocLocals
+> = async (req, res) => {
+  try {
+    const user = res.locals.user;
 
-//     user.jwtHash = {};
-//     user.markModified("jwtHash");
-//     await user.save();
+    user.jwtHash = {};
+    user.markModified("jwtHash");
+    await user.save();
 
-//     res.json({}).end();
-//   } catch (err) {
-//     // if error occurred still send error code to client, but it is safe to still consider the user logged out at this point
-//     return ControllerUtils.respondWithUnexpectedErr(res);
-//   }
-// };
+    res.json({}).end();
+  } catch (err) {
+    return signoutErrors.error.InternalServerError(res);
+  }
+};
 
-// /** Checks the auth status of the user */
-// export const AuthStatusController: TRouteController<
-//   AuthStatusRequest.TRequest,
-//   JWTResLocals
-// > = async (req, res) => {
-//   // if this controller is being executed, we know the user was authenticated by the auth middleware
-//   res.json({}).end();
-// };
+/** Checks the auth status of the user */
+export const AuthStatusController: TRouteController<
+  AuthStatusRequest.Request,
+  JWTResLocals
+> = async (req, res) => {
+  // if this controller is being executed, we know the user's auth status is valid
+  res.json({}).end();
+};

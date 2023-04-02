@@ -68,3 +68,35 @@ export namespace LoginRequest {
 
   export type Error = APIErrorResponse<typeof ErrorCode>;
 }
+
+export namespace SignoutRequest {
+  type ReqBody = {};
+  export type Response = {};
+  export type Request = APIRequest<{}, ReqBody, Response>;
+
+  export const ErrorCode = {
+    ...DefaultErrors.ErrorCode,
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...DefaultErrors.Errors,
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}
+
+export namespace AuthStatusRequest {
+  type ReqBody = {};
+  export type Response = {};
+  export type Request = APIRequest<{}, ReqBody, Response>;
+
+  export const ErrorCode = {
+    ...DefaultErrors.ErrorCode,
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...DefaultErrors.Errors,
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}

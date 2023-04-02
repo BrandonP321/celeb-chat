@@ -1,19 +1,24 @@
 import express from "express";
 import { Routes } from "@celeb-chat/shared/src/api/routes";
 import {
-  // AuthStatusController,
+  AuthStatusController,
   LoginUserController,
   RegisterUserController,
-  // SignoutUserController,
+  SignoutUserController,
 } from "@/Controllers/auth.controllers";
-// import { AuthJwt } from "~Middleware/AuthJWT";
-// import { GetUserMiddleware } from "~Middleware/GetUser.middleware";
+import { AuthJwt } from "@/Middleware/AuthJWT";
+import { GetUserMiddleware } from "@/Middleware/GetUser.middleware";
 
 const router = express.Router();
 
 router.post(Routes.Auth.Register(), RegisterUserController);
 router.post(Routes.Auth.Login(), LoginUserController);
-// router.post(Routes.Auth.Signout({}), AuthJwt, GetUserMiddleware, SignoutUserController);
-// router.get(Routes.Auth.CheckIsUserAuthed({}), AuthJwt, AuthStatusController);
+router.post(
+  Routes.Auth.Signout(),
+  AuthJwt,
+  GetUserMiddleware,
+  SignoutUserController
+);
+router.get(Routes.Auth.CheckIsUserAuthed(), AuthJwt, AuthStatusController);
 
 export default router;

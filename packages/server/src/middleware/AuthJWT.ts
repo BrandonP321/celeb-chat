@@ -17,7 +17,7 @@ export const AuthJwt: TRouteController<
   JWTResLocals
 > = async (req, res, next) => {
   try {
-    const authTokens = JWTUtils.getTokensFromHeader(req);
+    const authTokens = JWTUtils.getTokensFromCookie(req);
 
     // if no tokens found, have user re-auth
     if (!authTokens) {
