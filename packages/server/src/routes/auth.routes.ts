@@ -7,7 +7,7 @@ import {
   SignoutUserController,
 } from "@/Controllers/auth.controllers";
 import { AuthJwt } from "@/Middleware/AuthJWT";
-import { GetUserMiddleware } from "@/Middleware/GetUser.middleware";
+import { GetUserMiddleware } from "@/Middleware/User.middleware";
 
 const router = express.Router();
 

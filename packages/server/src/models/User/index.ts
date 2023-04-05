@@ -5,31 +5,38 @@ import bcrypt from "bcrypt";
 import { UserMethods } from "./userMethods";
 import { handleUserDocSaveErr } from "./userHelpers";
 
-const UserSchema: UserModel.Schema = new Schema({
-  email: {
-    type: String,
-    lowercase: true,
-    required: [true, "Email required"],
-    match: [RegexUtils.emailRegex, "Invalid email for user doc"],
-    index: true,
-    unique: true,
+const UserSchema: UserModel.Schema = new Schema(
+  {
+    email: {
+      type: String,
+      lowercase: true,
+      required: [true, "Email required"],
+      match: [RegexUtils.emailRegex, "Invalid email for user doc"],
+      index: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password required"],
+      match: [RegexUtils.passwordRegex, "Invalid password for user doc"],
+    },
+    username: {
+      type: String,
+      required: [true, "Username required"],
+      unique: true,
+      match: [RegexUtils.usernameRegex, "Invalid username for user doc"],
+    },
+    jwtHash: {
+      type: Schema.Types.Mixed,
+      default: {},
+    },
+    chats: {
+      type: Schema.Types.Mixed,
+      default: [],
+    },
   },
-  password: {
-    type: String,
-    required: [true, "Password required"],
-    match: [RegexUtils.passwordRegex, "Invalid password for user doc"],
-  },
-  username: {
-    type: String,
-    required: [true, "Username required"],
-    unique: true,
-    match: [RegexUtils.usernameRegex, "Invalid username for user doc"],
-  },
-  jwtHash: {
-    type: Schema.Types.Mixed,
-    default: {},
-  },
-});
+  { timestamps: true }
+);
 
 /** Hashes password before storing new document */
 UserSchema.pre("save", async function save(next) {

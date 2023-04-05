@@ -3,7 +3,7 @@ import { UserModel } from "../models/User.model";
 import { HttpStatusCode } from "./HttpStatusCodes";
 
 export namespace RegisterAccountRequest {
-  type ReqBody = {
+  export type ReqBody = {
     email: string;
     username: string;
     password: string;
@@ -43,7 +43,7 @@ export namespace RegisterAccountRequest {
 }
 
 export namespace LoginRequest {
-  type ReqBody = {
+  export type ReqBody = {
     email: string;
     password: string;
   };

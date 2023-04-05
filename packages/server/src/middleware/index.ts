@@ -1,3 +1,3 @@
 export * from "./AuthJWT";
-export * from "./GetUser.middleware";
+export * from "./User.middleware";
 export * from "./appConfig";

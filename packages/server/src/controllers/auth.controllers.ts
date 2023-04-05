@@ -2,12 +2,6 @@ import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import {
   AuthStatusRequest,
   LoginRequest,
-  // AuthStatusRequest,
-  // LoginUserRequest,
-  // RegisterUserRequest,
-  // ReqUserLoginErrors,
-  // ReqUserRegisterErrors,
-  // SignoutUserRequest,
   RegisterAccountRequest,
   SignoutRequest,
 } from "@celeb-chat/shared/src/api/Requests/auth.requests";
@@ -17,7 +11,7 @@ import { TRouteController } from ".";
 import { CallbackError } from "mongoose";
 import { TUserDocSaveErr } from "@/Models/User/userHelpers";
 import db from "@/Models";
-import { TUserDocLocals } from "@/Middleware/GetUser.middleware";
+import { TUserDocLocals } from "@/Middleware/User.middleware";
 
 const registrationErrors = new ControllerErrors(RegisterAccountRequest.Errors);
 

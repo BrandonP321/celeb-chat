@@ -4,18 +4,9 @@ import styles from "./ChatSideBar.module.scss";
 import classNames from "classnames";
 import { useAppDispatch, useChats } from "@/Hooks";
 import { useEffect } from "react";
-import { MessagelessChat } from "@/Slices/Chats/ChatsSlice";
-import { mockChats } from "data/mock/mockChats";
 import { Actions } from "@/Slices";
 import { useRef } from "react";
-
-const asyncFetchChats = () => {
-  return new Promise<MessagelessChat[]>((resolve, reject) => {
-    setTimeout(() => {
-      resolve(mockChats);
-    }, 500);
-  });
-};
+import { APIFetcher } from "utils/APIFetcher";
 
 export namespace ChatSideBar {
   export type Props = {
@@ -32,9 +23,9 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
 
   useEffect(() => {
     if (!chats && !isFetchingChats.current) {
-      asyncFetchChats()
-        .then((chats) => {
-          dispatch(Actions.Chat.setChats(chats));
+      APIFetcher.getUserChats()
+        .then(({ data }) => {
+          dispatch(Actions.Chat.setChats(data.chats));
         })
         .finally(() => (isFetchingChats.current = false));
     }

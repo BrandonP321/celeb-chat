@@ -19,3 +19,21 @@ export namespace GetUserRequest {
 
   export type Error = APIErrorResponse<typeof ErrorCode>;
 }
+
+export namespace GetUserChatsRequest {
+  type ReqBody = {};
+
+  export type Response = { chats: UserModel.UserChat[] };
+
+  export type Request = APIRequest<{}, ReqBody, Response>;
+
+  export const ErrorCode = {
+    ...DefaultErrors.ErrorCode,
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...DefaultErrors.Errors,
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}

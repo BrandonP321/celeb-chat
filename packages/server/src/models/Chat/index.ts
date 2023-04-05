@@ -1,0 +1,36 @@
+import mongoose, { Schema } from "mongoose";
+import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
+import bcrypt from "bcrypt";
+import { ChatMethods } from "./chatMethods";
+
+const ChatSchema: ChatModel.Schema = new Schema(
+  {
+    description: {
+      type: String,
+      required: [true, "Recipient description required"],
+    },
+    chatSummary: {
+      type: String,
+    },
+    messages: {
+      type: Schema.Types.Mixed,
+      default: [],
+    },
+    messagesSinceLastSummary: {
+      type: Number,
+      default: 0,
+    },
+    ownerId: {
+      type: String,
+      required: [true, "Owner ID is required to create a chat"],
+    },
+  },
+  { timestamps: true }
+);
+
+ChatSchema.methods = {
+  ...ChatSchema.methods,
+  ...ChatMethods,
+};
+
+export const Chat: ChatModel.Model = mongoose.model("Chat", ChatSchema);

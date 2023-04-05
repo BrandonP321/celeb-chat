@@ -6,10 +6,10 @@ import {
   OpenAIApi,
 } from "openai";
 import styles from "./Chat.module.scss";
-import { TChat } from "data/mock/mockChats";
 import { useAppDispatch, useChat } from "@/Hooks";
 import { Actions } from "@/Slices";
 import { ChatUtils } from "utils";
+import { TChat } from "@celeb-chat/shared/src/utils/ChatUtils";
 
 enum OpenAIModel {
   Davinci = "davinci",
@@ -54,27 +54,28 @@ function Chat(props: Chat.Props) {
 
     const message = ChatUtils.constructMsg(msgInput);
 
-    fetchChatCompletion(chat, msgInput)
-      .then(({ data }) => {
-        const incomingMsg = data.choices[0].message;
+    // TODO: hook up to AIP
+    // fetchChatCompletion(chat, msgInput)
+    //   .then(({ data }) => {
+    //     const incomingMsg = data.choices[0].message;
 
-        if (incomingMsg) {
-          dispatch(Actions.Chat.addMsg({ chat, message: incomingMsg }));
-        } else {
-          console.log("Error parsing incoming message");
-        }
-      })
-      .catch((err) => {
-        console.log({ err });
-      })
-      .finally(() => setLoading(false));
+    //     if (incomingMsg) {
+    //       dispatch(Actions.Chat.addMsg({ chat, message: incomingMsg }));
+    //     } else {
+    //       console.log("Error parsing incoming message");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log({ err });
+    //   })
+    //   .finally(() => setLoading(false));
 
-    dispatch(
-      Actions.Chat.addMsg({
-        message,
-        chat,
-      })
-    );
+    // dispatch(
+    //   Actions.Chat.addMsg({
+    //     message,
+    //     chat,
+    //   })
+    // );
   };
 
   return (

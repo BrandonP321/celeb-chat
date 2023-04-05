@@ -1,15 +1,16 @@
+import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
+import { Message, TChat } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TChat, TMessage } from "data/mock/mockChats";
 
 export type MessagelessChat = Omit<TChat, "messages">;
 
 export interface ChatsState {
   /** Map of chats that have had their messages fetched */
   chatCache: {
-    [key: string]: TChat | undefined;
+    [key: string]: Pick<TChat, "messages"> | undefined;
   };
   /** Ordered list of chats without messages, which are fetched when a chat is loaded */
-  chats: MessagelessChat[] | null;
+  chats: UserModel.UserChat[] | null;
 }
 
 const initialState: ChatsState = {
@@ -20,15 +21,12 @@ const initialState: ChatsState = {
 /** Updates a cached chat, adding the chat to the cache if it doesn't already exist */
 const updateCachedChat = (
   state: ChatsState,
-  chat: MessagelessChat,
-  messages: TMessage[]
+  chatId: string,
+  messages: Message[]
 ) => {
-  const cachedChat = state.chatCache[chat.id];
-
   state.chatCache = {
     ...state.chatCache,
-    [chat.id]: {
-      ...(cachedChat ?? chat),
+    [chatId]: {
       messages,
     },
   };
@@ -41,24 +39,27 @@ const chatsSlice = createSlice({
   name: "chats",
   initialState,
   reducers: {
-    setChats: (state, { payload }: PayloadAction<MessagelessChat[]>) => {
+    setChats: (state, { payload }: PayloadAction<UserModel.UserChat[]>) => {
       state.chats = payload;
     },
-    cacheFetchedMessages: (state, { payload }: PayloadAction<TChat>) => {
-      updateCachedChat(state, payload, payload.messages);
+    cacheFetchedMessages: (
+      state,
+      { payload }: PayloadAction<Pick<TChat, "messages" | "id">>
+    ) => {
+      updateCachedChat(state, payload.id, payload.messages);
     },
-    addChat: (state, { payload }: PayloadAction<TChat>) => {
+    addChat: (state, { payload }: PayloadAction<UserModel.UserChat>) => {
       state.chats = [payload, ...(state.chats ?? [])];
 
-      updateCachedChat(state, payload, payload.messages);
+      updateCachedChat(state, payload.id, []);
     },
     addMsg: (
       state,
-      { payload }: PayloadAction<{ chat: TChat; message: TMessage }>
+      { payload }: PayloadAction<{ chat: TChat; message: Message }>
     ) => {
       const cachedChat = state.chatCache[payload.chat.id];
 
-      updateCachedChat(state, payload.chat, [
+      updateCachedChat(state, payload.chat.id, [
         ...(cachedChat?.messages ?? []),
         payload.message,
       ]);

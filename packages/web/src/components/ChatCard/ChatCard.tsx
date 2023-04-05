@@ -4,9 +4,10 @@ import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import { MessagelessChat } from "@/Slices/Chats/ChatsSlice";
 import { ChatUtils } from "utils";
+import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 
 export namespace ChatCard {
-  export type Props = MessagelessChat & {
+  export type Props = UserModel.UserChat & {
     onClick?: () => void;
   };
 }

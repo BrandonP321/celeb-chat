@@ -12,6 +12,7 @@ export namespace UserModel {
     password: string;
     username: string;
     jwtHash: { [key: string]: boolean };
+    chats: UserChat[];
   };
 
   export type Document = TMongooseDoc<User, InstanceMethods>;
@@ -29,6 +30,11 @@ export namespace UserModel {
     addJWTHash: (hash: string) => Promise<void>;
     /** Removes jwt ID from user doc */
     removeJWTHash: (hash: string) => Promise<void>;
+    /** Returns JSON with chat data */
+    getChatJSON: (
+      this: Document,
+      chatId: string
+    ) => Promise<ChatJSON | undefined>;
   };
 
   export type StaticMethods = {};
@@ -39,7 +45,15 @@ export namespace UserModel {
   export type ShallowJSON = ResponseJSON<
     Pick<FullJSON, "email" | "username" | "id">
   >;
+  /** Includes chat properties found on User model */
+  export type ChatJSON = Omit<UserChat, "id">;
 
   /** Sensitive fields that should not be included in API response */
   export type SensitiveFields = "password" | "jwtHash";
+
+  export type UserChat = {
+    id: string;
+    displayName: string;
+    lastMessage?: string;
+  };
 }

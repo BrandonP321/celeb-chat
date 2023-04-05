@@ -4,6 +4,13 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "web": "yarn workspace @celeb-chat/web",
+    "server": "yarn workspace @celeb-chat/server",
+    "web:client:dev": "yarn web start",
+    "server:dev": "yarn server dev",
+    "web:dev": "yarn concurrently --kill-others-on-fail -n \"SERVER,WEB\" -c \"magenta,cyan\" \"yarn server:dev\" \"yarn web:client:dev\""
+  },
   "repository": "https://github.com/BrandonP321/celeb-chat.git",
   "author": "Brandon Phillips <brandon.phillips@bphillips.dev>",
   "license": "MIT",

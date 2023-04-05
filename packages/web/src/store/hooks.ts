@@ -1,10 +1,11 @@
-import { mockChats, TChat } from "data/mock/mockChats";
+import { TChat } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ChatUtils } from "utils";
+import { APIFetcher } from "utils/APIFetcher";
 import { Actions } from "./slices";
 import type { AppDispatch, RootState } from "./store";
 
@@ -25,17 +26,17 @@ export const useUser = () => useAppSelector((state) => state.user);
 
 export const useChats = () => useAppSelector((state) => state.chats);
 
-const asyncFetchChat = (chatId: string) => {
-  return new Promise<TChat>((resolve, reject) => {
-    setTimeout(() => {
-      const fetchedChat = mockChats.find((chat) => chat.id === chatId);
+// const asyncFetchChat = (chatId: string) => {
+//   return new Promise<TChat>((resolve, reject) => {
+//     setTimeout(() => {
+//       const fetchedChat = mockChats.find((chat) => chat.id === chatId);
 
-      if (fetchedChat) {
-        return resolve(fetchedChat);
-      }
-    }, 2000);
-  });
-};
+//       if (fetchedChat) {
+//         return resolve(fetchedChat);
+//       }
+//     }, 2000);
+//   });
+// };
 
 /**
  * Returns the chat corresponding to the current URL,
@@ -46,7 +47,7 @@ export const useChat = () => {
   const { chatCache } = useChats();
   const dispatch = useAppDispatch();
 
-  const [cachedChat, setCachedChat] = useState<TChat>();
+  const [cachedChat, setCachedChat] = useState<Pick<TChat, "messages">>();
   const chatsBeingFetched = useRef<{ [chatId: string]: boolean }>({});
 
   useEffect(() => {
@@ -58,8 +59,13 @@ export const useChat = () => {
     if (!cachedChat && chatId && !chatsBeingFetched.current[chatId]) {
       chatsBeingFetched.current[chatId] = true;
 
-      asyncFetchChat(chatId).then((chat) => {
-        dispatch(Actions.Chat.cacheFetchedMessages(chat));
+      APIFetcher.getChatMessages({ chatId }).then(({ data }) => {
+        dispatch(
+          Actions.Chat.cacheFetchedMessages({
+            id: chatId,
+            messages: data.messages,
+          })
+        );
 
         // TODO: Add error handling if fetch fails
         chatsBeingFetched.current[chatId] = false;

@@ -68,7 +68,16 @@ const removeJWTHash: UserModel.InstanceMethods["removeJWTHash"] =
     await this.save();
   };
 
+const getChatJSON: UserModel.InstanceMethods["getChatJSON"] = async function (
+  chatId
+) {
+  const chat = this.chats?.find((c) => c.id === chatId);
+
+  return chat;
+};
+
 export const UserMethods: UserModel.InstanceMethods = {
+  getChatJSON,
   toFullJSON,
   toShallowJSON,
   validatePassword,

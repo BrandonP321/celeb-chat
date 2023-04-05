@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Chat } from "@/Pages";
-import { AppLayout } from "@/Components";
+import { ChatLayout } from "@/Components";
 import { useEffect } from "react";
 import { Responsive } from "@/Slices/Responsive/Responsive";
 
@@ -14,11 +14,15 @@ function App() {
 
   return (
     <Router>
-      <AppLayout>
-        <Routes>
+      <Routes>
+        <Route element={<ChatLayout />}>
+          <Route path="/chat/new" element={<h1>New Chat</h1>} />
+          <Route path="/chat/edit" element={<h1>Edit Chat</h1>} />
           <Route path="/chat/:chatId" element={<Chat />} />
-        </Routes>
-      </AppLayout>
+        </Route>
+
+        <Route path="*" element={<h1>404</h1>} />
+      </Routes>
     </Router>
   );
 }

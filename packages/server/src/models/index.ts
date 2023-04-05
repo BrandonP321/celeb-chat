@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { User } from "./User";
+import { Chat } from "./Chat";
 
 export const connectToMongoDb = () => {
   mongoose.connect(
@@ -10,4 +11,5 @@ export const connectToMongoDb = () => {
 
 export default {
   User,
+  Chat,
 };
