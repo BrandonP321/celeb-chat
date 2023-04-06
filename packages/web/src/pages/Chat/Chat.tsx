@@ -11,28 +11,6 @@ import { Actions } from "@/Slices";
 import { ChatUtils } from "utils";
 import { TChat } from "@celeb-chat/shared/src/utils/ChatUtils";
 
-enum OpenAIModel {
-  Davinci = "davinci",
-  GPT3Turbo = "gpt-3.5-turbo",
-}
-
-const configuration = new Configuration({
-  apiKey: process.env.REACT_APP_OPEN_AI_API_KEY,
-});
-
-const openai = new OpenAIApi(configuration);
-
-const model = OpenAIModel.GPT3Turbo;
-
-const fetchChatCompletion = (chat: TChat, msgInput: string) => {
-  const msg = ChatUtils.constructMsg(msgInput);
-
-  return openai.createChatCompletion({
-    model,
-    messages: [...chat.messages, msg],
-  });
-};
-
 namespace Chat {
   export type Props = {};
 }
@@ -52,7 +30,7 @@ function Chat(props: Chat.Props) {
     setInput("");
     setLoading(true);
 
-    const message = ChatUtils.constructMsg(msgInput);
+    // const message = ChatUtils.constructMsg(msgInput);
 
     // TODO: hook up to AIP
     // fetchChatCompletion(chat, msgInput)

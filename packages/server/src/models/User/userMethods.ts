@@ -76,7 +76,36 @@ const getChatJSON: UserModel.InstanceMethods["getChatJSON"] = async function (
   return chat;
 };
 
+const getChatIndex: UserModel.InstanceMethods["getChatIndex"] = async function (
+  chatId
+) {
+  const chat = this.chats?.findIndex((c) => c.id === chatId);
+
+  return chat;
+};
+
+const updateChat: UserModel.InstanceMethods["updateChat"] = async function (
+  chatId,
+  chatUpdate
+) {
+  const chatIndex = await this.getChatIndex(chatId);
+
+  if (chatIndex === -1) {
+    return false;
+  }
+
+  this.chats[chatIndex] = {
+    ...this.chats[chatIndex],
+    ...chatUpdate,
+  };
+  this.markModified("chats");
+
+  return true;
+};
+
 export const UserMethods: UserModel.InstanceMethods = {
+  updateChat,
+  getChatIndex,
   getChatJSON,
   toFullJSON,
   toShallowJSON,

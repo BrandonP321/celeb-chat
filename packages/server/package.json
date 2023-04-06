@@ -13,7 +13,6 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.12",
     "@types/jsonwebtoken": "^8.5.8",
-    "@types/mongoose": "^5.11.97",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -22,7 +21,6 @@
     "express-mongo-sanitize": "^2.2.0",
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.4",
     "node-ts": "^5.1.2",
     "tsc-alias": "^1.7.0",
     "tsconfig-paths": "^3.12.0"

@@ -35,6 +35,12 @@ export namespace UserModel {
       this: Document,
       chatId: string
     ) => Promise<ChatJSON | undefined>;
+    getChatIndex: (this: Document, chatId: string) => Promise<number>;
+    updateChat: (
+      this: Document,
+      chatId: string,
+      chatUpdate: Partial<UserChat>
+    ) => Promise<boolean>;
   };
 
   export type StaticMethods = {};

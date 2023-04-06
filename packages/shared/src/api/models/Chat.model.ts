@@ -35,6 +35,7 @@ export namespace ChatModel {
       this: Document,
       user: UserModel.Document
     ) => Promise<FullChatJSONWithoutMessages | undefined>;
+    addMsg: (this: Document, msg: Message) => void;
   };
 
   export type StaticMethods = {};

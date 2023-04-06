@@ -36,7 +36,13 @@ const toJSONWithoutMessages: ChatModel.InstanceMethods["toJSONWithoutMessages"] 
     return undefined;
   };
 
+const addMsg: ChatModel.InstanceMethods["addMsg"] = async function (msg) {
+  this.messages.push(msg);
+  this.markModified("messages");
+};
+
 export const ChatMethods: ChatModel.InstanceMethods = {
+  addMsg,
   toFullJSON,
   toFullChatJSON,
   toJSONWithoutMessages,

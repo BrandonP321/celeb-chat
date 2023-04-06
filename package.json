@@ -15,7 +15,14 @@
   "author": "Brandon Phillips <brandon.phillips@bphillips.dev>",
   "license": "MIT",
   "packageManager": "yarn@3.5.0",
-  "devDependencies": {
-    "concurrently": "^7.6.0"
+  "dependencies": {
+    "@types/mongoose": "^5.11.97",
+    "axios": "^1.3.5",
+    "concurrently": "^7.6.0",
+    "eslint": "^8.36.0",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.6.0",
+    "openai": "^3.2.1",
+    "typescript": "^4.9.5"
   }
 }
