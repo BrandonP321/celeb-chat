@@ -1,22 +1,24 @@
 @import "../../styles/uiBase.scss";
 
 .chatCard {
-    display: block;
-    padding: 1rem;
-    transition: all 0.05s;
+  display: block;
+  padding: 1rem;
+  transition: all 0.05s;
 
-    &:hover,
-    &.selected {
-        background-color: $primaryHover;
-    }
+  &:hover,
+  &.selected {
+    background-color: $primaryHover;
+  }
 }
 
 .recipientName {
-    font-weight: bold;
-
+  font-weight: bold;
 }
 
 .lastMsg {
-    font-size: 0.7rem;
-    color: $textSecondary;
+  font-size: 0.7rem;
+  color: $textSecondary;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
