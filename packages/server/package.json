@@ -5,6 +5,7 @@
   "packageManager": "yarn@3.5.0",
   "scripts": {
     "dev": "nodemon src/server.ts",
+    "start": "yarn build && node -r ts-node/register -r tsconfig-paths/register dist/src/server.js",
     "build": "tsc --build"
   },
   "dependencies": {
