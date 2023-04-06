@@ -4,6 +4,7 @@ import { TUserDocLocals } from "@/Middleware";
 import { ChatResLocals } from "@/Middleware/Chat.middleware";
 import { ControllerErrors } from "utils/ControllerUtils";
 import { OpenaiFetcher } from "utils/OpenaiFetcher";
+import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 
 const sendMsgErrors = new ControllerErrors(SendMsgRequest.Errors);
 
@@ -16,10 +17,13 @@ export const SendMsgController: TRouteController<
     const { chatId, msgBody } = req.body;
     const { chat, user } = res.locals;
 
+    const outgoingMsg = ChatUtils.constructMsg(msgBody);
+    const messages = [await chat.getTrainingMsg(), ...chat.messages];
+
     // TODO: Add error handling
     const { data: incomingMsg } = await OpenaiFetcher.fetchChatCompletion(
       msgBody,
-      chat.messages
+      messages
     );
 
     const newMsg = incomingMsg?.choices?.[0]?.message;
@@ -28,7 +32,7 @@ export const SendMsgController: TRouteController<
       return sendMsgErrors.error.ErrorFetchingChatCompletion(res);
     }
 
-    chat.addMsg(newMsg);
+    chat.addMsg(outgoingMsg, newMsg);
     const isChatUpdated = await user.updateChat(chatId, {
       lastMessage: newMsg.content,
     });

@@ -3,7 +3,7 @@ import styles from "./ChatCard.module.scss";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import { MessagelessChat } from "@/Slices/Chats/ChatsSlice";
-import { ChatUtils } from "utils";
+import { WebChatUtils } from "utils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 
 export namespace ChatCard {
@@ -19,7 +19,7 @@ function ChatCard(props: ChatCard.Props) {
   const location = useLocation();
 
   useEffect(() => {
-    const activeChatId = ChatUtils.getChatIdFromChatUrl();
+    const activeChatId = WebChatUtils.getChatIdFromChatUrl();
 
     setIsSelected(activeChatId === id);
   }, [location, id]);

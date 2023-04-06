@@ -55,11 +55,11 @@ const chatsSlice = createSlice({
     },
     addMsg: (
       state,
-      { payload }: PayloadAction<{ chat: TChat; message: Message }>
+      { payload }: PayloadAction<{ chatId: string; message: Message }>
     ) => {
-      const cachedChat = state.chatCache[payload.chat.id];
+      const cachedChat = state.chatCache[payload.chatId];
 
-      updateCachedChat(state, payload.chat.id, [
+      updateCachedChat(state, payload.chatId, [
         ...(cachedChat?.messages ?? []),
         payload.message,
       ]);

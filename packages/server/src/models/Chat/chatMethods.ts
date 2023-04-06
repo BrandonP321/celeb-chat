@@ -1,4 +1,5 @@
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
+import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 
 const toFullChatJSON: ChatModel.InstanceMethods["toFullChatJSON"] =
   async function (user) {
@@ -36,12 +37,18 @@ const toJSONWithoutMessages: ChatModel.InstanceMethods["toJSONWithoutMessages"] 
     return undefined;
   };
 
-const addMsg: ChatModel.InstanceMethods["addMsg"] = async function (msg) {
-  this.messages.push(msg);
+const addMsg: ChatModel.InstanceMethods["addMsg"] = async function (...msg) {
+  this.messages.push(...msg);
   this.markModified("messages");
 };
 
+const getTrainingMsg: ChatModel.InstanceMethods["getTrainingMsg"] =
+  async function () {
+    return ChatUtils.getTrainingMsg(this.description);
+  };
+
 export const ChatMethods: ChatModel.InstanceMethods = {
+  getTrainingMsg,
   addMsg,
   toFullJSON,
   toFullChatJSON,

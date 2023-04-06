@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { ChatUtils } from "utils";
+import { WebChatUtils } from "utils";
 import { APIFetcher } from "utils/APIFetcher";
 import { Actions } from "./slices";
 import type { AppDispatch, RootState } from "./store";
@@ -26,18 +26,6 @@ export const useUser = () => useAppSelector((state) => state.user);
 
 export const useChats = () => useAppSelector((state) => state.chats);
 
-// const asyncFetchChat = (chatId: string) => {
-//   return new Promise<TChat>((resolve, reject) => {
-//     setTimeout(() => {
-//       const fetchedChat = mockChats.find((chat) => chat.id === chatId);
-
-//       if (fetchedChat) {
-//         return resolve(fetchedChat);
-//       }
-//     }, 2000);
-//   });
-// };
-
 /**
  * Returns the chat corresponding to the current URL,
  * fetching that chat if it hasn't been fetched yet
@@ -47,11 +35,13 @@ export const useChat = () => {
   const { chatCache } = useChats();
   const dispatch = useAppDispatch();
 
+  const [chatId, setChatId] = useState<string | undefined>();
   const [cachedChat, setCachedChat] = useState<Pick<TChat, "messages">>();
   const chatsBeingFetched = useRef<{ [chatId: string]: boolean }>({});
 
   useEffect(() => {
-    const chatId = ChatUtils.getChatIdFromChatUrl();
+    const chatId = WebChatUtils.getChatIdFromChatUrl();
+    setChatId(chatId);
     const cachedChat = chatCache[chatId ?? ""];
 
     setCachedChat(cachedChat);
@@ -73,5 +63,7 @@ export const useChat = () => {
     }
   }, [location, chatCache, dispatch]);
 
-  return cachedChat;
+  return cachedChat && chatId
+    ? { id: chatId, messages: cachedChat.messages }
+    : undefined;
 };

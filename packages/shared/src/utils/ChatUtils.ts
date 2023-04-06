@@ -20,8 +20,13 @@ export class ChatUtils {
   public static constructMsg = (
     msg: string,
     role?: ChatCompletionResponseMessageRoleEnum
-  ): ChatCompletionRequestMessage => ({
+  ): ChatCompletionResponseMessage => ({
     content: msg,
-    role: role || ChatCompletionRequestMessageRoleEnum.User,
+    role: role || ChatCompletionResponseMessageRoleEnum.User,
   });
+
+  public static getTrainingMsg = (character: string) =>
+    ChatUtils.constructMsg(
+      `For the rest of this conversation, you will be texting me while impersonating ${character}.  Specifically, you will also take on any stereotypical traits of ${character}.  Also, if ${character} has any specific speech patterns, attempt to mimic those speech patterns in your response.`
+    );
 }

@@ -8,8 +8,9 @@ import {
 import styles from "./Chat.module.scss";
 import { useAppDispatch, useChat } from "@/Hooks";
 import { Actions } from "@/Slices";
-import { ChatUtils } from "utils";
-import { TChat } from "@celeb-chat/shared/src/utils/ChatUtils";
+import { WebChatUtils } from "utils";
+import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
+import { APIFetcher } from "utils/APIFetcher";
 
 namespace Chat {
   export type Props = {};
@@ -30,30 +31,24 @@ function Chat(props: Chat.Props) {
     setInput("");
     setLoading(true);
 
-    // const message = ChatUtils.constructMsg(msgInput);
+    dispatch(
+      Actions.Chat.addMsg({
+        message: ChatUtils.constructMsg(msgInput),
+        chatId: chat.id,
+      })
+    );
 
-    // TODO: hook up to AIP
-    // fetchChatCompletion(chat, msgInput)
-    //   .then(({ data }) => {
-    //     const incomingMsg = data.choices[0].message;
+    APIFetcher.sendMsg({ chatId: chat.id, msgBody: msgInput })
+      .then(({ data }) => {
+        const incomingMsg = data.newMsg;
 
-    //     if (incomingMsg) {
-    //       dispatch(Actions.Chat.addMsg({ chat, message: incomingMsg }));
-    //     } else {
-    //       console.log("Error parsing incoming message");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log({ err });
-    //   })
-    //   .finally(() => setLoading(false));
-
-    // dispatch(
-    //   Actions.Chat.addMsg({
-    //     message,
-    //     chat,
-    //   })
-    // );
+        dispatch(
+          Actions.Chat.addMsg({ chatId: chat.id, message: incomingMsg })
+        );
+      })
+      .catch((err) => {
+        alert("Oops");
+      });
   };
 
   return (

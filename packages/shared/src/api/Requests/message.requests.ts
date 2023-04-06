@@ -17,7 +17,7 @@ export namespace MessageRequest {
 }
 
 export namespace SendMsgRequest {
-  type ReqBody = MessageRequest.ReqBody & {
+  export type ReqBody = MessageRequest.ReqBody & {
     msgBody: string;
   };
 
