@@ -48,7 +48,8 @@ function Chat(props: Chat.Props) {
       })
       .catch((err) => {
         alert("Oops");
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (

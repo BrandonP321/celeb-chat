@@ -9,7 +9,7 @@ $defaultFormHeight: calc(
   $inputLineHeight + (($inputVerticalPadding + $inputBorderWidth) * 2)
 );
 $maxInputHeight: calc(
-  ($inputLineHeight * 2) + (($inputVerticalPadding + $inputBorderWidth) * 2)
+  ($inputLineHeight * 5) + (($inputVerticalPadding + $inputBorderWidth) * 2)
 );
 
 .input,
@@ -89,7 +89,7 @@ $maxInputHeight: calc(
     align-self: flex-start;
 
     @include tinyVW() {
-      width: 80%;
+      max-width: 85%;
     }
 
     &:last-child {
