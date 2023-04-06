@@ -1,0 +1,35 @@
+@import "./uiBase.scss";
+
+@include GlobalBrowserUtilsStyles();
+// @include GlobalCssVars();
+
+* {
+  // scroll-behavior: smooth;
+
+  // set custom scroll styles for devices that have a cursor
+  @include nonTouchDevice() {
+    @include ScrollbarWidth();
+
+    @include ScrollbarTrack();
+
+    @include ScrollbarThumb();
+  }
+}
+
+:root {
+}
+
+html {
+  color: $textPrimary;
+  font-family: $fontPrimary;
+  height: 100%;
+}
+
+body {
+  background-color: $bodyBgPrimary;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}

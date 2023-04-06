@@ -1,0 +1,24 @@
+@import "../../styles/uiBase.scss";
+
+.layout,
+.lowerContent {
+  display: flex;
+  height: 100%;
+  position: relative;
+}
+
+.layout {
+  flex-direction: column;
+}
+
+.lowerContent {
+  overflow: hidden;
+}
+
+.mainContent {
+  flex-grow: 1;
+
+  @include mobileVW() {
+    width: 100%;
+  }
+}
