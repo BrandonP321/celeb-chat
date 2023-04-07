@@ -1,0 +1,4 @@
+services:
+  server:
+    image: "celeb-chat-app"
+    env_file: ./packages/server/.env

@@ -2399,6 +2399,7 @@ __metadata:
     helmet: ^5.0.2
     jsonwebtoken: ^8.5.1
     node-ts: ^5.1.2
+    ts-node: ^10.9.1
     tsc-alias: ^1.7.0
     tsconfig-paths: ^3.12.0
   languageName: unknown
@@ -14122,7 +14123,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.7.0":
+"ts-node@npm:^10.7.0, ts-node@npm:^10.9.1":
   version: 10.9.1
   resolution: "ts-node@npm:10.9.1"
   dependencies:
