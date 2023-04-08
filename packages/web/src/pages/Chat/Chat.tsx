@@ -56,20 +56,17 @@ function Chat(props: Chat.Props) {
     <div className={styles.pageMain}>
       <div className={styles.scrollableContentWrapper}>
         <div className={styles.messages}>
-          {chat?.messages?.map(
-            (msg, i) =>
-              i !== 0 && (
-                <p
-                  key={i}
-                  className={classNames(
-                    msg.role === ChatCompletionResponseMessageRoleEnum.User &&
-                      styles.user
-                  )}
-                >
-                  {msg.content}
-                </p>
-              )
-          )}
+          {chat?.messages?.map((msg, i) => (
+            <p
+              key={i}
+              className={classNames(
+                msg.role === ChatCompletionResponseMessageRoleEnum.User &&
+                  styles.user
+              )}
+            >
+              {msg.content}
+            </p>
+          ))}
         </div>
 
         <div className={styles.stickyInputWrapper}>
