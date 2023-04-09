@@ -1,0 +1,65 @@
+@import "../../../styles/uiBase.scss";
+
+$inputPadding: 0.9rem;
+$inputBorderRadius: 0.75rem;
+$inputBorderWidth: 2px;
+
+.formFieldWrapper {
+  position: relative;
+  background-color: $bodyBgPrimary;
+
+  * {
+    font-size: $fontSizeNormal;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+
+  &.focused,
+  &:not(.empty) {
+    .label {
+      top: 0;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+    }
+  }
+
+  &.focused {
+    .formField {
+      border-color: $colorAccentSecondary;
+    }
+  }
+
+  &.error {
+    .formField {
+      border-color: $colorDanger;
+    }
+  }
+}
+
+.formField {
+  padding: $inputPadding;
+  border-radius: $inputBorderRadius;
+  border: 2px solid gray;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+$labelOffset: calc($inputPadding + $inputBorderWidth);
+
+.label {
+  position: absolute;
+  top: $labelOffset;
+  left: $labelOffset;
+  pointer-events: none;
+  z-index: 2;
+  transition: all 0.25s;
+  background-color: inherit;
+}
+
+.errorMsg {
+  color: $colorDanger;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.5rem 0 0.5rem;
+}

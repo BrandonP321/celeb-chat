@@ -1,15 +1,14 @@
 @import "../../styles/uiBase.scss";
 
-$inputBorderWidth: 2px;
 $inputFontSize: 1.2rem;
 $inputLineHeight: 1.5rem;
 $inputVerticalPadding: 0.5rem;
 $inputHorizontalPadding: 1rem;
 $defaultFormHeight: calc(
-  $inputLineHeight + (($inputVerticalPadding + $inputBorderWidth) * 2)
+  $inputLineHeight + (($inputVerticalPadding + 2px) * 2)
 );
 $maxInputHeight: calc(
-  ($inputLineHeight * 5) + (($inputVerticalPadding + $inputBorderWidth) * 2)
+  ($inputLineHeight * 5) + (($inputVerticalPadding + 2px) * 2)
 );
 
 .input,
@@ -30,7 +29,7 @@ $maxInputHeight: calc(
   max-height: $maxInputHeight;
   padding: $inputVerticalPadding $inputHorizontalPadding;
   margin-right: 1rem;
-  border: $inputBorderWidth solid $primaryHover;
+  border: 2px solid $primaryHover;
   border-radius: 0.5rem;
   pointer-events: none;
   background-color: $bodyBgPrimary;
