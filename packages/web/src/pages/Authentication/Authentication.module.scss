@@ -27,3 +27,16 @@
   color: $colorDanger;
   margin: 1rem 0;
 }
+
+.formBtns {
+  margin-top: 1rem;
+}
+
+.formSwitchBlurb {
+  text-align: center;
+  margin-top: 1rem;
+
+  button {
+    color: $colorAccentSecondary;
+  }
+}

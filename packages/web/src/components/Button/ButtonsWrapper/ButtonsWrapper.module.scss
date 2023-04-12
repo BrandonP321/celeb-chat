@@ -1,0 +1,17 @@
+@import "../../../styles/uiBase.scss";
+
+.btnsWrapper {
+  display: flex;
+  justify-content: flex-end;
+
+  &.alignLeft {
+    justify-content: flex-start;
+  }
+
+  > a,
+  > button {
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+}

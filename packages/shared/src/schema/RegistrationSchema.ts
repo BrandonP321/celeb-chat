@@ -9,8 +9,7 @@ export const RegistrationSchema = Yup.object().shape({
     .max(30)
     .matches(RegexUtils.passwordRegex)
     .required(),
-  passwordConfirmation: Yup.string().oneOf(
-    [Yup.ref("password"), undefined],
-    "Passwords must match"
-  ),
+  passwordConfirmation: Yup.string()
+    .oneOf([Yup.ref("password"), undefined], "Passwords must match")
+    .required(),
 });
