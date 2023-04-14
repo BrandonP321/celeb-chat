@@ -1,0 +1,13 @@
+@import "../../styles/uiBase.scss";
+
+.createChat {
+  width: 90%;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1rem 0;
+
+  h1 {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+}

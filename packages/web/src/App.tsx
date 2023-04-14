@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Authentication, Chat, UserDashboard } from "@/Pages";
+import { Authentication, Chat, CreateChat, UserDashboard } from "@/Pages";
 import { ChatLayout } from "@/Components";
 import { useEffect } from "react";
 import { Responsive } from "@/Slices/Responsive/Responsive";
@@ -19,7 +19,7 @@ function App() {
         <Route path="/register" element={<Authentication />} />
 
         <Route element={<ChatLayout />}>
-          <Route path="/chat/new" element={<h1>New Chat</h1>} />
+          <Route path="/chat/new" element={<CreateChat />} />
           <Route path="/chat/edit" element={<h1>Edit Chat</h1>} />
           <Route path="/chat/:chatId" element={<Chat />} />
           <Route path="/user/dashboard" element={<UserDashboard />} />

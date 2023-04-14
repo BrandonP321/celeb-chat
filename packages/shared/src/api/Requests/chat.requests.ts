@@ -30,7 +30,7 @@ export namespace ChatRequest {
 }
 
 export namespace CreateChatRequest {
-  type ReqBody = {
+  export type ReqBody = {
     description: string;
     displayName: string;
   };
