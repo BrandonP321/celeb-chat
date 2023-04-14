@@ -5,11 +5,21 @@
   height: 3.5rem;
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  padding-right: 1rem;
+  padding: 0 1rem;
   background-color: $bodyBgPrimary;
   box-shadow: $boxShadowDark;
+
+  .rightContent {
+    display: flex;
+  }
+}
+
+.homeBtn {
+  .icon {
+    font-size: 1.5rem;
+  }
 }
 
 .mobileNavBtn {

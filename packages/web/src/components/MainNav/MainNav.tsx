@@ -1,9 +1,10 @@
 import React from "react";
 import styles from "./MainNav.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faUser } from "@fortawesome/pro-solid-svg-icons";
+import { faBars, faUser, faHome } from "@fortawesome/pro-solid-svg-icons";
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useChat } from "@/Hooks";
 
 export namespace MainNav {
   export type Props = {
@@ -20,16 +21,21 @@ function MainNav({
 }: MainNav.Props) {
   return (
     <div className={styles.mainNav}>
-      <UserBtn showMobile={isMobileNavVisible} onClick={hideMobileNav} />
-      <button className={styles.mobileNavBtn} onClick={toggleMobileNav}>
-        <FontAwesomeIcon
-          icon={faBars}
-          className={classNames(
-            styles.icon,
-            isMobileNavVisible && styles.close
-          )}
-        />
-      </button>
+      <Link to={"/"} className={styles.homeBtn}>
+        <FontAwesomeIcon icon={faHome} className={styles.icon} />
+      </Link>
+      <div className={styles.rightContent}>
+        <UserBtn showMobile={isMobileNavVisible} onClick={hideMobileNav} />
+        <button className={styles.mobileNavBtn} onClick={toggleMobileNav}>
+          <FontAwesomeIcon
+            icon={faBars}
+            className={classNames(
+              styles.icon,
+              isMobileNavVisible && styles.close
+            )}
+          />
+        </button>
+      </div>
     </div>
   );
 }
@@ -40,8 +46,6 @@ type UserBtnProps = {
 };
 
 const UserBtn = ({ showMobile, onClick }: UserBtnProps) => {
-  const navigate = useNavigate();
-
   return (
     <div
       className={classNames(
@@ -49,15 +53,9 @@ const UserBtn = ({ showMobile, onClick }: UserBtnProps) => {
         showMobile && styles.showMobile
       )}
     >
-      <button
-        className={styles.userBtn}
-        onClick={() => {
-          navigate("/user/dashboard");
-          onClick();
-        }}
-      >
+      <Link className={styles.userBtn} onClick={onClick} to={"/user/dashboard"}>
         <FontAwesomeIcon icon={faUser} className={styles.icon} />
-      </button>
+      </Link>
     </div>
   );
 };
