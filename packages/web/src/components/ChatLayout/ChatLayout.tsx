@@ -16,6 +16,7 @@ function ChatLayout({ children }: ChatLayout.Props) {
     <div className={styles.layout}>
       <MainNav
         toggleMobileNav={() => setShowMobileNav(!showMobileNav)}
+        hideMobileNav={() => setShowMobileNav(false)}
         isMobileNavVisible={showMobileNav}
       />
       <div className={styles.lowerContent}>
