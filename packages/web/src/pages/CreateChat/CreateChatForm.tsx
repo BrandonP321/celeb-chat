@@ -1,7 +1,10 @@
 import { Button, ButtonsWrapper, InputField } from "@/Components";
+import { CreateChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { CreateChatSchema } from "@celeb-chat/shared/src/schema";
+import { AxiosError } from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { APIFetcher } from "utils/APIFetcher";
 import { FormikStringValues, FormikSubmit } from "utils/UtilityTypes";
 
@@ -20,6 +23,8 @@ const createChatInitialValues: CreateChatForm.Values = {
 };
 
 export default function CreateChatForm() {
+  const navigate = useNavigate();
+
   const handleSubmit: FormikSubmit<CreateChatForm.Values> = (
     values,
     formik
@@ -27,7 +32,14 @@ export default function CreateChatForm() {
     const { description, displayName } = values;
     console.log("submit");
 
-    return APIFetcher.createChat({ description, displayName });
+    return APIFetcher.createChat({ description, displayName })
+      .then(({ data }) => {
+        navigate(`/chat/${data?.id}`);
+      })
+      .catch((err: AxiosError<CreateChatRequest.Error>) => {
+        console.log({ err });
+        alert("oops");
+      });
   };
 
   return (
