@@ -1,0 +1,67 @@
+@import "../../styles/uiBase.scss";
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.25s;
+
+  &.hidden {
+    pointer-events: none;
+    opacity: 0;
+
+    .modalContentWrapper {
+      transform: scale(0.8);
+    }
+  }
+}
+
+.modalContentWrapper {
+  position: relative;
+  background-color: $bodyBgPrimary;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 35rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.75);
+  transition: all 0.25s;
+
+  @include mobileVW() {
+    max-width: none;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+.pageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  @include mobileVW() {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+}
+
+.exitIcon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.15s;
+  cursor: pointer;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+}

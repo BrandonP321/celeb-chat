@@ -1,5 +1,8 @@
 import axios from "axios";
-import { GetUserChatsRequest } from "@celeb-chat/shared/src/api/Requests/user.requests";
+import {
+  GetUserChatsRequest,
+  GetUserRequest,
+} from "@celeb-chat/shared/src/api/Requests/user.requests";
 import {
   LoginRequest,
   RegisterAccountRequest,
@@ -60,4 +63,7 @@ export class APIFetcher {
 
   public static sendMsg = (params: SendMsgRequest.ReqBody) =>
     APIFetcher.post<SendMsgRequest.Response>(Routes.Msg.SendMsg(), params);
+
+  public static getUser = () =>
+    APIFetcher.get<GetUserRequest.Response>(Routes.User.GetFullUser());
 }

@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./FormField.module.scss";
 import { ClassesProp } from "utils/UtilityTypes";
 import classNames from "classnames";
-import { Field, FieldProps } from "formik";
+import { Field, useFormikContext } from "formik";
 
 namespace FormField {
   export type Props = React.PropsWithChildren<{
-    error?: string;
     label?: string;
     name: string;
     classes?: ClassesProp<"root" | "label" | "error" | "input">;
@@ -14,23 +13,16 @@ namespace FormField {
     onBlur?: () => void;
     onChange?: (value: string) => void;
     as?: "input" | "select" | "textarea";
+    initialValue?: string;
   }>;
 }
 
 function FormField(props: FormField.Props) {
-  const {
-    classes,
-    error,
-    label,
-    onFocus,
-    onBlur,
-    onChange,
-    children,
-    ...rest
-  } = props;
+  const { classes, label, onFocus, onBlur, children, name, ...rest } = props;
+
+  const { values, errors } = useFormikContext<{ [key: string]: string }>();
 
   const [isFocused, setIsFocused] = useState(false);
-  const [isEmpty, setIsEmpty] = useState(true);
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -42,10 +34,8 @@ function FormField(props: FormField.Props) {
     onBlur && onBlur();
   };
 
-  const handleChange = (value: string) => {
-    setIsEmpty(!value);
-    onChange && onChange(value);
-  };
+  const value = values[name];
+  const error = errors[name];
 
   return (
     <div
@@ -53,7 +43,7 @@ function FormField(props: FormField.Props) {
         styles.formFieldWrapper,
         classes?.root,
         isFocused && styles.focused,
-        isEmpty && styles.empty,
+        !value && styles.empty,
         error && styles.error
       )}
     >
@@ -63,14 +53,12 @@ function FormField(props: FormField.Props) {
 
       <Field
         {...rest}
+        name={name}
         onBlur={handleBlur}
         onFocus={handleFocus}
-        onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
-          handleChange(e.currentTarget.value)
-        }
+        onLoad={(e: any) => console.log({ e })}
         className={classNames(styles.formField, classes?.input)}
       />
-
       {error && <p className={styles.errorMsg}>{error}</p>}
     </div>
   );

@@ -82,8 +82,8 @@ function Authentication({ isLogin }: Authentication.Props) {
               </h1>
 
               <div>
-                {showLogin && <LoginFormFields errors={errors} />}
-                {!showLogin && <RegistrationFormFields errors={errors} />}
+                {showLogin && <LoginFormFields />}
+                {!showLogin && <RegistrationFormFields />}
               </div>
 
               {apiError && <p className={styles.errorMsg}>{apiError}</p>}

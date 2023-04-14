@@ -35,3 +35,7 @@ export type FormikSubmit<Values extends {}> = (
   values: Values,
   formik: FormikHelpers<Values>
 ) => Promise<any>;
+
+export type FormikStringValues<Fields extends string> = {
+  [key in Fields]: string;
+};

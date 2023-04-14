@@ -1,5 +1,4 @@
 import { InputField } from "@/Components";
-import { FormikConfig, FormikErrors, FormikProps } from "formik";
 import React from "react";
 
 enum LoginField {
@@ -8,18 +7,7 @@ enum LoginField {
 }
 
 export namespace LoginForm {
-  export type Values = {
-    [LoginField.Email]: string;
-    [LoginField.Password]: string;
-  };
-
-  export type Formik = FormikProps<Values>;
-  export type Errors = FormikErrors<Values>;
-  export type FormConfig = FormikConfig<Values>;
-
-  export type Props = {
-    errors: Errors;
-  };
+  export type Values = { [key in LoginField]: string };
 }
 
 export const LoginInitialValues: LoginForm.Values = {
@@ -27,19 +15,10 @@ export const LoginInitialValues: LoginForm.Values = {
   password: "",
 };
 
-export const LoginFormFields = ({ errors }: LoginForm.Props) => (
+export const LoginFormFields = () => (
   <>
-    <InputField
-      name={LoginField.Email}
-      error={errors[LoginField.Email]}
-      label="Email"
-    />
-    <InputField
-      name={LoginField.Password}
-      error={errors[LoginField.Password]}
-      type={"password"}
-      label="Password"
-    />
+    <InputField name={LoginField.Email} label="Email" />
+    <InputField name={LoginField.Password} type={"password"} label="Password" />
   </>
 );
 
@@ -52,13 +31,6 @@ enum RegistrationField {
 
 export namespace RegistrationForm {
   export type Values = { [key in RegistrationField]: string };
-
-  export type Formik = FormikProps<Values>;
-  export type Errors = FormikErrors<Values>;
-
-  export type Props = {
-    errors: Errors;
-  };
 }
 
 export const RegistrationInitialValues: RegistrationForm.Values = {
@@ -68,27 +40,17 @@ export const RegistrationInitialValues: RegistrationForm.Values = {
   username: "",
 };
 
-export const RegistrationFormFields = ({ errors }: RegistrationForm.Props) => (
+export const RegistrationFormFields = () => (
   <>
-    <InputField
-      name={RegistrationField.Email}
-      error={errors[RegistrationField.Email]}
-      label="Email"
-    />
-    <InputField
-      name={RegistrationField.Username}
-      error={errors[RegistrationField.Username]}
-      label="Username"
-    />
+    <InputField name={RegistrationField.Email} label="Email" />
+    <InputField name={RegistrationField.Username} label="Username" />
     <InputField
       name={RegistrationField.Password}
-      error={errors[RegistrationField.Password]}
       type={"password"}
       label="Password"
     />
     <InputField
       name={RegistrationField.PasswordConfirm}
-      error={errors[RegistrationField.PasswordConfirm]}
       type={"password"}
       label="Confirm Password"
     />
