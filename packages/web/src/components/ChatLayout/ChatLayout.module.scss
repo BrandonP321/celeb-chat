@@ -17,6 +17,7 @@
 
 .mainContent {
   flex-grow: 1;
+  position: relative;
 
   @include mobileVW() {
     width: 100%;

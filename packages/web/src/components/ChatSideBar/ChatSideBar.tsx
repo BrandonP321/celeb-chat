@@ -1,5 +1,5 @@
 import React from "react";
-import { ChatCard } from "@/Components";
+import { ChatCard, LoadingContainer } from "@/Components";
 import styles from "./ChatSideBar.module.scss";
 import classNames from "classnames";
 import { useAppDispatch, useChats } from "@/Hooks";
@@ -47,6 +47,7 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
           showInMobile && styles.showMobile
         )}
       >
+        <LoadingContainer loading={!chats} loadingText="Loading chats" />
         {chats?.map((chat, i) => (
           <ChatCard {...chat} key={i} onClick={hideInMobile} />
         ))}

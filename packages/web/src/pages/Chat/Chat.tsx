@@ -1,16 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
-import {
-  ChatCompletionResponseMessageRoleEnum,
-  Configuration,
-  OpenAIApi,
-} from "openai";
+import { ChatCompletionResponseMessageRoleEnum } from "openai";
 import styles from "./Chat.module.scss";
 import { useAppDispatch, useChat } from "@/Hooks";
 import { Actions } from "@/Slices";
-import { WebChatUtils } from "utils";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { APIFetcher } from "utils/APIFetcher";
+import { LoadingContainer } from "@/Components";
 
 namespace Chat {
   export type Props = {};
@@ -54,6 +50,7 @@ function Chat(props: Chat.Props) {
 
   return (
     <div className={styles.pageMain}>
+      <LoadingContainer loading={!chat} loadingText="Loading messages" />
       <div className={styles.scrollableContentWrapper}>
         <div className={styles.messages}>
           {chat?.messages?.map((msg, i) => (

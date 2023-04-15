@@ -8,6 +8,7 @@ import EditUserModal, {
 } from "./components/EditUserModal/EditUserModal";
 import { Formik } from "formik";
 import { EditUserSchema } from "@celeb-chat/shared/src/schema";
+import { LoadingContainer } from "@/Components";
 
 namespace UserDashboard {
   export type Props = {};
@@ -27,28 +28,26 @@ function UserDashboard(props: UserDashboard.Props) {
       });
   }, []);
 
-  // TODO: Implement loading spinner
-  if (!user) {
-    return null;
-  }
-
   return (
     <div className={styles.userDash}>
+      <LoadingContainer loading={!user} loadingText="Loading dashboard" />
       <h1 onClick={() => setShowEditModal(true)}>Dashboard</h1>
 
-      <Formik
-        initialValues={getEditUserInitialValues(user)}
-        validateOnChange={false}
-        validationSchema={EditUserSchema}
-        onSubmit={() => console.log("submit")}
-      >
-        {() => (
-          <EditUserModal
-            show={showEditModal}
-            hide={() => setShowEditModal(false)}
-          />
-        )}
-      </Formik>
+      {user && (
+        <Formik
+          initialValues={getEditUserInitialValues(user)}
+          validateOnChange={false}
+          validationSchema={EditUserSchema}
+          onSubmit={() => console.log("submit")}
+        >
+          {() => (
+            <EditUserModal
+              show={showEditModal}
+              hide={() => setShowEditModal(false)}
+            />
+          )}
+        </Formik>
+      )}
     </div>
   );
 }
