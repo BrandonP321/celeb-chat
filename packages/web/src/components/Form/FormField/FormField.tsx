@@ -19,8 +19,17 @@ namespace FormField {
 }
 
 function FormField(props: FormField.Props) {
-  const { classes, label, onFocus, onBlur, children, name, id, ...rest } =
-    props;
+  const {
+    classes,
+    label,
+    onFocus,
+    onBlur,
+    onChange,
+    children,
+    name,
+    id,
+    ...rest
+  } = props;
 
   const { values, errors } = useFormikContext<{ [key: string]: string }>();
 
@@ -63,6 +72,9 @@ function FormField(props: FormField.Props) {
         name={name}
         onBlur={handleBlur}
         onFocus={handleFocus}
+        onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
+          !!onChange && onChange(e.currentTarget.value)
+        }
         onLoad={(e: any) => console.log({ e })}
         className={classNames(styles.formField, classes?.input)}
       />

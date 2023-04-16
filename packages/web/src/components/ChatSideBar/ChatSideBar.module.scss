@@ -53,3 +53,34 @@
     opacity: 1;
   }
 }
+
+.chatActions {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.searchBar {
+  flex-grow: 1;
+}
+
+.newChatLink {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: green;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $primaryHover;
+  }
+
+  .icon {
+    font-size: 1.5rem;
+  }
+}
