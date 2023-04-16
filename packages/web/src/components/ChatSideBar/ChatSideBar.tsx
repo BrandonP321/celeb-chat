@@ -24,8 +24,8 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
   useEffect(() => {
     if (!chats && !isFetchingChats.current) {
       APIFetcher.getUserChats()
-        .then(({ data }) => {
-          dispatch(Actions.Chat.setChats(data.chats));
+        .then(({ chats }) => {
+          dispatch(Actions.Chat.setChats(chats));
         })
         .finally(() => (isFetchingChats.current = false));
     }

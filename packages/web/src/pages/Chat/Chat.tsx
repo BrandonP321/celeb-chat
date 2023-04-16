@@ -7,6 +7,7 @@ import { Actions } from "@/Slices";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { APIFetcher } from "utils/APIFetcher";
 import { LoadingContainer } from "@/Components";
+import { SendMsgRequest } from "@celeb-chat/shared/src/api/Requests/message.requests";
 
 namespace Chat {
   export type Props = {};
@@ -35,14 +36,14 @@ function Chat(props: Chat.Props) {
     );
 
     APIFetcher.sendMsg({ chatId: chat.id, msgBody: msgInput })
-      .then(({ data }) => {
-        const incomingMsg = data.newMsg;
+      .then(({ newMsg }) => {
+        const incomingMsg = newMsg;
 
         dispatch(
           Actions.Chat.addMsg({ chatId: chat.id, message: incomingMsg })
         );
       })
-      .catch((err) => {
+      .catch((err: SendMsgRequest.Error) => {
         alert("Oops");
       })
       .finally(() => setLoading(false));

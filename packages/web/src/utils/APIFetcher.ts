@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import {
   GetUserChatsRequest,
   GetUserRequest,
@@ -14,7 +14,9 @@ import {
   GetChatMessagesRequest,
   GetChatRequest,
 } from "@celeb-chat/shared/src/api/Requests/chat.requests";
+import { DefaultErrors } from "@celeb-chat/shared/src/api/Requests";
 import { Routes } from "@celeb-chat/shared/src/api/routes";
+import { UrlUtils } from "./UrlUtils";
 
 const apiDomain = process.env.REACT_APP_API_DOMAIN;
 
@@ -23,21 +25,52 @@ export class APIFetcher {
     withCredentials: true,
   };
 
+  private static fetchDefaultHandler<Response extends {}>(
+    fetch: () => Promise<AxiosResponse<Response>>
+  ): Promise<Response> {
+    return new Promise<Response>(async (resolve, reject) => {
+      try {
+        const res = await fetch();
+
+        return resolve(res.data);
+      } catch (err) {
+        const error = err as AxiosError<DefaultErrors.Error>;
+        const errCode = error?.response?.data?.errCode;
+
+        // TODO: consider handling other error codes
+        if (!errCode) {
+          reject(DefaultErrors.Errors.NetworkError);
+        } else if (errCode === DefaultErrors.ErrorCode.NotAuthenticated) {
+          // TODO: implement navigation that stays within react router & replace url
+          // On auth error, redirect to login page with query param for redirecting to current page on auth
+          window.location.href = UrlUtils.url()
+            .setPath("/login")
+            .addParams({
+              [UrlUtils.queryParamKeys.redirectTo]: UrlUtils.url().allButDomain,
+            }).allButDomain;
+        } else {
+          reject(error?.response?.data);
+        }
+      }
+    });
+  }
+
   private static post<Response extends {}, Params extends {} = {}>(
     endpointPath: string,
     params: Params
   ) {
-    return axios.post<Response>(
-      `${apiDomain}${endpointPath}`,
-      params,
-      this.defaultConfig
+    return this.fetchDefaultHandler(() =>
+      axios.post<Response>(
+        `${apiDomain}${endpointPath}`,
+        params,
+        this.defaultConfig
+      )
     );
   }
 
   private static get<Response extends {}>(endpointPath: string) {
-    return axios.get<Response>(
-      `${apiDomain}${endpointPath}`,
-      this.defaultConfig
+    return this.fetchDefaultHandler(() =>
+      axios.get<Response>(`${apiDomain}${endpointPath}`, this.defaultConfig)
     );
   }
 

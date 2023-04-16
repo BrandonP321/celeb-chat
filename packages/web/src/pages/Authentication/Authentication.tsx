@@ -6,7 +6,6 @@ import { FormikSubmit } from "utils/UtilityTypes";
 import { Button, ButtonsWrapper } from "@/Components";
 import { APIFetcher } from "utils/APIFetcher";
 import { useNavigate } from "react-router-dom";
-import { AxiosError } from "axios";
 import {
   LoginForm,
   LoginFormFields,
@@ -16,6 +15,7 @@ import {
   RegistrationInitialValues,
 } from "./AuthForms";
 import { APIErrorResponse } from "@celeb-chat/shared/src/api/Requests";
+import { UrlUtils } from "utils/UrlUtils";
 
 namespace Authentication {
   export type Props = {
@@ -51,10 +51,14 @@ function Authentication({ isLogin }: Authentication.Props) {
 
     return apiCall(values, formik)
       .then(() => {
-        navigate("/chat/asdf", { replace: true });
+        const redirectPath = UrlUtils.getParam(
+          UrlUtils.queryParamKeys.redirectTo
+        );
+
+        navigate(redirectPath ?? "/chat/asdf", { replace: true });
       })
-      .catch(({ response }: AxiosError<APIErrorResponse<{}>>) => {
-        setAPIError(response?.data?.msg);
+      .catch(({ msg }: APIErrorResponse<{}>) => {
+        setAPIError(msg);
       });
   };
 

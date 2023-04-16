@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styles from "./UserDashboard.module.scss";
 import { GetUserRequest } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import { APIFetcher } from "utils/APIFetcher";
-import { AxiosError } from "axios";
 import EditUserModal, {
   getEditUserInitialValues,
 } from "./components/EditUserModal/EditUserModal";
@@ -20,11 +19,11 @@ function UserDashboard(props: UserDashboard.Props) {
 
   useEffect(() => {
     APIFetcher.getUser()
-      .then(({ data }) => {
-        setUser(data);
+      .then((user) => {
+        setUser(user);
       })
-      .catch(({ response }: AxiosError<GetUserRequest.Error>) => {
-        console.log({ err: response });
+      .catch(({ msg }: GetUserRequest.Error) => {
+        console.log({ msg });
       });
   }, []);
 

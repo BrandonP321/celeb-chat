@@ -32,6 +32,7 @@ export namespace DefaultErrors {
     NotAuthenticated: "NotAuthenticated",
     UserNotFound: "UserNotFound",
     InternalServerError: "InternalServerError",
+    NetworkError: "NetworkError",
   } as const;
 
   export const Errors: APIErrors<typeof ErrorCode> = {
@@ -50,5 +51,12 @@ export namespace DefaultErrors {
       errCode: ErrorCode.InternalServerError,
       msg: "An unexpected error has occurred",
     },
+    NetworkError: {
+      status: HttpStatusCode.InternalServerError,
+      errCode: ErrorCode.NetworkError,
+      msg: "A network error has occurred",
+    },
   };
+
+  export type Error = APIErrorResponse<typeof Errors>;
 }

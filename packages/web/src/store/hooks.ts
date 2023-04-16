@@ -49,11 +49,11 @@ export const useChat = () => {
     if (!cachedChat && chatId && !chatsBeingFetched.current[chatId]) {
       chatsBeingFetched.current[chatId] = true;
 
-      APIFetcher.getChatMessages({ chatId }).then(({ data }) => {
+      APIFetcher.getChatMessages({ chatId }).then(({ messages }) => {
         dispatch(
           Actions.Chat.cacheFetchedMessages({
             id: chatId,
-            messages: data.messages,
+            messages: messages,
           })
         );
 
