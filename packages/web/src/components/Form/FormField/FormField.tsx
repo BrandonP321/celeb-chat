@@ -14,11 +14,13 @@ namespace FormField {
     onChange?: (value: string) => void;
     as?: "input" | "select" | "textarea";
     initialValue?: string;
+    id?: string;
   }>;
 }
 
 function FormField(props: FormField.Props) {
-  const { classes, label, onFocus, onBlur, children, name, ...rest } = props;
+  const { classes, label, onFocus, onBlur, children, name, id, ...rest } =
+    props;
 
   const { values, errors } = useFormikContext<{ [key: string]: string }>();
 
@@ -36,6 +38,7 @@ function FormField(props: FormField.Props) {
 
   const value = values[name];
   const error = errors[name];
+  const inputId = id ?? name;
 
   return (
     <div
@@ -47,12 +50,16 @@ function FormField(props: FormField.Props) {
         error && styles.error
       )}
     >
-      <label className={classNames(styles.label, classes?.label)}>
+      <label
+        className={classNames(styles.label, classes?.label)}
+        htmlFor={inputId}
+      >
         {label}
       </label>
 
       <Field
         {...rest}
+        id={inputId}
         name={name}
         onBlur={handleBlur}
         onFocus={handleFocus}
