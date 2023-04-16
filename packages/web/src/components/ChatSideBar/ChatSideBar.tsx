@@ -80,7 +80,11 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
             classes={{ root: styles.searchBar }}
           />
           <Link to="/chat/new" className={styles.newChatLink}>
-            <FontAwesomeIcon icon={faPlus} className={styles.icon} />
+            <FontAwesomeIcon
+              icon={faPlus}
+              className={styles.icon}
+              onClick={hideInMobile}
+            />
           </Link>
         </div>
 
