@@ -31,6 +31,7 @@ export namespace SendMsgRequest {
   export const ErrorCode = {
     ...DefaultErrors.ErrorCode,
     ErrorFetchingChatCompletion: "ErrorFetchingChatCompletion",
+    InvalidMsgInput: "InvalidMsgInput",
   } as const;
 
   export const Errors: APIErrors<typeof ErrorCode> = {
@@ -39,6 +40,11 @@ export namespace SendMsgRequest {
       status: ClientErrorStatusCodes.BadRequest,
       errCode: ErrorCode.ErrorFetchingChatCompletion,
       msg: "An error occurred while retrieving a response",
+    },
+    InvalidMsgInput: {
+      status: ClientErrorStatusCodes.BadRequest,
+      errCode: ErrorCode.InvalidMsgInput,
+      msg: "Message input does not match required format",
     },
   } as const;
 
