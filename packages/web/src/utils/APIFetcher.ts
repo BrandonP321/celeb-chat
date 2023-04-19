@@ -83,7 +83,7 @@ export class APIFetcher {
       params
     );
 
-  public static getChatMessages = (params: ChatRequest.ReqBody) =>
+  public static getChatMessages = (params: GetChatMessagesRequest.ReqBody) =>
     APIFetcher.post<GetChatMessagesRequest.Response>(
       Routes.Chat.GetChatMessages(),
       params

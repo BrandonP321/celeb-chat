@@ -14,7 +14,7 @@ export type TChat = Pick<
 > &
   Omit<UserModel.UserChat, "id">;
 
-export type Message = ChatCompletionResponseMessage & {};
+export type Message = ChatCompletionResponseMessage & { index: number };
 
 export class ChatUtils {
   public static constructMsg = (

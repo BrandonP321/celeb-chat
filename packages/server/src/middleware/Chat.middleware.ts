@@ -5,33 +5,99 @@ import db from "@/Models";
 import { ChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { TUserDocLocals } from "./User.middleware";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
+import { NextFunction, Response } from "express";
 
 export type ChatResLocals = TUserDocLocals & {
-  chat: ChatModel.Document;
+  chat: Omit<ChatModel.Document, "messages">;
 };
 
 const GetChatErrors = new ControllerErrors(ChatRequest.Errors);
 
-/**
- * Finds user document and saves it as a local variable on the response.  MUST be preceded
- * by `AuthJWT()` & `GetUserMiddleware()` middleware, which gets the user's id from auth tokens
- */
 export const GetChatMiddleware: TRouteController<
   APIRequest<{}, ChatRequest.ReqBody, {}>,
   ChatResLocals
 > = async (req, res, next) => {
+  getChat(req.body.chatId, res, next);
+};
+
+export type ChatWithMsgsResLocals = TUserDocLocals & {
+  chat: ChatModel.Document;
+  pageSize: number;
+};
+
+export const GetChatWithMsgPageMiddleware: TRouteController<
+  APIRequest<{}, ChatRequest.WithMsgsReqBody, {}>,
+  ChatWithMsgsResLocals
+> = async (req, res, next) => {
+  const { chatId, marker } = req.body;
+
   try {
-    const chat = await db.Chat.findById(req.body.chatId);
+    const pageSize = parseInt(process.env.PAGINATION_PAGE_SIZE ?? "20");
+
+    let newMarker: number;
+    let newPageSize: number;
+
+    if (typeof marker !== "number") {
+      newMarker = pageSize * -1;
+      newPageSize = pageSize;
+    } else {
+      newMarker = marker - pageSize < 0 ? 0 : marker - pageSize;
+      newPageSize = marker + 1 - newMarker;
+    }
+
+    res.locals.pageSize = pageSize;
+    getChat(chatId, res, next, { marker: newMarker, pageSize: newPageSize });
+  } catch (err) {
+    return GetChatErrors.error.InternalServerError(res);
+  }
+};
+
+// TODO: store somewhere more global
+const msgHistoryLength = 5;
+
+export const GetChatWithMsgHistoryMiddleware: TRouteController<
+  APIRequest<{}, ChatRequest.ReqBody, {}>,
+  ChatWithMsgsResLocals
+> = async (req, res, next) => {
+  const { chatId } = req.body;
+
+  getChat(chatId, res, next, {
+    marker: msgHistoryLength,
+    pageSize: msgHistoryLength,
+  });
+};
+
+const getChat = async (
+  chatId: string,
+  res: Response<{}, ChatResLocals>,
+  next: NextFunction,
+  sliceOptions?: { pageSize: number; marker: number }
+) => {
+  try {
+    const chat = sliceOptions
+      ? await db.Chat.findById(chatId).slice("messages", [
+          sliceOptions.marker,
+          sliceOptions.pageSize,
+        ])
+      : await db.Chat.findById(chatId).select("-messages");
 
     if (!chat) {
       return GetChatErrors.error.ChatNotFound(res);
-    } else if (chat.id !== req.body.chatId) {
+    } else if (chat.ownerId !== res.locals.userId) {
       return GetChatErrors.error.UnauthorizedChat(res);
     }
 
     res.locals.chat = chat;
     next();
   } catch (err) {
+    const error: any = err;
+
+    const isChatNotFound = error?.kind === "ObjectId";
+
+    if (isChatNotFound) {
+      return GetChatErrors.error.ChatNotFound(res);
+    }
+
     return GetChatErrors.error.InternalServerError(res);
   }
 };

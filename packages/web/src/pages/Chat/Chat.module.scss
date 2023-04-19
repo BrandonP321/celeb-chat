@@ -150,3 +150,19 @@ $maxInputHeight: calc(
   overflow-anchor: auto;
   height: 1px;
 }
+
+.loadMoreMsgs {
+  align-self: center;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: $textSecondary;
+  transition: all 0.2s;
+
+  &:hover {
+    color: $textPrimary;
+  }
+
+  .spinner {
+    font-size: 1rem;
+  }
+}

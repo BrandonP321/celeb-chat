@@ -14,6 +14,7 @@ export namespace ChatModel {
     chatSummary?: string;
     ownerId: string;
     messagesSinceLastSummary: number;
+    msgCount: number;
     messages: Message[];
   };
 
@@ -25,6 +26,9 @@ export namespace ChatModel {
 
   export type InstanceMethods = {
     toFullJSON: (this: Document) => FullJSON;
+    toFullMessagelessJSON: (
+      this: Omit<Document, "messages">
+    ) => Omit<FullJSON, "messages">;
     /** returns chat JSON with messages */
     toFullChatJSON: (
       this: Document,
@@ -35,8 +39,9 @@ export namespace ChatModel {
       this: Document,
       user: UserModel.Document
     ) => Promise<FullChatJSONWithoutMessages | undefined>;
-    addMsg: (this: Document, ...msg: Message[]) => void;
-    getTrainingMsg: (this: Document) => Promise<Message>;
+    addMsg: (this: Document, ...msg: IndexlessMessage[]) => Promise<boolean>;
+    getTrainingMsg: (this: Document) => Promise<IndexlessMessage>;
+    incrememtMsgCount: (this: Document, add?: number) => void;
   };
 
   export type StaticMethods = {};
@@ -49,4 +54,5 @@ export namespace ChatModel {
   /** Full chat JSON without messages */
   export type FullChatJSONWithoutMessages = Omit<FullChatJSON, "messages">;
   export type MessagesJSON = Pick<FullJSON, "messages">;
+  export type IndexlessMessage = Omit<Message, "index">;
 }

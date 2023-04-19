@@ -1,3 +1,4 @@
+import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import { Message, TChat } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -7,7 +8,13 @@ export type MessagelessChat = Omit<TChat, "messages">;
 export interface ChatsState {
   /** Map of chats that have had their messages fetched */
   chatCache: {
-    [key: string]: Pick<TChat, "messages"> | undefined;
+    [key: string]:
+      | {
+          messages: ChatModel.IndexlessMessage[];
+          nextMarker?: number | null;
+          isFetching: boolean;
+        }
+      | undefined;
   };
   /** Ordered list of chats without messages, which are fetched when a chat is loaded */
   chats: UserModel.UserChat[] | null;
@@ -22,12 +29,19 @@ const initialState: ChatsState = {
 const updateCachedChat = (
   state: ChatsState,
   chatId: string,
-  messages: Message[]
+  messages?: ChatModel.IndexlessMessage[],
+  nextMarker?: number | null,
+  isFetching?: boolean
 ) => {
+  const cachedChat = state.chatCache?.[chatId];
+
   state.chatCache = {
     ...state.chatCache,
     [chatId]: {
-      messages,
+      messages: messages ?? cachedChat?.messages ?? [],
+      nextMarker:
+        nextMarker !== undefined ? nextMarker : cachedChat?.nextMarker,
+      isFetching: isFetching ?? false,
     },
   };
 };
@@ -44,29 +58,63 @@ const chatsSlice = createSlice({
     },
     cacheFetchedMessages: (
       state,
-      { payload }: PayloadAction<Pick<TChat, "messages" | "id">>
+      {
+        payload,
+      }: PayloadAction<
+        Pick<TChat, "messages" | "id"> & { nextMarker: number | null }
+      >
     ) => {
-      updateCachedChat(state, payload.id, payload.messages);
+      const cachedChat = state.chatCache?.[payload.id];
+
+      updateCachedChat(
+        state,
+        payload.id,
+        [...payload.messages, ...(cachedChat?.messages ?? [])],
+        payload.nextMarker,
+        false
+      );
     },
     addChat: (state, { payload }: PayloadAction<UserModel.UserChat>) => {
       state.chats = [payload, ...(state.chats ?? [])];
 
-      updateCachedChat(state, payload.id, []);
+      updateCachedChat(state, payload.id, [], undefined, false);
     },
     addMsg: (
       state,
-      { payload }: PayloadAction<{ chatId: string; message: Message }>
+      {
+        payload,
+      }: PayloadAction<{ chatId: string; message: ChatModel.IndexlessMessage }>
     ) => {
       const cachedChat = state.chatCache[payload.chatId];
 
-      updateCachedChat(state, payload.chatId, [
-        ...(cachedChat?.messages ?? []),
-        payload.message,
-      ]);
+      updateCachedChat(
+        state,
+        payload.chatId,
+        [...(cachedChat?.messages ?? []), payload.message],
+        undefined,
+        false
+      );
+    },
+    setChatFetchStatus: (
+      state,
+      { payload }: PayloadAction<{ isFetching: boolean; chatId: string }>
+    ) => {
+      updateCachedChat(
+        state,
+        payload.chatId,
+        undefined,
+        undefined,
+        payload.isFetching
+      );
     },
   },
 });
 
-export const { addChat, addMsg, setChats, cacheFetchedMessages } =
-  chatsSlice.actions;
+export const {
+  addChat,
+  addMsg,
+  setChats,
+  cacheFetchedMessages,
+  setChatFetchStatus,
+} = chatsSlice.actions;
 export default chatsSlice.reducer;

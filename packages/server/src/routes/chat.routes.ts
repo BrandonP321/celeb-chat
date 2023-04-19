@@ -10,7 +10,10 @@ import {
   GetChatController,
   GetChatMessagesController,
 } from "@/Controllers/chat.controllers";
-import { GetChatMiddleware } from "@/Middleware/Chat.middleware";
+import {
+  GetChatMiddleware,
+  GetChatWithMsgPageMiddleware,
+} from "@/Middleware/Chat.middleware";
 
 const router = express.Router();
 
@@ -34,6 +37,7 @@ router.post(
   Routes.Chat.GetChatMessages(),
   AuthJwt,
   GetUserMiddleware,
+  GetChatWithMsgPageMiddleware,
   GetChatMessagesController
 );
 

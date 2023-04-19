@@ -5,13 +5,11 @@ import {
   GetChatRequest,
 } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { TUserDocLocals, UserChatLocals } from "@/Middleware";
-import { JWTResLocals } from "utils/JWTUtils";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import db from "../models";
 import { ControllerErrors } from "utils/ControllerUtils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
-import { TChat } from "@celeb-chat/shared/src/utils/ChatUtils";
-import { ChatResLocals } from "@/Middleware/Chat.middleware";
+import { ChatWithMsgsResLocals } from "@/Middleware/Chat.middleware";
 
 const getChatErrors = new ControllerErrors(GetChatRequest.Errors);
 
@@ -23,7 +21,7 @@ export const GetChatController: TRouteController<
   try {
     const { chat, userChat } = res.locals;
 
-    res.json({ ...userChat, ...chat.toFullJSON() }).end();
+    res.json({ ...userChat, ...chat.toFullMessagelessJSON() }).end();
   } catch (err) {
     return getChatErrors.error.InternalServerError(res);
   }
@@ -33,21 +31,18 @@ const getMessagesErrors = new ControllerErrors(GetChatMessagesRequest.Errors);
 
 export const GetChatMessagesController: TRouteController<
   GetChatMessagesRequest.Request,
-  TUserDocLocals
+  ChatWithMsgsResLocals
 > = async (req, res) => {
-  const { chatId } = req.body;
-  const { user } = res.locals;
+  const { chat } = res.locals;
 
   try {
-    const chat = await db.Chat.findById(chatId);
+    let nextPageMarker: number | null = (chat?.messages?.[0]?.index ?? 0) - 1;
 
-    if (!chat) {
-      return getMessagesErrors.error.ChatNotFound(res);
+    if (nextPageMarker < 0) {
+      nextPageMarker = null;
     }
 
-    // TODO: implement pagination
-
-    res.json({ messages: chat.messages }).end();
+    res.json({ messages: chat.messages, nextPageMarker }).end();
   } catch (err) {
     return getMessagesErrors.error.InternalServerError(res);
   }

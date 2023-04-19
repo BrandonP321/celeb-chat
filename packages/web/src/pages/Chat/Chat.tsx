@@ -6,7 +6,7 @@ import { useAppDispatch, useChat } from "@/Hooks";
 import { Actions } from "@/Slices";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { APIFetcher } from "utils/APIFetcher";
-import { LoadingContainer } from "@/Components";
+import { LoadingContainer, Spinner } from "@/Components";
 import { SendMsgRequest } from "@celeb-chat/shared/src/api/Requests/message.requests";
 
 namespace Chat {
@@ -54,6 +54,18 @@ function Chat(props: Chat.Props) {
       <LoadingContainer loading={!chat} loadingText="Loading messages" />
       <div className={styles.scrollableContentWrapper}>
         <div className={styles.messages}>
+          {chat?.hasNextPage && (
+            <button
+              className={styles.loadMoreMsgs}
+              onClick={chat?.fetchNextPage}
+            >
+              {chat?.isFetching && (
+                <Spinner classes={{ root: styles.spinner }} />
+              )}
+              {!chat?.isFetching && "Load more messages"}
+            </button>
+          )}
+
           {chat?.messages?.map((msg, i) => (
             <p
               key={i}

@@ -8,6 +8,10 @@ export namespace ChatRequest {
     chatId: string;
   };
 
+  export type WithMsgsReqBody = ReqBody & {
+    marker?: number | null;
+  };
+
   export const ErrorCode = {
     ...DefaultErrors.ErrorCode,
     ChatNotFound: "ChatNotFound",
@@ -79,8 +83,11 @@ export namespace GetChatRequest {
 }
 
 export namespace GetChatMessagesRequest {
-  export type ReqBody = ChatRequest.ReqBody & {};
-  export type Response = ChatModel.MessagesJSON;
+  export type ReqBody = ChatRequest.WithMsgsReqBody & {};
+
+  export type Response = ChatModel.MessagesJSON & {
+    nextPageMarker: number | null;
+  };
 
   export type Request = APIRequest<{}, ReqBody, Response>;
 

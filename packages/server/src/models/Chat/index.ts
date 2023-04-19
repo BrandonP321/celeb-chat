@@ -16,6 +16,10 @@ const ChatSchema: ChatModel.Schema = new Schema(
       type: Schema.Types.Mixed,
       default: [],
     },
+    msgCount: {
+      type: Number,
+      default: 0,
+    },
     messagesSinceLastSummary: {
       type: Number,
       default: 0,

@@ -1,24 +1,35 @@
 import { SendMsgRequest } from "@celeb-chat/shared/src/api/Requests/message.requests";
 import { TRouteController } from ".";
 import { TUserDocLocals } from "@/Middleware";
-import { ChatResLocals } from "@/Middleware/Chat.middleware";
+import {
+  ChatResLocals,
+  ChatWithMsgsResLocals,
+} from "@/Middleware/Chat.middleware";
 import { ControllerErrors } from "utils/ControllerUtils";
 import { OpenaiFetcher } from "utils/OpenaiFetcher";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
+import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 
 const sendMsgErrors = new ControllerErrors(SendMsgRequest.Errors);
 
 /** Returns full user JSON without sensitive data */
 export const SendMsgController: TRouteController<
   SendMsgRequest.Request,
-  ChatResLocals
+  ChatWithMsgsResLocals
 > = async (req, res) => {
   try {
     const { chatId, msgBody } = req.body;
     const { chat, user } = res.locals;
 
     const outgoingMsg = ChatUtils.constructMsg(msgBody);
-    const messages = [await chat.getTrainingMsg(), ...chat.messages];
+    const messages = [await chat.getTrainingMsg(), ...chat.messages].map(
+      (m): ChatModel.IndexlessMessage => ({
+        content: m.content,
+        role: m.role,
+      })
+    );
+
+    console.log({ length: messages.length });
 
     // TODO: Add error handling
     const { data: incomingMsg } = await OpenaiFetcher.fetchChatCompletion(
@@ -31,18 +42,17 @@ export const SendMsgController: TRouteController<
     const tokensUsed = incomingMsg.usage?.total_tokens;
     const msgCount = messages.length + 1;
     const cost = ((tokensUsed ?? 0) / 1000) * 0.002;
-    console.log({ tokensUsed, msgCount, cost });
 
     if (!newMsg) {
       return sendMsgErrors.error.ErrorFetchingChatCompletion(res);
     }
 
-    chat.addMsg(outgoingMsg, newMsg);
+    const isMsgAdded = await chat.addMsg(outgoingMsg, newMsg);
     const isChatUpdated = await user.updateChat(chatId, {
       lastMessage: newMsg.content,
     });
 
-    if (!isChatUpdated) {
+    if (!isChatUpdated || !isMsgAdded) {
       return sendMsgErrors.error.InternalServerError(res);
     }
 

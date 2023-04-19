@@ -17,12 +17,13 @@ export namespace MessageRequest {
 }
 
 export namespace SendMsgRequest {
-  export type ReqBody = MessageRequest.ReqBody & {
-    msgBody: string;
-  };
+  export type ReqBody = MessageRequest.ReqBody &
+    ChatRequest.WithMsgsReqBody & {
+      msgBody: string;
+    };
 
   export type Response = {
-    newMsg: Message;
+    newMsg: ChatModel.IndexlessMessage;
   };
 
   export type Request = APIRequest<{}, ReqBody, Response>;
