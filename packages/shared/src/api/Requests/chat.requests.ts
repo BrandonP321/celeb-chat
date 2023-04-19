@@ -1,7 +1,7 @@
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
 import { TChat } from "../../utils/ChatUtils";
 import { ChatModel } from "../models/Chat.model";
-import { HttpStatusCode } from "./HttpStatusCodes";
+import { HttpStatusCode, ServerErrorStatusCodes } from "./HttpStatusCodes";
 
 export namespace ChatRequest {
   export type ReqBody = {
@@ -97,6 +97,30 @@ export namespace GetChatMessagesRequest {
 
   export const Errors: APIErrors<typeof ErrorCode> = {
     ...ChatRequest.Errors,
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}
+
+export namespace DeleteChatRequest {
+  export type ReqBody = ChatRequest.ReqBody & {};
+
+  export type Response = {};
+
+  export type Request = APIRequest<{}, ReqBody, Response>;
+
+  export const ErrorCode = {
+    ...ChatRequest.ErrorCode,
+    ErrorDeletingChat: "ErrorDeletingChat",
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...ChatRequest.Errors,
+    ErrorDeletingChat: {
+      errCode: ErrorCode.ErrorDeletingChat,
+      msg: "An error occurred while deleting the chat.",
+      status: ServerErrorStatusCodes.InternalServerError,
+    },
   } as const;
 
   export type Error = APIErrorResponse<typeof ErrorCode>;

@@ -7,6 +7,7 @@ import {
 } from "@/Middleware/User.middleware";
 import {
   CreateChatController,
+  DeleteChatController,
   GetChatController,
   GetChatMessagesController,
 } from "@/Controllers/chat.controllers";
@@ -39,6 +40,14 @@ router.post(
   GetUserMiddleware,
   GetChatWithMsgPageMiddleware,
   GetChatMessagesController
+);
+
+router.delete(
+  Routes.Chat.DeleteChat(),
+  AuthJwt,
+  GetUserMiddleware,
+  GetChatMiddleware,
+  DeleteChatController
 );
 
 export default router;

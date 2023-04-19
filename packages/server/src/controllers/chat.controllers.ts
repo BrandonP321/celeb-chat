@@ -1,6 +1,7 @@
 import { TRouteController } from ".";
 import {
   CreateChatRequest,
+  DeleteChatRequest,
   GetChatMessagesRequest,
   GetChatRequest,
 } from "@celeb-chat/shared/src/api/Requests/chat.requests";
@@ -9,7 +10,10 @@ import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import db from "../models";
 import { ControllerErrors } from "utils/ControllerUtils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
-import { ChatWithMsgsResLocals } from "@/Middleware/Chat.middleware";
+import {
+  ChatResLocals,
+  ChatWithMsgsResLocals,
+} from "@/Middleware/Chat.middleware";
 
 const getChatErrors = new ControllerErrors(GetChatRequest.Errors);
 
@@ -90,5 +94,22 @@ export const CreateChatController: TRouteController<
     });
   } catch (err) {
     return createChatErrors.error.InternalServerError(res);
+  }
+};
+
+const deleteChatErrors = new ControllerErrors(DeleteChatRequest.Errors);
+
+export const DeleteChatController: TRouteController<
+  DeleteChatRequest.Request,
+  ChatResLocals
+> = async (req, res) => {
+  const { chat } = res.locals;
+
+  try {
+    await chat.delete();
+
+    res.json({}).end();
+  } catch (err) {
+    return deleteChatErrors.error.ErrorDeletingChat(res);
   }
 };
