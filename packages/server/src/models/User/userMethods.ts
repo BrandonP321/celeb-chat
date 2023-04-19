@@ -103,7 +103,19 @@ const updateChat: UserModel.InstanceMethods["updateChat"] = async function (
   return true;
 };
 
+const removeChat: UserModel.InstanceMethods["removeChat"] = async function (
+  chatId
+) {
+  const filteredChats = this.chats.filter((c) => c.id !== chatId);
+
+  const wasChatRemoved = filteredChats.length < this.chats.length;
+  this.chats = filteredChats;
+
+  return wasChatRemoved;
+};
+
 export const UserMethods: UserModel.InstanceMethods = {
+  removeChat,
   updateChat,
   getChatIndex,
   getChatJSON,

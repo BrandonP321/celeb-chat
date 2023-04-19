@@ -103,10 +103,17 @@ export const DeleteChatController: TRouteController<
   DeleteChatRequest.Request,
   ChatResLocals
 > = async (req, res) => {
-  const { chat } = res.locals;
+  const { chatId } = req.body;
+  const { chat, user } = res.locals;
 
   try {
-    await chat.delete();
+    const isRemovedFromUser = await user.removeChat(chatId);
+
+    if (!isRemovedFromUser) {
+      return deleteChatErrors.error.ErrorDeletingChat(res);
+    }
+
+    Promise.all([chat.delete(), user.save()]);
 
     res.json({}).end();
   } catch (err) {

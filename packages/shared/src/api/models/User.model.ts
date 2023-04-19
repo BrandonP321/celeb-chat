@@ -41,6 +41,7 @@ export namespace UserModel {
       chatId: string,
       chatUpdate: Partial<UserChat>
     ) => Promise<boolean>;
+    removeChat: (this: Document, chatId: string) => Promise<boolean>;
   };
 
   export type StaticMethods = {};
