@@ -10,6 +10,7 @@ declare global {
       REFRESH_TOKEN_EXPIRES_IN?: string;
       OPENAI_API_KEY?: string;
       PAGINATION_PAGE_SIZE?: string;
+      CHAT_HISTORY_LENGTH?: string;
     }
   }
 }

@@ -52,19 +52,23 @@ export const GetChatWithMsgPageMiddleware: TRouteController<
   }
 };
 
-// TODO: store somewhere more global
-const msgHistoryLength = 5;
-
 export const GetChatWithMsgHistoryMiddleware: TRouteController<
   APIRequest<{}, ChatRequest.ReqBody, {}>,
   ChatWithMsgsResLocals
 > = async (req, res, next) => {
   const { chatId } = req.body;
 
-  getChat(chatId, res, next, {
-    marker: msgHistoryLength,
-    pageSize: msgHistoryLength,
-  });
+  try {
+    const msgHistoryLength = parseInt(process.env.CHAT_HISTORY_LENGTH ?? "20");
+
+    res.locals.pageSize = msgHistoryLength;
+    getChat(chatId, res, next, {
+      marker: msgHistoryLength,
+      pageSize: msgHistoryLength,
+    });
+  } catch (err) {
+    return GetChatErrors.error.InternalServerError(res);
+  }
 };
 
 const getChat = async (
