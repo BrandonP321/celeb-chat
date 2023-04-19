@@ -57,8 +57,8 @@ export const SendMsgController: TRouteController<
     }
 
     try {
-      chat.save();
-      user.save();
+      await user.save();
+      await chat.save();
     } catch (err) {
       // TODO: add 'unable to save' error handling
       return sendMsgErrors.error.InternalServerError(res);

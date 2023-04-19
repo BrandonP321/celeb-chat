@@ -1,6 +1,7 @@
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import { ChatUtils, Message } from "@celeb-chat/shared/src/utils/ChatUtils";
 import db from "@/Models";
+import mongoose from "mongoose";
 
 const toFullChatJSON: ChatModel.InstanceMethods["toFullChatJSON"] =
   async function (user) {
@@ -46,8 +47,9 @@ const addMsg: ChatModel.InstanceMethods["addMsg"] = async function (...msg) {
   });
 
   try {
-    await db.Chat.updateOne(
-      { id: this.id },
+    console.log({ chatId: this.id });
+    const res = await db.Chat.updateOne(
+      { _id: new mongoose.Types.ObjectId(this.id) },
       { $push: { messages: { $each: messages } } }
     );
 
