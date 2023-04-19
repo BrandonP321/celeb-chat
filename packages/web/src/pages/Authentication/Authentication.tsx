@@ -93,7 +93,11 @@ function Authentication({ isLogin }: Authentication.Props) {
               {apiError && <p className={styles.errorMsg}>{apiError}</p>}
 
               <ButtonsWrapper className={styles.formBtns}>
-                <Button type="submit">
+                <Button
+                  type="submit"
+                  loading={isSubmitting}
+                  loadingText={showLogin ? "Logging in" : "Registering"}
+                >
                   {showLogin ? "Login" : "Register"}
                 </Button>
               </ButtonsWrapper>
