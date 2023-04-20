@@ -1,0 +1,16 @@
+@import "../../../styles/uiBase.scss";
+
+.alerts {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  z-index: 15;
+  padding: 1rem;
+  pointer-events: none;
+}
+
+.toast {
+}

@@ -9,3 +9,15 @@ export const SendMsgSchema = Yup.object().shape({
     )
     .required(),
 });
+
+export const validateMsg = async (msgBody: string) => {
+  try {
+    await SendMsgSchema.validate({ msgBody });
+
+    return undefined;
+  } catch (err) {
+    const validationError = err as Yup.ValidationError;
+
+    return validationError?.errors?.[0];
+  }
+};

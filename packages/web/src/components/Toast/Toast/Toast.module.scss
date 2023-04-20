@@ -1,0 +1,55 @@
+@import "../../../styles/uiBase.scss";
+
+.toast {
+  pointer-events: all;
+  transition: all 0.3s;
+  width: 20rem;
+  height: 7rem;
+  border-radius: 0.25rem;
+  background-color: $bodyBgPrimary;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: 2px solid $colorAccentSecondary;
+  box-shadow: 0 0 1rem 0 rgba(black, 0.6);
+  padding: 1.3rem;
+  animation: SlideLeftToOpaque 0.3s forwards;
+
+  @include tinyVW() {
+    width: auto;
+    left: 0.5rem;
+    top: 0.5rem;
+    right: 0.5rem;
+    height: 5rem;
+  }
+
+  &.info {
+  }
+
+  &.error {
+    border-color: $colorDanger;
+  }
+
+  &.dismissed {
+    pointer-events: none;
+    animation: SlideRightToTransparent 0.3s forwards;
+  }
+}
+
+.dismissBtn {
+  .icon {
+    color: $textSecondary;
+    transition: all 0.2s;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1rem;
+
+    &:hover {
+      color: $textPrimary;
+    }
+  }
+}
+
+.msg {
+}

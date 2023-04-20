@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import classNames from "classnames";
 import { ChatCompletionResponseMessageRoleEnum } from "openai";
 import styles from "./Chat.module.scss";
@@ -9,8 +9,10 @@ import { APIFetcher } from "utils/APIFetcher";
 import { LoadingContainer, Spinner } from "@/Components";
 import { SendMsgRequest } from "@celeb-chat/shared/src/api/Requests/message.requests";
 import { Field, Form, Formik } from "formik";
-import { SendMsgSchema } from "@celeb-chat/shared/src/schema";
+import { validateMsg } from "@celeb-chat/shared/src/schema";
 import { FormikSubmit } from "utils/UtilityTypes";
+import { AlertType } from "@/Slices/Alerts/AlertsSlice";
+import { DefaultErrors } from "@celeb-chat/shared/src/api/Requests";
 
 namespace Chat {
   export type Props = {};
@@ -24,17 +26,37 @@ function Chat(props: Chat.Props) {
   const chat = useChat();
   const dispatch = useAppDispatch();
 
-  const isWaitingForResponse = useRef(false);
+  const [pendingResponse, setPendingResponseState] = useState(false);
+  const pendingResponseRef = useRef(false);
+  const setPendingResponse = (status: boolean) => {
+    setPendingResponseState(status);
+    pendingResponseRef.current = status;
+  };
+
+  const displayError = (err: string) => {
+    dispatch(Actions.Alert.addAlert({ type: AlertType.Error, msg: err }));
+  };
 
   const sendMsg: FormikSubmit<Chat.MsgFormValues> = async (
     { msgBody },
     formik
   ) => {
-    if (!chat || isWaitingForResponse.current) {
-      return;
+    if (!chat) {
+      return displayError(DefaultErrors.Errors.NetworkError.msg);
+    } else if (pendingResponseRef.current) {
+      return displayError(
+        `Wait until recipient has responded to send another message`
+      );
     }
 
-    isWaitingForResponse.current = true;
+    const validationError = await validateMsg(msgBody);
+
+    if (validationError) {
+      return displayError(validationError);
+    }
+
+    formik.resetForm();
+    setPendingResponse(true);
 
     dispatch(
       Actions.Chat.addMsg({
@@ -48,10 +70,9 @@ function Chat(props: Chat.Props) {
         dispatch(Actions.Chat.addMsg({ chatId: chat.id, message: newMsg }));
       })
       .catch((err: SendMsgRequest.Error) => {
-        // TODO: Display error message in toast
-        console.log({ err });
+        displayError(err.msg);
       })
-      .finally(() => (isWaitingForResponse.current = false));
+      .finally(() => setPendingResponse(false));
   };
 
   return (
@@ -90,8 +111,6 @@ function Chat(props: Chat.Props) {
             initialValues={{
               msgBody: "",
             }}
-            validationSchema={SendMsgSchema}
-            validateOnChange={false}
             onSubmit={sendMsg}
           >
             {({ values, errors, submitForm, isSubmitting }) => {
@@ -118,19 +137,14 @@ function Chat(props: Chat.Props) {
                       <Field
                         as="textarea"
                         name="msgBody"
-                        // value={input}
                         className={styles.input}
                         placeholder={"Message"}
-                        // onChangeCapture={(
-                        //   e: React.ChangeEvent<HTMLInputElement>
-                        // ) => setInput(e.currentTarget.value)}
                         maxLength={ChatUtils.maxMsgCharCount}
                         onKeyDownCapture={(
                           e: React.KeyboardEvent<HTMLTextAreaElement>
                         ) => {
                           if (e.code === "Enter") {
                             e.preventDefault();
-                            // sendMsg(input);
                             submitForm();
                           }
                         }}
@@ -139,12 +153,8 @@ function Chat(props: Chat.Props) {
 
                     <button
                       className={styles.sendBtn}
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || pendingResponse}
                       type="submit"
-                      // onClick={(e) => {
-                      //   e.preventDefault();
-                      //   sendMsg(input);
-                      // }}
                     >
                       Send
                     </button>
@@ -154,35 +164,6 @@ function Chat(props: Chat.Props) {
             }}
           </Formik>
         </div>
-        {/* <div className={styles.stickyInputWrapper}>
-          <form className={styles.form}>
-            <div className={styles.inputWrapper} data-replicated-value={input}>
-              <textarea
-                value={input}
-                className={styles.input}
-                placeholder={"Message"}
-                onChange={(e) => setInput(e.currentTarget.value)}
-                onKeyDownCapture={(e) => {
-                  if (e.code === "Enter") {
-                    e.preventDefault();
-                    sendMsg(input);
-                  }
-                }}
-              />
-            </div>
-
-            <button
-              className={styles.sendBtn}
-              disabled={loading}
-              onClick={(e) => {
-                e.preventDefault();
-                sendMsg(input);
-              }}
-            >
-              Send
-            </button>
-          </form>
-        </div> */}
       </div>
     </div>
   );

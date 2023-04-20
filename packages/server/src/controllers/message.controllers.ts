@@ -9,7 +9,7 @@ import { ControllerErrors } from "utils/ControllerUtils";
 import { OpenaiFetcher } from "utils/OpenaiFetcher";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
-import { SendMsgSchema } from "@celeb-chat/shared/src/schema";
+import { validateMsg } from "@celeb-chat/shared/src/schema";
 import { ValidationError } from "yup";
 
 const sendMsgErrors = new ControllerErrors(SendMsgRequest.Errors);
@@ -23,15 +23,10 @@ export const SendMsgController: TRouteController<
     const { chatId, msgBody } = req.body;
     const { chat, user } = res.locals;
 
-    try {
-      await SendMsgSchema.validate({ msgBody });
-    } catch (err) {
-      const validationError = err as ValidationError;
+    const validationError = await validateMsg(msgBody);
 
-      return sendMsgErrors.error.InvalidMsgInput(
-        res,
-        validationError?.errors?.[0]
-      );
+    if (validationError) {
+      return sendMsgErrors.error.InvalidMsgInput(res, validationError);
     }
 
     const outgoingMsg = ChatUtils.constructMsg(msgBody);

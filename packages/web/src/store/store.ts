@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
+  alertsReducer,
   chatsReducer,
   pageLoadingReducer,
   responsiveReducer,
@@ -13,6 +14,7 @@ export const store = configureStore({
     pageLoading: pageLoadingReducer,
     user: userReducer,
     chats: chatsReducer,
+    alerts: alertsReducer,
   },
 });
 

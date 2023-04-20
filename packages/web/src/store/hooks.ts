@@ -22,6 +22,14 @@ export const useResponsive = () => useAppSelector((state) => state.responsive);
 export const usePageLoading = () =>
   useAppSelector((state) => state.pageLoading.loading);
 
+export const useAlerts = () => useAppSelector((state) => state.alerts);
+
+export const useAlert = (index: number) => {
+  const { alerts } = useAlerts();
+
+  return alerts[index];
+};
+
 export const useUser = () => useAppSelector((state) => state.user);
 
 export const useChats = () => useAppSelector((state) => state.chats);

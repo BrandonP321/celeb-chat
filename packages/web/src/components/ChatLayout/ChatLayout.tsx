@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MainNav, ChatSideBar } from "@/Components";
+import { MainNav, ChatSideBar, AlertToasts } from "@/Components";
 import styles from "./ChatLayout.module.scss";
 import { Outlet } from "react-router-dom";
 
@@ -25,6 +25,7 @@ function ChatLayout({ children }: ChatLayout.Props) {
           hideInMobile={() => setShowMobileNav(false)}
         />
         <div className={styles.mainContent}>
+          <AlertToasts />
           <Outlet />
         </div>
       </div>
