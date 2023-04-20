@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import styles from "./ChatCard.module.scss";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
-import { MessagelessChat } from "@/Slices/Chats/ChatsSlice";
 import { WebChatUtils } from "utils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/pro-solid-svg-icons";
 
 export namespace ChatCard {
   export type Props = UserModel.UserChat & {
     onClick?: () => void;
+    showOptionsModal: (chatId: string) => void;
   };
 }
 
 function ChatCard(props: ChatCard.Props) {
-  const { displayName, lastMessage, id, onClick } = props;
+  const { displayName, lastMessage, id, onClick, showOptionsModal } = props;
 
   const [isSelected, setIsSelected] = useState(false);
   const location = useLocation();
@@ -30,8 +32,20 @@ function ChatCard(props: ChatCard.Props) {
       onClick={onClick}
       to={`/chat/${id}`}
     >
-      <p className={styles.recipientName}>{displayName}</p>
-      <p className={styles.lastMsg}>{lastMessage}</p>
+      <div className={styles.textWrapper}>
+        <p className={styles.recipientName}>{displayName}</p>
+        <p className={styles.lastMsg}>{lastMessage}</p>
+      </div>
+
+      <button
+        className={styles.moreBtn}
+        onClick={(e) => {
+          e.preventDefault();
+          showOptionsModal(id);
+        }}
+      >
+        <FontAwesomeIcon icon={faEllipsisVertical} className={styles.icon} />
+      </button>
     </Link>
   );
 }

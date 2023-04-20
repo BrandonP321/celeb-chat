@@ -1,18 +1,34 @@
 @import "../../styles/uiBase.scss";
 
 .chatCard {
-  display: block;
-  padding: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
   transition: all 0.05s;
 
   &:hover,
   &.selected {
     background-color: $primaryHover;
   }
+
+  &:hover .moreBtn {
+    display: flex;
+  }
+}
+
+.textWrapper,
+.moreBtn {
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.textWrapper {
+  flex: 1 1 0;
 }
 
 .recipientName {
   font-weight: bold;
+  margin-top: 1rem;
 }
 
 .lastMsg {
@@ -21,4 +37,34 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  margin-bottom: 1rem;
+}
+
+.moreBtn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: rgba(black, 0.2);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.25rem;
+  transition: all 0.2s;
+
+  @include touchDevice() {
+    display: flex;
+  }
+
+  .icon {
+    color: $textSecondary;
+    transition: all 0.2s;
+  }
+
+  &:hover {
+    background-color: rgba(black, 0.4);
+
+    .icon {
+      color: $textPrimary;
+    }
+  }
 }

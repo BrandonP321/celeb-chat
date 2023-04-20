@@ -1,6 +1,6 @@
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
-import { Message, TChat } from "@celeb-chat/shared/src/utils/ChatUtils";
+import { TChat } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type MessagelessChat = Omit<TChat, "messages">;
@@ -107,6 +107,11 @@ const chatsSlice = createSlice({
         payload.isFetching
       );
     },
+    removeChat: (state, { payload }: PayloadAction<{ chatId: string }>) => {
+      const filteredChats = state.chats?.filter((c) => c.id !== payload.chatId);
+
+      state.chats = filteredChats ?? null;
+    },
   },
 });
 
@@ -116,5 +121,6 @@ export const {
   setChats,
   cacheFetchedMessages,
   setChatFetchStatus,
+  removeChat,
 } = chatsSlice.actions;
 export default chatsSlice.reducer;

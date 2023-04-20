@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import {
   ChatCard,
-  InputField,
+  ChatCardOptionsModal,
+  ChatDeletionConfirmationModal,
   LoadingContainer,
   StandaloneInputField,
 } from "@/Components";
@@ -29,6 +30,8 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
   const dispatch = useAppDispatch();
 
   const [chatQuery, setChatQuery] = useState("");
+  const [optionsModalChatId, setOptionsModalChatId] = useState<string>();
+  const [deletionModalChatId, setDeletionModalChatId] = useState<string>();
   const [filteredChats, setFilteredChats] = useState<UserModel.UserChat[]>([]);
   const isFetchingChats = useRef(false);
 
@@ -89,9 +92,30 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
         </div>
 
         {filteredChats?.map((chat, i) => (
-          <ChatCard {...chat} key={i} onClick={hideInMobile} />
+          <ChatCard
+            {...chat}
+            key={i}
+            onClick={hideInMobile}
+            showOptionsModal={setOptionsModalChatId}
+          />
         ))}
       </div>
+
+      <ChatCardOptionsModal
+        show={!!optionsModalChatId}
+        hide={() => setOptionsModalChatId(undefined)}
+        chatId={optionsModalChatId ?? ""}
+        showDeletionModal={() => setDeletionModalChatId(optionsModalChatId)}
+      />
+
+      <ChatDeletionConfirmationModal
+        show={!!deletionModalChatId}
+        hide={() => {
+          setDeletionModalChatId(undefined);
+          setOptionsModalChatId(undefined);
+        }}
+        chatId={deletionModalChatId ?? ""}
+      />
     </>
   );
 }

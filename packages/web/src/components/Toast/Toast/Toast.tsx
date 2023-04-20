@@ -18,6 +18,7 @@ export namespace Toast {
 const toastClassNameMap = {
   [AlertType.Error]: styles.error,
   [AlertType.Info]: styles.info,
+  [AlertType.Success]: styles.success,
 };
 
 export function Toast({ index, msg, type, isDismissed, classes }: Toast.Props) {

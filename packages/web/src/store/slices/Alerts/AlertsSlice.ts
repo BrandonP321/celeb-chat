@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export enum AlertType {
   Info = "info",
   Error = "error",
+  Success = "success",
 }
 
 export type Alert = {

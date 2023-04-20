@@ -30,6 +30,10 @@
     border-color: $colorDanger;
   }
 
+  &.success {
+    border-color: green;
+  }
+
   &.dismissed {
     pointer-events: none;
     animation: SlideRightToTransparent 0.3s forwards;

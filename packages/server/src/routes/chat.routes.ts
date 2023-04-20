@@ -42,7 +42,7 @@ router.post(
   GetChatMessagesController
 );
 
-router.delete(
+router.post(
   Routes.Chat.DeleteChat(),
   AuthJwt,
   GetUserMiddleware,

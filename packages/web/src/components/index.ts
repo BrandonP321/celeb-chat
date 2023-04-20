@@ -10,5 +10,6 @@ export { default as SaveModal } from "./SaveModal/SaveModal";
 export { default as LoadingContainer } from "./LoadingSpinner/LoadingContainer/LoadingContainer";
 export { default as Spinner } from "./LoadingSpinner/Spinner/Spinner";
 export * from "./Toast";
+export * from "./Modal/Modals";
 
 export * from "./Button";

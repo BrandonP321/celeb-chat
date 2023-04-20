@@ -4,6 +4,7 @@ import { InputField, SaveModal } from "@/Components";
 import { Form } from "formik";
 import { GetUserRequest } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import { FormikStringValues } from "utils/UtilityTypes";
+import { FormikSaveModal } from "components/SaveModal/SaveModal";
 
 enum EditUserField {
   Username = "username",
@@ -20,11 +21,11 @@ namespace EditUserModal {
 
 function EditUserModal(props: EditUserModal.Props) {
   return (
-    <SaveModal {...props} title="Edit User">
+    <FormikSaveModal {...props} title="Edit User">
       <Form>
         <InputField name={EditUserField.Username} label="Username" />
       </Form>
-    </SaveModal>
+    </FormikSaveModal>
   );
 }
 
