@@ -112,7 +112,7 @@ const chatsSlice = createSlice({
       {
         payload: chat,
       }: PayloadAction<
-        Partial<Omit<UserModel.UserChat, "id"> & Pick<UserModel.UserChat, "id">>
+        Partial<Omit<UserModel.UserChat, "id">> & Pick<UserModel.UserChat, "id">
       >
     ) => {
       const updatedChats = state.chats?.map((c) => {

@@ -68,6 +68,9 @@ function Chat(props: Chat.Props) {
     return APIFetcher.sendMsg({ chatId: chat.id, msgBody: msgBody })
       .then(({ newMsg }) => {
         dispatch(Actions.Chat.addMsg({ chatId: chat.id, message: newMsg }));
+        dispatch(
+          Actions.Chat.updateChat({ id: chat.id, lastMessage: newMsg.content })
+        );
       })
       .catch((err: SendMsgRequest.Error) => {
         displayError(err.msg);
