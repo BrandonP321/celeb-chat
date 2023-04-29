@@ -75,36 +75,51 @@ function Chat(props: Chat.Props) {
       .finally(() => setPendingResponse(false));
   };
 
+  const hasNoMessages = !chat?.messages?.length;
+
   return (
     <div className={styles.pageMain}>
       <LoadingContainer loading={!chat} loadingText="Loading messages" />
-      <div className={styles.scrollableContentWrapper}>
-        <div className={styles.messages}>
-          {chat?.hasNextPage && (
-            <button
-              className={styles.loadMoreMsgs}
-              onClick={chat?.fetchNextPage}
-              disabled={chat?.isFetching}
-            >
-              {chat?.isFetching && (
-                <Spinner classes={{ root: styles.spinner }} />
-              )}
-              {!chat?.isFetching && "Load more messages"}
-            </button>
-          )}
+      <div
+        className={classNames(
+          styles.scrollableContentWrapper,
+          hasNoMessages && styles.empty
+        )}
+      >
+        {!hasNoMessages && (
+          <div className={styles.messages}>
+            {chat?.hasNextPage && (
+              <button
+                className={styles.loadMoreMsgs}
+                onClick={chat?.fetchNextPage}
+                disabled={chat?.isFetching}
+              >
+                {chat?.isFetching && (
+                  <Spinner classes={{ root: styles.spinner }} />
+                )}
+                {!chat?.isFetching && "Load more messages"}
+              </button>
+            )}
 
-          {chat?.messages?.map((msg, i) => (
-            <p
-              key={i}
-              className={classNames(
-                msg.role === ChatCompletionResponseMessageRoleEnum.User &&
-                  styles.user
-              )}
-            >
-              {msg.content}
-            </p>
-          ))}
-        </div>
+            {chat?.messages?.map((msg, i) => (
+              <p
+                key={i}
+                className={classNames(
+                  msg.role === ChatCompletionResponseMessageRoleEnum.User &&
+                    styles.user
+                )}
+              >
+                {msg.content}
+              </p>
+            ))}
+          </div>
+        )}
+
+        {hasNoMessages && (
+          <div className={styles.firstMsgNotice}>
+            <p>Send your first message</p>
+          </div>
+        )}
 
         <div className={styles.stickyInputWrapper}>
           <Formik

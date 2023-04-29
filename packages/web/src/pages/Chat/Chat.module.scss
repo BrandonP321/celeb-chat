@@ -149,6 +149,19 @@ $maxInputHeight: calc(
 .scrollableContentWrapper {
   max-width: 50rem;
   width: 100%;
+
+  &.empty {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.firstMsgNotice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
 }
 
 .scrollingAnchor {
