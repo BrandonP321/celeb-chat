@@ -10,12 +10,14 @@ import { DeleteChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requ
 export namespace ChatDeletionConfirmationModal {
   export type Props = Modal.Props & {
     chatId: string;
+    hideAllModals: () => void;
   };
 }
 
 export function ChatDeletionConfirmationModal({
   chatId,
   hide,
+  hideAllModals,
   ...rest
 }: ChatDeletionConfirmationModal.Props) {
   const dispatch = useAppDispatch();
@@ -42,7 +44,7 @@ export function ChatDeletionConfirmationModal({
       })
       .finally(() => {
         setIsDeleting(false);
-        hide();
+        hideAllModals();
       });
   };
 

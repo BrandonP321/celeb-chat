@@ -47,7 +47,6 @@ const addMsg: ChatModel.InstanceMethods["addMsg"] = async function (...msg) {
   });
 
   try {
-    console.log({ chatId: this.id });
     const res = await db.Chat.updateOne(
       { _id: new mongoose.Types.ObjectId(this.id) },
       { $push: { messages: { $each: messages } } }
@@ -82,7 +81,27 @@ const toFullMessagelessJSON: ChatModel.InstanceMethods["toFullMessagelessJSON"] 
     };
   };
 
+const updateChat: ChatModel.InstanceMethods["updateChat"] = async function (
+  user,
+  updates
+) {
+  try {
+    const userChat = await user.getChatJSON(this.id);
+
+    if (userChat) {
+      user.updateChat(this.id, {
+        displayName: updates.displayName ?? userChat.displayName,
+      });
+
+      return true;
+    }
+  } catch (err) {}
+
+  return false;
+};
+
 export const ChatMethods: ChatModel.InstanceMethods = {
+  updateChat,
   toFullMessagelessJSON,
   getTrainingMsg,
   incrememtMsgCount,

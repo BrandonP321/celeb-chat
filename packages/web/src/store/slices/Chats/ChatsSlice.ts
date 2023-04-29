@@ -77,7 +77,7 @@ const chatsSlice = createSlice({
     addChat: (state, { payload }: PayloadAction<UserModel.UserChat>) => {
       state.chats = [payload, ...(state.chats ?? [])];
 
-      updateCachedChat(state, payload.id, [], undefined, false);
+      updateCachedChat(state, payload.id, [], null, false);
     },
     addMsg: (
       state,
@@ -107,6 +107,27 @@ const chatsSlice = createSlice({
         payload.isFetching
       );
     },
+    updateChat: (
+      state,
+      {
+        payload: chat,
+      }: PayloadAction<
+        Partial<Omit<UserModel.UserChat, "id"> & Pick<UserModel.UserChat, "id">>
+      >
+    ) => {
+      const updatedChats = state.chats?.map((c) => {
+        if (c.id === chat.id) {
+          return {
+            ...c,
+            ...chat,
+          };
+        }
+
+        return c;
+      });
+
+      state.chats = updatedChats ?? null;
+    },
     removeChat: (state, { payload }: PayloadAction<{ chatId: string }>) => {
       const filteredChats = state.chats?.filter((c) => c.id !== payload.chatId);
 
@@ -116,6 +137,7 @@ const chatsSlice = createSlice({
 });
 
 export const {
+  updateChat,
   addChat,
   addMsg,
   setChats,

@@ -3,4 +3,5 @@ export const ChatRoutes = {
   GetChat: () => `/api/chat`,
   GetChatMessages: () => `/api/chat/messages`,
   DeleteChat: () => `/api/chat/delete`,
+  UpdateChat: () => `/api/chat/update`,
 } as const;

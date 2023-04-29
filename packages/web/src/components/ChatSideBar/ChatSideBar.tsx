@@ -110,10 +110,11 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
 
       <ChatDeletionConfirmationModal
         show={!!deletionModalChatId}
-        hide={() => {
+        hideAllModals={() => {
           setDeletionModalChatId(undefined);
           setOptionsModalChatId(undefined);
         }}
+        hide={() => setDeletionModalChatId(undefined)}
         chatId={deletionModalChatId ?? ""}
       />
     </>

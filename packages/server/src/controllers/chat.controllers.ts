@@ -4,6 +4,7 @@ import {
   DeleteChatRequest,
   GetChatMessagesRequest,
   GetChatRequest,
+  UpdateChatRequest,
 } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { TUserDocLocals, UserChatLocals } from "@/Middleware";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
@@ -14,6 +15,7 @@ import {
   ChatResLocals,
   ChatWithMsgsResLocals,
 } from "@/Middleware/Chat.middleware";
+import { validateChatUpdates } from "@celeb-chat/shared/src/schema";
 
 const getChatErrors = new ControllerErrors(GetChatRequest.Errors);
 
@@ -118,5 +120,39 @@ export const DeleteChatController: TRouteController<
     res.json({}).end();
   } catch (err) {
     return deleteChatErrors.error.ErrorDeletingChat(res);
+  }
+};
+
+const updateChatErrors = new ControllerErrors(UpdateChatRequest.Errors);
+
+export const UpdateChatController: TRouteController<
+  UpdateChatRequest.Request,
+  ChatResLocals
+> = async (req, res) => {
+  const { chatId, ...updates } = req.body;
+  const { chat, user } = res.locals;
+
+  try {
+    const validationError = await validateChatUpdates(updates);
+
+    if (validationError) {
+      return updateChatErrors.error.ErrorUpdatingChat(res, validationError);
+    }
+
+    const isChatUpdated = await chat.updateChat(user, updates);
+
+    if (!isChatUpdated) {
+      return updateChatErrors.error.ErrorUpdatingChat(res);
+    }
+
+    try {
+      Promise.all([user.save(), chat.save()]);
+    } catch (err) {
+      return updateChatErrors.error.ErrorUpdatingChat(res);
+    }
+
+    res.json({}).end();
+  } catch (err) {
+    return updateChatErrors.error.ErrorUpdatingChat(res);
   }
 };

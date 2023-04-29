@@ -2,27 +2,29 @@ import classNames from "classnames";
 import React from "react";
 import {
   ClassesProp,
-  HTMLAnchorProps,
+  HTMLLinkProps,
   HTMLButtonProps,
   HTMLProps,
 } from "utils/UtilityTypes";
 import styles from "./Button.module.scss";
 import { Spinner } from "@/Components";
+import { Link } from "react-router-dom";
 
 type ButtonHTMLProps = HTMLButtonProps & {
-  href?: undefined;
+  to?: undefined;
   disabled?: boolean;
 };
-type AnchorHTMLProps = Omit<HTMLAnchorProps, "href"> & {
-  href: string;
+type LinkHTMLProps = Omit<HTMLLinkProps, "href"> & {
+  to: string;
   disabled?: undefined;
 };
-export namespace ButtonBase {
-  export type Props = {
-    classes?: ClassesProp<"root">;
-  };
 
-  export type OwnProps = Omit<ButtonHTMLProps | AnchorHTMLProps, "className"> &
+export namespace ButtonBase {
+  export type Props = React.PropsWithChildren<{
+    classes?: ClassesProp<"root">;
+  }>;
+
+  export type OwnProps = Omit<ButtonHTMLProps | LinkHTMLProps, "className"> &
     Props;
 }
 
@@ -34,10 +36,10 @@ export function ButtonBase(props: ButtonBase.OwnProps) {
     className: classNames(styles.btn, classes?.root),
   };
 
-  return !rest.href ? (
+  return !rest.to ? (
     <button {...(eleProps as ButtonHTMLProps)}>{children}</button>
   ) : (
-    <a {...(eleProps as AnchorHTMLProps)}>{children}</a>
+    <Link {...(eleProps as LinkHTMLProps)}>{children}</Link>
   );
 }
 
@@ -67,7 +69,7 @@ export function Button(props: Button.Props) {
 }
 
 export namespace ButtonLink {
-  export type Props = HTMLAnchorProps & {};
+  export type Props = LinkHTMLProps & ButtonBase.Props & {};
 }
 
 export function ButtonLink(props: ButtonLink.Props) {

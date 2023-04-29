@@ -42,6 +42,11 @@ export namespace ChatModel {
     addMsg: (this: Document, ...msg: IndexlessMessage[]) => Promise<boolean>;
     getTrainingMsg: (this: Document) => Promise<IndexlessMessage>;
     incrememtMsgCount: (this: Document, add?: number) => void;
+    updateChat: (
+      this: Omit<Document, "messages">,
+      user: UserModel.Document,
+      updates: Partial<ChatUpdates>
+    ) => Promise<boolean>;
   };
 
   export type StaticMethods = {};
@@ -55,4 +60,5 @@ export namespace ChatModel {
   export type FullChatJSONWithoutMessages = Omit<FullChatJSON, "messages">;
   export type MessagesJSON = Pick<FullJSON, "messages">;
   export type IndexlessMessage = Omit<Message, "index">;
+  export type ChatUpdates = Pick<FullChatJSON, "displayName">;
 }

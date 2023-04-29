@@ -36,7 +36,7 @@
 
   &.dismissed {
     pointer-events: none;
-    animation: SlideRightToTransparent 0.3s forwards;
+    animation: FadeOutAndShrink 0.3s forwards;
   }
 }
 

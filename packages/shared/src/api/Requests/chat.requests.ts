@@ -125,3 +125,29 @@ export namespace DeleteChatRequest {
 
   export type Error = APIErrorResponse<typeof ErrorCode>;
 }
+
+export namespace UpdateChatRequest {
+  export type UpdateFields = ChatModel.ChatUpdates;
+
+  export type ReqBody = ChatRequest.ReqBody & Partial<UpdateFields> & {};
+
+  export type Response = {};
+
+  export type Request = APIRequest<{}, ReqBody, Response>;
+
+  export const ErrorCode = {
+    ...ChatRequest.ErrorCode,
+    ErrorUpdatingChat: "ErrorUpdatingChat",
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...ChatRequest.Errors,
+    ErrorUpdatingChat: {
+      errCode: ErrorCode.ErrorUpdatingChat,
+      msg: "An error occurred while deleting the chat.",
+      status: ServerErrorStatusCodes.InternalServerError,
+    },
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}

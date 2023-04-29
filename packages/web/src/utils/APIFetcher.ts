@@ -14,6 +14,7 @@ import {
   DeleteChatRequest,
   GetChatMessagesRequest,
   GetChatRequest,
+  UpdateChatRequest,
 } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { DefaultErrors } from "@celeb-chat/shared/src/api/Requests";
 import { Routes } from "@celeb-chat/shared/src/api/routes";
@@ -96,6 +97,12 @@ export class APIFetcher {
   public static createChat = (params: CreateChatRequest.ReqBody) =>
     APIFetcher.post<CreateChatRequest.Response>(
       Routes.Chat.CreateChat(),
+      params
+    );
+
+  public static updateChat = (params: UpdateChatRequest.ReqBody) =>
+    APIFetcher.post<UpdateChatRequest.Response>(
+      Routes.Chat.UpdateChat(),
       params
     );
 

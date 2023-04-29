@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import styles from "./Toast.module.scss";
 import { Alert, AlertType } from "@/Slices/Alerts/AlertsSlice";
 import { useAppDispatch } from "@/Hooks";
@@ -24,9 +24,15 @@ const toastClassNameMap = {
 export function Toast({ index, msg, type, isDismissed, classes }: Toast.Props) {
   const dispatch = useAppDispatch();
 
-  const dismiss = () => {
+  const timeToDismiss = 5000;
+
+  const dismiss = useCallback(() => {
     dispatch(Actions.Alert.dismissAlert({ alertIndex: index }));
-  };
+  }, [dispatch, index]);
+
+  useEffect(() => {
+    setTimeout(dismiss, timeToDismiss);
+  }, [dismiss]);
 
   return (
     <div

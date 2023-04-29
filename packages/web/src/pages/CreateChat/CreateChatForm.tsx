@@ -6,6 +6,8 @@ import { Form, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { APIFetcher } from "utils/APIFetcher";
 import { FormikStringValues, FormikSubmit } from "utils/UtilityTypes";
+import { useAppDispatch } from "@/Hooks";
+import { Actions } from "@/Slices";
 
 enum CreateChatField {
   DisplayName = "displayName",
@@ -23,16 +25,16 @@ const createChatInitialValues: CreateChatForm.Values = {
 
 export default function CreateChatForm() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit: FormikSubmit<CreateChatForm.Values> = (
+  const handleSubmit: FormikSubmit<CreateChatForm.Values> = async (
     values,
     formik
   ) => {
     const { description, displayName } = values;
-    console.log("submit");
-
     return APIFetcher.createChat({ description, displayName })
-      .then(({ id }) => {
+      .then(({ id, displayName }) => {
+        dispatch(Actions.Chat.addChat({ id, displayName }));
         navigate(`/chat/${id}`);
       })
       .catch((err: CreateChatRequest.Error) => {

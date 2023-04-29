@@ -1,6 +1,10 @@
 import * as Yup from "yup";
+import {
+  chatDescriptionSchema,
+  chatDisplayNameSchema,
+} from "./partials/ChatSchemaPartials";
 
 export const CreateChatSchema = Yup.object().shape({
-  displayName: Yup.string().required(),
-  description: Yup.string().required(),
+  displayName: chatDisplayNameSchema.required(),
+  description: chatDescriptionSchema.required(),
 });

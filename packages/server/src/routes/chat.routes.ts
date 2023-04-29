@@ -10,6 +10,7 @@ import {
   DeleteChatController,
   GetChatController,
   GetChatMessagesController,
+  UpdateChatController,
 } from "@/Controllers/chat.controllers";
 import {
   GetChatMiddleware,
@@ -48,6 +49,14 @@ router.post(
   GetUserMiddleware,
   GetChatMiddleware,
   DeleteChatController
+);
+
+router.post(
+  Routes.Chat.UpdateChat(),
+  AuthJwt,
+  GetUserMiddleware,
+  GetChatMiddleware,
+  UpdateChatController
 );
 
 export default router;
