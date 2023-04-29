@@ -1,10 +1,7 @@
 import {
-  ChatCompletionRequestMessage,
-  ChatCompletionRequestMessageRoleEnum,
   ChatCompletionResponseMessage,
   ChatCompletionResponseMessageRoleEnum,
 } from "openai";
-import { ResponseJSON } from "../api/models";
 import { ChatModel } from "../api/models/Chat.model";
 import { UserModel } from "../api/models/User.model";
 
@@ -18,6 +15,7 @@ export type Message = ChatCompletionResponseMessage & { index: number };
 
 export class ChatUtils {
   public static maxMsgCharCount = 100;
+  public static maxChatCount = 5;
 
   public static constructMsg = (
     msg: string,

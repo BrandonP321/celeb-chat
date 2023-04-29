@@ -1,5 +1,5 @@
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
-import { TChat } from "../../utils/ChatUtils";
+import { ChatUtils, TChat } from "../../utils/ChatUtils";
 import { ChatModel } from "../models/Chat.model";
 import { HttpStatusCode, ServerErrorStatusCodes } from "./HttpStatusCodes";
 
@@ -47,6 +47,7 @@ export namespace CreateChatRequest {
     ...DefaultErrors.ErrorCode,
     InvalidFieldInput: "InvalidFieldInput",
     UnableToFindRecipient: "UnableToFindRecipient",
+    MaxChatLimitReached: "MaxChatLimitReached",
   } as const;
 
   export const Errors: APIErrors<typeof ErrorCode> = {
@@ -60,6 +61,11 @@ export namespace CreateChatRequest {
       status: HttpStatusCode.NotFound,
       errCode: ErrorCode.UnableToFindRecipient,
       msg: "Unable to find recipient",
+    },
+    MaxChatLimitReached: {
+      status: HttpStatusCode.Conflict,
+      errCode: ErrorCode.MaxChatLimitReached,
+      msg: `You have reached the max chat limit of ${ChatUtils.maxChatCount}`,
     },
   } as const;
 

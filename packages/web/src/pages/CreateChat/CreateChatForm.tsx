@@ -9,6 +9,7 @@ import { FormikStringValues, FormikSubmit } from "utils/UtilityTypes";
 import { useAppDispatch } from "@/Hooks";
 import { Actions } from "@/Slices";
 import { UrlUtils } from "@/Utils";
+import { AlertType } from "@/Slices/Alerts/AlertsSlice";
 
 export enum CreateChatField {
   DisplayName = "displayName",
@@ -31,19 +32,18 @@ export default function CreateChatForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleSubmit: FormikSubmit<CreateChatForm.Values> = async (
-    values,
-    formik
-  ) => {
+  const handleSubmit: FormikSubmit<CreateChatForm.Values> = async (values) => {
     const { description, displayName } = values;
+
     return APIFetcher.createChat({ description, displayName })
       .then(({ id, displayName }) => {
         dispatch(Actions.Chat.addChat({ id, displayName }));
         navigate(`/chat/${id}`);
       })
       .catch((err: CreateChatRequest.Error) => {
-        console.log({ err });
-        alert("oops");
+        dispatch(
+          Actions.Alert.addAlert({ type: AlertType.Error, msg: err.msg })
+        );
       });
   };
 

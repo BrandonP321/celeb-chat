@@ -16,6 +16,7 @@ import {
   ChatWithMsgsResLocals,
 } from "@/Middleware/Chat.middleware";
 import { validateChatUpdates } from "@celeb-chat/shared/src/schema";
+import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 
 const getChatErrors = new ControllerErrors(GetChatRequest.Errors);
 
@@ -63,6 +64,10 @@ export const CreateChatController: TRouteController<
   try {
     const { description, displayName } = req.body;
     const { user, userId } = res.locals;
+
+    if (user.chats.length >= ChatUtils.maxChatCount) {
+      return createChatErrors.error.MaxChatLimitReached(res);
+    }
 
     const newChat: ChatModel.NewChat = {
       description,
