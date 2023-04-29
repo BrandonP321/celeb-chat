@@ -10,6 +10,7 @@ import {
 import { ChatLayout } from "@/Components";
 import { useEffect } from "react";
 import { Responsive } from "@/Slices/Responsive/Responsive";
+import { Home } from "pages/Home/Home";
 
 function App() {
   useEffect(() => {
@@ -21,6 +22,8 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Home />} />
+
         <Route path="/login" element={<Authentication isLogin />} />
         <Route path="/register" element={<Authentication />} />
 

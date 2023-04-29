@@ -8,8 +8,9 @@ import { APIFetcher } from "utils/APIFetcher";
 import { FormikStringValues, FormikSubmit } from "utils/UtilityTypes";
 import { useAppDispatch } from "@/Hooks";
 import { Actions } from "@/Slices";
+import { UrlUtils } from "@/Utils";
 
-enum CreateChatField {
+export enum CreateChatField {
   DisplayName = "displayName",
   Description = "description",
 }
@@ -18,10 +19,13 @@ namespace CreateChatForm {
   export type Values = FormikStringValues<CreateChatField>;
 }
 
-const createChatInitialValues: CreateChatForm.Values = {
+const getCreateChatInitialValues = (
+  v: Partial<CreateChatForm.Values>
+): CreateChatForm.Values => ({
   description: "",
   displayName: "",
-};
+  ...v,
+});
 
 export default function CreateChatForm() {
   const navigate = useNavigate();
@@ -45,7 +49,12 @@ export default function CreateChatForm() {
 
   return (
     <Formik
-      initialValues={createChatInitialValues}
+      initialValues={getCreateChatInitialValues({
+        displayName:
+          UrlUtils.getParam(CreateChatField.DisplayName) ?? undefined,
+        description:
+          UrlUtils.getParam(CreateChatField.Description) ?? undefined,
+      })}
       validationSchema={CreateChatSchema}
       validateOnChange={false}
       onSubmit={handleSubmit}
