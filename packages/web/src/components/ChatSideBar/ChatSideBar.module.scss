@@ -62,23 +62,22 @@
 
 .searchBar {
   flex-grow: 1;
+
+  .input {
+    border-radius: 0.25rem;
+  }
 }
 
-.newChatLink {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
+.chatBar .newChatLink {
+  height: $inputFieldHeight;
+  width: $inputFieldHeight;
+  border-radius: 0.25rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: green;
   flex-shrink: 0;
   margin-left: 0.5rem;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: $primaryHover;
-  }
+  padding: 0;
 
   .icon {
     font-size: 1.5rem;

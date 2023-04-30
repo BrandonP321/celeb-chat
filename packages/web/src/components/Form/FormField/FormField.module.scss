@@ -1,15 +1,12 @@
 @import "../../../styles/uiBase.scss";
 
-$inputPadding: 0.9rem;
-$inputBorderRadius: 0.75rem;
-$inputBorderWidth: 2px;
-
 .formFieldWrapper {
   position: relative;
   background-color: $bodyBgPrimary;
 
   * {
     font-size: $fontSizeNormal;
+    line-height: $lineHeightNormal;
   }
 
   &:not(:last-child) {

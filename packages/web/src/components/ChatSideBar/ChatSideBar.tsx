@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  ButtonLink,
   ChatCard,
   ChatCardOptionsModal,
   ChatDeletionConfirmationModal,
@@ -80,15 +81,15 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
             name="ChatQuery"
             placeholder="Search for chat"
             onChange={(v) => setChatQuery(v)}
-            classes={{ root: styles.searchBar }}
+            classes={{ root: styles.searchBar, input: styles.input }}
           />
-          <Link to="/chat/new" className={styles.newChatLink}>
+          <ButtonLink to="/chat/new" classes={{ root: styles.newChatLink }}>
             <FontAwesomeIcon
               icon={faPlus}
               className={styles.icon}
               onClick={hideInMobile}
             />
-          </Link>
+          </ButtonLink>
         </div>
 
         {filteredChats?.map((chat, i) => (
