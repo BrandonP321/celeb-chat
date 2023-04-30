@@ -1,11 +1,52 @@
 @import "../../../styles/uiBase.scss";
 
+@mixin ButtonColorScheme($bg, $bgHover, $bgDisabled) {
+  background-color: $bg;
+  border: 1px solid $bgHover;
+
+  &:disabled {
+    background-color: $bgDisabled;
+    border-color: transparent;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: $bgHover;
+  }
+}
+
 .btn {
   padding: 0.5rem 1rem;
-  background-color: red;
+  border-radius: 0.25rem;
   text-align: center;
+  color: white;
+  transition: all 0.15s;
+
+  &.primary {
+    @include ButtonColorScheme(
+      $colorAccentPrimary,
+      $colorAccentPrimaryFocused,
+      $colorAccentPrimaryDisabled
+    );
+  }
+
+  &.secondary {
+    @include ButtonColorScheme(
+      $colorAccentSecondaryLight,
+      $colorAccentSecondaryLight,
+      $colorAccentSecondaryLight
+    );
+  }
+
+  &.danger {
+    @include ButtonColorScheme(
+      $colorDangerLightUnfocused,
+      $colorDanger,
+      $colorDangerDisabled
+    );
+  }
 
   .spinner {
     font-size: 1rem;
+    color: $textPrimary;
   }
 }

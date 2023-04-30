@@ -6,13 +6,15 @@ import { useAppDispatch, useChat } from "@/Hooks";
 import { Actions } from "@/Slices";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { APIFetcher } from "utils/APIFetcher";
-import { LoadingContainer, Spinner } from "@/Components";
+import { Button, LoadingContainer, Spinner } from "@/Components";
 import { SendMsgRequest } from "@celeb-chat/shared/src/api/Requests/message.requests";
 import { Field, Form, Formik } from "formik";
 import { validateMsg } from "@celeb-chat/shared/src/schema";
 import { FormikSubmit } from "utils/UtilityTypes";
 import { AlertType } from "@/Slices/Alerts/AlertsSlice";
 import { DefaultErrors } from "@celeb-chat/shared/src/api/Requests";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/pro-solid-svg-icons";
 
 namespace Chat {
   export type Props = {};
@@ -169,13 +171,17 @@ function Chat(props: Chat.Props) {
                       />
                     </div>
 
-                    <button
-                      className={styles.sendBtn}
-                      disabled={isSubmitting || pendingResponse}
+                    <Button
+                      classes={{ root: styles.sendBtn }}
+                      disabled={pendingResponse || !values.msgBody}
+                      loading={pendingResponse}
                       type="submit"
                     >
-                      Send
-                    </button>
+                      <FontAwesomeIcon
+                        className={styles.icon}
+                        icon={faPaperPlane}
+                      />
+                    </Button>
                   </div>
                 </Form>
               );

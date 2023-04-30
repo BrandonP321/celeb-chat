@@ -56,6 +56,8 @@ export function ChatDeletionConfirmationModal({
       onSave={deleteChat}
       saveBtnText="Delete"
       savingBtnText="Deleting"
+      saveBtnVariant="danger"
+      cancelBtnVariant="primary"
       saving={isDeleting}
       classes={{ content: styles.modal }}
     >

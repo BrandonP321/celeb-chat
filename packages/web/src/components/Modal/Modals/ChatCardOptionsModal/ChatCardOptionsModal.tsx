@@ -25,7 +25,11 @@ export function ChatCardOptionsModal({
         >
           Edit Chat
         </ButtonLink>
-        <Button classes={{ root: styles.btn }} onClick={showDeletionModal}>
+        <Button
+          classes={{ root: styles.btn }}
+          onClick={showDeletionModal}
+          variant="danger"
+        >
           Delete Chat
         </Button>
       </ButtonsWrapper>

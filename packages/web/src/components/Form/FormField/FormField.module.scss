@@ -22,12 +22,13 @@ $inputBorderWidth: 2px;
       top: 0;
       transform: translateY(-50%);
       font-size: 0.9rem;
+      color: $textPrimary;
     }
   }
 
   &.focused {
     .formField {
-      border-color: $colorAccentSecondary;
+      border-color: $colorAccentPrimary;
     }
   }
 
@@ -44,6 +45,10 @@ $inputBorderWidth: 2px;
   border: 2px solid gray;
   transition: all 0.2s;
   width: 100%;
+
+  &::placeholder {
+    color: $textSecondary;
+  }
 }
 
 $labelOffset: calc($inputPadding + $inputBorderWidth);
@@ -56,6 +61,7 @@ $labelOffset: calc($inputPadding + $inputBorderWidth);
   z-index: 2;
   transition: all 0.25s;
   background-color: inherit;
+  color: $textSecondary;
 }
 
 .errorMsg {

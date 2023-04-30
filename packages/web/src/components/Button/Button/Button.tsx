@@ -22,6 +22,7 @@ type LinkHTMLProps = Omit<HTMLLinkProps, "href"> & {
 export namespace ButtonBase {
   export type Props = React.PropsWithChildren<{
     classes?: ClassesProp<"root">;
+    variant?: "primary" | "secondary" | "danger";
   }>;
 
   export type OwnProps = Omit<ButtonHTMLProps | LinkHTMLProps, "className"> &
@@ -29,11 +30,11 @@ export namespace ButtonBase {
 }
 
 export function ButtonBase(props: ButtonBase.OwnProps) {
-  const { children, classes, ...rest } = props;
+  const { children, classes, variant = "primary", ...rest } = props;
 
   const eleProps: HTMLProps = {
     ...rest,
-    className: classNames(styles.btn, classes?.root),
+    className: classNames(styles.btn, classes?.root, styles[variant]),
   };
 
   return !rest.to ? (

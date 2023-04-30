@@ -62,16 +62,22 @@ $maxInputHeight: calc(
   }
 }
 
-.sendBtn {
-  border: 2px solid $primaryHover;
-  border-radius: 0.5rem;
+.pageMain .sendBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
   padding: 0 1rem;
   height: $defaultFormHeight;
+  width: $defaultFormHeight;
   transition: all 0.2s;
   background-color: green;
 
   &:hover {
     background-color: $primaryHover;
+  }
+
+  .icon {
   }
 }
 

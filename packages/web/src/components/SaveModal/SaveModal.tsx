@@ -8,9 +8,11 @@ namespace SaveModal {
     title?: string;
     saveBtnText?: string;
     savingBtnText?: string;
+    saveBtnVariant?: Button.Props["variant"];
     saving?: boolean;
     onSave?: () => void;
     cancelBtnText?: string;
+    cancelBtnVariant?: Button.Props["variant"];
     onCancel?: () => void;
   };
 }
@@ -20,9 +22,11 @@ function SaveModal(props: SaveModal.Props) {
     title,
     saveBtnText = "Save",
     savingBtnText = "Saving",
+    saveBtnVariant = "primary",
     saving,
     onSave,
     cancelBtnText = "Cancel",
+    cancelBtnVariant = "danger",
     onCancel,
     children,
     hide,
@@ -42,8 +46,15 @@ function SaveModal(props: SaveModal.Props) {
           {children}
         </div>
         <ButtonsWrapper>
-          <Button onClick={handleCancel}>{cancelBtnText}</Button>
-          <Button onClick={onSave} loading={saving} loadingText={savingBtnText}>
+          <Button onClick={handleCancel} variant={cancelBtnVariant}>
+            {cancelBtnText}
+          </Button>
+          <Button
+            onClick={onSave}
+            loading={saving}
+            loadingText={savingBtnText}
+            variant={saveBtnVariant}
+          >
             {saveBtnText}
           </Button>
         </ButtonsWrapper>
