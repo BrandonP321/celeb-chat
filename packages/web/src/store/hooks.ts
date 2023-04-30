@@ -8,6 +8,7 @@ import { APIFetcher } from "utils/APIFetcher";
 import { Actions } from "./slices";
 import type { AppDispatch, RootState } from "./store";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
+import { GetChatMessagesRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 
 // export appropriately typed `useDispatch` and `useAppSelector` hooks
 export const useAppDispatch = () => useDispatch<AppDispatch>();
@@ -50,6 +51,7 @@ export const useChat = () => {
     setChatIdState(id);
   };
 
+  const [isChatNotFound, setIsChatNotFound] = useState(false);
   const [cachedChat, setCachedChat] = useState<{
     messages: ChatModel.IndexlessMessage[];
     nextMarker?: number | null;
@@ -67,6 +69,7 @@ export const useChat = () => {
     setCachedChat(cachedChat);
 
     if (!cachedChat && chatId && !chatsBeingFetched.current[chatId]) {
+      setIsChatNotFound(false);
       chatsBeingFetched.current[chatId] = true;
 
       fetchNextPage(true);
@@ -80,8 +83,8 @@ export const useChat = () => {
     if (chatId && (isFirstFetch || nextMarker !== null)) {
       dispatch(Actions.Chat.setChatFetchStatus({ chatId, isFetching: true }));
 
-      APIFetcher.getChatMessages({ chatId, marker: nextMarker }).then(
-        ({ messages, nextPageMarker }) => {
+      APIFetcher.getChatMessages({ chatId, marker: nextMarker })
+        .then(({ messages, nextPageMarker }) => {
           dispatch(
             Actions.Chat.cacheFetchedMessages({
               id: chatId,
@@ -92,19 +95,29 @@ export const useChat = () => {
 
           // TODO: Add error handling if fetch fails
           chatsBeingFetched.current[chatId] = false;
-        }
-      );
+        })
+        .catch((err: GetChatMessagesRequest.Error) => {
+          if (err.errCode === GetChatMessagesRequest.ErrorCode.ChatNotFound) {
+            setIsChatNotFound(true);
+          }
+        });
     }
   };
 
-  return cachedChat && chatId
-    ? {
-        id: chatId,
-        messages: cachedChat.messages,
-        nextMarker: cachedChat.nextMarker,
-        hasNextPage: cachedChat.nextMarker !== null,
-        isFetching: cachedChat.isFetching,
-        fetchNextPage: () => fetchNextPage(),
-      }
-    : undefined;
+  return {
+    chat:
+      cachedChat && chatId
+        ? {
+            id: chatId,
+            messages: cachedChat.messages,
+            nextMarker: cachedChat.nextMarker,
+            hasNextPage: cachedChat.nextMarker !== null,
+            isFetching: cachedChat.isFetching,
+            fetchNextPage: () => fetchNextPage(),
+          }
+        : undefined,
+    isChatNotFound,
+    isFetchingChat:
+      cachedChat?.isFetching && !cachedChat?.messages.length && !isChatNotFound,
+  };
 };

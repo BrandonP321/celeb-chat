@@ -20,14 +20,6 @@ namespace CreateChatForm {
   export type Values = FormikStringValues<CreateChatField>;
 }
 
-const getCreateChatInitialValues = (
-  v: Partial<CreateChatForm.Values>
-): CreateChatForm.Values => ({
-  description: "",
-  displayName: "",
-  ...v,
-});
-
 export default function CreateChatForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -49,12 +41,12 @@ export default function CreateChatForm() {
 
   return (
     <Formik
-      initialValues={getCreateChatInitialValues({
-        displayName:
-          UrlUtils.getParam(CreateChatField.DisplayName) ?? undefined,
-        description:
-          UrlUtils.getParam(CreateChatField.Description) ?? undefined,
-      })}
+      initialValues={{
+        [CreateChatField.DisplayName]:
+          UrlUtils.getParam(CreateChatField.DisplayName) ?? "",
+        [CreateChatField.Description]:
+          UrlUtils.getParam(CreateChatField.Description) ?? "",
+      }}
       validationSchema={CreateChatSchema}
       validateOnChange={false}
       onSubmit={handleSubmit}

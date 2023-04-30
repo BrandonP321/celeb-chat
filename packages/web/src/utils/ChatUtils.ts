@@ -12,4 +12,8 @@ export class WebChatUtils {
       matchPath("/chat/:chatId/edit", window.location.pathname) ?? {};
     return params?.chatId;
   };
+
+  public static getChatIdFromUrl = () => {
+    return this.getChatIdFromChatUrl() ?? this.getChatIdFromEditUrl();
+  };
 }

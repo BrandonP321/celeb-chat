@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styles from "./ChatDeletionConfirmationModal.module.scss";
 import { Modal, SaveModal } from "@/Components";
-import { useAppDispatch } from "@/Hooks";
+import { useAppDispatch, useChats } from "@/Hooks";
 import { APIFetcher } from "utils/APIFetcher";
 import { Actions } from "@/Slices";
 import { AlertType } from "@/Slices/Alerts/AlertsSlice";
 import { DeleteChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
+import { useNavigate } from "react-router-dom";
+import { WebChatUtils } from "utils/ChatUtils";
 
 export namespace ChatDeletionConfirmationModal {
   export type Props = Modal.Props & {
@@ -21,6 +23,8 @@ export function ChatDeletionConfirmationModal({
   ...rest
 }: ChatDeletionConfirmationModal.Props) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { chats } = useChats();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const deleteChat = () => {
@@ -36,6 +40,13 @@ export function ChatDeletionConfirmationModal({
         );
 
         dispatch(Actions.Chat.removeChat({ chatId }));
+
+        const chatIdFromUrl = WebChatUtils.getChatIdFromUrl();
+        // nNavigate to first available chat if user is on page for deleted chat
+        if (chatIdFromUrl === chatId) {
+          const nextChatId = chats?.filter((c) => c.id !== chatId)[0]?.id;
+          navigate(nextChatId ? `/chat/${nextChatId}` : "/chat/new");
+        }
       })
       .catch((err: DeleteChatRequest.Error) => {
         dispatch(

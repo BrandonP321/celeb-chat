@@ -6,7 +6,7 @@ namespace CreateChat {
   export type Props = {};
 }
 
-function CreateChat({}: CreateChat.Props) {
+function CreateChat(props: CreateChat.Props) {
   return (
     <div className={styles.createChat}>
       <h1>Create Chat</h1>
