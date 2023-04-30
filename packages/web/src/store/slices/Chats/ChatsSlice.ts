@@ -4,17 +4,17 @@ import { TChat } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type MessagelessChat = Omit<TChat, "messages">;
+export type CachedChat = {
+  messages: ChatModel.IndexlessMessage[];
+  displayName: string;
+  nextMarker?: number | null;
+  isFetching: boolean;
+};
 
 export interface ChatsState {
   /** Map of chats that have had their messages fetched */
   chatCache: {
-    [key: string]:
-      | {
-          messages: ChatModel.IndexlessMessage[];
-          nextMarker?: number | null;
-          isFetching: boolean;
-        }
-      | undefined;
+    [key: string]: CachedChat | undefined;
   };
   /** Ordered list of chats without messages, which are fetched when a chat is loaded */
   chats: UserModel.UserChat[] | null;
@@ -25,13 +25,15 @@ const initialState: ChatsState = {
   chats: null,
 };
 
+// TODO: Refactor to use object parameter
 /** Updates a cached chat, adding the chat to the cache if it doesn't already exist */
 const updateCachedChat = (
   state: ChatsState,
   chatId: string,
   messages?: ChatModel.IndexlessMessage[],
   nextMarker?: number | null,
-  isFetching?: boolean
+  isFetching?: boolean,
+  displayName?: string
 ) => {
   const cachedChat = state.chatCache?.[chatId];
 
@@ -42,6 +44,7 @@ const updateCachedChat = (
       nextMarker:
         nextMarker !== undefined ? nextMarker : cachedChat?.nextMarker,
       isFetching: isFetching ?? false,
+      displayName: displayName ?? cachedChat?.displayName ?? "",
     },
   };
 };
@@ -61,7 +64,10 @@ const chatsSlice = createSlice({
       {
         payload,
       }: PayloadAction<
-        Pick<TChat, "messages" | "id"> & { nextMarker: number | null }
+        Pick<TChat, "messages" | "id"> & {
+          nextMarker: number | null;
+          displayName: string;
+        }
       >
     ) => {
       const cachedChat = state.chatCache?.[payload.id];
@@ -71,13 +77,14 @@ const chatsSlice = createSlice({
         payload.id,
         [...payload.messages, ...(cachedChat?.messages ?? [])],
         payload.nextMarker,
-        false
+        false,
+        payload.displayName
       );
     },
     addChat: (state, { payload }: PayloadAction<UserModel.UserChat>) => {
       state.chats = [payload, ...(state.chats ?? [])];
 
-      updateCachedChat(state, payload.id, [], null, false);
+      updateCachedChat(state, payload.id, [], null, false, payload.displayName);
     },
     addMsg: (
       state,
@@ -127,6 +134,14 @@ const chatsSlice = createSlice({
       });
 
       state.chats = updatedChats ?? null;
+      updateCachedChat(
+        state,
+        chat?.id,
+        undefined,
+        undefined,
+        undefined,
+        chat.displayName
+      );
     },
     removeChat: (state, { payload }: PayloadAction<{ chatId: string }>) => {
       const filteredChats = state.chats?.filter((c) => c.id !== payload.chatId);

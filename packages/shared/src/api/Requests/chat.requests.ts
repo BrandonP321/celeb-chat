@@ -93,6 +93,7 @@ export namespace GetChatMessagesRequest {
 
   export type Response = ChatModel.MessagesJSON & {
     nextPageMarker: number | null;
+    displayName: string;
   };
 
   export type Request = APIRequest<{}, ReqBody, Response>;

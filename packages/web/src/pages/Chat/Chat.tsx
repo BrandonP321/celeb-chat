@@ -66,7 +66,8 @@ function Chat(props: Chat.Props) {
 
         {hasNoMessages && (
           <div className={styles.firstMsgNotice}>
-            <p>Send your first message</p>
+            <h2>Get the conversation started!</h2>
+            <p>Send your first message to {chat?.displayName} now.</p>
           </div>
         )}
 

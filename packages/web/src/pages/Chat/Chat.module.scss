@@ -71,11 +71,6 @@ $maxInputHeight: calc(
   height: $defaultFormHeight;
   width: $defaultFormHeight;
   transition: all 0.2s;
-  background-color: green;
-
-  &:hover {
-    background-color: $primaryHover;
-  }
 
   .icon {
   }
@@ -165,9 +160,20 @@ $maxInputHeight: calc(
 
 .firstMsgNotice {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: $textSecondary;
+  }
 }
 
 .scrollingAnchor {

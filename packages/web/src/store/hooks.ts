@@ -7,8 +7,8 @@ import { WebChatUtils } from "utils";
 import { APIFetcher } from "utils/APIFetcher";
 import { Actions } from "./slices";
 import type { AppDispatch, RootState } from "./store";
-import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import { GetChatMessagesRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
+import { CachedChat } from "./slices/Chats/ChatsSlice";
 
 // export appropriately typed `useDispatch` and `useAppSelector` hooks
 export const useAppDispatch = () => useDispatch<AppDispatch>();
@@ -52,11 +52,7 @@ export const useChat = () => {
   };
 
   const [isChatNotFound, setIsChatNotFound] = useState(false);
-  const [cachedChat, setCachedChat] = useState<{
-    messages: ChatModel.IndexlessMessage[];
-    nextMarker?: number | null;
-    isFetching?: boolean;
-  }>();
+  const [cachedChat, setCachedChat] = useState<CachedChat>();
 
   // TODO: store this data in store
   const chatsBeingFetched = useRef<{ [chatId: string]: boolean }>({});
@@ -84,12 +80,13 @@ export const useChat = () => {
       dispatch(Actions.Chat.setChatFetchStatus({ chatId, isFetching: true }));
 
       APIFetcher.getChatMessages({ chatId, marker: nextMarker })
-        .then(({ messages, nextPageMarker }) => {
+        .then(({ messages, nextPageMarker, displayName }) => {
           dispatch(
             Actions.Chat.cacheFetchedMessages({
               id: chatId,
               messages: messages,
               nextMarker: nextPageMarker,
+              displayName,
             })
           );
 
@@ -113,6 +110,7 @@ export const useChat = () => {
             nextMarker: cachedChat.nextMarker,
             hasNextPage: cachedChat.nextMarker !== null,
             isFetching: cachedChat.isFetching,
+            displayName: cachedChat.displayName,
             fetchNextPage: () => fetchNextPage(),
           }
         : undefined,

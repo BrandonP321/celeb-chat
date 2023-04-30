@@ -40,7 +40,8 @@ export const GetChatMessagesController: TRouteController<
   GetChatMessagesRequest.Request,
   ChatWithMsgsResLocals
 > = async (req, res) => {
-  const { chat } = res.locals;
+  const { chatId } = req.body;
+  const { chat, user } = res.locals;
 
   try {
     let nextPageMarker: number | null = (chat?.messages?.[0]?.index ?? 0) - 1;
@@ -49,7 +50,9 @@ export const GetChatMessagesController: TRouteController<
       nextPageMarker = null;
     }
 
-    res.json({ messages: chat.messages, nextPageMarker }).end();
+    const displayName = (await user.getChatJSON(chatId))?.displayName ?? "";
+
+    res.json({ messages: chat.messages, nextPageMarker, displayName }).end();
   } catch (err) {
     return getMessagesErrors.error.InternalServerError(res);
   }
