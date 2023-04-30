@@ -3,7 +3,7 @@ import styles from "./MainNav.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faUser, faHome } from "@fortawesome/pro-solid-svg-icons";
 import classNames from "classnames";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useChat } from "@/Hooks";
 
 export namespace MainNav {
@@ -19,11 +19,16 @@ function MainNav({
   isMobileNavVisible,
   hideMobileNav,
 }: MainNav.Props) {
+  const { chat } = useChat();
+
   return (
     <div className={styles.mainNav}>
       <Link to={"/"} className={styles.homeBtn}>
         <FontAwesomeIcon icon={faHome} className={styles.icon} />
       </Link>
+      <div className={styles.chatName}>
+        <p>{chat?.displayName}</p>
+      </div>
       <div className={styles.rightContent}>
         <UserBtn showMobile={isMobileNavVisible} onClick={hideMobileNav} />
         <button className={styles.mobileNavBtn} onClick={toggleMobileNav}>

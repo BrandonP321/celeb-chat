@@ -77,3 +77,29 @@ $userBtnBoxShadowBlur: 0.5rem;
     font-size: 1rem;
   }
 }
+
+.chatName {
+  position: relative;
+  flex-grow: 1;
+  padding-left: 1rem;
+  min-width: 0;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2rem;
+    background: linear-gradient(
+      to right,
+      rgba($bodyBgPrimary, 0),
+      $bodyBgPrimary
+    );
+  }
+
+  p {
+    white-space: nowrap;
+  }
+}

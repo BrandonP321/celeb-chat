@@ -4,11 +4,18 @@
   display: flex;
   align-items: center;
   padding: 0 1rem;
-  transition: all 0.05s;
 
   &:hover,
   &.selected {
     background-color: $primaryHover;
+
+    .textWrapper::after {
+      background: linear-gradient(
+        to right,
+        rgba($primaryHover, 0),
+        $primaryHover
+      );
+    }
   }
 
   &:hover .moreBtn {
@@ -24,6 +31,27 @@
 
 .textWrapper {
   flex: 1 1 0;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2rem;
+    background: linear-gradient(
+      to right,
+      rgba($bodyBgPrimary, 0),
+      $bodyBgPrimary
+    );
+  }
+}
+
+.recipientName,
+.lastMsg {
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .recipientName {
@@ -34,9 +62,6 @@
 .lastMsg {
   font-size: 0.7rem;
   color: $textSecondary;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
   margin-bottom: 1rem;
 }
 
