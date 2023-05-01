@@ -20,7 +20,7 @@ function MainNav({
   isMobileNavVisible,
   hideMobileNav,
 }: MainNav.Props) {
-  const { chat, displayName } = useChat();
+  const { chat } = useChat();
 
   return (
     <div className={styles.mainNav}>
@@ -31,7 +31,7 @@ function MainNav({
         to={RouteHelper.EditChat({ chatId: chat?.id ?? "" })}
         className={styles.chatName}
       >
-        <p>{displayName}</p>
+        <p>{chat?.displayName}</p>
       </Link>
       <button className={styles.mobileNavBtn} onClick={toggleMobileNav}>
         <FontAwesomeIcon
