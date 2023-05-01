@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./EditChatForm.module.scss";
+import styles from "../EditChat.module.scss";
 import { FormikSubmit } from "utils/UtilityTypes";
 import { useAppDispatch } from "@/Hooks";
 import { Form, Formik } from "formik";
@@ -62,6 +62,12 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
         return (
           <Form>
             <InputField name={EditChatField.DisplayName} label="Name" />
+
+            <p className={styles.warningMsg}>
+              Please note: Changing your character's settings may affect the way
+              they respond in the conversation. Adjust with care to maintain a
+              consistent chat experience.
+            </p>
 
             <ButtonsWrapper>
               <Button

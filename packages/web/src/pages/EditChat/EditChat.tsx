@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./EditChat.module.scss";
 import { EditChatForm } from "./components/EditChatForm";
-import { LoadingContainer } from "@/Components";
+import { LoadingContainer, PageHeader } from "@/Components";
 import { GetChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { useLocation } from "react-router-dom";
 import { WebChatUtils } from "utils/ChatUtils";
@@ -34,8 +34,14 @@ export function EditChat(props: EditChat.Props) {
   return (
     <div className={styles.editChat}>
       <LoadingContainer loading={!chat && !chatNotFound} />
+
       {chatNotFound && <ChatNotFoundContent />}
-      <h1>Edit Chat</h1>
+
+      <PageHeader
+        title="Edit Your Chat"
+        desc="Modify your character's settings and preferences to fine-tune your conversation experience. Make it truly unique!"
+      />
+
       {!!chat && <EditChatForm chat={chat} />}
     </div>
   );
