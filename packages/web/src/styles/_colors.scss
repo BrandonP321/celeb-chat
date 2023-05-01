@@ -12,11 +12,27 @@ $hueAccentPrimary: 206;
 $colorAccentPrimary: hsl($hueAccentPrimary, 41%, 50%);
 $colorAccentPrimaryFocused: hsl($hueAccentPrimary, 80%, 50%);
 $colorAccentPrimaryDisabled: hsl($hueAccentPrimary, 20%, 50%);
+$colorAccentPrimaryDark: hsl($hueAccentPrimary, 41%, 20%);
+@function ColorAccentPrimaryGradient($dir: to bottom right, $opacity: 1) {
+  @return linear-gradient(
+    $dir,
+    hsl($hueAccentPrimary, 41%, 40%),
+    $colorAccentPrimaryDark
+  );
+}
 
 $hueAccentSecondary: 39;
 $colorAccentSecondary: hsl($hueAccentSecondary, 100%, 50%);
 $colorAccentSecondaryLight: hsl($hueAccentSecondary, 100%, 70%);
 $colorAccentSecondaryLightUnfocused: hsl($hueAccentSecondary, 100%, 70%);
+$colorAccentSecondaryDark: hsl($hueAccentSecondary, 100%, 20%);
+@function ColorAccentSecondaryGradient($dir: to bottom right) {
+  @return linear-gradient(
+    $dir,
+    hsl($hueAccentSecondary, 100%, 30%),
+    $colorAccentSecondaryDark
+  );
+}
 
 $colorAccentTertiary: #f76aab;
 $colorScrollbar: #5d5362;

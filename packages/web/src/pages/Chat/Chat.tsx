@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { ChatCompletionResponseMessageRoleEnum } from "openai";
 import styles from "./Chat.module.scss";
 import { useChat } from "@/Hooks";
-import { LoadingContainer, Spinner } from "@/Components";
+import { LoadingContainer, PageHeader, Spinner } from "@/Components";
 import { ChatNotFoundContent } from "./components/ChatNotFoundContent/ChatNotFoundContent";
 import { MessageBar } from "./components/MessageBar/MessageBar";
 
@@ -16,7 +16,9 @@ namespace Chat {
 }
 
 function Chat(props: Chat.Props) {
-  const { chat, isChatNotFound, isFetchingChat } = useChat();
+  const { chat, isChatNotFound, isFetchingChat } = useChat({
+    fetchIfNotExists: true,
+  });
 
   const hasNoMessages = !chat?.messages?.length;
 
@@ -65,10 +67,11 @@ function Chat(props: Chat.Props) {
         )}
 
         {hasNoMessages && (
-          <div className={styles.firstMsgNotice}>
-            <h2>Get the conversation started!</h2>
-            <p>Send your first message to {chat?.displayName} now.</p>
-          </div>
+          <PageHeader
+            classes={{ root: styles.firstMsgNotice }}
+            title="Get the conversation started"
+            desc={`Send your first message to ${chat?.displayName} now.`}
+          />
         )}
 
         <MessageBar chat={chat} />

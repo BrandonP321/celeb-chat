@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { WebChatUtils } from "utils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical } from "@fortawesome/pro-solid-svg-icons";
+import { faEllipsis } from "@fortawesome/pro-solid-svg-icons";
 
 export namespace ChatCard {
   export type Props = UserModel.UserChat & {
@@ -44,7 +44,7 @@ function ChatCard(props: ChatCard.Props) {
           showOptionsModal(id);
         }}
       >
-        <FontAwesomeIcon icon={faEllipsisVertical} className={styles.icon} />
+        <FontAwesomeIcon icon={faEllipsis} className={styles.icon} />
       </button>
     </Link>
   );

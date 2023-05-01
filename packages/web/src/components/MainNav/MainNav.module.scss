@@ -18,6 +18,12 @@
   }
 }
 
+.homeBtn,
+.mobileNavBtn {
+  flex-shrink: 0;
+  width: 1.7rem;
+}
+
 .homeBtn {
   .icon {
     font-size: 1.5rem;
@@ -28,7 +34,8 @@
   display: none;
 
   @include mobileVW() {
-    display: inline-block;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .icon {
@@ -79,12 +86,17 @@ $userBtnBoxShadowBlur: 0.5rem;
 }
 
 .chatName {
+  display: none;
   position: relative;
   flex-grow: 1;
-  padding-left: 1rem;
+  padding: 0 1rem;
   min-width: 0;
   overflow: hidden;
   font-weight: bold;
+
+  @include mobileVW() {
+    display: block;
+  }
 
   &::after {
     content: "";
@@ -102,5 +114,6 @@ $userBtnBoxShadowBlur: 0.5rem;
 
   p {
     white-space: nowrap;
+    text-align: center;
   }
 }

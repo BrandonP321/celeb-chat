@@ -1,11 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../../Chat.module.scss";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { faPaperPlane } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import { Button } from "components/Button";
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, useFormikContext } from "formik";
 import { DefaultErrors } from "@celeb-chat/shared/src/api/Requests";
 import { SendMsgRequest } from "@celeb-chat/shared/src/api/Requests/message.requests";
 import { validateMsg } from "@celeb-chat/shared/src/schema";
@@ -15,6 +15,7 @@ import { FormikSubmit } from "utils/UtilityTypes";
 import { useAppDispatch, useChat } from "@/Hooks";
 import { AlertType } from "@/Slices/Alerts/AlertsSlice";
 import { Actions } from "@/Slices";
+import { useLocation } from "react-router-dom";
 
 export namespace MessageBar {
   export type Props = {
@@ -83,59 +84,81 @@ export function MessageBar({ chat }: MessageBar.Props) {
         }}
         onSubmit={sendMsg}
       >
-        {({ values, submitForm }) => {
-          return (
-            <Form className={styles.form}>
-              <div className={styles.formUpperContent}>
-                <p
-                  className={classNames(
-                    styles.msgCharCount,
-                    values.msgBody.length >= ChatUtils.maxMsgCharCount &&
-                      styles.max
-                  )}
-                >
-                  {(values.msgBody ?? "").length}/{ChatUtils.maxMsgCharCount}
-                </p>
-              </div>
-
-              <div className={styles.formLowerContent}>
-                <div
-                  className={styles.inputWrapper}
-                  data-replicated-value={values.msgBody}
-                >
-                  <Field
-                    as="textarea"
-                    name="msgBody"
-                    className={styles.input}
-                    placeholder={"Message"}
-                    maxLength={ChatUtils.maxMsgCharCount}
-                    onKeyDownCapture={(
-                      e: React.KeyboardEvent<HTMLTextAreaElement>
-                    ) => {
-                      if (e.code === "Enter") {
-                        e.preventDefault();
-                        submitForm();
-                      }
-                    }}
-                  />
-                </div>
-
-                <Button
-                  classes={{ root: styles.sendBtn }}
-                  disabled={pendingResponse || !values.msgBody}
-                  loading={pendingResponse}
-                  type="submit"
-                >
-                  <FontAwesomeIcon
-                    className={styles.icon}
-                    icon={faPaperPlane}
-                  />
-                </Button>
-              </div>
-            </Form>
-          );
+        {() => {
+          return <MessageBarInnerForm pendingResponse={pendingResponse} />;
         }}
       </Formik>
     </div>
+  );
+}
+
+namespace MessageBarInnerForm {
+  export type Props = {
+    pendingResponse: boolean;
+  };
+}
+
+function MessageBarInnerForm(props: MessageBarInnerForm.Props) {
+  const { pendingResponse } = props;
+
+  const location = useLocation();
+  const { values, submitForm, resetForm } = useFormikContext<{
+    msgBody: string;
+  }>();
+
+  const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    resetForm();
+  }, [location, resetForm]);
+
+  return (
+    <Form className={styles.form}>
+      <div className={styles.formUpperContent}>
+        <p
+          className={classNames(
+            styles.msgCharCount,
+            values.msgBody.length >= ChatUtils.maxMsgCharCount && styles.max
+          )}
+        >
+          {(values.msgBody ?? "").length}/{ChatUtils.maxMsgCharCount}
+        </p>
+      </div>
+
+      <div className={styles.formLowerContent}>
+        <div
+          className={classNames(
+            styles.inputWrapper,
+            (isFocused || !!values.msgBody) && styles.focused
+          )}
+          data-replicated-value={values.msgBody}
+        >
+          <Field
+            as="textarea"
+            name="msgBody"
+            className={styles.input}
+            placeholder={"Message"}
+            maxLength={ChatUtils.maxMsgCharCount}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            onKeyDownCapture={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+              if (e.code === "Enter") {
+                e.preventDefault();
+                submitForm();
+              }
+            }}
+          />
+        </div>
+
+        <Button
+          classes={{ root: styles.sendBtn }}
+          disabled={pendingResponse || !values.msgBody}
+          loading={pendingResponse}
+          type="submit"
+        >
+          <FontAwesomeIcon className={styles.icon} icon={faPaperPlane} />
+        </Button>
+      </div>
+    </Form>
   );
 }

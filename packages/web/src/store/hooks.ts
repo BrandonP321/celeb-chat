@@ -35,13 +35,17 @@ export const useUser = () => useAppSelector((state) => state.user);
 
 export const useChats = () => useAppSelector((state) => state.chats);
 
+type UseChatProps = {
+  fetchIfNotExists?: boolean;
+};
+
 /**
  * Returns the chat corresponding to the current URL,
  * fetching that chat if it hasn't been fetched yet
  */
-export const useChat = () => {
+export const useChat = ({ fetchIfNotExists }: UseChatProps = {}) => {
   const location = useLocation();
-  const { chatCache } = useChats();
+  const { chatCache, chats } = useChats();
   const dispatch = useAppDispatch();
 
   const [chatId, setChatIdState] = useState<string | undefined>();
@@ -58,13 +62,18 @@ export const useChat = () => {
   const chatsBeingFetched = useRef<{ [chatId: string]: boolean }>({});
 
   useEffect(() => {
-    const chatId = WebChatUtils.getChatIdFromChatUrl();
+    const chatId = WebChatUtils.getChatIdFromUrl();
     setChatId(chatId);
     const cachedChat = chatCache[chatId ?? ""];
 
     setCachedChat(cachedChat);
 
-    if (!cachedChat && chatId && !chatsBeingFetched.current[chatId]) {
+    if (
+      !cachedChat &&
+      chatId &&
+      !chatsBeingFetched.current[chatId] &&
+      fetchIfNotExists
+    ) {
       setIsChatNotFound(false);
       chatsBeingFetched.current[chatId] = true;
 
@@ -110,7 +119,9 @@ export const useChat = () => {
             nextMarker: cachedChat.nextMarker,
             hasNextPage: cachedChat.nextMarker !== null,
             isFetching: cachedChat.isFetching,
-            displayName: cachedChat.displayName,
+            displayName:
+              cachedChat.displayName ??
+              chats?.find((c) => c.id === chatId)?.displayName,
             fetchNextPage: () => fetchNextPage(),
           }
         : undefined,

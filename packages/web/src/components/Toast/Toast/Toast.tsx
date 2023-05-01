@@ -24,7 +24,7 @@ const toastClassNameMap = {
 export function Toast({ index, msg, type, isDismissed, classes }: Toast.Props) {
   const dispatch = useAppDispatch();
 
-  const timeToDismiss = 5000;
+  const timeToDismiss = 4000;
 
   const dismiss = useCallback(() => {
     dispatch(Actions.Alert.dismissAlert({ alertIndex: index }));

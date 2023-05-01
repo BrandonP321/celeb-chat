@@ -9,4 +9,8 @@ export class RouteHelper {
 
     return `/chat/new${searchParams}`;
   };
+
+  public static EditChat = ({ chatId }: { chatId: string }) => {
+    return `/chat/${chatId}/edit`;
+  };
 }

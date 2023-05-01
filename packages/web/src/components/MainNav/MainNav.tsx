@@ -5,6 +5,7 @@ import { faBars, faUser, faHome } from "@fortawesome/pro-solid-svg-icons";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { useChat } from "@/Hooks";
+import { RouteHelper } from "utils/RouteHelper";
 
 export namespace MainNav {
   export type Props = {
@@ -26,21 +27,21 @@ function MainNav({
       <Link to={"/"} className={styles.homeBtn}>
         <FontAwesomeIcon icon={faHome} className={styles.icon} />
       </Link>
-      <div className={styles.chatName}>
+      <Link
+        to={RouteHelper.EditChat({ chatId: chat?.id ?? "" })}
+        className={styles.chatName}
+      >
         <p>{chat?.displayName}</p>
-      </div>
-      <div className={styles.rightContent}>
-        <UserBtn showMobile={isMobileNavVisible} onClick={hideMobileNav} />
-        <button className={styles.mobileNavBtn} onClick={toggleMobileNav}>
-          <FontAwesomeIcon
-            icon={faBars}
-            className={classNames(
-              styles.icon,
-              isMobileNavVisible && styles.close
-            )}
-          />
-        </button>
-      </div>
+      </Link>
+      <button className={styles.mobileNavBtn} onClick={toggleMobileNav}>
+        <FontAwesomeIcon
+          icon={faBars}
+          className={classNames(
+            styles.icon,
+            isMobileNavVisible && styles.close
+          )}
+        />
+      </button>
     </div>
   );
 }

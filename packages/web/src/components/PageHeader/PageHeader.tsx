@@ -1,16 +1,19 @@
 import React from "react";
 import styles from "./PageHeader.module.scss";
+import { ClassesProp } from "utils/UtilityTypes";
+import classNames from "classnames";
 
 export namespace PageHeader {
   export type Props = {
     title: string;
     desc?: string;
+    classes?: ClassesProp<"root">;
   };
 }
 
-export function PageHeader({ title, desc }: PageHeader.Props) {
+export function PageHeader({ title, desc, classes }: PageHeader.Props) {
   return (
-    <div className={styles.header}>
+    <div className={classNames(styles.header, classes?.root)}>
       <h1>{title}</h1>
       <p>{desc}</p>
     </div>
