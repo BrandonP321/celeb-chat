@@ -110,6 +110,8 @@ export const useChat = ({ fetchIfNotExists }: UseChatProps = {}) => {
     }
   };
 
+  console.log(chats?.find((c) => c.id === chatId)?.displayName);
+
   return {
     chat:
       cachedChat && chatId
@@ -119,14 +121,15 @@ export const useChat = ({ fetchIfNotExists }: UseChatProps = {}) => {
             nextMarker: cachedChat.nextMarker,
             hasNextPage: cachedChat.nextMarker !== null,
             isFetching: cachedChat.isFetching,
-            displayName:
-              cachedChat.displayName ??
-              chats?.find((c) => c.id === chatId)?.displayName,
+            displayName: cachedChat.displayName,
             fetchNextPage: () => fetchNextPage(),
           }
         : undefined,
     isChatNotFound,
     isFetchingChat:
       cachedChat?.isFetching && !cachedChat?.messages.length && !isChatNotFound,
+    displayName:
+      cachedChat?.displayName ??
+      chats?.find((c) => c.id === chatId)?.displayName,
   };
 };
