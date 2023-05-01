@@ -16,8 +16,18 @@ $colorAccentPrimaryDark: hsl($hueAccentPrimary, 41%, 20%);
 @function ColorAccentPrimaryGradient($dir: to bottom right, $opacity: 1) {
   @return linear-gradient(
     $dir,
-    hsl($hueAccentPrimary, 41%, 40%),
+    hsl($hueAccentPrimary, 41%, 30%),
     $colorAccentPrimaryDark
+  );
+}
+@function ColorAccentPrimaryDisabledGradient(
+  $dir: to bottom right,
+  $opacity: 1
+) {
+  @return linear-gradient(
+    $dir,
+    rgba(hsl($hueAccentPrimary, 41%, 70%), 0.7),
+    rgba(hsl($hueAccentPrimary, 41%, 30%), 0.7)
   );
 }
 

@@ -154,6 +154,7 @@ function MessageBarInnerForm(props: MessageBarInnerForm.Props) {
           classes={{ root: styles.sendBtn }}
           disabled={pendingResponse || !values.msgBody}
           loading={pendingResponse}
+          variant="primaryGradient"
           type="submit"
         >
           <FontAwesomeIcon className={styles.icon} icon={faPaperPlane} />

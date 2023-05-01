@@ -1,31 +1,76 @@
 @import "../../../styles/uiBase.scss";
 
 @mixin ButtonColorScheme($bg, $bgHover, $bgDisabled) {
-  background-color: $bg;
-  border: 1px solid $bgHover;
+  background: $bg;
 
   &:disabled {
-    background-color: $bgDisabled;
-    border-color: transparent;
+    .btnBg {
+      background: $bgDisabled;
+    }
   }
 
-  &:hover:not(:disabled) {
-    background-color: $bgHover;
+  &:hover:not(:disabled) .btnBg {
+    background: $bgHover;
+  }
+}
+
+@mixin ButtonGradientColorScheme($gradient, $disabledGradient) {
+  .btnBg {
+    background: $gradient;
+    opacity: 0.75;
+
+    @include touchDevice() {
+      opacity: 1;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: $disabledGradient;
+      opacity: 0;
+      transition: all 0.25s;
+    }
+  }
+
+  &:disabled {
+    color: $textSecondary;
+
+    .btnBg {
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  &:hover:not(:disabled) .btnBg {
+    opacity: 1;
   }
 }
 
 .btn {
+  position: relative;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   text-align: center;
   color: white;
-  transition: all 0.15s;
+  overflow: hidden;
 
   &.primary {
     @include ButtonColorScheme(
       $colorAccentPrimary,
       $colorAccentPrimaryFocused,
       $colorAccentPrimaryDisabled
+    );
+  }
+
+  &.primaryGradient {
+    @include ButtonGradientColorScheme(
+      ColorAccentPrimaryGradient(),
+      ColorAccentPrimaryDisabledGradient()
     );
   }
 
@@ -45,8 +90,21 @@
     );
   }
 
+  span {
+    position: relative;
+  }
+
   .spinner {
     font-size: 1rem;
     color: $textPrimary;
   }
+}
+
+.btnBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 0.15s;
 }

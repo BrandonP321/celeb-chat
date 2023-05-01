@@ -13,9 +13,8 @@ import { useAppDispatch, useChats } from "@/Hooks";
 import { useEffect } from "react";
 import { Actions } from "@/Slices";
 import { useRef } from "react";
-import { APIFetcher } from "utils/APIFetcher";
+import { APIFetcher } from "@/Utils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/pro-solid-svg-icons";
 
@@ -83,7 +82,11 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
             onChange={(v) => setChatQuery(v)}
             classes={{ root: styles.searchBar, input: styles.input }}
           />
-          <ButtonLink to="/chat/new" classes={{ root: styles.newChatLink }}>
+          <ButtonLink
+            variant="primaryGradient"
+            to="/chat/new"
+            classes={{ root: styles.newChatLink }}
+          >
             <FontAwesomeIcon
               icon={faPlus}
               className={styles.icon}

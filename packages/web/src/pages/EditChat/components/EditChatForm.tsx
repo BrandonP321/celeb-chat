@@ -72,6 +72,7 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
             <ButtonsWrapper>
               <Button
                 type="submit"
+                variant="primaryGradient"
                 loading={isSubmitting}
                 loadingText="Saving"
                 disabled={!dirty}

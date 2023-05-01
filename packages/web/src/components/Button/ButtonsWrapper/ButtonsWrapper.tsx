@@ -7,6 +7,7 @@ export enum BtnAlign {
   Left = "left",
   Right = "right",
   Bottom = "bottom",
+  Center = "center",
 }
 
 const btnAlignClassMap = {
@@ -14,6 +15,7 @@ const btnAlignClassMap = {
   [BtnAlign.Left]: styles.alignLeft,
   [BtnAlign.Right]: styles.alignRight,
   [BtnAlign.Bottom]: styles.alignBottom,
+  [BtnAlign.Center]: styles.alignCenter,
 };
 
 namespace ButtonsWrapper {

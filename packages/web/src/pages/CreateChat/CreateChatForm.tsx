@@ -57,7 +57,7 @@ export default function CreateChatForm() {
           <InputField name={CreateChatField.Description} label="Description" />
 
           <ButtonsWrapper>
-            <Button>Create</Button>
+            <Button variant="primaryGradient">Create</Button>
           </ButtonsWrapper>
         </Form>
       )}

@@ -5,6 +5,7 @@ import { FormikStringValues, FormikSubmit } from "utils/UtilityTypes";
 import { Button, ButtonsWrapper, InputField } from "@/Components";
 import { useNavigate } from "react-router-dom";
 import { RouteHelper } from "@/Utils";
+import { BtnAlign } from "components/Button/ButtonsWrapper/ButtonsWrapper";
 
 enum StartChatFormField {
   Recipient = "recipient",
@@ -44,12 +45,18 @@ export function StartChatForm(props: StartChatForm.Props) {
         <Form className={styles.form}>
           <h2 className={styles.formTitle}>Who would you like to chat with?</h2>
           <InputField
+            classes={{ root: styles.input }}
             name={StartChatFormField.Recipient}
             placeholder="Some Person"
           />
-          <ButtonsWrapper>
-            <Button disabled={!dirty} loading={isNavigating}>
-              Go
+          <ButtonsWrapper align={BtnAlign.Center}>
+            <Button
+              classes={{ root: styles.formBtn }}
+              disabled={!dirty}
+              loading={isNavigating}
+              variant="primaryGradient"
+            >
+              Start Chatting
             </Button>
           </ButtonsWrapper>
         </Form>
