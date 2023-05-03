@@ -52,7 +52,7 @@ export default function CreateChatForm() {
       onSubmit={handleSubmit}
     >
       {({}) => (
-        <Form>
+        <Form autoComplete="off">
           <InputField name={CreateChatField.DisplayName} label="Name" />
           <InputField name={CreateChatField.Description} label="Description" />
 

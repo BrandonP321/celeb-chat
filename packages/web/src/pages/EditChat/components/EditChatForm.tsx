@@ -60,7 +60,7 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
     >
       {({ isSubmitting, dirty }) => {
         return (
-          <Form>
+          <Form autoComplete="off">
             <InputField name={EditChatField.DisplayName} label="Name" />
 
             <p className={styles.warningMsg}>

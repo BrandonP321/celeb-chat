@@ -113,7 +113,7 @@ function MessageBarInnerForm(props: MessageBarInnerForm.Props) {
   }, [location, resetForm]);
 
   return (
-    <Form className={styles.form}>
+    <Form className={styles.form} autoComplete="off">
       <div className={styles.formUpperContent}>
         <p
           className={classNames(

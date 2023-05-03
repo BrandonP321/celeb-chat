@@ -81,6 +81,7 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
             placeholder="Search for chat"
             onChange={(v) => setChatQuery(v)}
             classes={{ root: styles.searchBar, input: styles.input }}
+            autoComplete="off"
           />
           <ButtonLink
             variant="primaryGradient"

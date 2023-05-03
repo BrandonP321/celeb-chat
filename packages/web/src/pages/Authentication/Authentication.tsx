@@ -80,7 +80,7 @@ function Authentication({ isLogin }: Authentication.Props) {
           }
         >
           {({ errors, isSubmitting, resetForm }) => (
-            <Form className={styles.authForm}>
+            <Form className={styles.authForm} autoComplete="on">
               <h1 className={styles.formHeading}>
                 {showLogin ? "Login" : "Register"}
               </h1>

@@ -42,7 +42,7 @@ export function StartChatForm(props: StartChatForm.Props) {
       validateOnChange={false}
     >
       {({ dirty }) => (
-        <Form className={styles.form}>
+        <Form className={styles.form} autoComplete="off">
           <h2 className={styles.formTitle}>Who would you like to chat with?</h2>
           <InputField
             classes={{ root: styles.input }}

@@ -22,7 +22,7 @@ namespace EditUserModal {
 function EditUserModal(props: EditUserModal.Props) {
   return (
     <FormikSaveModal {...props} title="Edit User">
-      <Form>
+      <Form autoComplete="off">
         <InputField name={EditUserField.Username} label="Username" />
       </Form>
     </FormikSaveModal>
