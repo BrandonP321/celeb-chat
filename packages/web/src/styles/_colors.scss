@@ -44,6 +44,13 @@ $colorAccentSecondaryDark: hsl($hueAccentSecondary, 100%, 20%);
   );
 }
 
+@function BlackGradient($dir: to bottom right) {
+  @return linear-gradient($dir, hsl(0, 0%, 0%), hsl(0, 0%, 20%));
+}
+@function BlackDisabledGradient($dir: to bottom right) {
+  @return linear-gradient($dir, hsl(0, 0%, 0%), hsl(0, 0%, 0%));
+}
+
 $colorAccentTertiary: #f76aab;
 $colorScrollbar: #5d5362;
 

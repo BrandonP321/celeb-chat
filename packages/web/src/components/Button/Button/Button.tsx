@@ -27,7 +27,8 @@ export namespace ButtonBase {
       | "primaryGradient"
       | "secondary"
       | "secondaryGradient"
-      | "danger";
+      | "danger"
+      | "black";
   }>;
 
   export type OwnProps = Omit<ButtonHTMLProps | LinkHTMLProps, "className"> &

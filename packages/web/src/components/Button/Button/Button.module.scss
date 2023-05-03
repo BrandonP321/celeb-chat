@@ -14,10 +14,15 @@
   }
 }
 
-@mixin ButtonGradientColorScheme($gradient, $disabledGradient) {
+@mixin ButtonGradientColorScheme(
+  $gradient,
+  $disabledGradient,
+  $normalOpacity: 0.75,
+  $transitionDelay: 0.2
+) {
   .btnBg {
     background: $gradient;
-    opacity: 0.75;
+    opacity: $normalOpacity;
 
     @include touchDevice() {
       opacity: 1;
@@ -32,7 +37,7 @@
       bottom: 0;
       background: $disabledGradient;
       opacity: 0;
-      transition: all 0.25s;
+      transition: all $transitionDelay;
     }
   }
 
@@ -88,6 +93,15 @@
       $colorDanger,
       $colorDangerDisabled
     );
+  }
+
+  &.black {
+    @include ButtonGradientColorScheme(
+      BlackGradient(),
+      BlackDisabledGradient(to top left),
+      0.5
+    );
+    box-shadow: inset 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
   }
 
   span {

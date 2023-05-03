@@ -65,16 +65,15 @@
   margin-bottom: 1rem;
 }
 
-.moreBtn {
+.chatCard .moreBtn {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background-color: rgba(black, 0.2);
   display: none;
   justify-content: center;
   align-items: center;
   margin-left: 0.25rem;
-  transition: all 0.1s;
+  transition: all 0s;
 
   @include touchDevice() {
     display: flex;
@@ -82,12 +81,10 @@
 
   .icon {
     color: $textSecondary;
-    transition: all 0.2s;
+    transition: all 0.1s;
   }
 
   &:hover {
-    background-color: rgba(black, 0.4);
-
     .icon {
       color: $textPrimary;
     }

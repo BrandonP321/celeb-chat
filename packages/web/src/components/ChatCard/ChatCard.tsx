@@ -6,6 +6,7 @@ import { WebChatUtils } from "utils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/pro-solid-svg-icons";
+import { Button } from "..";
 
 export namespace ChatCard {
   export type Props = UserModel.UserChat & {
@@ -37,15 +38,16 @@ function ChatCard(props: ChatCard.Props) {
         <p className={styles.lastMsg}>{lastMessage}</p>
       </div>
 
-      <button
-        className={styles.moreBtn}
+      <Button
+        classes={{ root: styles.moreBtn }}
+        variant="black"
         onClick={(e) => {
           e.preventDefault();
           showOptionsModal(id);
         }}
       >
         <FontAwesomeIcon icon={faEllipsis} className={styles.icon} />
-      </button>
+      </Button>
     </Link>
   );
 }
