@@ -1,5 +1,7 @@
 import fs from "fs";
 import * as os from "os";
+// import QRCode from "qrcode";
+import qrcode from "qrcode-terminal";
 
 const envRelativePaths = ["/../packages/web/.env", "/../packages/server/.env"];
 const ipAddress = getIpAddress();
@@ -18,6 +20,22 @@ envRelativePaths.forEach((filePath) => {
 });
 
 console.log("ALL IP ADDRESS ENV VARS UPDATED\n");
+
+qrcode.setErrorLevel("Q");
+
+const webAppLocalAddress = `http://${ipAddress}:3000`;
+
+qrcode.generate(webAppLocalAddress, { small: true }, (code) => {
+  console.log(`React App: ${webAppLocalAddress}`);
+  console.log(code);
+});
+
+const nodeServerLocalAddress = `http://${ipAddress}:8000`;
+
+qrcode.generate(nodeServerLocalAddress, { small: true }, (code) => {
+  console.log(`Node Server: ${nodeServerLocalAddress}`);
+  console.log(code);
+});
 
 function getIpAddress() {
   const nets = os.networkInterfaces();
