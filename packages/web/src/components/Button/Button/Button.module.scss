@@ -18,7 +18,7 @@
   $gradient,
   $disabledGradient,
   $normalOpacity: 0.75,
-  $transitionDelay: 0.2
+  $transitionDuration: 0.2s
 ) {
   .btnBg {
     background: $gradient;
@@ -37,7 +37,7 @@
       bottom: 0;
       background: $disabledGradient;
       opacity: 0;
-      transition: all $transitionDelay;
+      transition: all $transitionDuration;
     }
   }
 
