@@ -7,7 +7,7 @@ import {
 } from "@/Components";
 import styles from "./ChatLayout.module.scss";
 import { Outlet } from "react-router-dom";
-import { useUser } from "@/Hooks";
+import { useAuthenticatedPage, useUser } from "@/Hooks";
 
 export namespace ChatLayout {
   export type Props = {
@@ -16,6 +16,8 @@ export namespace ChatLayout {
 }
 
 function ChatLayout({ children }: ChatLayout.Props) {
+  useAuthenticatedPage();
+
   const [showMobileNav, setShowMobileNav] = useState(false);
   const { user } = useUser();
 

@@ -2,8 +2,8 @@ import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { WebChatUtils } from "utils";
+import { useLocation, useNavigate } from "react-router-dom";
+import { RouteHelper, WebChatUtils } from "utils";
 import { APIFetcher } from "utils/APIFetcher";
 import { Actions } from "./slices";
 import type { AppDispatch, RootState } from "./store";
@@ -13,6 +13,15 @@ import { CachedChat } from "./slices/Chats/ChatsSlice";
 // export appropriately typed `useDispatch` and `useAppSelector` hooks
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+export const useAuthenticatedPage = () => {
+  const navigate = useNavigate();
+  const { user, isFetching } = useAppSelector((state) => state.user);
+
+  if (!user && !isFetching) {
+    navigate(RouteHelper.Login(true));
+  }
+};
 
 /**
  * Responsive hook that returns the current status of each css breakpoint
@@ -36,19 +45,25 @@ type UserUserProps = {
   fetchIfNotExists?: boolean;
 };
 
-export const useUser = ({ fetchIfNotExists }: UserUserProps = {}) => {
+export const useUser = (props: UserUserProps = {}) => {
+  const { fetchIfNotExists } = props;
+
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.user);
+  const { user, isFetching } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     if (!user && fetchIfNotExists) {
-      APIFetcher.getUserAuth().then((user) => {
-        dispatch(Actions.User.setUser(user));
-      });
+      APIFetcher.getUserAuth()
+        .then((user) => {
+          dispatch(Actions.User.setUser(user));
+        })
+        .finally(() => {
+          dispatch(Actions.User.setIsFetching({ isFetching: false }));
+        });
     }
   }, [user, dispatch, fetchIfNotExists]);
 
-  return { user };
+  return { user, isFetching };
 };
 
 export const useChats = () => useAppSelector((state) => state.chats);

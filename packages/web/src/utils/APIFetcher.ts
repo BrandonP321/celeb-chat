@@ -29,7 +29,8 @@ export class APIFetcher {
   };
 
   private static fetchDefaultHandler<Response extends {}>(
-    fetch: () => Promise<AxiosResponse<Response>>
+    fetch: () => Promise<AxiosResponse<Response>>,
+    redirectOnFail: boolean = true
   ): Promise<Response> {
     return new Promise<Response>(async (resolve, reject) => {
       try {
@@ -43,7 +44,10 @@ export class APIFetcher {
         // TODO: consider handling other error codes
         if (!errCode) {
           reject(DefaultErrors.Errors.NetworkError);
-        } else if (errCode === DefaultErrors.ErrorCode.NotAuthenticated) {
+        } else if (
+          errCode === DefaultErrors.ErrorCode.NotAuthenticated &&
+          redirectOnFail
+        ) {
           // TODO: implement navigation that stays within react router & replace url
           // On auth error, redirect to login page with query param for redirecting to current page on auth
           window.location.href = UrlUtils.url()
@@ -71,9 +75,14 @@ export class APIFetcher {
     );
   }
 
-  private static get<Response extends {}>(endpointPath: string) {
-    return this.fetchDefaultHandler(() =>
-      axios.get<Response>(`${apiDomain}${endpointPath}`, this.defaultConfig)
+  private static get<Response extends {}>(
+    endpointPath: string,
+    redirectOnFail?: boolean
+  ) {
+    return this.fetchDefaultHandler(
+      () =>
+        axios.get<Response>(`${apiDomain}${endpointPath}`, this.defaultConfig),
+      redirectOnFail
     );
   }
 
@@ -123,5 +132,8 @@ export class APIFetcher {
     APIFetcher.get<GetUserRequest.Response>(Routes.User.GetFullUser());
 
   public static getUserAuth = () =>
-    APIFetcher.get<GetUserAuthRequest.Response>(Routes.User.GetUserAuth());
+    APIFetcher.get<GetUserAuthRequest.Response>(
+      Routes.User.GetUserAuth(),
+      false
+    );
 }

@@ -13,4 +13,16 @@ export class RouteHelper {
   public static EditChat = ({ chatId }: { chatId: string }) => {
     return `/chat/${chatId}/edit`;
   };
+
+  public static Login = (withRedirect?: boolean) => {
+    if (withRedirect) {
+      return (window.location.href = UrlUtils.url()
+        .setPath("/login")
+        .addParams({
+          [UrlUtils.queryParamKeys.redirectTo]: UrlUtils.url().allButDomain,
+        }).allButDomain);
+    } else {
+      return "/login";
+    }
+  };
 }

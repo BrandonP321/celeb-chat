@@ -15,7 +15,7 @@ import { useUser } from "@/Hooks";
 import styles from "./App.module.scss";
 
 function App() {
-  const { user } = useUser({ fetchIfNotExists: true });
+  const { isFetching } = useUser({ fetchIfNotExists: true });
 
   useEffect(() => {
     Responsive.startDataStoreListeners();
@@ -26,7 +26,7 @@ function App() {
   return (
     <>
       <LoadingContainer
-        loading={!user}
+        loading={isFetching}
         classes={{ root: styles.pageLoadingSpinner }}
       />
       <Router>
