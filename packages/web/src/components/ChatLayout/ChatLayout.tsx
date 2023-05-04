@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { MainNav, ChatSideBar, AlertToasts } from "@/Components";
+import {
+  MainNav,
+  ChatSideBar,
+  AlertToasts,
+  LoadingContainer,
+} from "@/Components";
 import styles from "./ChatLayout.module.scss";
 import { Outlet } from "react-router-dom";
+import { useUser } from "@/Hooks";
 
 export namespace ChatLayout {
   export type Props = {
@@ -11,6 +17,7 @@ export namespace ChatLayout {
 
 function ChatLayout({ children }: ChatLayout.Props) {
   const [showMobileNav, setShowMobileNav] = useState(false);
+  const { user } = useUser();
 
   return (
     <div className={styles.layout}>
@@ -25,8 +32,9 @@ function ChatLayout({ children }: ChatLayout.Props) {
           hideInMobile={() => setShowMobileNav(false)}
         />
         <div className={styles.mainContent}>
+          <LoadingContainer loading={!user} />
           <AlertToasts />
-          <Outlet />
+          {user && <Outlet />}
         </div>
       </div>
     </div>

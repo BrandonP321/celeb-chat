@@ -7,12 +7,16 @@ import {
   EditChat,
   UserDashboard,
 } from "@/Pages";
-import { ChatLayout } from "@/Components";
+import { ChatLayout, LoadingContainer } from "@/Components";
 import { useEffect } from "react";
 import { Responsive } from "@/Slices/Responsive/Responsive";
 import { Home } from "pages/Home/Home";
+import { useUser } from "@/Hooks";
+import styles from "./App.module.scss";
 
 function App() {
+  const { user } = useUser({ fetchIfNotExists: true });
+
   useEffect(() => {
     Responsive.startDataStoreListeners();
 
@@ -20,23 +24,29 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
+    <>
+      <LoadingContainer
+        loading={!user}
+        classes={{ root: styles.pageLoadingSpinner }}
+      />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
 
-        <Route path="/login" element={<Authentication isLogin />} />
-        <Route path="/register" element={<Authentication />} />
+          <Route path="/login" element={<Authentication isLogin />} />
+          <Route path="/register" element={<Authentication />} />
 
-        <Route element={<ChatLayout />}>
-          <Route path="/chat/new" element={<CreateChat />} />
-          <Route path="/chat/:chatId/edit" element={<EditChat />} />
-          <Route path="/chat/:chatId" element={<Chat />} />
-          <Route path="/user/dashboard" element={<UserDashboard />} />
-        </Route>
+          <Route element={<ChatLayout />}>
+            <Route path="/chat/new" element={<CreateChat />} />
+            <Route path="/chat/:chatId/edit" element={<EditChat />} />
+            <Route path="/chat/:chatId" element={<Chat />} />
+            <Route path="/user/dashboard" element={<UserDashboard />} />
+          </Route>
 
-        <Route path="*" element={<h1>404</h1>} />
-      </Routes>
-    </Router>
+          <Route path="*" element={<h1>404</h1>} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 

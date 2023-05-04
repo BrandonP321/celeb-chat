@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import {
+  GetUserAuthRequest,
   GetUserChatsRequest,
   GetUserRequest,
 } from "@celeb-chat/shared/src/api/Requests/user.requests";
@@ -120,4 +121,7 @@ export class APIFetcher {
 
   public static getUser = () =>
     APIFetcher.get<GetUserRequest.Response>(Routes.User.GetFullUser());
+
+  public static getUserAuth = () =>
+    APIFetcher.get<GetUserAuthRequest.Response>(Routes.User.GetUserAuth());
 }

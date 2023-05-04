@@ -9,7 +9,7 @@ import {
 } from "@/Components";
 import styles from "./ChatSideBar.module.scss";
 import classNames from "classnames";
-import { useAppDispatch, useChats } from "@/Hooks";
+import { useAppDispatch, useChats, useUser } from "@/Hooks";
 import { useEffect } from "react";
 import { Actions } from "@/Slices";
 import { useRef } from "react";
@@ -27,6 +27,7 @@ export namespace ChatSideBar {
 
 function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
   const { chats } = useChats();
+  const { user } = useUser();
   const dispatch = useAppDispatch();
 
   const [chatQuery, setChatQuery] = useState("");
@@ -36,14 +37,14 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
   const isFetchingChats = useRef(false);
 
   useEffect(() => {
-    if (!chats && !isFetchingChats.current) {
+    if (!chats && !isFetchingChats.current && !!user) {
       APIFetcher.getUserChats()
         .then(({ chats }) => {
           dispatch(Actions.Chat.setChats(chats));
         })
         .finally(() => (isFetchingChats.current = false));
     }
-  }, [chats, dispatch]);
+  }, [chats, dispatch, user]);
 
   useEffect(() => {
     if (chats) {

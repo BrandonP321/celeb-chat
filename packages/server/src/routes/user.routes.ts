@@ -1,6 +1,7 @@
 import express from "express";
 import { Routes } from "@celeb-chat/shared/src/api/routes";
 import {
+  GetUserAuthController,
   GetUserChatsController,
   GetUserController,
 } from "@/Controllers/user.controllers";
@@ -21,6 +22,13 @@ router.get(
   AuthJwt,
   GetUserMiddleware,
   GetUserChatsController
+);
+
+router.get(
+  Routes.User.GetUserAuth(),
+  AuthJwt,
+  GetUserMiddleware,
+  GetUserAuthController
 );
 
 export default router;

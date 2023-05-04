@@ -79,6 +79,10 @@
     display: flex;
   }
 
+  > span {
+    display: flex;
+  }
+
   .icon {
     color: $textSecondary;
     transition: all 0.1s;
