@@ -30,12 +30,12 @@ qrcode.generate(webAppLocalAddress, { small: true }, (code) => {
   console.log(code);
 });
 
-const nodeServerLocalAddress = `http://${ipAddress}:8000`;
+// const nodeServerLocalAddress = `http://${ipAddress}:8000`;
 
-qrcode.generate(nodeServerLocalAddress, { small: true }, (code) => {
-  console.log(`Node Server: ${nodeServerLocalAddress}`);
-  console.log(code);
-});
+// qrcode.generate(nodeServerLocalAddress, { small: true }, (code) => {
+//   console.log(`Node Server: ${nodeServerLocalAddress}`);
+//   console.log(code);
+// });
 
 function getIpAddress() {
   const nets = os.networkInterfaces();
