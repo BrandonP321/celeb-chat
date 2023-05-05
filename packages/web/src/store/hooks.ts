@@ -57,6 +57,8 @@ export const useUser = (props: UserUserProps = {}) => {
         .then((user) => {
           dispatch(Actions.User.setUser(user));
         })
+        // Nothing needs to happen on catch
+        .catch()
         .finally(() => {
           dispatch(Actions.User.setIsFetching({ isFetching: false }));
         });

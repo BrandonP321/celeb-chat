@@ -34,10 +34,10 @@ export type HTMLAnchorProps = React.DetailedHTMLProps<
 
 export type HTMLLinkProps = LinkProps & React.RefAttributes<HTMLAnchorElement>;
 
-export type FormikSubmit<Values extends {}> = (
+export type FormikSubmit<Values extends {}, ReturnValue = any> = (
   values: Values,
   formik: FormikHelpers<Values>
-) => Promise<any>;
+) => Promise<ReturnValue>;
 
 export type FormikStringValues<Fields extends string> = {
   [key in Fields]: string;

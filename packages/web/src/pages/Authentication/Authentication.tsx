@@ -16,6 +16,9 @@ import {
 } from "./AuthForms";
 import { APIErrorResponse } from "@celeb-chat/shared/src/api/Requests";
 import { UrlUtils } from "utils/UrlUtils";
+import { useAppDispatch } from "@/Hooks";
+import { Actions } from "@/Slices";
+import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 
 namespace Authentication {
   export type Props = {
@@ -25,6 +28,7 @@ namespace Authentication {
 
 function Authentication({ isLogin }: Authentication.Props) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   /** If true, shows login portal, else registration portal */
   const [showLogin, setShowLogin] = useState(!!isLogin);
@@ -42,7 +46,9 @@ function Authentication({ isLogin }: Authentication.Props) {
     return APIFetcher.register({ email, password, username });
   };
 
-  const handleSubmit = <Handler extends FormikSubmit<any>>(
+  const handleSubmit = async <
+    Handler extends FormikSubmit<any, UserModel.ShallowJSON>
+  >(
     values: any,
     formik: any,
     apiCall: Handler
@@ -50,11 +56,12 @@ function Authentication({ isLogin }: Authentication.Props) {
     setAPIError(undefined);
 
     return apiCall(values, formik)
-      .then(() => {
+      .then((user) => {
         const redirectPath = UrlUtils.getParam(
           UrlUtils.queryParamKeys.redirectTo
         );
-
+        dispatch(Actions.User.setUser(user));
+        // TODO: Don't navigate to /chat/asdf
         navigate(redirectPath ?? "/chat/asdf", { replace: true });
       })
       .catch(({ msg }: APIErrorResponse<{}>) => {
