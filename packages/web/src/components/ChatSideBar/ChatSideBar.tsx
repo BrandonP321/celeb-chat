@@ -17,6 +17,7 @@ import { APIFetcher } from "@/Utils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/pro-solid-svg-icons";
+import { useLocation } from "react-router-dom";
 
 export namespace ChatSideBar {
   export type Props = {
@@ -29,6 +30,7 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
   const { chats } = useChats();
   const { user } = useUser();
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
   const [chatQuery, setChatQuery] = useState("");
   const [optionsModalChatId, setOptionsModalChatId] = useState<string>();
@@ -57,6 +59,10 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
       );
     }
   }, [chats, chatQuery]);
+
+  useEffect(() => {
+    hideInMobile();
+  }, [location, hideInMobile]);
 
   return (
     <>

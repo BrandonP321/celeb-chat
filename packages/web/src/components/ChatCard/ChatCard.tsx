@@ -43,6 +43,7 @@ function ChatCard(props: ChatCard.Props) {
         variant="black"
         onClick={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           showOptionsModal(id);
         }}
       >

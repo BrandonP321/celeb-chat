@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   MainNav,
   ChatSideBar,
@@ -21,6 +21,10 @@ function ChatLayout({ children }: ChatLayout.Props) {
   const [showMobileNav, setShowMobileNav] = useState(false);
   const { user } = useUser();
 
+  const hideMobileNav = useCallback(() => {
+    setShowMobileNav(false);
+  }, []);
+
   return (
     <div className={styles.layout}>
       <MainNav
@@ -31,7 +35,7 @@ function ChatLayout({ children }: ChatLayout.Props) {
       <div className={styles.lowerContent}>
         <ChatSideBar
           showInMobile={showMobileNav}
-          hideInMobile={() => setShowMobileNav(false)}
+          hideInMobile={hideMobileNav}
         />
         <div className={styles.mainContent}>
           <LoadingContainer loading={!user} />
