@@ -136,6 +136,9 @@ export const SignoutUserController: TRouteController<
 
     user.jwtHash = {};
     user.markModified("jwtHash");
+
+    JWTUtils.destroyTokenCookie(res);
+
     await user.save();
 
     res.json({}).end();

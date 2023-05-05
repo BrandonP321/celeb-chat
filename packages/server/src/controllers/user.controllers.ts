@@ -14,7 +14,7 @@ export const GetUserController: TRouteController<
   return res.json(await res.locals.user.toFullJSON()).end();
 };
 
-/** Returns full user JSON without sensitive data */
+/** Returns basic user info  */
 export const GetUserAuthController: TRouteController<
   GetUserAuthRequest.Request,
   TUserDocLocals
