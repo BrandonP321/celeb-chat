@@ -68,7 +68,7 @@ export function Button(props: Button.Props) {
   const { disabled, loading, loadingText, children, ...rest } = props;
 
   return (
-    <ButtonBase {...rest} disabled={disabled ?? loading}>
+    <ButtonBase {...rest} disabled={disabled || loading}>
       {loading ? (
         <span>
           <Spinner classes={{ root: styles.spinner }} />
