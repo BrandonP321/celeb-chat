@@ -41,6 +41,7 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
           })
         );
         dispatch(Actions.Chat.updateChat({ id: chat.id, ...values }));
+        formik.resetForm({ values });
       })
       .catch((err: UpdateChatRequest.Error) => {
         dispatch(
