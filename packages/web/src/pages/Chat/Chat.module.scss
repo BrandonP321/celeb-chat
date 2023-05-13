@@ -85,7 +85,8 @@ $maxInputHeight: calc(
   display: flex;
   flex-direction: column;
 
-  p {
+  .msg {
+    position: relative;
     margin-bottom: 1.25rem;
     max-width: 70%;
     background: ColorAccentPrimaryGradient();
@@ -106,6 +107,47 @@ $maxInputHeight: calc(
       border-radius: 0.75rem 2px 0.75rem 0.75rem;
       align-self: flex-end;
       text-align: right;
+
+      .options {
+        left: auto;
+        right: 0;
+        transform: translate(50%, -50%);
+      }
+    }
+
+    &:hover {
+      @include nonTouchDevice() {
+        .options {
+          opacity: 1;
+          pointer-events: all;
+        }
+      }
+    }
+
+    .options {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      $btnWidth: 1.5rem;
+      width: $btnWidth;
+      height: $btnWidth;
+
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      background-color: $bodyBgPrimary;
+      border: 1px solid $primaryHover;
+      box-shadow: 0 0 0.25rem rgba(black, 0.75);
+      transition: 0.2s background-color;
+
+      &:hover {
+        background-color: $primaryHover;
+      }
+
+      .icon {
+      }
     }
   }
 }
