@@ -10,7 +10,7 @@ import { UserModel } from "./User.model";
 
 export namespace ChatModel {
   export type Chat = TDefaultModelProps & {
-    description: string;
+    description?: string;
     chatSummary?: string;
     ownerId: string;
     messagesSinceLastSummary: number;
@@ -40,7 +40,10 @@ export namespace ChatModel {
       user: UserModel.Document
     ) => Promise<FullChatJSONWithoutMessages | undefined>;
     addMsg: (this: Document, ...msg: IndexlessMessage[]) => Promise<boolean>;
-    getTrainingMsg: (this: Document) => Promise<IndexlessMessage>;
+    getTrainingMsg: (
+      this: Document,
+      user: UserModel.Document
+    ) => Promise<IndexlessMessage>;
     incrememtMsgCount: (this: Document, add?: number) => void;
     updateChat: (
       this: Omit<Document, "messages">,

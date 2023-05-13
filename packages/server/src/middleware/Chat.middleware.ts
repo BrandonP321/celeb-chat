@@ -11,8 +11,6 @@ export type ChatResLocals = TUserDocLocals & {
   chat: Omit<ChatModel.Document, "messages">;
 };
 
-const GetChatErrors = new ControllerErrors(ChatRequest.Errors);
-
 export const GetChatMiddleware: TRouteController<
   APIRequest<{}, ChatRequest.ReqBody, {}>,
   ChatResLocals
@@ -31,6 +29,8 @@ export const GetChatWithMsgPageMiddleware: TRouteController<
 > = async (req, res, next) => {
   const { chatId, marker } = req.body;
 
+  const { error } = new ControllerErrors(res, ChatRequest.Errors);
+
   try {
     const pageSize = parseInt(process.env.PAGINATION_PAGE_SIZE ?? "20");
 
@@ -48,7 +48,7 @@ export const GetChatWithMsgPageMiddleware: TRouteController<
     res.locals.pageSize = pageSize;
     getChat(chatId, res, next, { marker: newMarker, pageSize: newPageSize });
   } catch (err) {
-    return GetChatErrors.error.InternalServerError(res);
+    return error.InternalServerError();
   }
 };
 
@@ -57,6 +57,8 @@ export const GetChatWithMsgHistoryMiddleware: TRouteController<
   ChatWithMsgsResLocals
 > = async (req, res, next) => {
   const { chatId } = req.body;
+
+  const { error } = new ControllerErrors(res, ChatRequest.Errors);
 
   try {
     const msgHistoryLength = parseInt(process.env.CHAT_HISTORY_LENGTH ?? "20");
@@ -67,7 +69,7 @@ export const GetChatWithMsgHistoryMiddleware: TRouteController<
       pageSize: msgHistoryLength,
     });
   } catch (err) {
-    return GetChatErrors.error.InternalServerError(res);
+    return error.InternalServerError();
   }
 };
 
@@ -77,6 +79,8 @@ const getChat = async (
   next: NextFunction,
   sliceOptions?: { pageSize: number; marker: number }
 ) => {
+  const { error } = new ControllerErrors(res, ChatRequest.Errors);
+
   try {
     const chat = sliceOptions
       ? await db.Chat.findById(chatId).slice("messages", [
@@ -86,9 +90,9 @@ const getChat = async (
       : await db.Chat.findById(chatId).select("-messages");
 
     if (!chat) {
-      return GetChatErrors.error.ChatNotFound(res);
+      return error.ChatNotFound();
     } else if (chat.ownerId !== res.locals.userId) {
-      return GetChatErrors.error.UnauthorizedChat(res);
+      return error.UnauthorizedChat();
     }
 
     res.locals.chat = chat;
@@ -99,9 +103,9 @@ const getChat = async (
     const isChatNotFound = error?.kind === "ObjectId";
 
     if (isChatNotFound) {
-      return GetChatErrors.error.ChatNotFound(res);
+      return error.ChatNotFound();
     }
 
-    return GetChatErrors.error.InternalServerError(res);
+    return error.InternalServerError();
   }
 };

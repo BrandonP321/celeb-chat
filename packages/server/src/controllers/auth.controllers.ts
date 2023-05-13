@@ -13,12 +13,12 @@ import { TUserDocSaveErr } from "@/Models/User/userHelpers";
 import db from "@/Models";
 import { TUserDocLocals } from "@/Middleware/User.middleware";
 
-const registrationErrors = new ControllerErrors(RegisterAccountRequest.Errors);
-
 export const RegisterUserController: TRouteController<
   RegisterAccountRequest.Request,
   {}
 > = async (req, res) => {
+  const { error } = new ControllerErrors(res, RegisterAccountRequest.Errors);
+
   // TODO: implement input validation
   // const inputValidationErrors = AuthUtils.ValidateRegistrationFields(req.body);
 
@@ -46,13 +46,13 @@ export const RegisterUserController: TRouteController<
         switch (err.reason) {
           case "emailOrUsernameTaken":
             return err.duplicateKey === "email"
-              ? registrationErrors.error.EmailTaken(res)
-              : registrationErrors.error.UsernameTaken(res);
+              ? error.EmailTaken()
+              : error.UsernameTaken();
           default:
-            return registrationErrors.error.InternalServerError(res);
+            return error.InternalServerError();
         }
       } else if (err) {
-        return registrationErrors.error.InternalServerError(res);
+        return error.InternalServerError();
       }
 
       // generate auth tokens and set them in response header
@@ -63,7 +63,7 @@ export const RegisterUserController: TRouteController<
       );
 
       if (!tokens) {
-        return registrationErrors.error.InternalServerError(res);
+        return error.InternalServerError();
       }
 
       const userJSON = await user.toShallowJSON();
@@ -73,12 +73,12 @@ export const RegisterUserController: TRouteController<
   );
 };
 
-const loginErrors = new ControllerErrors(LoginRequest.Errors);
-
 export const LoginUserController: TRouteController<
   LoginRequest.Request,
   {}
 > = async (req, res) => {
+  const { error } = new ControllerErrors(res, LoginRequest.Errors);
+
   // TODO: implement input validation
   // const inputValidationErrors = AuthUtils.ValidateLoginFields(req.body);
 
@@ -95,13 +95,13 @@ export const LoginUserController: TRouteController<
     { email: req.body.email },
     async (err: CallbackError, user: UserModel.Document) => {
       if (err || !user) {
-        return loginErrors.error.InvalidEmailOrPassword(res);
+        return error.InvalidEmailOrPassword();
       }
 
       const isValidPassword = await user.validatePassword(req.body.password);
 
       if (!isValidPassword) {
-        return loginErrors.error.InvalidEmailOrPassword(res);
+        return error.InvalidEmailOrPassword();
       }
 
       // generate and set auth tokens in response header
@@ -111,7 +111,7 @@ export const LoginUserController: TRouteController<
       );
 
       if (!tokens) {
-        return loginErrors.error.InternalServerError(res);
+        return error.InternalServerError();
       }
 
       // add jwt id to user's doc in db
@@ -124,13 +124,13 @@ export const LoginUserController: TRouteController<
   );
 };
 
-const signoutErrors = new ControllerErrors(SignoutRequest.Errors);
-
 // /** Signs user out of all devices by invalidating all refresh tokens */
 export const SignoutUserController: TRouteController<
   SignoutRequest.Request,
   TUserDocLocals
 > = async (req, res) => {
+  const { error } = new ControllerErrors(res, SignoutRequest.Errors);
+
   try {
     const user = res.locals.user;
 
@@ -143,7 +143,7 @@ export const SignoutUserController: TRouteController<
 
     res.json({}).end();
   } catch (err) {
-    return signoutErrors.error.InternalServerError(res);
+    return error.InternalServerError();
   }
 };
 

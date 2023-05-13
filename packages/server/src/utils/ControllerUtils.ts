@@ -10,14 +10,14 @@ type ControllerResponses<T extends {}> = {
 
 export class ControllerErrors<Errors extends ControllerResponses<{}>> {
   public error: {
-    [key in keyof Errors]: (res: Response, msg?: string) => Response;
+    [key in keyof Errors]: (msg?: string) => Response;
   } = {} as typeof this.error;
 
-  constructor(errors: Errors) {
+  constructor(res: Response, errors: Errors) {
     for (const errorKey in errors) {
       const error = errors[errorKey] as APIControllerResponse<{}>;
 
-      this.error[errorKey] = (res, msg) => {
+      this.error[errorKey] = (msg) => {
         const resJSON: APIErrorResponse<Errors> = {
           errCode: error.errCode,
           msg: msg ?? error.msg,

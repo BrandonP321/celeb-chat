@@ -66,10 +66,14 @@ export namespace Button {
 }
 
 export function Button(props: Button.Props) {
-  const { disabled, loading, loadingText, children, ...rest } = props;
+  const { disabled, loading, loadingText, children, type, ...rest } = props;
 
   return (
-    <ButtonBase {...rest} disabled={disabled || loading}>
+    <ButtonBase
+      {...rest}
+      type={type ?? "button"}
+      disabled={disabled || loading}
+    >
       {loading ? (
         <span>
           <Spinner classes={{ root: styles.spinner }} />

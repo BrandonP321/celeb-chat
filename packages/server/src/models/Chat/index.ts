@@ -1,13 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
-import bcrypt from "bcrypt";
 import { ChatMethods } from "./chatMethods";
 
 const ChatSchema: ChatModel.Schema = new Schema(
   {
     description: {
       type: String,
-      required: [true, "Recipient description required"],
     },
     chatSummary: {
       type: String,

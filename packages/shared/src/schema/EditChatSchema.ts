@@ -2,6 +2,8 @@ import * as Yup from "yup";
 import { YupShape } from "../utils/types";
 import { UpdateChatRequest } from "../api/Requests/chat.requests";
 import { chatDisplayNameSchema } from "./partials/ChatSchemaPartials";
+import { SchemaUtils } from "../utils";
+import { ChatModel } from "../api/models/Chat.model";
 
 export const EditChatSchema = Yup.object<
   YupShape<UpdateChatRequest.UpdateFields>
@@ -9,16 +11,7 @@ export const EditChatSchema = Yup.object<
   displayName: chatDisplayNameSchema,
 });
 
-export const validateChatUpdates = async (
-  updates: Partial<UpdateChatRequest.UpdateFields>
-) => {
-  try {
-    await EditChatSchema.validate(updates);
-
-    return undefined;
-  } catch (err) {
-    const validationError = err as Yup.ValidationError;
-
-    return validationError?.errors?.[0];
-  }
-};
+export const validateChatUpdates =
+  SchemaUtils.getValidationFunc<Partial<UpdateChatRequest.UpdateFields>>(
+    EditChatSchema
+  );

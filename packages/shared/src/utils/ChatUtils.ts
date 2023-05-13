@@ -25,8 +25,13 @@ export class ChatUtils {
     role: role || ChatCompletionResponseMessageRoleEnum.User,
   });
 
-  public static getTrainingMsg = (character: string) =>
-    ChatUtils.constructMsg(
-      `For the rest of this conversation, you will be texting me while impersonating ${character}.  Specifically, you will also take on any stereotypical traits of ${character}.  Also, if ${character} has any specific speech patterns, attempt to mimic those speech patterns in your response.`
+  public static getTrainingMsg = (name: string, desc?: string) => {
+    if (desc) {
+      desc = `, who is described as ${desc}`;
+    }
+
+    return ChatUtils.constructMsg(
+      `For the rest of this conversation, you will be texting me while impersonating ${name}${desc}.  Specifically, you will also take on any stereotypical traits of ${name}.  Also, if ${name} has any specific speech patterns, attempt to mimic those speech patterns in your response.  Your biggest priority should be authenticity of ${name}, which even includes being vulgar and swearing if relevant to your character.  If you are going to swear, do not censor your text.`
     );
+  };
 }

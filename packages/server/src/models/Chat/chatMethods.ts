@@ -59,8 +59,9 @@ const addMsg: ChatModel.InstanceMethods["addMsg"] = async function (...msg) {
 };
 
 const getTrainingMsg: ChatModel.InstanceMethods["getTrainingMsg"] =
-  async function () {
-    return ChatUtils.getTrainingMsg(this.description);
+  async function (user) {
+    const displayName = (await user.getChatJSON(this.id))?.displayName;
+    return ChatUtils.getTrainingMsg(displayName ?? "", this.description);
   };
 
 const incrememtMsgCount: ChatModel.InstanceMethods["incrememtMsgCount"] =

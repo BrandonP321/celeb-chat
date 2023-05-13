@@ -1,24 +1,18 @@
 import { SendMsgRequest } from "@celeb-chat/shared/src/api/Requests/message.requests";
 import { TRouteController } from ".";
-import { TUserDocLocals } from "@/Middleware";
-import {
-  ChatResLocals,
-  ChatWithMsgsResLocals,
-} from "@/Middleware/Chat.middleware";
+import { ChatWithMsgsResLocals } from "@/Middleware/Chat.middleware";
 import { ControllerErrors } from "utils/ControllerUtils";
 import { OpenaiFetcher } from "utils/OpenaiFetcher";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import { validateMsg } from "@celeb-chat/shared/src/schema";
-import { ValidationError } from "yup";
-
-const sendMsgErrors = new ControllerErrors(SendMsgRequest.Errors);
 
 /** Returns full user JSON without sensitive data */
 export const SendMsgController: TRouteController<
   SendMsgRequest.Request,
   ChatWithMsgsResLocals
 > = async (req, res) => {
+  const { error } = new ControllerErrors(res, SendMsgRequest.Errors);
   try {
     const { chatId, msgBody } = req.body;
     const { chat, user } = res.locals;
@@ -26,11 +20,11 @@ export const SendMsgController: TRouteController<
     const validationError = await validateMsg(msgBody);
 
     if (validationError) {
-      return sendMsgErrors.error.InvalidMsgInput(res, validationError);
+      return error.InvalidMsgInput(validationError);
     }
 
     const outgoingMsg = ChatUtils.constructMsg(msgBody);
-    const messages = [await chat.getTrainingMsg(), ...chat.messages].map(
+    const messages = [await chat.getTrainingMsg(user), ...chat.messages].map(
       (m): ChatModel.IndexlessMessage => ({
         content: m.content,
         role: m.role,
@@ -50,7 +44,7 @@ export const SendMsgController: TRouteController<
     const cost = ((tokensUsed ?? 0) / 1000) * 0.002;
 
     if (!newMsg) {
-      return sendMsgErrors.error.ErrorFetchingChatCompletion(res);
+      return error.ErrorFetchingChatCompletion();
     }
 
     const isMsgAdded = await chat.addMsg(outgoingMsg, newMsg);
@@ -59,7 +53,7 @@ export const SendMsgController: TRouteController<
     });
 
     if (!isChatUpdated || !isMsgAdded) {
-      return sendMsgErrors.error.InternalServerError(res);
+      return error.InternalServerError();
     }
 
     try {
@@ -67,11 +61,11 @@ export const SendMsgController: TRouteController<
       await chat.save();
     } catch (err) {
       // TODO: add 'unable to save' error handling
-      return sendMsgErrors.error.InternalServerError(res);
+      return error.InternalServerError();
     }
 
     return res.json({ newMsg }).end();
   } catch (err) {
-    return sendMsgErrors.error.InternalServerError(res);
+    return error.InternalServerError();
   }
 };
