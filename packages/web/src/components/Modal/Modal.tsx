@@ -9,12 +9,14 @@ namespace Modal {
   export type Props = React.PropsWithChildren<{
     show: boolean;
     hide: () => void;
-    classes?: ClassesProp<"root" | "content">;
+    classes?: ClassesProp<"root" | "content" | "upperContent">;
+    footerContent?: () => JSX.Element;
+    title?: string;
   }>;
 }
 
 function Modal(props: Modal.Props) {
-  const { children, show, hide, classes } = props;
+  const { children, show, hide, classes, title, footerContent: Footer } = props;
 
   return (
     <div
@@ -31,7 +33,16 @@ function Modal(props: Modal.Props) {
           className={styles.exitIcon}
           onClick={hide}
         />
-        {children}
+        <div className={styles.scrollWrapper}>
+          <div
+            className={classNames(styles.upperContent, classes?.upperContent)}
+          >
+            <h3 className={styles.modalTitle}>{title}</h3>
+            {children}
+          </div>
+
+          {Footer && <Footer />}
+        </div>
       </div>
     </div>
   );

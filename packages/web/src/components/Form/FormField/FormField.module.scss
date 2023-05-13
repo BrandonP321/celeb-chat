@@ -61,8 +61,17 @@ $labelOffset: calc($inputPadding + $inputBorderWidth);
   color: $textSecondary;
 }
 
-.errorMsg {
-  color: $colorDanger;
+.errorMsg,
+.hintText {
   font-size: 0.9rem;
   padding: 0.5rem 0.5rem 0 0.5rem;
+}
+
+.errorMsg {
+  color: $colorDanger;
+}
+
+.hintText {
+  color: rgba($textSecondary, 0.75);
+  padding-top: 0.25rem;
 }

@@ -1,22 +1,5 @@
 @import "../../styles/uiBase.scss";
 
-.modal {
-}
-
-.modalContent {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.modalTitle {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
 .upperContent {
   margin-bottom: 2rem;
 }

@@ -60,7 +60,8 @@ $satTextPrimary: 0%;
 $textPrimary: hsl($hueTextPrimary, $satTextPrimary, 96%);
 $textPrimaryUnfocused: hsl($hueTextPrimary, $satTextPrimary, 90%);
 
-$textSecondary: #c0c0c0;
+// $textSecondary: #c0c0c0;
+$textSecondary: #d7d7d7;
 $textDark: $bodyBgPrimary;
 
 // GRADIENTS

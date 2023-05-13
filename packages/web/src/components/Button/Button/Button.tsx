@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 import {
   ClassesProp,
   HTMLLinkProps,
@@ -7,7 +7,7 @@ import {
   HTMLProps,
 } from "utils/UtilityTypes";
 import styles from "./Button.module.scss";
-import { Spinner } from "@/Components";
+import { Modal, Spinner } from "@/Components";
 import { Link } from "react-router-dom";
 
 type ButtonHTMLProps = HTMLButtonProps & {
@@ -28,7 +28,8 @@ export namespace ButtonBase {
       | "secondary"
       | "secondaryGradient"
       | "danger"
-      | "black";
+      | "black"
+      | "help";
   }>;
 
   export type OwnProps = Omit<ButtonHTMLProps | LinkHTMLProps, "className"> &
@@ -87,4 +88,32 @@ export namespace ButtonLink {
 
 export function ButtonLink(props: ButtonLink.Props) {
   return <ButtonBase {...props} />;
+}
+
+export namespace HelpButton {
+  export type Props = Button.Props & {
+    HelpModal: (props: Modal.Props) => JSX.Element;
+  };
+}
+
+export function HelpButton(props: HelpButton.Props) {
+  const { HelpModal, children, ...rest } = props;
+
+  const [showModal, setShowModal] = useState(false);
+
+  return (
+    <>
+      <HelpModal show={showModal} hide={() => setShowModal(false)} />
+      <Button
+        {...rest}
+        variant="help"
+        onClick={(e) => {
+          e.preventDefault();
+          setShowModal(true);
+        }}
+      >
+        {children ?? "Help"}
+      </Button>
+    </>
+  );
 }

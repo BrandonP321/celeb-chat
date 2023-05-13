@@ -1,0 +1,22 @@
+@import "../../styles/uiBase.scss";
+
+.modalContent {
+  p {
+    margin-bottom: 1rem;
+    color: $textSecondary;
+  }
+
+  ol,
+  ul {
+    padding-left: 1rem;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    padding-bottom: 1.25rem;
+    color: $textSecondary;
+  }
+}

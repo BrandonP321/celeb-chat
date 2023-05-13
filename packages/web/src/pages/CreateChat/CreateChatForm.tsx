@@ -1,5 +1,11 @@
 import React from "react";
-import { Button, ButtonsWrapper, InputField } from "@/Components";
+import {
+  Button,
+  ButtonsWrapper,
+  CreateChatHelpModal,
+  HelpButton,
+  InputField,
+} from "@/Components";
 import { CreateChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { CreateChatSchema } from "@celeb-chat/shared/src/schema";
 import { Form, Formik } from "formik";
@@ -51,13 +57,29 @@ export default function CreateChatForm() {
       validateOnChange={false}
       onSubmit={handleSubmit}
     >
-      {({}) => (
+      {({ isSubmitting, dirty }) => (
         <Form autoComplete="off">
-          <InputField name={CreateChatField.DisplayName} label="Name" />
-          <InputField name={CreateChatField.Description} label="Description" />
+          <InputField
+            name={CreateChatField.DisplayName}
+            label="Name"
+            hintText="Enter the name of the celebrity, character, or figure you'd like to chat with."
+          />
+          <InputField
+            name={CreateChatField.Description}
+            label="Description"
+            hintText="Provide a brief description or context for your chat (optional)."
+          />
 
           <ButtonsWrapper>
-            <Button variant="primaryGradient">Create</Button>
+            <HelpButton HelpModal={CreateChatHelpModal} />
+            <Button
+              loading={isSubmitting}
+              disabled={!dirty}
+              variant="primaryGradient"
+              type="submit"
+            >
+              Create
+            </Button>
           </ButtonsWrapper>
         </Form>
       )}

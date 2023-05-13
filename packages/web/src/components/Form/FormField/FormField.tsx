@@ -12,6 +12,7 @@ namespace FormField {
     onFocus?: () => void;
     onBlur?: () => void;
     onChange?: (value: string) => void;
+    hintText?: string;
     as?: "input" | "select" | "textarea";
     initialValue?: string;
     id?: string;
@@ -26,6 +27,7 @@ function FormField(props: FormField.Props) {
     onBlur,
     onChange,
     children,
+    hintText,
     name,
     id,
     ...rest
@@ -78,7 +80,9 @@ function FormField(props: FormField.Props) {
         onLoad={(e: any) => console.log({ e })}
         className={classNames(styles.formField, classes?.input)}
       />
+
       {error && <p className={styles.errorMsg}>{error}</p>}
+      {hintText && <p className={styles.hintText}>{hintText}</p>}
     </div>
   );
 }

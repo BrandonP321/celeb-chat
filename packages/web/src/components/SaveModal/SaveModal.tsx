@@ -5,7 +5,6 @@ import { useFormikContext } from "formik";
 
 namespace SaveModal {
   export type Props = Modal.Props & {
-    title?: string;
     saveBtnText?: string;
     savingBtnText?: string;
     saveBtnVariant?: Button.Props["variant"];
@@ -19,7 +18,6 @@ namespace SaveModal {
 
 function SaveModal(props: SaveModal.Props) {
   const {
-    title,
     saveBtnText = "Save",
     savingBtnText = "Saving",
     saveBtnVariant = "primary",
@@ -30,6 +28,7 @@ function SaveModal(props: SaveModal.Props) {
     onCancel,
     children,
     hide,
+    classes = {},
     ...rest
   } = props;
 
@@ -38,27 +37,30 @@ function SaveModal(props: SaveModal.Props) {
     hide();
   };
 
+  const Footer = () => (
+    <ButtonsWrapper>
+      <Button onClick={handleCancel} variant={cancelBtnVariant}>
+        {cancelBtnText}
+      </Button>
+      <Button
+        onClick={onSave}
+        loading={saving}
+        loadingText={savingBtnText}
+        variant={saveBtnVariant}
+      >
+        {saveBtnText}
+      </Button>
+    </ButtonsWrapper>
+  );
+
   return (
-    <Modal {...rest} hide={hide}>
-      <div className={styles.modalContent}>
-        <div className={styles.upperContent}>
-          <h3 className={styles.modalTitle}>{title}</h3>
-          {children}
-        </div>
-        <ButtonsWrapper>
-          <Button onClick={handleCancel} variant={cancelBtnVariant}>
-            {cancelBtnText}
-          </Button>
-          <Button
-            onClick={onSave}
-            loading={saving}
-            loadingText={savingBtnText}
-            variant={saveBtnVariant}
-          >
-            {saveBtnText}
-          </Button>
-        </ButtonsWrapper>
-      </div>
+    <Modal
+      {...rest}
+      classes={{ ...classes, upperContent: styles.upperContent }}
+      hide={hide}
+      footerContent={Footer}
+    >
+      {children}
     </Modal>
   );
 }

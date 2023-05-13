@@ -12,5 +12,7 @@ export { default as Spinner } from "./LoadingSpinner/Spinner/Spinner";
 export * from "./PageHeader/PageHeader";
 export * from "./Toast";
 export * from "./Modal/Modals";
-
+export * from "./HelpModals";
+export * from "./HelpModals/HelpModal";
 export * from "./Button";
+export * from "./TextHelpers/TextHelpers";
