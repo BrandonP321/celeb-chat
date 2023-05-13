@@ -15,26 +15,27 @@ import {
   ChatResLocals,
   ChatWithMsgsResLocals,
 } from "@/Middleware/Chat.middleware";
-import { validateChatUpdates } from "@celeb-chat/shared/src/schema";
+import {
+  validateChatUpdates,
+  validateCreateChatFields,
+} from "@celeb-chat/shared/src/schema";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
-
-const getChatErrors = new ControllerErrors(GetChatRequest.Errors);
 
 /** Returns a chat without its first page of messages */
 export const GetChatController: TRouteController<
   GetChatRequest.Request,
   UserChatLocals
 > = async (req, res) => {
+  const { error } = new ControllerErrors(res, GetChatRequest.Errors);
+
   try {
     const { chat, userChat } = res.locals;
 
     res.json({ ...userChat, ...chat.toFullMessagelessJSON() }).end();
   } catch (err) {
-    return getChatErrors.error.InternalServerError(res);
+    return error.InternalServerError();
   }
 };
-
-const getMessagesErrors = new ControllerErrors(GetChatMessagesRequest.Errors);
 
 export const GetChatMessagesController: TRouteController<
   GetChatMessagesRequest.Request,
@@ -42,6 +43,8 @@ export const GetChatMessagesController: TRouteController<
 > = async (req, res) => {
   const { chatId } = req.body;
   const { chat, user } = res.locals;
+
+  const { error } = new ControllerErrors(res, GetChatMessagesRequest.Errors);
 
   try {
     let nextPageMarker: number | null = (chat?.messages?.[0]?.index ?? 0) - 1;
@@ -54,22 +57,28 @@ export const GetChatMessagesController: TRouteController<
 
     res.json({ messages: chat.messages, nextPageMarker, displayName }).end();
   } catch (err) {
-    return getMessagesErrors.error.InternalServerError(res);
+    return error.InternalServerError();
   }
 };
-
-const createChatErrors = new ControllerErrors(CreateChatRequest.Errors);
 
 export const CreateChatController: TRouteController<
   CreateChatRequest.Request,
   TUserDocLocals
 > = async (req, res) => {
+  const { error } = new ControllerErrors(res, CreateChatRequest.Errors);
+
   try {
     const { description, displayName } = req.body;
     const { user, userId } = res.locals;
 
+    const validationError = await validateCreateChatFields(req.body);
+
+    if (validationError) {
+      return error.InvalidFieldInput(validationError);
+    }
+
     if (user.chats.length >= ChatUtils.maxChatCount) {
-      return createChatErrors.error.MaxChatLimitReached(res);
+      return error.MaxChatLimitReached();
     }
 
     const newChat: ChatModel.NewChat = {
@@ -79,8 +88,7 @@ export const CreateChatController: TRouteController<
 
     db.Chat.create(newChat, async (err, chat) => {
       if (err ?? !chat) {
-        return createChatErrors.error.InternalServerError(
-          res,
+        return error.InternalServerError(
           "An error occurred while creating a new chat"
         );
       }
@@ -95,7 +103,7 @@ export const CreateChatController: TRouteController<
       const chatJSON = await chat.toFullChatJSON(user);
 
       if (!chatJSON) {
-        return createChatErrors.error.InternalServerError(res);
+        return error.InternalServerError();
       }
 
       await user.save();
@@ -103,11 +111,9 @@ export const CreateChatController: TRouteController<
       res.json(chatJSON).end();
     });
   } catch (err) {
-    return createChatErrors.error.InternalServerError(res);
+    return error.InternalServerError();
   }
 };
-
-const deleteChatErrors = new ControllerErrors(DeleteChatRequest.Errors);
 
 export const DeleteChatController: TRouteController<
   DeleteChatRequest.Request,
@@ -116,22 +122,22 @@ export const DeleteChatController: TRouteController<
   const { chatId } = req.body;
   const { chat, user } = res.locals;
 
+  const { error } = new ControllerErrors(res, DeleteChatRequest.Errors);
+
   try {
     const isRemovedFromUser = await user.removeChat(chatId);
 
     if (!isRemovedFromUser) {
-      return deleteChatErrors.error.ErrorDeletingChat(res);
+      return error.ErrorDeletingChat();
     }
 
     Promise.all([chat.delete(), user.save()]);
 
     res.json({}).end();
   } catch (err) {
-    return deleteChatErrors.error.ErrorDeletingChat(res);
+    return error.ErrorDeletingChat();
   }
 };
-
-const updateChatErrors = new ControllerErrors(UpdateChatRequest.Errors);
 
 export const UpdateChatController: TRouteController<
   UpdateChatRequest.Request,
@@ -140,27 +146,29 @@ export const UpdateChatController: TRouteController<
   const { chatId, ...updates } = req.body;
   const { chat, user } = res.locals;
 
+  const { error } = new ControllerErrors(res, UpdateChatRequest.Errors);
+
   try {
     const validationError = await validateChatUpdates(updates);
 
     if (validationError) {
-      return updateChatErrors.error.ErrorUpdatingChat(res, validationError);
+      return error.ErrorUpdatingChat(validationError);
     }
 
     const isChatUpdated = await chat.updateChat(user, updates);
 
     if (!isChatUpdated) {
-      return updateChatErrors.error.ErrorUpdatingChat(res);
+      return error.ErrorUpdatingChat();
     }
 
     try {
       Promise.all([user.save(), chat.save()]);
     } catch (err) {
-      return updateChatErrors.error.ErrorUpdatingChat(res);
+      return error.ErrorUpdatingChat();
     }
 
     res.json({}).end();
   } catch (err) {
-    return updateChatErrors.error.ErrorUpdatingChat(res);
+    return error.ErrorUpdatingChat();
   }
 };
