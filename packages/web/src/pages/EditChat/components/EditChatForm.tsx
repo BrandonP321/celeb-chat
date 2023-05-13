@@ -43,6 +43,7 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
         dispatch(
           Actions.Alert.addAlert({
             type: AlertType.Success,
+            // TODO: Updte text
             msg: "Chat successfully updated",
           })
         );

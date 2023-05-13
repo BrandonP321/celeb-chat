@@ -89,6 +89,7 @@ function Authentication({ isLogin }: Authentication.Props) {
           {({ errors, isSubmitting, resetForm }) => (
             <Form className={styles.authForm} autoComplete="on">
               <h1 className={styles.formHeading}>
+                {/* // TODO: Look into updating this text */}
                 {showLogin ? "Login" : "Register"}
               </h1>
 
@@ -103,14 +104,17 @@ function Authentication({ isLogin }: Authentication.Props) {
                 <Button
                   type="submit"
                   loading={isSubmitting}
+                  // TODO: Look into updating this text
                   loadingText={showLogin ? "Logging in" : "Registering"}
                 >
+                  {/* // TODO: Look into updating this text */}
                   {showLogin ? "Login" : "Register"}
                 </Button>
               </ButtonsWrapper>
 
               <p className={styles.formSwitchBlurb}>
                 <span>
+                  {/* // TODO: Look into updating this text */}
                   {showLogin && "Don't have an account? "}
                   {!showLogin && "Already have an account? "}
                 </span>
@@ -121,6 +125,7 @@ function Authentication({ isLogin }: Authentication.Props) {
                     setShowLogin(!showLogin);
                   }}
                 >
+                  {/* // TODO: Look into updating this text */}
                   {showLogin && "Register now"}
                   {!showLogin && "Login now"}
                 </button>

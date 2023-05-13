@@ -75,6 +75,7 @@ function Chat(props: Chat.Props) {
                 {chat?.isFetching && (
                   <Spinner classes={{ root: styles.spinner }} />
                 )}
+                {/* // TODO: Look into updating text */}
                 {!chat?.isFetching && "Load more messages"}
               </button>
             )}

@@ -5,6 +5,7 @@ export namespace ChatNotFoundContent {
   export type Props = {};
 }
 
+// TODO: Update this UX & copy
 export function ChatNotFoundContent(props: ChatNotFoundContent.Props) {
   return (
     <div className={styles.notFound}>
