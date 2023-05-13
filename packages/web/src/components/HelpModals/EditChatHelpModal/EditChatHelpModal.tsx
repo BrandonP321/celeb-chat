@@ -1,11 +1,11 @@
-import React from "react";
 import { HelpModal, TextAccentSecondary } from "@/Components";
+import React from "react";
 
-export namespace CreateChatHelpModal {
+export namespace EditChatHelpModal {
   export type Props = HelpModal.Props & {};
 }
 
-export function CreateChatHelpModal(props: CreateChatHelpModal.Props) {
+export function EditChatHelpModal(props: EditChatHelpModal.Props) {
   return (
     <HelpModal {...props} title="Creating Your Perfect Chat">
       <p>Follow these simple steps to customize your chat experience.</p>

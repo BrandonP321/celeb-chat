@@ -4,7 +4,13 @@ import { FormikSubmit } from "utils/UtilityTypes";
 import { useAppDispatch } from "@/Hooks";
 import { Form, Formik } from "formik";
 import { EditChatSchema } from "@celeb-chat/shared/src/schema";
-import { Button, ButtonsWrapper, InputField } from "@/Components";
+import {
+  Button,
+  ButtonsWrapper,
+  EditChatHelpModal,
+  HelpButton,
+  InputField,
+} from "@/Components";
 import {
   GetChatRequest,
   UpdateChatRequest,
@@ -71,6 +77,7 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
             </p>
 
             <ButtonsWrapper>
+              <HelpButton HelpModal={EditChatHelpModal} />
               <Button
                 type="submit"
                 variant="primaryGradient"
