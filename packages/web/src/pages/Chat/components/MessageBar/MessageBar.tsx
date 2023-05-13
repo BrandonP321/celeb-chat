@@ -47,7 +47,7 @@ export function MessageBar({ chat }: MessageBar.Props) {
       return;
     }
 
-    const validationError = await validateMsg(msgBody);
+    const validationError = await validateMsg({ msgBody });
 
     if (validationError) {
       return displayError(validationError);

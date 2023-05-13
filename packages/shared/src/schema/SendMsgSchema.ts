@@ -1,23 +1,18 @@
 import * as Yup from "yup";
 import { ChatUtils } from "../utils/ChatUtils";
+import { SchemaUtils } from "../utils";
 
 export const SendMsgSchema = Yup.object().shape({
   msgBody: Yup.string()
     .max(
       ChatUtils.maxMsgCharCount,
-      `Message must be at most ${ChatUtils.maxMsgCharCount} characters long`
+      `Whoa, that's a long one! Keep your message under ${ChatUtils.maxMsgCharCount} characters, please.`
     )
-    .required(),
+    .required(
+      "Don't leave them hanging! Add a message to continue the conversation."
+    ),
 });
 
-export const validateMsg = async (msgBody: string) => {
-  try {
-    await SendMsgSchema.validate({ msgBody });
-
-    return undefined;
-  } catch (err) {
-    const validationError = err as Yup.ValidationError;
-
-    return validationError?.errors?.[0];
-  }
-};
+export const validateMsg = SchemaUtils.getValidationFunc<{ msgBody: string }>(
+  SendMsgSchema
+);

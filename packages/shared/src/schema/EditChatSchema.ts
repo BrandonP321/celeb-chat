@@ -3,7 +3,6 @@ import { YupShape } from "../utils/types";
 import { UpdateChatRequest } from "../api/Requests/chat.requests";
 import { chatDisplayNameSchema } from "./partials/ChatSchemaPartials";
 import { SchemaUtils } from "../utils";
-import { ChatModel } from "../api/models/Chat.model";
 
 export const EditChatSchema = Yup.object<
   YupShape<UpdateChatRequest.UpdateFields>

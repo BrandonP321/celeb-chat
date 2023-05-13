@@ -44,17 +44,17 @@ export namespace DefaultErrors {
     UserNotFound: {
       status: HttpStatusCode.NotFound,
       errCode: ErrorCode.UserNotFound,
-      msg: "User not found",
+      msg: "Oops, we're having trouble finding your account info. Please log out and log back in. If the problem persists, reach out to our support team!",
     },
     InternalServerError: {
       status: HttpStatusCode.InternalServerError,
       errCode: ErrorCode.InternalServerError,
-      msg: "An unexpected error has occurred",
+      msg: "Whoops, we're having some tech issues on our end. Try again in a bit. If the problem persists, let our support team know!",
     },
     NetworkError: {
       status: HttpStatusCode.InternalServerError,
       errCode: ErrorCode.NetworkError,
-      msg: "A network error has occurred",
+      msg: "Hmm, looks like we're having connection issues. Check your internet and try again!",
     },
   };
 

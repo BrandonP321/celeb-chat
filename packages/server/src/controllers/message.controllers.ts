@@ -17,7 +17,7 @@ export const SendMsgController: TRouteController<
     const { chatId, msgBody } = req.body;
     const { chat, user } = res.locals;
 
-    const validationError = await validateMsg(msgBody);
+    const validationError = await validateMsg({ msgBody });
 
     if (validationError) {
       return error.InvalidMsgInput(validationError);

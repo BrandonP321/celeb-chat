@@ -25,12 +25,12 @@ export namespace RegisterAccountRequest {
     EmailTaken: {
       status: HttpStatusCode.BadRequest,
       errCode: ErrorCode.EmailTaken,
-      msg: "Email Taken",
+      msg: "Oops, this email is already in use. Try another!",
     },
     UsernameTaken: {
       status: HttpStatusCode.BadRequest,
       errCode: ErrorCode.UsernameTaken,
-      msg: "Username taken",
+      msg: "Looks like that username's taken. Give another one a whirl!",
     },
     InvalidFieldInput: {
       status: HttpStatusCode.BadRequest,
@@ -62,7 +62,7 @@ export namespace LoginRequest {
     InvalidEmailOrPassword: {
       status: HttpStatusCode.Unauthorized,
       errCode: ErrorCode.InvalidEmailOrPassword,
-      msg: "Email or password is incorrect",
+      msg: "Oops, something's not right. Double-check your email and password and try again!",
     },
   } as const;
 

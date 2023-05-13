@@ -28,7 +28,7 @@ export namespace ChatRequest {
     UnauthorizedChat: {
       status: HttpStatusCode.Unauthorized,
       errCode: ErrorCode.UnauthorizedChat,
-      msg: "User is unauthorized to access this chat",
+      msg: "Whoa there, this chat isn't on your list. Let's stick to your own chats, okay?",
     },
   };
 }
@@ -65,7 +65,7 @@ export namespace CreateChatRequest {
     MaxChatLimitReached: {
       status: HttpStatusCode.Conflict,
       errCode: ErrorCode.MaxChatLimitReached,
-      msg: `You have reached the max chat limit of ${ChatUtils.maxChatCount}`,
+      msg: `Hold up, you've already got ${ChatUtils.maxChatCount} chats going! Need to clear some space before starting a new one.`,
     },
   } as const;
 
@@ -125,7 +125,7 @@ export namespace DeleteChatRequest {
     ...ChatRequest.Errors,
     ErrorDeletingChat: {
       errCode: ErrorCode.ErrorDeletingChat,
-      msg: "An error occurred while deleting the chat.",
+      msg: "Oops, something's up on our end. We couldn't delete your chat this time. Give it another try!",
       status: ServerErrorStatusCodes.InternalServerError,
     },
   } as const;
@@ -151,7 +151,7 @@ export namespace UpdateChatRequest {
     ...ChatRequest.Errors,
     ErrorUpdatingChat: {
       errCode: ErrorCode.ErrorUpdatingChat,
-      msg: "An error occurred while deleting the chat.",
+      msg: "Whoops, we hit a snag. Couldn't update your chat this time. Try again, will you?",
       status: ServerErrorStatusCodes.InternalServerError,
     },
   } as const;

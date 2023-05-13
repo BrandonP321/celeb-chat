@@ -39,7 +39,7 @@ export namespace SendMsgRequest {
     ErrorFetchingChatCompletion: {
       status: ClientErrorStatusCodes.BadRequest,
       errCode: ErrorCode.ErrorFetchingChatCompletion,
-      msg: "An error occurred while retrieving a response",
+      msg: "Whoops, we're having a hiccup getting a response for your message. Give it another try, and if the problem persists, let us know!",
     },
     InvalidMsgInput: {
       status: ClientErrorStatusCodes.BadRequest,

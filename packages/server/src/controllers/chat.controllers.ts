@@ -89,7 +89,7 @@ export const CreateChatController: TRouteController<
     db.Chat.create(newChat, async (err, chat) => {
       if (err ?? !chat) {
         return error.InternalServerError(
-          "An error occurred while creating a new chat"
+          "Oops, looks like our servers are having a hiccup. Couldn't create the chat this time. Please try again in a few moments!"
         );
       }
 
