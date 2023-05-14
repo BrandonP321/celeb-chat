@@ -1,5 +1,6 @@
 import * as Yup from "yup";
-import { RegexUtils } from "../utils";
+import { RegexUtils, SchemaUtils } from "../utils";
+import { RegisterAccountRequest } from "../api/Requests/auth.requests";
 
 export const RegistrationSchema = Yup.object().shape({
   email: Yup.string()
@@ -38,3 +39,10 @@ export const RegistrationSchema = Yup.object().shape({
     )
     .required("Hold on, confirm your password so we know it's you!"),
 });
+
+type ValidationInput = RegisterAccountRequest.ReqBody & {
+  passwordConfirmation: string;
+};
+
+export const validateRegistrationInput =
+  SchemaUtils.getValidationFunc<ValidationInput>(RegistrationSchema);

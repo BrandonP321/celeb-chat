@@ -9,7 +9,6 @@ import {
 import { TUserDocLocals, UserChatLocals } from "@/Middleware";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import db from "../models";
-import { ControllerErrors } from "utils/ControllerUtils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import {
   ChatResLocals,
@@ -20,155 +19,133 @@ import {
   validateCreateChatFields,
 } from "@celeb-chat/shared/src/schema";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
+import { Controller, ControllerErrors } from "@/Utils";
 
 /** Returns a chat without its first page of messages */
-export const GetChatController: TRouteController<
+export const GetChatController = Controller<
   GetChatRequest.Request,
   UserChatLocals
-> = async (req, res) => {
-  const { error } = new ControllerErrors(res, GetChatRequest.Errors);
+>(async (req, res) => {
+  const { chat, userChat } = res.locals;
 
-  try {
-    const { chat, userChat } = res.locals;
+  res.json({ ...userChat, ...chat.toFullMessagelessJSON() }).end();
+});
 
-    res.json({ ...userChat, ...chat.toFullMessagelessJSON() }).end();
-  } catch (err) {
-    return error.InternalServerError();
-  }
-};
-
-export const GetChatMessagesController: TRouteController<
+export const GetChatMessagesController = Controller<
   GetChatMessagesRequest.Request,
   ChatWithMsgsResLocals
-> = async (req, res) => {
+>(async (req, res) => {
   const { chatId } = req.body;
   const { chat, user } = res.locals;
-
   const { error } = new ControllerErrors(res, GetChatMessagesRequest.Errors);
 
-  try {
-    let nextPageMarker: number | null = (chat?.messages?.[0]?.index ?? 0) - 1;
+  let nextPageMarker: number | null = (chat?.messages?.[0]?.index ?? 0) - 1;
 
-    if (nextPageMarker < 0) {
-      nextPageMarker = null;
-    }
-
-    const displayName = (await user.getChatJSON(chatId))?.displayName ?? "";
-
-    res.json({ messages: chat.messages, nextPageMarker, displayName }).end();
-  } catch (err) {
-    return error.InternalServerError();
+  if (nextPageMarker < 0) {
+    nextPageMarker = null;
   }
-};
 
-export const CreateChatController: TRouteController<
+  const displayName = (await user.getChatJSON(chatId))?.displayName ?? "";
+
+  res.json({ messages: chat.messages, nextPageMarker, displayName }).end();
+});
+
+export const CreateChatController = Controller<
   CreateChatRequest.Request,
   TUserDocLocals
-> = async (req, res) => {
+>(async (req, res) => {
   const { error } = new ControllerErrors(res, CreateChatRequest.Errors);
 
-  try {
-    const { description, displayName } = req.body;
-    const { user, userId } = res.locals;
+  const { description, displayName } = req.body;
+  const { user, userId } = res.locals;
 
-    const validationError = await validateCreateChatFields(req.body);
+  const validationError = await validateCreateChatFields(req.body);
 
-    if (validationError) {
-      return error.InvalidFieldInput(validationError);
+  if (validationError) {
+    return error.InvalidFieldInput(validationError);
+  }
+
+  if (user.chats.length >= ChatUtils.maxChatCount) {
+    return error.MaxChatLimitReached();
+  }
+
+  const newChat: ChatModel.NewChat = {
+    description,
+    ownerId: userId,
+  };
+
+  db.Chat.create(newChat, async (err, chat) => {
+    if (err ?? !chat) {
+      return error.InternalServerError(
+        "Oops, looks like our servers are having a hiccup. Couldn't create the chat this time. Please try again in a few moments!"
+      );
     }
 
-    if (user.chats.length >= ChatUtils.maxChatCount) {
-      return error.MaxChatLimitReached();
-    }
-
-    const newChat: ChatModel.NewChat = {
-      description,
-      ownerId: userId,
+    const newUserChat: UserModel.UserChat = {
+      displayName,
+      id: chat.id,
     };
 
-    db.Chat.create(newChat, async (err, chat) => {
-      if (err ?? !chat) {
-        return error.InternalServerError(
-          "Oops, looks like our servers are having a hiccup. Couldn't create the chat this time. Please try again in a few moments!"
-        );
-      }
+    user.chats = [newUserChat, ...user.chats];
 
-      const newUserChat: UserModel.UserChat = {
-        displayName,
-        id: chat.id,
-      };
+    const chatJSON = await chat.toFullChatJSON(user);
 
-      user.chats = [newUserChat, ...user.chats];
+    if (!chatJSON) {
+      return error.InternalServerError();
+    }
 
-      const chatJSON = await chat.toFullChatJSON(user);
+    await user.save();
 
-      if (!chatJSON) {
-        return error.InternalServerError();
-      }
+    res.json(chatJSON).end();
+  });
+});
 
-      await user.save();
-
-      res.json(chatJSON).end();
-    });
-  } catch (err) {
-    return error.InternalServerError();
-  }
-};
-
-export const DeleteChatController: TRouteController<
+export const DeleteChatController = Controller<
   DeleteChatRequest.Request,
   ChatResLocals
-> = async (req, res) => {
+>(async (req, res) => {
   const { chatId } = req.body;
   const { chat, user } = res.locals;
 
   const { error } = new ControllerErrors(res, DeleteChatRequest.Errors);
 
-  try {
-    const isRemovedFromUser = await user.removeChat(chatId);
+  const isRemovedFromUser = await user.removeChat(chatId);
 
-    if (!isRemovedFromUser) {
-      return error.ErrorDeletingChat();
-    }
-
-    Promise.all([chat.delete(), user.save()]);
-
-    res.json({}).end();
-  } catch (err) {
+  if (!isRemovedFromUser) {
     return error.ErrorDeletingChat();
   }
-};
 
-export const UpdateChatController: TRouteController<
+  Promise.all([chat.delete(), user.save()]);
+
+  res.json({}).end();
+});
+
+export const UpdateChatController = Controller<
   UpdateChatRequest.Request,
   ChatResLocals
-> = async (req, res) => {
+>(async (req, res) => {
   const { chatId, ...updates } = req.body;
   const { chat, user } = res.locals;
 
   const { error } = new ControllerErrors(res, UpdateChatRequest.Errors);
 
+  const validationError = await validateChatUpdates(updates);
+
+  if (validationError) {
+    return error.ErrorUpdatingChat(validationError);
+  }
+
+  const isChatUpdated = await chat.updateChat(user, updates);
+
+  if (!isChatUpdated) {
+    return error.ErrorUpdatingChat();
+  }
+
   try {
-    const validationError = await validateChatUpdates(updates);
-
-    if (validationError) {
-      return error.ErrorUpdatingChat(validationError);
-    }
-
-    const isChatUpdated = await chat.updateChat(user, updates);
-
-    if (!isChatUpdated) {
-      return error.ErrorUpdatingChat();
-    }
-
-    try {
-      Promise.all([user.save(), chat.save()]);
-    } catch (err) {
-      return error.ErrorUpdatingChat();
-    }
-
-    res.json({}).end();
+    Promise.all([user.save(), chat.save()]);
   } catch (err) {
     return error.ErrorUpdatingChat();
   }
-};
+
+  res.json({}).end();
+});

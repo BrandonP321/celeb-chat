@@ -1,6 +1,6 @@
 import { APIRequest } from "@celeb-chat/shared/src/api/Requests";
 import { TRouteController } from "@/Controllers/index";
-import { ControllerErrors } from "@/Utils";
+import { Controller, ControllerErrors } from "@/Utils";
 import db from "@/Models";
 import { ChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { TUserDocLocals } from "./User.middleware";
@@ -11,67 +11,57 @@ export type ChatResLocals = TUserDocLocals & {
   chat: Omit<ChatModel.Document, "messages">;
 };
 
-export const GetChatMiddleware: TRouteController<
+export const GetChatMiddleware = Controller<
   APIRequest<{}, ChatRequest.ReqBody, {}>,
   ChatResLocals
-> = async (req, res, next) => {
+>(async (req, res, next) => {
   getChat(req.body.chatId, res, next);
-};
+});
 
 export type ChatWithMsgsResLocals = TUserDocLocals & {
   chat: ChatModel.Document;
   pageSize: number;
 };
 
-export const GetChatWithMsgPageMiddleware: TRouteController<
+export const GetChatWithMsgPageMiddleware = Controller<
   APIRequest<{}, ChatRequest.WithMsgsReqBody, {}>,
   ChatWithMsgsResLocals
-> = async (req, res, next) => {
+>(async (req, res, next) => {
   const { chatId, marker } = req.body;
-
   const { error } = new ControllerErrors(res, ChatRequest.Errors);
 
-  try {
-    const pageSize = parseInt(process.env.PAGINATION_PAGE_SIZE ?? "20");
+  const pageSize = parseInt(process.env.PAGINATION_PAGE_SIZE ?? "20");
 
-    let newMarker: number;
-    let newPageSize: number;
+  let newMarker: number;
+  let newPageSize: number;
 
-    if (typeof marker !== "number") {
-      newMarker = pageSize * -1;
-      newPageSize = pageSize;
-    } else {
-      newMarker = marker - pageSize < 0 ? 0 : marker - pageSize;
-      newPageSize = marker + 1 - newMarker;
-    }
-
-    res.locals.pageSize = pageSize;
-    getChat(chatId, res, next, { marker: newMarker, pageSize: newPageSize });
-  } catch (err) {
-    return error.InternalServerError();
+  if (typeof marker !== "number") {
+    newMarker = pageSize * -1;
+    newPageSize = pageSize;
+  } else {
+    newMarker = marker - pageSize < 0 ? 0 : marker - pageSize;
+    newPageSize = marker + 1 - newMarker;
   }
-};
 
-export const GetChatWithMsgHistoryMiddleware: TRouteController<
+  res.locals.pageSize = pageSize;
+  getChat(chatId, res, next, { marker: newMarker, pageSize: newPageSize });
+});
+
+export const GetChatWithMsgHistoryMiddleware = Controller<
   APIRequest<{}, ChatRequest.ReqBody, {}>,
   ChatWithMsgsResLocals
-> = async (req, res, next) => {
+>(async (req, res, next) => {
   const { chatId } = req.body;
-
   const { error } = new ControllerErrors(res, ChatRequest.Errors);
 
-  try {
-    const msgHistoryLength = parseInt(process.env.CHAT_HISTORY_LENGTH ?? "20");
+  const msgHistoryLength = parseInt(process.env.CHAT_HISTORY_LENGTH ?? "20");
 
-    res.locals.pageSize = msgHistoryLength;
-    getChat(chatId, res, next, {
-      marker: msgHistoryLength,
-      pageSize: msgHistoryLength,
-    });
-  } catch (err) {
-    return error.InternalServerError();
-  }
-};
+  res.locals.pageSize = msgHistoryLength;
+  getChat(chatId, res, next, {
+    marker: msgHistoryLength,
+    pageSize: msgHistoryLength,
+  });
+});
 
 const getChat = async (
   chatId: string,
@@ -79,7 +69,7 @@ const getChat = async (
   next: NextFunction,
   sliceOptions?: { pageSize: number; marker: number }
 ) => {
-  const { error } = new ControllerErrors(res, ChatRequest.Errors);
+  const { error: resError } = new ControllerErrors(res, ChatRequest.Errors);
 
   try {
     const chat = sliceOptions
@@ -90,9 +80,9 @@ const getChat = async (
       : await db.Chat.findById(chatId).select("-messages");
 
     if (!chat) {
-      return error.ChatNotFound();
+      return resError.ChatNotFound();
     } else if (chat.ownerId !== res.locals.userId) {
-      return error.UnauthorizedChat();
+      return resError.UnauthorizedChat();
     }
 
     res.locals.chat = chat;
@@ -103,9 +93,9 @@ const getChat = async (
     const isChatNotFound = error?.kind === "ObjectId";
 
     if (isChatNotFound) {
-      return error.ChatNotFound();
+      return resError.ChatNotFound();
     }
 
-    return error.InternalServerError();
+    return resError.InternalServerError();
   }
 };
