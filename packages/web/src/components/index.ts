@@ -16,3 +16,4 @@ export * from "./HelpModals";
 export * from "./HelpModals/HelpModal";
 export * from "./Button";
 export * from "./TextHelpers/TextHelpers";
+export * from "./ScrollablePage/ScrollablePage";

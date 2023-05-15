@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./CreateChat.module.scss";
 import CreateChatForm from "./CreateChatForm";
-import { PageHeader } from "@/Components";
+import { PageHeader, ScrollablePage } from "@/Components";
 
 namespace CreateChat {
   export type Props = {};
@@ -9,13 +9,13 @@ namespace CreateChat {
 
 function CreateChat(props: CreateChat.Props) {
   return (
-    <div className={styles.createChat}>
+    <ScrollablePage className={styles.createChat}>
       <PageHeader
         title="Start a New Conversation"
         desc="Choose a character and customize their personality to begin an engaging chat experience. Let the fun begin!"
       />
       <CreateChatForm />
-    </div>
+    </ScrollablePage>
   );
 }
 

@@ -13,6 +13,8 @@
 }
 
 .chatBar {
+  display: flex;
+  flex-direction: column;
   position: relative;
   background-color: $bodyBgPrimary;
   width: 100%;
@@ -82,4 +84,9 @@
   .icon {
     font-size: 1.5rem;
   }
+}
+
+.chats {
+  flex-grow: 1;
+  overflow-y: auto;
 }

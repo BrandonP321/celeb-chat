@@ -103,14 +103,16 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
           </ButtonLink>
         </div>
 
-        {filteredChats?.map((chat, i) => (
-          <ChatCard
-            {...chat}
-            key={i}
-            onClick={hideInMobile}
-            showOptionsModal={setOptionsModalChatId}
-          />
-        ))}
+        <div className={styles.chats}>
+          {filteredChats?.map((chat, i) => (
+            <ChatCard
+              {...chat}
+              key={i}
+              onClick={hideInMobile}
+              showOptionsModal={setOptionsModalChatId}
+            />
+          ))}
+        </div>
       </div>
 
       <ChatCardOptionsModal

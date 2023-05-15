@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styles from "./EditChat.module.scss";
 import { EditChatForm } from "./components/EditChatForm";
-import { LoadingContainer, PageHeader } from "@/Components";
+import { LoadingContainer, PageHeader, ScrollablePage } from "@/Components";
 import { GetChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { useLocation } from "react-router-dom";
-import { WebChatUtils } from "utils/ChatUtils";
-import { APIFetcher } from "utils/APIFetcher";
+import { APIFetcher, WebChatUtils } from "@/Utils";
 import { ChatNotFoundContent } from "pages/Chat/components/ChatNotFoundContent/ChatNotFoundContent";
 
 export namespace EditChat {
@@ -32,7 +31,7 @@ export function EditChat(props: EditChat.Props) {
   }, [location]);
 
   return (
-    <div className={styles.editChat}>
+    <ScrollablePage className={styles.editChat}>
       <LoadingContainer loading={!chat && !chatNotFound} />
 
       {chatNotFound && <ChatNotFoundContent />}
@@ -43,6 +42,6 @@ export function EditChat(props: EditChat.Props) {
       />
 
       {!!chat && <EditChatForm chat={chat} />}
-    </div>
+    </ScrollablePage>
   );
 }
