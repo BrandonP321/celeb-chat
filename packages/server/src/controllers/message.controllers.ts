@@ -42,7 +42,10 @@ export const SendMsgController = Controller<
   const cost = ((tokensUsed ?? 0) / 1000) * 0.002;
 
   if (!newMsg) {
-    return error.ErrorFetchingChatCompletion();
+    return error.ErrorFetchingChatCompletion(
+      undefined,
+      "A new chat was unable to be created"
+    );
   }
 
   const isMsgAdded = await chat.addMsg(outgoingMsg, newMsg);
@@ -51,15 +54,20 @@ export const SendMsgController = Controller<
   });
 
   if (!isChatUpdated || !isMsgAdded) {
-    return error.InternalServerError();
+    return error.InternalServerError(
+      undefined,
+      "An error occurred while adding a message to a chat"
+    );
   }
 
   try {
     await user.save();
     await chat.save();
   } catch (err) {
-    // TODO: add 'unable to save' error handling
-    return error.InternalServerError();
+    return error.InternalServerError(
+      undefined,
+      "An error occurred while saving a chat and user during message sending"
+    );
   }
 
   return res.json({ newMsg }).end();

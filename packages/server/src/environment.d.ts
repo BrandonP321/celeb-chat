@@ -1,6 +1,7 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      ENV?: "local" | "dev" | "prod";
       PORT?: string;
       CORS_ORIGIN?: string;
       SECRET?: string;
@@ -11,6 +12,8 @@ declare global {
       OPENAI_API_KEY?: string;
       PAGINATION_PAGE_SIZE?: string;
       CHAT_HISTORY_LENGTH?: string;
+      AWS_IAM_CW_FULL_ACCESS_KEY_ID?: string;
+      AWS_IAM_CW_FULL_ACCESS_KEY_SECRET?: string;
     }
   }
 }

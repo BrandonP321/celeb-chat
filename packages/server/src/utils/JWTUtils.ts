@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { Logger } from "./LoggerUtils";
 
 export type JWTResLocals = {
   userId: string;
@@ -79,6 +80,8 @@ export class JWTUtils {
 
       return { aToken, rToken };
     } catch (err) {
+      Logger.error(err);
+
       return undefined;
     }
   };

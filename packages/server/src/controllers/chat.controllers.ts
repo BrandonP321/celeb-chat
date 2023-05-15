@@ -91,7 +91,10 @@ export const CreateChatController = Controller<
     const chatJSON = await chat.toFullChatJSON(user);
 
     if (!chatJSON) {
-      return error.InternalServerError();
+      return error.InternalServerError(
+        undefined,
+        "An error occurred while converting a chat to a JSON"
+      );
     }
 
     await user.save();
@@ -112,7 +115,10 @@ export const DeleteChatController = Controller<
   const isRemovedFromUser = await user.removeChat(chatId);
 
   if (!isRemovedFromUser) {
-    return error.ErrorDeletingChat();
+    return error.ErrorDeletingChat(
+      undefined,
+      "An error occurred while removing a chat from a user's chat list"
+    );
   }
 
   Promise.all([chat.delete(), user.save()]);
@@ -132,19 +138,25 @@ export const UpdateChatController = Controller<
   const validationError = await validateChatUpdates(updates);
 
   if (validationError) {
-    return error.ErrorUpdatingChat(validationError);
+    return error.InvalidInput(validationError);
   }
 
   const isChatUpdated = await chat.updateChat(user, updates);
 
   if (!isChatUpdated) {
-    return error.ErrorUpdatingChat();
+    return error.ErrorUpdatingChat(
+      undefined,
+      "An error occurred while updating a chat"
+    );
   }
 
   try {
     Promise.all([user.save(), chat.save()]);
   } catch (err) {
-    return error.ErrorUpdatingChat();
+    return error.ErrorUpdatingChat(
+      undefined,
+      "An error occurred while saving a chat."
+    );
   }
 
   res.json({}).end();

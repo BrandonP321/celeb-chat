@@ -6,6 +6,7 @@ import {
 } from "@celeb-chat/shared/src/api/Requests";
 import { Response } from "express";
 import { TRouteController } from "../controllers";
+import { Logger } from "./LoggerUtils";
 
 type ControllerResponses<T extends {}> = {
   [key in keyof T]: APIControllerResponse<T>;
@@ -13,23 +14,35 @@ type ControllerResponses<T extends {}> = {
 
 export class ControllerErrors<Errors extends ControllerResponses<{}>> {
   public error: {
-    [key in keyof Errors]: (msg?: string) => Response;
+    [key in keyof Errors]: (msg?: string, err?: any) => Response;
   } = {} as typeof this.error;
 
   constructor(res: Response, errors: Errors) {
     for (const errorKey in errors) {
       const error = errors[errorKey] as APIControllerResponse<{}>;
 
-      this.error[errorKey] = (msg) => {
+      this.error[errorKey] = (msg, err) => {
         const resJSON: APIErrorResponse<Errors> = {
           errCode: error.errCode,
           msg: msg ?? error.msg,
         };
 
+        this.logError(err);
+
         return res.status(error.status).json(resJSON).end();
       };
     }
   }
+
+  private logError = (err: any) => {
+    if (err) {
+      if (typeof err !== "string") {
+        err = JSON.stringify(err);
+      }
+
+      Logger.error(err);
+    }
+  };
 }
 
 /**
@@ -48,7 +61,7 @@ export const Controller = <
     try {
       cb(req, res, next);
     } catch (err) {
-      return error.InternalServerError();
+      return error.InternalServerError(undefined, err);
     }
   };
 };

@@ -45,7 +45,10 @@ export const GetUserChatMiddleware = Controller<
   const chat = user.chats.find((c) => c.id === chatId);
 
   if (!chat) {
-    return error.InternalServerError();
+    return error.InternalServerError(
+      undefined,
+      "Chat could not be found on user's chat list"
+    );
   }
 
   res.locals.userChat = chat;

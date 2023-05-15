@@ -6,7 +6,6 @@ import {
   SignoutRequest,
 } from "@celeb-chat/shared/src/api/Requests/auth.requests";
 import { JWTResLocals, JWTUtils, ControllerErrors, Controller } from "@/Utils";
-import { TRouteController } from ".";
 import { CallbackError } from "mongoose";
 import { TUserDocSaveErr } from "@/Models/User/userHelpers";
 import db from "@/Models";
@@ -49,10 +48,10 @@ export const RegisterUserController =
                 ? error.EmailTaken()
                 : error.UsernameTaken();
             default:
-              return error.InternalServerError();
+              return error.InternalServerError(undefined, err);
           }
         } else if (err) {
-          return error.InternalServerError();
+          return error.InternalServerError(undefined, err);
         }
 
         // generate auth tokens and set them in response header
@@ -63,7 +62,10 @@ export const RegisterUserController =
         );
 
         if (!tokens) {
-          return error.InternalServerError();
+          return error.InternalServerError(
+            undefined,
+            "No tokens were generated during registration."
+          );
         }
 
         const userJSON = await user.toShallowJSON();
@@ -109,7 +111,10 @@ export const LoginUserController = Controller<LoginRequest.Request>(
         );
 
         if (!tokens) {
-          return error.InternalServerError();
+          return error.InternalServerError(
+            undefined,
+            "No tokens were generated during login."
+          );
         }
 
         // add jwt id to user's doc in db

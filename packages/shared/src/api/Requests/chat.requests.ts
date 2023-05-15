@@ -1,7 +1,11 @@
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
 import { ChatUtils, TChat } from "../../utils/ChatUtils";
 import { ChatModel } from "../models/Chat.model";
-import { HttpStatusCode, ServerErrorStatusCodes } from "./HttpStatusCodes";
+import {
+  ClientErrorStatusCodes,
+  HttpStatusCode,
+  ServerErrorStatusCodes,
+} from "./HttpStatusCodes";
 
 export namespace ChatRequest {
   export type ReqBody = {
@@ -145,6 +149,7 @@ export namespace UpdateChatRequest {
   export const ErrorCode = {
     ...ChatRequest.ErrorCode,
     ErrorUpdatingChat: "ErrorUpdatingChat",
+    InvalidInput: "InvalidInput",
   } as const;
 
   export const Errors: APIErrors<typeof ErrorCode> = {
@@ -153,6 +158,11 @@ export namespace UpdateChatRequest {
       errCode: ErrorCode.ErrorUpdatingChat,
       msg: "Whoops, we hit a snag. Couldn't update your chat this time. Try again, will you?",
       status: ServerErrorStatusCodes.InternalServerError,
+    },
+    InvalidInput: {
+      errCode: ErrorCode.InvalidInput,
+      msg: "",
+      status: ClientErrorStatusCodes.BadRequest,
     },
   } as const;
 

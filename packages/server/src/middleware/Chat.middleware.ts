@@ -96,6 +96,6 @@ const getChat = async (
       return resError.ChatNotFound();
     }
 
-    return resError.InternalServerError();
+    return resError.InternalServerError(undefined, err);
   }
 };
