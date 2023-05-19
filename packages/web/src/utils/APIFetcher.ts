@@ -1,8 +1,10 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import {
+  CreatePasswordResetRequest,
   GetUserAuthRequest,
   GetUserChatsRequest,
   GetUserRequest,
+  ResetPasswordRequest,
 } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import {
   LoginRequest,
@@ -135,5 +137,19 @@ export class APIFetcher {
     APIFetcher.get<GetUserAuthRequest.Response>(
       Routes.User.GetUserAuth(),
       false
+    );
+
+  public static resetPassword = (params: ResetPasswordRequest.ReqBody) =>
+    APIFetcher.post<ResetPasswordRequest.Response>(
+      Routes.User.ResetPassword(),
+      params
+    );
+
+  public static requestPasswordReset = (
+    params: CreatePasswordResetRequest.ReqBody
+  ) =>
+    APIFetcher.post<CreatePasswordResetRequest.Response>(
+      Routes.User.CreatePasswordResetRequest(),
+      params
     );
 }

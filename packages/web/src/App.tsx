@@ -5,9 +5,11 @@ import {
   Chat,
   CreateChat,
   EditChat,
+  PasswordReset,
+  RequestPasswordReset,
   UserDashboard,
 } from "@/Pages";
-import { ChatLayout, LoadingContainer } from "@/Components";
+import { ChatLayout, LoadingContainer, MainAppLayout } from "@/Components";
 import { useEffect } from "react";
 import { Responsive } from "@/Slices/Responsive/Responsive";
 import { Home } from "pages/Home/Home";
@@ -31,10 +33,20 @@ function App() {
       />
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route element={<MainAppLayout />}>
+            <Route path="/" element={<Home />} />
 
-          <Route path="/login" element={<Authentication isLogin />} />
-          <Route path="/register" element={<Authentication />} />
+            <Route path="/login" element={<Authentication isLogin />} />
+            <Route path="/register" element={<Authentication />} />
+
+            <Route path="/password/reset" element={<PasswordReset />} />
+            <Route
+              path="/password/reset/request"
+              element={<RequestPasswordReset />}
+            />
+
+            <Route path="*" element={<h1>404</h1>} />
+          </Route>
 
           <Route element={<ChatLayout />}>
             <Route path="/chat/new" element={<CreateChat />} />
@@ -42,8 +54,6 @@ function App() {
             <Route path="/chat/:chatId" element={<Chat />} />
             <Route path="/user/dashboard" element={<UserDashboard />} />
           </Route>
-
-          <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </Router>
     </>

@@ -30,6 +30,24 @@ const alertsSlice = createSlice({
 
       state.alerts = newAlerts;
     },
+    addInfoAlert: (state, { payload }: PayloadAction<{ msg: string }>) => {
+      const newAlerts = state.alerts;
+      newAlerts.push({ msg: payload.msg, type: AlertType.Info });
+
+      state.alerts = newAlerts;
+    },
+    addErrorAlert: (state, { payload }: PayloadAction<{ msg: string }>) => {
+      const newAlerts = state.alerts;
+      newAlerts.push({ msg: payload.msg, type: AlertType.Error });
+
+      state.alerts = newAlerts;
+    },
+    addSuccessAlert: (state, { payload }: PayloadAction<{ msg: string }>) => {
+      const newAlerts = state.alerts;
+      newAlerts.push({ msg: payload.msg, type: AlertType.Success });
+
+      state.alerts = newAlerts;
+    },
     dismissAlert: (
       state,
       { payload }: PayloadAction<{ alertIndex: number }>
@@ -45,5 +63,12 @@ const alertsSlice = createSlice({
   },
 });
 
-export const { addAlert, dismissAlert, dismissAllAlerts } = alertsSlice.actions;
+export const {
+  addAlert,
+  dismissAlert,
+  dismissAllAlerts,
+  addErrorAlert,
+  addInfoAlert,
+  addSuccessAlert,
+} = alertsSlice.actions;
 export default alertsSlice.reducer;

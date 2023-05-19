@@ -32,11 +32,20 @@
   margin-top: 1rem;
 }
 
-.formSwitchBlurb {
+.formSwitchBlurb,
+.forgotPass {
+  display: block;
   text-align: center;
+}
+
+.formSwitchBlurb {
   margin-top: 1rem;
 
   button {
     color: $colorAccentSecondary;
   }
+}
+
+.forgotPass {
+  margin-top: 0.5rem;
 }

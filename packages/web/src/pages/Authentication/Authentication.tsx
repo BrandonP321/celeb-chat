@@ -3,9 +3,9 @@ import { Formik, Form } from "formik";
 import { LoginSchema, RegistrationSchema } from "@celeb-chat/shared/src/schema";
 import styles from "./Authentication.module.scss";
 import { FormikSubmit } from "utils/UtilityTypes";
-import { Button, ButtonsWrapper } from "@/Components";
+import { Button, ButtonsWrapper, TextAccentPrimary } from "@/Components";
 import { APIFetcher } from "utils/APIFetcher";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   LoginForm,
   LoginFormFields,
@@ -130,6 +130,16 @@ function Authentication({ isLogin }: Authentication.Props) {
                   {!showLogin && "Login now"}
                 </button>
               </p>
+
+              {showLogin && (
+                <Link
+                  className={styles.forgotPass}
+                  to="/password/reset/request"
+                >
+                  <TextAccentPrimary>Forgot password?</TextAccentPrimary>
+                </Link>
+              )}
+              <p></p>
             </Form>
           )}
         </Formik>

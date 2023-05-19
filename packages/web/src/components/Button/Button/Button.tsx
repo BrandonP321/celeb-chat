@@ -9,6 +9,7 @@ import {
 import styles from "./Button.module.scss";
 import { Modal, Spinner } from "@/Components";
 import { Link } from "react-router-dom";
+import { useFormikContext } from "formik";
 
 type ButtonHTMLProps = HTMLButtonProps & {
   to?: undefined;
@@ -119,5 +120,21 @@ export function HelpButton(props: HelpButton.Props) {
         {children ?? "Help"}
       </Button>
     </>
+  );
+}
+
+export function SubmitButton(props: Button.Props) {
+  const { variant = "primaryGradient", ...rest } = props;
+
+  const { dirty, isSubmitting } = useFormikContext();
+
+  return (
+    <Button
+      {...rest}
+      type="submit"
+      variant={variant}
+      loading={isSubmitting}
+      disabled={!dirty}
+    />
   );
 }

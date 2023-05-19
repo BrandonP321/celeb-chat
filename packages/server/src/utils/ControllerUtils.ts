@@ -7,6 +7,7 @@ import {
 import { Response } from "express";
 import { TRouteController } from "../controllers";
 import { Logger } from "./LoggerUtils";
+import { EnvUtils } from "./EnvUtils";
 
 type ControllerResponses<T extends {}> = {
   [key in keyof T]: APIControllerResponse<T>;
@@ -37,7 +38,12 @@ export class ControllerErrors<Errors extends ControllerResponses<{}>> {
   private logError = (err: any) => {
     if (err) {
       if (typeof err !== "string") {
-        err = JSON.stringify(err);
+        // TODO: Consider not stringifying the error to get a full JSON
+        // err = JSON.stringify(err);
+      }
+
+      if (EnvUtils.local) {
+        console.error(err);
       }
 
       Logger.error(err);

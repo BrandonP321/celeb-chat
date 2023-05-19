@@ -14,6 +14,9 @@ declare global {
       CHAT_HISTORY_LENGTH?: string;
       AWS_IAM_CW_FULL_ACCESS_KEY_ID?: string;
       AWS_IAM_CW_FULL_ACCESS_KEY_SECRET?: string;
+      AWS_IAM_SES_FULL_ACCESS_KEY_ID?: string;
+      AWS_IAM_SES_FULL_ACCESS_KEY_SECRET?: string;
+      AWS_IAM_SES_FULL_ACCESS_REGION?: string;
     }
   }
 }
