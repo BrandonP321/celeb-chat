@@ -60,6 +60,9 @@ const alertsSlice = createSlice({
     dismissAllAlerts: (state) => {
       state.alerts = state.alerts.map((a) => ({ ...a, isDismissed: true }));
     },
+    deleteAllAlerts: (state) => {
+      state.alerts = [];
+    },
   },
 });
 
@@ -70,5 +73,6 @@ export const {
   addErrorAlert,
   addInfoAlert,
   addSuccessAlert,
+  deleteAllAlerts,
 } = alertsSlice.actions;
 export default alertsSlice.reducer;

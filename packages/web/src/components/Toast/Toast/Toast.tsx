@@ -27,7 +27,9 @@ export function Toast({ index, msg, type, isDismissed, classes }: Toast.Props) {
   const timeToDismiss = 4000;
 
   const dismiss = useCallback(() => {
-    dispatch(Actions.Alert.dismissAlert({ alertIndex: index }));
+    try {
+      dispatch(Actions.Alert.dismissAlert({ alertIndex: index }));
+    } catch (err) {}
   }, [dispatch, index]);
 
   useEffect(() => {
