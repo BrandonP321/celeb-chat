@@ -7,6 +7,13 @@ $colorDanger: hsl($hueDanger, 83%, 47%);
 $colorDangerLight: hsl($hueDanger, 83%, 60%);
 $colorDangerLightUnfocused: hsl($hueDanger, 50%, 60%);
 $colorDangerDisabled: hsl($hueDanger, 50%, 60%);
+@function ColorDangerGradient($dir: to bottom right, $opacity: 1) {
+  @return linear-gradient(
+    $dir,
+    hsl($hueDanger, 83%, 47%),
+    hsl($hueDanger, 83%, 30%)
+  );
+}
 
 $hueAccentPrimary: 206;
 $colorAccentPrimary: hsl($hueAccentPrimary, 41%, 50%);

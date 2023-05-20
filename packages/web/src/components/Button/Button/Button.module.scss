@@ -88,10 +88,9 @@
   }
 
   &.danger {
-    @include ButtonColorScheme(
-      $colorDangerLightUnfocused,
-      $colorDanger,
-      $colorDangerDisabled
+    @include ButtonGradientColorScheme(
+      ColorDangerGradient(),
+      ColorDangerGradient()
     );
   }
 

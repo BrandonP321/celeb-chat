@@ -5,6 +5,7 @@ export const Chat = {
   },
   EditChat: "Edit Chat",
   DeleteChat: "DeleteChat",
+  ChatModalTitle: "Chat options",
   ChatNotFound: "Chat Not Found",
   Message: "Message",
   LoadMoreMsg: "Load more messages",

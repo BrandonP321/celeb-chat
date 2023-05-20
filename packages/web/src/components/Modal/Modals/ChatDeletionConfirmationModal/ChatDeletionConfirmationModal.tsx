@@ -69,9 +69,8 @@ export function ChatDeletionConfirmationModal({
       saveBtnText={Loc.Web.Chat.DeleteChatModalDelBtn}
       savingBtnText={Loc.Web.Chat.DeleteChatModalDeleting}
       saveBtnVariant="danger"
-      cancelBtnVariant="primary"
+      cancelBtnVariant="primaryGradient"
       saving={isDeleting}
-      classes={{ content: styles.modal }}
     >
       {Loc.Web.Chat.DeleteChatModalBlurb}
     </SaveModal>

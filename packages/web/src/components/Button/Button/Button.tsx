@@ -31,7 +31,8 @@ export namespace ButtonBase {
       | "secondaryGradient"
       | "danger"
       | "black"
-      | "help";
+      | "help"
+      | "empty";
   }>;
 
   export type OwnProps = Omit<ButtonHTMLProps | LinkHTMLProps, "className"> &
@@ -39,7 +40,7 @@ export namespace ButtonBase {
 }
 
 export function ButtonBase(props: ButtonBase.OwnProps) {
-  const { children, classes, variant = "primary", ...rest } = props;
+  const { children, classes, variant = "primaryGradient", ...rest } = props;
 
   const eleProps: HTMLProps = {
     ...rest,

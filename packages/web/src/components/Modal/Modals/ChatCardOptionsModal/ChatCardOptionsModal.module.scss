@@ -1,15 +1,19 @@
 @import "../../../../styles/uiBase.scss";
 
 .modal {
-  padding: 2rem;
 }
 
 .btns {
   height: 100%;
   justify-content: center;
-}
+  margin-top: 2rem;
 
-.btn {
-  width: 100%;
-  padding: 1rem 1.5rem;
+  .btn {
+    width: 100%;
+    padding: 1rem 1.5rem;
+
+    .icon {
+      font-size: 1.5rem;
+    }
+  }
 }
