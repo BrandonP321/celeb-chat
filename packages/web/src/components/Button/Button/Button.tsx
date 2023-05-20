@@ -10,6 +10,7 @@ import styles from "./Button.module.scss";
 import { Modal, Spinner } from "@/Components";
 import { Link } from "react-router-dom";
 import { useFormikContext } from "formik";
+import { Loc } from "@/Loc";
 
 type ButtonHTMLProps = HTMLButtonProps & {
   to?: undefined;
@@ -117,7 +118,7 @@ export function HelpButton(props: HelpButton.Props) {
           setShowModal(true);
         }}
       >
-        {children ?? "Help"}
+        {children ?? Loc.Common.Help}
       </Button>
     </>
   );

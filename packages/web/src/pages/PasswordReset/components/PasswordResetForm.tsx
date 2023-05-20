@@ -11,6 +11,7 @@ import {
 } from "@/Components";
 import { NewPasswordSchema } from "@celeb-chat/shared/src/schema/ResetPasswordSchema";
 import { useNavigate } from "react-router-dom";
+import { Loc } from "@/Loc";
 
 enum PasswordResetField {
   Password = "password",
@@ -43,25 +44,25 @@ export function PasswordResetForm(props: PasswordResetForm.Props) {
   return (
     <FormikForm
       fields={PasswordResetField}
-      defaultSubmitSuccessMsg="Password reset!"
+      defaultSubmitSuccessMsg={Loc.Web.PassReset.Form.successMsg}
       defaultOnSubmit={handleSubmit}
       validationSchema={NewPasswordSchema}
     >
       <Form autoComplete="off">
         <InputField
           name={PasswordResetField.Password}
-          label="Password"
+          label={Loc.Common.Password}
           type="password"
         />
         <InputField
           name={PasswordResetField.PasswordConfirmation}
-          label="Confirm password"
+          label={Loc.Common.ConfirmPassword}
           type="password"
         />
 
         <ButtonsWrapper>
-          <SubmitButton loadingText="Resetting password">
-            Reset password
+          <SubmitButton loadingText={Loc.Web.PassReset.Form.SubmitBtnLoading}>
+            {Loc.Web.PassReset.Form.SubmitBtn}
           </SubmitButton>
         </ButtonsWrapper>
       </Form>

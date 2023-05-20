@@ -16,6 +16,7 @@ import { useAppDispatch } from "@/Hooks";
 import { Actions } from "@/Slices";
 import { UrlUtils } from "@/Utils";
 import { AlertType } from "@/Slices/Alerts/AlertsSlice";
+import { Loc } from "@/Loc";
 
 export enum CreateChatField {
   DisplayName = "displayName",
@@ -61,13 +62,13 @@ export default function CreateChatForm() {
         <Form autoComplete="off">
           <InputField
             name={CreateChatField.DisplayName}
-            label="Name"
-            hintText="Enter the name of the celebrity, character, or figure you'd like to chat with."
+            label={Loc.Common.Name}
+            hintText={Loc.Web.CreateChat.NameHintText}
           />
           <InputField
             name={CreateChatField.Description}
-            label="Description"
-            hintText="Provide a brief description or context for your chat (optional)."
+            label={Loc.Common.Desc}
+            hintText={Loc.Web.CreateChat.DescHintText}
           />
 
           <ButtonsWrapper>
@@ -78,7 +79,7 @@ export default function CreateChatForm() {
               variant="primaryGradient"
               type="submit"
             >
-              Create
+              {Loc.Common.Create}
             </Button>
           </ButtonsWrapper>
         </Form>

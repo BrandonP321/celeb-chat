@@ -16,6 +16,7 @@ import { useAppDispatch, useChat } from "@/Hooks";
 import { AlertType } from "@/Slices/Alerts/AlertsSlice";
 import { Actions } from "@/Slices";
 import { useLocation } from "react-router-dom";
+import { Loc } from "@celeb-chat/shared/loc";
 
 export namespace MessageBar {
   export type Props = {
@@ -137,7 +138,7 @@ function MessageBarInnerForm(props: MessageBarInnerForm.Props) {
             as="textarea"
             name="msgBody"
             className={styles.input}
-            placeholder={"Message"}
+            placeholder={Loc.Web.Chat.Message}
             maxLength={ChatUtils.maxMsgCharCount}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}

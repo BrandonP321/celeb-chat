@@ -14,6 +14,7 @@ import { MessageBar } from "./components/MessageBar/MessageBar";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import { BrowserUtils } from "@/Utils";
 import { useLocation } from "react-router-dom";
+import { Loc } from "@/Loc";
 
 namespace Chat {
   export type Props = {};
@@ -47,7 +48,7 @@ function Chat(props: Chat.Props) {
     <div className={styles.pageMain}>
       <LoadingContainer
         loading={isFetchingChat}
-        loadingText="Loading messages"
+        loadingText={Loc.Web.Chat.LoadingMsgs}
       />
 
       <MsgOptionsModal
@@ -75,8 +76,8 @@ function Chat(props: Chat.Props) {
                 {chat?.isFetching && (
                   <Spinner classes={{ root: styles.spinner }} />
                 )}
-                {/* // TODO: Look into updating text */}
-                {!chat?.isFetching && "Load more messages"}
+
+                {!chat?.isFetching && Loc.Web.Chat.LoadMoreMsg}
               </button>
             )}
 
@@ -93,8 +94,8 @@ function Chat(props: Chat.Props) {
         {hasNoMessages && (
           <PageHeader
             classes={{ root: styles.firstMsgNotice }}
-            title="Get the conversation started"
-            desc={`Send your first message to ${chat?.displayName} now.`}
+            title={Loc.Web.Chat.EmptyChatTitle}
+            desc={Loc.Web.Chat.EmptyChatDesc(chat?.displayName ?? "")}
           />
         )}
 

@@ -1,4 +1,5 @@
 import { InputField } from "@/Components";
+import { Loc } from "@/Loc";
 import React from "react";
 
 enum LoginField {
@@ -17,8 +18,12 @@ export const LoginInitialValues: LoginForm.Values = {
 
 export const LoginFormFields = () => (
   <>
-    <InputField name={LoginField.Email} label="Email" />
-    <InputField name={LoginField.Password} type={"password"} label="Password" />
+    <InputField name={LoginField.Email} label={Loc.Common.Email} />
+    <InputField
+      name={LoginField.Password}
+      type={"password"}
+      label={Loc.Common.Password}
+    />
   </>
 );
 
@@ -42,17 +47,17 @@ export const RegistrationInitialValues: RegistrationForm.Values = {
 
 export const RegistrationFormFields = () => (
   <>
-    <InputField name={RegistrationField.Email} label="Email" />
-    <InputField name={RegistrationField.Username} label="Username" />
+    <InputField name={RegistrationField.Email} label={Loc.Common.Email} />
+    <InputField name={RegistrationField.Username} label={Loc.Common.Username} />
     <InputField
       name={RegistrationField.Password}
       type={"password"}
-      label="Password"
+      label={Loc.Common.Password}
     />
     <InputField
       name={RegistrationField.PasswordConfirm}
       type={"password"}
-      label="Confirm Password"
+      label={Loc.Common.ConfirmPassword}
     />
   </>
 );

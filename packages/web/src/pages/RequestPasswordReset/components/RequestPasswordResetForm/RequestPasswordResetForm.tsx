@@ -9,6 +9,7 @@ import {
 } from "@/Components";
 import { Form } from "formik";
 import { RequestPasswordResetSchema } from "@celeb-chat/shared/src/schema";
+import { Loc } from "@/Loc";
 
 enum Field {
   Email = "email",
@@ -23,16 +24,20 @@ export function RequestPasswordResetForm() {
     <FormikForm
       fields={Field}
       validationSchema={RequestPasswordResetSchema}
-      defaultSubmitSuccessMsg="Password reset!"
+      defaultSubmitSuccessMsg={Loc.Web.RequestPassReset.Form.SuccessMsg}
       defaultOnSubmit={(v) =>
         APIFetcher.requestPasswordReset({ email: v[Field.Email] })
       }
     >
       <Form autoComplete="off">
-        <InputField name={Field.Email} label="Email" />
+        <InputField name={Field.Email} label={Loc.Common.Email} />
 
         <ButtonsWrapper>
-          <SubmitButton loadingText="Sending email">Send email</SubmitButton>
+          <SubmitButton
+            loadingText={Loc.Web.RequestPassReset.Form.SubmitBtnLoading}
+          >
+            {Loc.Web.RequestPassReset.Form.SubmitBtn}
+          </SubmitButton>
         </ButtonsWrapper>
       </Form>
     </FormikForm>

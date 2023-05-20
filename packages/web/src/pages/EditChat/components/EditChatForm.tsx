@@ -15,6 +15,7 @@ import {
 import { GetChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { APIFetcher } from "utils/APIFetcher";
 import { Actions } from "@/Slices";
+import { Loc } from "@/Loc";
 
 enum EditChatField {
   DisplayName = "displayName",
@@ -46,21 +47,19 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
         [EditChatField.DisplayName]: chat.displayName,
       }}
       validationSchema={EditChatSchema}
-      defaultSubmitSuccessMsg="Chat successfully updated"
+      defaultSubmitSuccessMsg={Loc.Web.EditChat.ChatUpdateSuccess}
       defaultOnSubmit={handleSubmit}
     >
       <Form autoComplete="off">
-        <InputField name={EditChatField.DisplayName} label="Name" />
+        <InputField name={EditChatField.DisplayName} label={Loc.Common.Name} />
 
-        <p className={styles.warningMsg}>
-          Please note: Changing your character's settings may affect the way
-          they respond in the conversation. Adjust with care to maintain a
-          consistent chat experience.
-        </p>
+        <p className={styles.warningMsg}>{Loc.Web.EditChat.WarningMsg}</p>
 
         <ButtonsWrapper>
           <HelpButton HelpModal={EditChatHelpModal} />
-          <SubmitButton loadingText="Saving">Save</SubmitButton>
+          <SubmitButton loadingText={Loc.Common.Saving}>
+            {Loc.Common.Save}
+          </SubmitButton>
         </ButtonsWrapper>
       </Form>
     </FormikForm>

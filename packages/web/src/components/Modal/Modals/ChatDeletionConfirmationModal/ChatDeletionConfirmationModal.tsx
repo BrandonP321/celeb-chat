@@ -8,6 +8,7 @@ import { AlertType } from "@/Slices/Alerts/AlertsSlice";
 import { DeleteChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { useNavigate } from "react-router-dom";
 import { WebChatUtils } from "utils/ChatUtils";
+import { Loc } from "@/Loc";
 
 export namespace ChatDeletionConfirmationModal {
   export type Props = Modal.Props & {
@@ -35,7 +36,7 @@ export function ChatDeletionConfirmationModal({
         dispatch(
           Actions.Alert.addAlert({
             type: AlertType.Success,
-            msg: "Chat successfully deleted",
+            msg: Loc.Web.Chat.ChatDeleted,
           })
         );
 
@@ -63,16 +64,16 @@ export function ChatDeletionConfirmationModal({
     <SaveModal
       {...rest}
       hide={hide}
-      title="Delete Chat"
+      title={Loc.Web.Chat.DeleteChatModalTitle}
       onSave={deleteChat}
-      saveBtnText="Delete"
-      savingBtnText="Deleting"
+      saveBtnText={Loc.Web.Chat.DeleteChatModalDelBtn}
+      savingBtnText={Loc.Web.Chat.DeleteChatModalDeleting}
       saveBtnVariant="danger"
       cancelBtnVariant="primary"
       saving={isDeleting}
       classes={{ content: styles.modal }}
     >
-      Are you sure you want to delete this chat?
+      {Loc.Web.Chat.DeleteChatModalBlurb}
     </SaveModal>
   );
 }

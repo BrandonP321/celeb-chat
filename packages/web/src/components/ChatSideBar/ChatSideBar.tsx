@@ -18,6 +18,7 @@ import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/pro-solid-svg-icons";
 import { useLocation } from "react-router-dom";
+import { Loc } from "@/Loc";
 
 export namespace ChatSideBar {
   export type Props = {
@@ -80,12 +81,15 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
           showInMobile && styles.showMobile
         )}
       >
-        <LoadingContainer loading={!chats} loadingText="Loading chats" />
+        <LoadingContainer
+          loading={!chats}
+          loadingText={Loc.Web.Chat.SideBar.LoadingChats}
+        />
 
         <div className={styles.chatActions}>
           <StandaloneInputField
             name="ChatQuery"
-            placeholder="Search for chat"
+            placeholder={Loc.Web.Chat.SideBar.SearchPlaceholder}
             onChange={(v) => setChatQuery(v)}
             classes={{ root: styles.searchBar, input: styles.input }}
             autoComplete="off"

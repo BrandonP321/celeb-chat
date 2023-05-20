@@ -19,6 +19,7 @@ import { UrlUtils } from "utils/UrlUtils";
 import { useAppDispatch } from "@/Hooks";
 import { Actions } from "@/Slices";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
+import { Loc } from "@/Loc";
 
 namespace Authentication {
   export type Props = {
@@ -86,11 +87,11 @@ function Authentication({ isLogin }: Authentication.Props) {
             )
           }
         >
-          {({ errors, isSubmitting, resetForm }) => (
+          {({ isSubmitting, resetForm }) => (
             <Form className={styles.authForm} autoComplete="on">
               <h1 className={styles.formHeading}>
                 {/* // TODO: Look into updating this text */}
-                {showLogin ? "Login" : "Register"}
+                {showLogin ? Loc.Web.Auth.Login : Loc.Web.Auth.Login}
               </h1>
 
               <div>
@@ -104,19 +105,20 @@ function Authentication({ isLogin }: Authentication.Props) {
                 <Button
                   type="submit"
                   loading={isSubmitting}
-                  // TODO: Look into updating this text
-                  loadingText={showLogin ? "Logging in" : "Registering"}
+                  loadingText={
+                    showLogin
+                      ? Loc.Web.Auth.LoggingIn
+                      : Loc.Web.Auth.Registering
+                  }
                 >
-                  {/* // TODO: Look into updating this text */}
-                  {showLogin ? "Login" : "Register"}
+                  {showLogin ? Loc.Web.Auth.Login : Loc.Web.Auth.Register}
                 </Button>
               </ButtonsWrapper>
 
               <p className={styles.formSwitchBlurb}>
                 <span>
-                  {/* // TODO: Look into updating this text */}
-                  {showLogin && "Don't have an account? "}
-                  {!showLogin && "Already have an account? "}
+                  {showLogin && Loc.Web.Auth.ShowLogin}
+                  {!showLogin && Loc.Web.Auth.ShowRegister}
                 </span>
                 <button
                   onClick={(e) => {
@@ -125,9 +127,8 @@ function Authentication({ isLogin }: Authentication.Props) {
                     setShowLogin(!showLogin);
                   }}
                 >
-                  {/* // TODO: Look into updating this text */}
-                  {showLogin && "Register now"}
-                  {!showLogin && "Login now"}
+                  {showLogin && Loc.Web.Auth.RegisterNow}
+                  {!showLogin && Loc.Web.Auth.LoginNow}
                 </button>
               </p>
 
@@ -136,7 +137,9 @@ function Authentication({ isLogin }: Authentication.Props) {
                   className={styles.forgotPass}
                   to="/password/reset/request"
                 >
-                  <TextAccentPrimary>Forgot password?</TextAccentPrimary>
+                  <TextAccentPrimary>
+                    {Loc.Web.Auth.ForgotPassword}
+                  </TextAccentPrimary>
                 </Link>
               )}
               <p></p>

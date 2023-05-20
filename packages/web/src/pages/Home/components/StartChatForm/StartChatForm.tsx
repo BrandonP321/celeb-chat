@@ -6,6 +6,7 @@ import { Button, ButtonsWrapper, InputField } from "@/Components";
 import { useNavigate } from "react-router-dom";
 import { RouteHelper } from "@/Utils";
 import { BtnAlign } from "components/Button/ButtonsWrapper/ButtonsWrapper";
+import { Loc } from "@/Loc";
 
 enum StartChatFormField {
   Recipient = "recipient",
@@ -43,11 +44,11 @@ export function StartChatForm(props: StartChatForm.Props) {
     >
       {({ dirty }) => (
         <Form className={styles.form} autoComplete="off">
-          <h2 className={styles.formTitle}>Who would you like to chat with?</h2>
+          <h2 className={styles.formTitle}>{Loc.Web.Home.ChatForm.Title}</h2>
           <InputField
             classes={{ root: styles.input }}
             name={StartChatFormField.Recipient}
-            placeholder="Some Person"
+            placeholder={Loc.Web.Home.ChatForm.CharacterPlaceholder}
           />
           <ButtonsWrapper align={BtnAlign.Center}>
             <Button
@@ -56,7 +57,7 @@ export function StartChatForm(props: StartChatForm.Props) {
               loading={isNavigating}
               variant="primaryGradient"
             >
-              Start Chatting
+              {Loc.Web.Home.ChatForm.SubmitBtnText}
             </Button>
           </ButtonsWrapper>
         </Form>

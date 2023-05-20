@@ -2,6 +2,7 @@ import React from "react";
 import { Button, ButtonsWrapper, Modal } from "@/Components";
 import styles from "./SaveModal.module.scss";
 import { useFormikContext } from "formik";
+import { Loc } from "@/Loc";
 
 namespace SaveModal {
   export type Props = Modal.Props & {
@@ -18,12 +19,12 @@ namespace SaveModal {
 
 function SaveModal(props: SaveModal.Props) {
   const {
-    saveBtnText = "Save",
-    savingBtnText = "Saving",
+    saveBtnText = Loc.Common.Save,
+    savingBtnText = Loc.Common.Saving,
     saveBtnVariant = "primary",
     saving,
     onSave,
-    cancelBtnText = "Cancel",
+    cancelBtnText = Loc.Common.Cancel,
     cancelBtnVariant = "danger",
     onCancel,
     children,

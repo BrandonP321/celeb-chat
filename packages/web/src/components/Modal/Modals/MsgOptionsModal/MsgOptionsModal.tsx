@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./MsgOptionsModal.module.scss";
 import { Modal } from "@/Components";
+import { Loc } from "@/Loc";
 
 export namespace MsgOptionsModal {
   export type Props = Modal.Props & {
@@ -9,5 +10,11 @@ export namespace MsgOptionsModal {
 }
 
 export function MsgOptionsModal({ msgIndex, ...props }: MsgOptionsModal.Props) {
-  return <Modal {...props} classes={{}} title="Message Options"></Modal>;
+  return (
+    <Modal
+      {...props}
+      classes={{}}
+      title={Loc.Web.Chat.MsgOptionsModalTitle}
+    ></Modal>
+  );
 }

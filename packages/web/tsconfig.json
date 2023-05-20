@@ -24,7 +24,8 @@
       "@/Hooks": ["./store/hooks.ts"],
       "@/Slices": ["./store/slices"],
       "@/Slices/*": ["./store/slices/*"],
-      "@/Utils": ["./utils"]
+      "@/Utils": ["./utils"],
+      "@/Loc": ["./utils/Loc"]
     }
   },
   "include": ["src"]

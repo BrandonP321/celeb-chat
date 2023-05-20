@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ChatCardOptionsModal.module.scss";
 import { Button, ButtonLink, ButtonsWrapper, Modal } from "@/Components";
 import { BtnAlign } from "components/Button/ButtonsWrapper/ButtonsWrapper";
+import { Loc } from "@/Loc";
 
 export namespace ChatCardOptionsModal {
   export type Props = Modal.Props & {
@@ -23,14 +24,14 @@ export function ChatCardOptionsModal({
           to={`/chat/${chatId}/edit`}
           onClick={props.hide}
         >
-          Edit Chat
+          {Loc.Web.Chat.EditChat}
         </ButtonLink>
         <Button
           classes={{ root: styles.btn }}
           onClick={showDeletionModal}
           variant="danger"
         >
-          Delete Chat
+          {Loc.Web.Chat.DeleteChat}
         </Button>
       </ButtonsWrapper>
     </Modal>

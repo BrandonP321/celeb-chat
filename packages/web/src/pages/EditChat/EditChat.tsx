@@ -6,6 +6,7 @@ import { GetChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.request
 import { useLocation } from "react-router-dom";
 import { APIFetcher, WebChatUtils } from "@/Utils";
 import { ChatNotFoundContent } from "pages/Chat/components/ChatNotFoundContent/ChatNotFoundContent";
+import { Loc } from "@/Loc";
 
 export namespace EditChat {
   export type Props = {};
@@ -37,8 +38,8 @@ export function EditChat(props: EditChat.Props) {
       {chatNotFound && <ChatNotFoundContent />}
 
       <PageHeader
-        title="Edit Your Chat"
-        desc="Modify your character's settings and preferences to fine-tune your conversation experience. Make it truly unique!"
+        title={Loc.Web.EditChat.PageTitle}
+        desc={Loc.Web.EditChat.PageDesc}
       />
 
       {!!chat && <EditChatForm chat={chat} />}
