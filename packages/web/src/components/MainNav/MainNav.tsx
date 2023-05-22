@@ -48,7 +48,7 @@ function MainNav({
       )}
 
       {showMsgNavIcon && (
-        <Link to={"/chat/adsf"} className={styles.msgNavIcon}>
+        <Link to={"/chat/new"} className={styles.msgNavIcon}>
           <FontAwesomeIcon icon={faMessage} className={styles.icon} />
         </Link>
       )}
