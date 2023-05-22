@@ -9,7 +9,11 @@ import {
   RequestPasswordReset,
   UserDashboard,
 } from "@/Pages";
-import { ChatLayout, LoadingContainer, MainAppLayout } from "@/Components";
+import {
+  LoadingContainer,
+  AppLayout,
+  AuthenticatedAppLayout,
+} from "@/Components";
 import { useEffect } from "react";
 import { Responsive } from "@/Slices/Responsive/Responsive";
 import { Home } from "pages/Home/Home";
@@ -33,7 +37,7 @@ function App() {
       />
       <Router>
         <Routes>
-          <Route element={<MainAppLayout />}>
+          <Route element={<AppLayout withChatSidebar={false} />}>
             <Route path="/" element={<Home />} />
 
             <Route path="/login" element={<Authentication isLogin />} />
@@ -48,7 +52,7 @@ function App() {
             <Route path="*" element={<h1>404</h1>} />
           </Route>
 
-          <Route element={<ChatLayout />}>
+          <Route element={<AuthenticatedAppLayout />}>
             <Route path="/chat/new" element={<CreateChat />} />
             <Route path="/chat/:chatId/edit" element={<EditChat />} />
             <Route path="/chat/:chatId" element={<Chat />} />

@@ -19,12 +19,14 @@
 }
 
 .homeBtn,
-.mobileNavBtn {
+.mobileNavBtn,
+.msgNavIcon {
   flex-shrink: 0;
   width: 1.7rem;
 }
 
-.homeBtn {
+.homeBtn,
+.msgNavIcon {
   .icon {
     font-size: 1.5rem;
   }
@@ -45,43 +47,6 @@
     &.close {
       transform: rotate(90deg);
     }
-  }
-}
-
-$userBtnBoxShadowBlur: 0.5rem;
-
-.userBtnWrapper {
-  overflow: hidden;
-  padding: $userBtnBoxShadowBlur;
-
-  @include mobileVW() {
-    padding: $userBtnBoxShadowBlur;
-    padding-right: 1rem;
-  }
-
-  &.showMobile {
-    .userBtn {
-      transform: translate(0);
-    }
-  }
-}
-
-.userBtn {
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-  box-shadow: 0 0 $userBtnBoxShadowBlur 0 rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.25s;
-
-  @include mobileVW() {
-    transform: translateX(200%);
-  }
-
-  .icon {
-    font-size: 1rem;
   }
 }
 

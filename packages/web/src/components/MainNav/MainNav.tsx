@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./MainNav.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faUser, faHome } from "@fortawesome/pro-solid-svg-icons";
+import { faBars, faHome, faMessage } from "@fortawesome/pro-solid-svg-icons";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { useChat } from "@/Hooks";
@@ -12,13 +12,14 @@ export namespace MainNav {
     toggleMobileNav: () => void;
     hideMobileNav: () => void;
     isMobileNavVisible: boolean;
+    showMsgNavIcon?: boolean;
   };
 }
 
 function MainNav({
   toggleMobileNav,
   isMobileNavVisible,
-  hideMobileNav,
+  showMsgNavIcon = false,
 }: MainNav.Props) {
   const { chat } = useChat();
 
@@ -33,37 +34,26 @@ function MainNav({
       >
         <p>{chat?.displayName}</p>
       </Link>
-      <button className={styles.mobileNavBtn} onClick={toggleMobileNav}>
-        <FontAwesomeIcon
-          icon={faBars}
-          className={classNames(
-            styles.icon,
-            isMobileNavVisible && styles.close
-          )}
-        />
-      </button>
+
+      {!showMsgNavIcon && (
+        <button className={styles.mobileNavBtn} onClick={toggleMobileNav}>
+          <FontAwesomeIcon
+            icon={faBars}
+            className={classNames(
+              styles.icon,
+              isMobileNavVisible && styles.close
+            )}
+          />
+        </button>
+      )}
+
+      {showMsgNavIcon && (
+        <Link to={"/chat/adsf"} className={styles.msgNavIcon}>
+          <FontAwesomeIcon icon={faMessage} className={styles.icon} />
+        </Link>
+      )}
     </div>
   );
 }
-
-type UserBtnProps = {
-  showMobile: boolean;
-  onClick: () => void;
-};
-
-const UserBtn = ({ showMobile, onClick }: UserBtnProps) => {
-  return (
-    <div
-      className={classNames(
-        styles.userBtnWrapper,
-        showMobile && styles.showMobile
-      )}
-    >
-      <Link className={styles.userBtn} onClick={onClick} to={"/user/dashboard"}>
-        <FontAwesomeIcon icon={faUser} className={styles.icon} />
-      </Link>
-    </div>
-  );
-};
 
 export default MainNav;

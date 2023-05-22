@@ -1,4 +1,4 @@
-export { default as ChatLayout } from "./ChatLayout/ChatLayout";
+export { default as AppLayout } from "./AppLayout/AppLayout";
 export { default as MainNav } from "./MainNav/MainNav";
 export { default as ChatSideBar } from "./ChatSideBar/ChatSideBar";
 export { default as ChatCard } from "./ChatCard/ChatCard";
@@ -18,5 +18,5 @@ export * from "./Button";
 export * from "./TextHelpers/TextHelpers";
 export * from "./ScrollablePage/ScrollablePage";
 export * from "./Form/FormikForm/FormikForm";
-export * from "./MainAppLayout/MainAppLayout";
 export * from "./ActionIcon/ActionIcon";
+export * from "./AppLayout/AppLayout";
