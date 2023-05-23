@@ -20,6 +20,7 @@
     "paths": {
       "@/Components": ["./components"],
       "@/Pages": ["./pages"],
+      "@/Pages/*": ["./pages/*"],
       "@/Store": ["./store/store.ts"],
       "@/Hooks": ["./store/hooks.ts"],
       "@/Slices": ["./store/slices"],

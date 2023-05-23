@@ -3,6 +3,7 @@ import {
   SendEmailCommandInput,
   SESClient,
 } from "@aws-sdk/client-ses";
+import { PasswordResetEmailString } from "@celeb-chat/shared/src/api/mailer/emailBodies";
 
 const client = new SESClient({
   region: process.env.AWS_IAM_SES_FULL_ACCESS_REGION ?? "",
@@ -45,13 +46,14 @@ export class Mailer {
         Data: subject,
       },
       Body: {
-        Text: {
+        Html: {
           Data: body,
         },
       },
     },
   });
 
+  // TODO: Pass in user's name/username for email HTML
   public static sendPasswordResetEmail = ({
     to,
     confirmationId,
@@ -60,7 +62,7 @@ export class Mailer {
     const command = new SendEmailCommand(
       this.getSendEmailInput({
         to: [to],
-        body: `Reset your password now!  https://dev.fiction-chat.com/password/reset?confirmationId=${confirmationId}&confirmationHash=${confirmationHash}`,
+        body: PasswordResetEmailString({ confirmationHash, confirmationId }),
         subject: "Reset your password",
       })
     );

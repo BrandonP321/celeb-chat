@@ -8,7 +8,9 @@ import {
   PasswordReset,
   RequestPasswordReset,
   UserDashboard,
+  Home,
 } from "@/Pages";
+import { EmailBody, PasswordResetEmailBody } from "@/Pages/DevPages";
 import {
   LoadingContainer,
   AppLayout,
@@ -16,7 +18,6 @@ import {
 } from "@/Components";
 import { useEffect } from "react";
 import { Responsive } from "@/Slices/Responsive/Responsive";
-import { Home } from "pages/Home/Home";
 import { useUser } from "@/Hooks";
 import styles from "./App.module.scss";
 
@@ -48,8 +49,6 @@ function App() {
               path="/password/reset/request"
               element={<RequestPasswordReset />}
             />
-
-            <Route path="*" element={<h1>404</h1>} />
           </Route>
 
           <Route element={<AuthenticatedAppLayout />}>
@@ -58,6 +57,16 @@ function App() {
             <Route path="/chat/:chatId" element={<Chat />} />
             <Route path="/user/dashboard" element={<UserDashboard />} />
           </Route>
+
+          {/* DEV PAGES */}
+          <Route element={<EmailBody />}>
+            <Route
+              path="/_dev/email/password-reset"
+              element={<PasswordResetEmailBody />}
+            />
+          </Route>
+
+          <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </Router>
     </>
