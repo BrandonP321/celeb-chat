@@ -24,7 +24,7 @@ export function PasswordResetEmailJSX({
 
   return (
     <>
-      <Title>Hello {name},</Title>
+      <Title>Hello,</Title>
       {/* // TODO: Update app name */}
       <Text>
         We received a request to reset your password for your XYZ account.
