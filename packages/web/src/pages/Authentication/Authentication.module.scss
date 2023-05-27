@@ -1,19 +1,13 @@
 @import "../../styles/uiBase.scss";
 
 .auth {
-  display: flex;
-  justify-content: center;
-  height: 100%;
 }
 
 .authFormWrapper {
-  width: 90%;
-  max-width: 25rem;
 }
 
 .authForm {
   width: 100%;
-  padding-top: 3rem;
 }
 
 .formHeading {
@@ -21,6 +15,10 @@
   font-weight: bold;
   text-align: center;
   margin-bottom: 1rem;
+
+  @include mobileVW() {
+    font-size: 2rem;
+  }
 }
 
 .errorMsg {
@@ -38,6 +36,13 @@
   text-align: center;
 }
 
+.formSwitchBlurb button,
+.forgotPass {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .formSwitchBlurb {
   margin-top: 1rem;
 
@@ -47,5 +52,6 @@
 }
 
 .forgotPass {
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
+  color: $colorAccentPrimary;
 }

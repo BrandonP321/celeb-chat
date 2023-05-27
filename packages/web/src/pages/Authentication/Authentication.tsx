@@ -3,7 +3,12 @@ import { Formik, Form } from "formik";
 import { LoginSchema, RegistrationSchema } from "@celeb-chat/shared/src/schema";
 import styles from "./Authentication.module.scss";
 import { FormikSubmit } from "utils/UtilityTypes";
-import { Button, ButtonsWrapper, TextAccentPrimary } from "@/Components";
+import {
+  Button,
+  ButtonsWrapper,
+  PageHeader,
+  ScrollablePage,
+} from "@/Components";
 import { APIFetcher } from "utils/APIFetcher";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -71,7 +76,7 @@ function Authentication({ isLogin }: Authentication.Props) {
   };
 
   return (
-    <div className={styles.auth}>
+    <ScrollablePage className={styles.auth}>
       <div className={styles.authFormWrapper}>
         <Formik
           initialValues={
@@ -89,10 +94,13 @@ function Authentication({ isLogin }: Authentication.Props) {
         >
           {({ isSubmitting, resetForm }) => (
             <Form className={styles.authForm} autoComplete="on">
-              <h1 className={styles.formHeading}>
-                {/* // TODO: Look into updating this text */}
-                {showLogin ? Loc.Web.Auth.Login : Loc.Web.Auth.Register}
-              </h1>
+              <PageHeader
+                title={
+                  showLogin
+                    ? Loc.Web.Auth.LoginHeader
+                    : Loc.Web.Auth.RegisterHeader
+                }
+              />
 
               <div>
                 {showLogin && <LoginFormFields />}
@@ -137,9 +145,7 @@ function Authentication({ isLogin }: Authentication.Props) {
                   className={styles.forgotPass}
                   to="/password/reset/request"
                 >
-                  <TextAccentPrimary>
-                    {Loc.Web.Auth.ForgotPassword}
-                  </TextAccentPrimary>
+                  {Loc.Web.Auth.ForgotPassword}
                 </Link>
               )}
               <p></p>
@@ -147,7 +153,7 @@ function Authentication({ isLogin }: Authentication.Props) {
           )}
         </Formik>
       </div>
-    </div>
+    </ScrollablePage>
   );
 }
 
