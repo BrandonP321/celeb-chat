@@ -72,7 +72,7 @@ export function ChatDeletionConfirmationModal({
       cancelBtnVariant="primaryGradient"
       saving={isDeleting}
     >
-      {Loc.Web.Chat.DeleteChatModalBlurb}
+      <p>{Loc.Web.Chat.DeleteChatModalBlurb}</p>
     </SaveModal>
   );
 }

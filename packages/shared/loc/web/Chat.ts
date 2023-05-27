@@ -15,8 +15,9 @@ export const Chat = {
 
   /* Delete Chat Modal */
   ChatDeleted: "Chat successfully deleted",
-  DeleteChatModalTitle: "Delete Chat",
-  DeleteChatModalBlurb: "Are you sure you want to delete this chat?",
+  DeleteChatModalTitle: "Are You Sure?",
+  DeleteChatModalBlurb:
+    "Wait a minute! You're about to erase this chat and all its messages from existence. Are you absolutely sure? This action can't be undone. If you're certain, click 'Delete.' If you're having second thoughts, click 'Cancel.'",
   DeleteChatModalDelBtn: "Delete",
   DeleteChatModalDeleting: "Deleting",
 
