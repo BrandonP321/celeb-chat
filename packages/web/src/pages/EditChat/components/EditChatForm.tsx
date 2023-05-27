@@ -7,6 +7,7 @@ import { EditChatSchema } from "@celeb-chat/shared/src/schema";
 import {
   ButtonsWrapper,
   EditChatHelpModal,
+  FormWarningMsg,
   FormikForm,
   HelpButton,
   InputField,
@@ -64,7 +65,7 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
           hintText={Loc.Web.EditChat.DescHintText}
         />
 
-        <p className={styles.warningMsg}>{Loc.Web.EditChat.WarningMsg}</p>
+        <FormWarningMsg>{Loc.Web.EditChat.WarningMsg}</FormWarningMsg>
 
         <ButtonsWrapper>
           <HelpButton HelpModal={EditChatHelpModal} />

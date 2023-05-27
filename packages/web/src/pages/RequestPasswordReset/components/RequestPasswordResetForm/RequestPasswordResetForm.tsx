@@ -1,8 +1,9 @@
 import React from "react";
-import styles from "./RequestPasswordResetForm.module.scss";
+import styles from "../../RequestPasswordReset.module.scss";
 import { APIFetcher } from "@/Utils";
 import {
   ButtonsWrapper,
+  FormWarningMsg,
   FormikForm,
   InputField,
   SubmitButton,
@@ -31,6 +32,10 @@ export function RequestPasswordResetForm() {
     >
       <Form autoComplete="off">
         <InputField name={Field.Email} label={Loc.Common.Email} />
+
+        <FormWarningMsg>
+          {Loc.Web.RequestPassReset.Form.WarningMsg}
+        </FormWarningMsg>
 
         <ButtonsWrapper>
           <SubmitButton

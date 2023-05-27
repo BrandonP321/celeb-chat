@@ -11,7 +11,10 @@ export namespace RequestPasswordReset {
 export function RequestPasswordReset(props: RequestPasswordReset.Props) {
   return (
     <ScrollablePage>
-      <PageHeader title={Loc.Web.RequestPassReset.PageTitle} />
+      <PageHeader
+        title={Loc.Web.RequestPassReset.PageTitle}
+        desc={Loc.Web.RequestPassReset.PageBlurb}
+      />
       <RequestPasswordResetForm />
     </ScrollablePage>
   );

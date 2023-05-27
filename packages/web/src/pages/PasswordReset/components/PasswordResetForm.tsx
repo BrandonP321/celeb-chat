@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./PasswordResetForm.module.scss";
 import { APIFetcher, FormikSubmit, RouteHelper, UrlUtils } from "@/Utils";
-import { useAppDispatch } from "@/Hooks";
 import { Form } from "formik";
 import {
   ButtonsWrapper,
+  FormWarningMsg,
   FormikForm,
   InputField,
   SubmitButton,
@@ -59,6 +59,8 @@ export function PasswordResetForm(props: PasswordResetForm.Props) {
           label={Loc.Common.ConfirmPassword}
           type="password"
         />
+
+        <FormWarningMsg>{Loc.Web.PassReset.Form.WarningMsg}</FormWarningMsg>
 
         <ButtonsWrapper>
           <SubmitButton loadingText={Loc.Web.PassReset.Form.SubmitBtnLoading}>
