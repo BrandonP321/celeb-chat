@@ -91,7 +91,7 @@ function Authentication({ isLogin }: Authentication.Props) {
             <Form className={styles.authForm} autoComplete="on">
               <h1 className={styles.formHeading}>
                 {/* // TODO: Look into updating this text */}
-                {showLogin ? Loc.Web.Auth.Login : Loc.Web.Auth.Login}
+                {showLogin ? Loc.Web.Auth.Login : Loc.Web.Auth.Register}
               </h1>
 
               <div>
@@ -117,8 +117,8 @@ function Authentication({ isLogin }: Authentication.Props) {
 
               <p className={styles.formSwitchBlurb}>
                 <span>
-                  {showLogin && Loc.Web.Auth.ShowLogin}
-                  {!showLogin && Loc.Web.Auth.ShowRegister}
+                  {showLogin && Loc.Web.Auth.ShowRegister}
+                  {!showLogin && Loc.Web.Auth.ShowLogin}
                 </span>
                 <button
                   onClick={(e) => {
