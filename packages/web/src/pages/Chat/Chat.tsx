@@ -146,19 +146,22 @@ function Message({ msg, onClick }: Message.Props) {
     ),
   };
 
-  if (BrowserUtils.isTouchDevice) {
-    return (
-      <button {...sharedProps} onClick={onClick}>
-        {innerContent}
-      </button>
-    );
-  } else {
-    return (
-      <p {...sharedProps} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-        {innerContent}
-      </p>
-    );
-  }
+  // TODO: User this code when we want to add in message sharing
+  // if (BrowserUtils.isTouchDevice) {
+  //   return (
+  //     <button {...sharedProps} onClick={onClick}>
+  //       {innerContent}
+  //     </button>
+  //   );
+  // } else {
+  //   return (
+  //     <p {...sharedProps} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+  //       {innerContent}
+  //     </p>
+  //   );
+  // }
+
+  return <p {...sharedProps}>{msg.content}</p>;
 }
 
 export default Chat;
