@@ -63,5 +63,5 @@ export namespace ChatModel {
   export type FullChatJSONWithoutMessages = Omit<FullChatJSON, "messages">;
   export type MessagesJSON = Pick<FullJSON, "messages">;
   export type IndexlessMessage = Omit<Message, "index">;
-  export type ChatUpdates = Pick<FullChatJSON, "displayName">;
+  export type ChatUpdates = Pick<FullChatJSON, "displayName" | "description">;
 }

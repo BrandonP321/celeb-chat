@@ -93,12 +93,14 @@ const updateChat: ChatModel.InstanceMethods["updateChat"] = async function (
       user.updateChat(this.id, {
         displayName: updates.displayName ?? userChat.displayName,
       });
-
-      return true;
     }
-  } catch (err) {}
 
-  return false;
+    this.description = updates.description ?? this.description;
+
+    return true;
+  } catch (err) {
+    return false;
+  }
 };
 
 export const ChatMethods: ChatModel.InstanceMethods = {

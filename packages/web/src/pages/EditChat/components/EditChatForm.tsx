@@ -19,6 +19,7 @@ import { Loc } from "@/Loc";
 
 enum EditChatField {
   DisplayName = "displayName",
+  Description = "description",
 }
 
 export namespace EditChatForm {
@@ -45,6 +46,7 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
       fields={EditChatField}
       initialValues={{
         [EditChatField.DisplayName]: chat.displayName,
+        [EditChatField.Description]: chat.description ?? "",
       }}
       validationSchema={EditChatSchema}
       defaultSubmitSuccessMsg={Loc.Web.EditChat.ChatUpdateSuccess}
@@ -52,6 +54,7 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
     >
       <Form autoComplete="off">
         <InputField name={EditChatField.DisplayName} label={Loc.Common.Name} />
+        <InputField name={EditChatField.Description} label={Loc.Common.Desc} />
 
         <p className={styles.warningMsg}>{Loc.Web.EditChat.WarningMsg}</p>
 
