@@ -85,7 +85,8 @@ export const CreatePasswordResetRequestController =
     return res.json({}).end();
   });
 
-const requestLifeSpan = 10 * 1000;
+// Request should last 24 hours
+const requestLifeSpan = 24 * 60 * 60 * 1000;
 
 export const ResetPasswordController = Controller<ResetPasswordRequest.Request>(
   async (req, res) => {
