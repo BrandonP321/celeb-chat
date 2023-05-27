@@ -38,9 +38,11 @@ function App() {
       />
       <Router>
         <Routes>
-          <Route element={<AppLayout withChatSidebar={false} />}>
+          <Route element={<AppLayout showChatNavLink />}>
             <Route path="/" element={<Home />} />
+          </Route>
 
+          <Route element={<AppLayout />}>
             <Route path="/login" element={<Authentication isLogin />} />
             <Route path="/register" element={<Authentication />} />
 
@@ -51,7 +53,7 @@ function App() {
             />
           </Route>
 
-          <Route element={<AuthenticatedAppLayout />}>
+          <Route element={<AuthenticatedAppLayout withChatSidebar />}>
             <Route path="/chat/new" element={<CreateChat />} />
             <Route path="/chat/:chatId/edit" element={<EditChat />} />
             <Route path="/chat/:chatId" element={<Chat />} />

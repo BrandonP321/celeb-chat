@@ -12,14 +12,16 @@ export namespace MainNav {
     toggleMobileNav: () => void;
     hideMobileNav: () => void;
     isMobileNavVisible: boolean;
-    showMsgNavIcon?: boolean;
+    showChatNavLink?: boolean;
+    withChatSidebar?: boolean;
   };
 }
 
 function MainNav({
   toggleMobileNav,
   isMobileNavVisible,
-  showMsgNavIcon = false,
+  showChatNavLink,
+  withChatSidebar,
 }: MainNav.Props) {
   const { chat } = useChat();
 
@@ -35,7 +37,7 @@ function MainNav({
         <p>{chat?.displayName}</p>
       </Link>
 
-      {!showMsgNavIcon && (
+      {withChatSidebar && (
         <button className={styles.mobileNavBtn} onClick={toggleMobileNav}>
           <FontAwesomeIcon
             icon={faBars}
@@ -47,7 +49,7 @@ function MainNav({
         </button>
       )}
 
-      {showMsgNavIcon && (
+      {showChatNavLink && (
         <Link to={"/chat/new"} className={styles.msgNavIcon}>
           <FontAwesomeIcon icon={faMessage} className={styles.icon} />
         </Link>

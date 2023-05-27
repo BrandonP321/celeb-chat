@@ -13,12 +13,14 @@ export namespace AppLayout {
   export type Props = {
     withChatSidebar?: boolean;
     renderOutlet?: boolean;
+    showChatNavLink?: boolean;
   };
 }
 
 function AppLayout({
-  withChatSidebar = true,
+  withChatSidebar,
   renderOutlet = true,
+  showChatNavLink,
 }: AppLayout.Props) {
   const [showMobileNav, setShowMobileNav] = useState(false);
 
@@ -32,7 +34,8 @@ function AppLayout({
         toggleMobileNav={() => setShowMobileNav(!showMobileNav)}
         hideMobileNav={() => setShowMobileNav(false)}
         isMobileNavVisible={showMobileNav}
-        showMsgNavIcon={!withChatSidebar}
+        showChatNavLink={showChatNavLink}
+        withChatSidebar={withChatSidebar}
       />
       <div className={styles.lowerContent}>
         {withChatSidebar && (
