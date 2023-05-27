@@ -53,8 +53,16 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
       defaultOnSubmit={handleSubmit}
     >
       <Form autoComplete="off">
-        <InputField name={EditChatField.DisplayName} label={Loc.Common.Name} />
-        <InputField name={EditChatField.Description} label={Loc.Common.Desc} />
+        <InputField
+          name={EditChatField.DisplayName}
+          label={Loc.Common.Name}
+          hintText={Loc.Web.EditChat.NameHintText}
+        />
+        <InputField
+          name={EditChatField.Description}
+          label={Loc.Common.Desc}
+          hintText={Loc.Web.EditChat.DescHintText}
+        />
 
         <p className={styles.warningMsg}>{Loc.Web.EditChat.WarningMsg}</p>
 
