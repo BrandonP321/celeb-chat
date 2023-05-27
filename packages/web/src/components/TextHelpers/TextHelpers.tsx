@@ -32,3 +32,9 @@ export function TextAccentSecondary(props: TextColorProps) {
     <TextColorHelper {...props} customClassName={styles.accentSecondary} />
   );
 }
+
+export function TextAccentSecondaryLight(props: TextColorProps) {
+  return (
+    <TextColorHelper {...props} customClassName={styles.accentSecondaryLight} />
+  );
+}
