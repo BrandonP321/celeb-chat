@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from "react";
 import styles from "./UserActionsCard.module.scss";
-import { useUser } from "@/Hooks";
+import { useAppDispatch, useUser } from "@/Hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/Components";
 import { APIFetcher } from "utils/APIFetcher";
+import { Actions } from "@/Slices";
 
 export namespace UserActionsCard {
   export type Props = {};
@@ -12,6 +13,7 @@ export namespace UserActionsCard {
 export function UserActionsCard(props: UserActionsCard.Props) {
   const { user } = useUser();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -20,9 +22,10 @@ export function UserActionsCard(props: UserActionsCard.Props) {
 
     await APIFetcher.signout().catch();
 
+    dispatch(Actions.User.signout());
     setIsLoggingOut(false);
     navigate("/");
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   return (
     <div className={styles.card}>

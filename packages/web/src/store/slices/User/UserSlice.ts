@@ -23,8 +23,11 @@ const userSlice = createSlice({
     setIsFetching: (state, action: PayloadAction<{ isFetching: boolean }>) => {
       state.isFetching = action.payload.isFetching;
     },
+    signout: (state) => {
+      state.user = null;
+    },
   },
 });
 
-export const { setUser, setIsFetching } = userSlice.actions;
+export const { setUser, setIsFetching, signout } = userSlice.actions;
 export default userSlice.reducer;
