@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { Logger } from "./LoggerUtils";
 
@@ -19,6 +19,17 @@ const authTokenCookieName = "authTokens";
  * as a representation of how JWTs should be implemented if the server and website were on the same domain and cross-site cookies could be used.
  */
 export class JWTUtils {
+  private static authCookieOptions = (maxAge?: number): CookieOptions => ({
+    httpOnly: true,
+    // TODO: false if local
+    // secure: true,
+    secure: false,
+    maxAge,
+    // TODO: false if local
+    // sameSite: true,
+    sameSite: false,
+  });
+
   /** Returns random hash */
   public static generateHash = async () => {
     // generate hash without any periods to avoid problems accessing objects with hash as the key
@@ -32,16 +43,11 @@ export class JWTUtils {
     );
     const maxAgeMs = maxAgeSeconds && maxAgeSeconds * 1000;
 
-    res.cookie(authTokenCookieName, JSON.stringify(tokens), {
-      httpOnly: true,
-      // TODO: false if local
-      // secure: true,
-      secure: false,
-      maxAge: maxAgeMs,
-      // TODO: false if local
-      // sameSite: true,
-      sameSite: false,
-    });
+    res.cookie(
+      authTokenCookieName,
+      JSON.stringify(tokens),
+      this.authCookieOptions(maxAgeMs)
+    );
   };
 
   /** Gets JWT auth cookie, returning undefined if no cookie exists */
@@ -65,11 +71,11 @@ export class JWTUtils {
   };
 
   public static destroyTokenCookie = (res: Response) => {
-    res.clearCookie(authTokenCookieName, {
-      httpOnly: true,
-      secure: true,
-      sameSite: true,
-    });
+    res.clearCookie(authTokenCookieName, this.authCookieOptions());
+  };
+
+  public static deleteClientAuthCookie = (res: Response) => {
+    // res.cook(authTokenCookieName, "");
   };
 
   /** Returns new access & refresh tokens */

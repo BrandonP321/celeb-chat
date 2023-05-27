@@ -9,6 +9,7 @@ import {
 import {
   LoginRequest,
   RegisterAccountRequest,
+  SignoutRequest,
 } from "@celeb-chat/shared/src/api/Requests/auth.requests";
 import { SendMsgRequest } from "@celeb-chat/shared/src/api/Requests/message.requests";
 import {
@@ -96,6 +97,9 @@ export class APIFetcher {
       Routes.Auth.Register(),
       params
     );
+
+  public static signout = () =>
+    APIFetcher.post<SignoutRequest.Response>(Routes.Auth.Signout(), {});
 
   public static getChatMessages = (params: GetChatMessagesRequest.ReqBody) =>
     APIFetcher.post<GetChatMessagesRequest.Response>(

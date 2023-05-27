@@ -15,7 +15,7 @@ export type Message = ChatCompletionResponseMessage & { index: number };
 
 export class ChatUtils {
   public static maxMsgCharCount = 100;
-  public static maxChatCount = 5;
+  public static maxChatCount = 15;
 
   public static constructMsg = (
     msg: string,

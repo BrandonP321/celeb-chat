@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/pro-solid-svg-icons";
 import { useLocation } from "react-router-dom";
 import { Loc } from "@/Loc";
+import { UserActionsCard } from "./components/UserActionsCard/UserActionsCard";
 
 export namespace ChatSideBar {
   export type Props = {
@@ -117,6 +118,8 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
             />
           ))}
         </div>
+
+        <UserActionsCard />
       </div>
 
       <ChatCardOptionsModal
