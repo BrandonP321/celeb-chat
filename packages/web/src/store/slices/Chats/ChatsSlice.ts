@@ -5,7 +5,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type MessagelessChat = Omit<TChat, "messages">;
 export type CachedChat = {
-  messages: ChatModel.IndexlessMessage[];
+  messages?: ChatModel.IndexlessMessage[];
   displayName: string;
   nextMarker?: number | null;
   isFetching: boolean;
@@ -40,7 +40,7 @@ const updateCachedChat = (
   state.chatCache = {
     ...state.chatCache,
     [chatId]: {
-      messages: messages ?? cachedChat?.messages ?? [],
+      messages: messages ?? cachedChat?.messages,
       nextMarker:
         nextMarker !== undefined ? nextMarker : cachedChat?.nextMarker,
       isFetching: isFetching ?? false,

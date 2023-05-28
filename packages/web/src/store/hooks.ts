@@ -104,7 +104,7 @@ export const useChat = ({ fetchIfNotExists }: UseChatProps = {}) => {
     setCachedChat(cachedChat);
 
     if (
-      !cachedChat &&
+      (!cachedChat?.messages || !cachedChat) &&
       chatId &&
       !chatsBeingFetched.current[chatId] &&
       fetchIfNotExists
@@ -161,6 +161,8 @@ export const useChat = ({ fetchIfNotExists }: UseChatProps = {}) => {
       : undefined,
     isChatNotFound,
     isFetchingChat:
-      cachedChat?.isFetching && !cachedChat?.messages.length && !isChatNotFound,
+      cachedChat?.isFetching &&
+      !cachedChat?.messages?.length &&
+      !isChatNotFound,
   };
 };
