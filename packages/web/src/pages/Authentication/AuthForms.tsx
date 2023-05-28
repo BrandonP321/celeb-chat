@@ -1,10 +1,15 @@
-import { InputField } from "@/Components";
-import { Loc } from "@/Loc";
 import React from "react";
+import {
+  ConfirmPasswordInputField,
+  EmailInputField,
+  FieldName,
+  PasswordInputField,
+  UsernameInputField,
+} from "@/Components";
 
 enum LoginField {
-  Email = "email",
-  Password = "password",
+  EmailOrUsername = "emailOrUsername",
+  Password = FieldName.Password,
 }
 
 export namespace LoginForm {
@@ -12,26 +17,22 @@ export namespace LoginForm {
 }
 
 export const LoginInitialValues: LoginForm.Values = {
-  email: "",
+  emailOrUsername: "",
   password: "",
 };
 
 export const LoginFormFields = () => (
   <>
-    <InputField name={LoginField.Email} label={Loc.Common.Email} />
-    <InputField
-      name={LoginField.Password}
-      type={"password"}
-      label={Loc.Common.Password}
-    />
+    <EmailInputField name={LoginField.EmailOrUsername} autoComplete="email" />
+    <PasswordInputField autoComplete="password" />
   </>
 );
 
 enum RegistrationField {
-  Email = "email",
-  Password = "password",
+  Email = FieldName.Email,
+  Password = FieldName.Password,
   PasswordConfirm = "passwordConfirmation",
-  Username = "username",
+  Username = FieldName.Username,
 }
 
 export namespace RegistrationForm {
@@ -47,17 +48,12 @@ export const RegistrationInitialValues: RegistrationForm.Values = {
 
 export const RegistrationFormFields = () => (
   <>
-    <InputField name={RegistrationField.Email} label={Loc.Common.Email} />
-    <InputField name={RegistrationField.Username} label={Loc.Common.Username} />
-    <InputField
-      name={RegistrationField.Password}
-      type={"password"}
-      label={Loc.Common.Password}
-    />
-    <InputField
+    <EmailInputField autoComplete="email" />
+    <UsernameInputField autoComplete="off" />
+    <PasswordInputField autoComplete="password" />
+    <ConfirmPasswordInputField
       name={RegistrationField.PasswordConfirm}
-      type={"password"}
-      label={Loc.Common.ConfirmPassword}
+      autoComplete="off"
     />
   </>
 );

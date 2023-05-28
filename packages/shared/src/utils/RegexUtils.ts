@@ -6,8 +6,5 @@ export class RegexUtils {
 
   public static usernameMinLength = 5;
   public static usernameMaxLength = 15;
-  public static usernameRegex = new RegExp(
-    `^[a-z0-9]{${this.usernameMinLength},${this.usernameMaxLength}}$`,
-    "i"
-  );
+  public static alphaNumeric = /[a-z][A-Z][0-9]/;
 }

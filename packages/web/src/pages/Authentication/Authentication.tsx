@@ -93,7 +93,11 @@ function Authentication({ isLogin }: Authentication.Props) {
           }
         >
           {({ isSubmitting, resetForm }) => (
-            <Form className={styles.authForm} autoComplete="on">
+            <Form
+              className={styles.authForm}
+              autoComplete={showLogin ? "on" : "off"}
+              noValidate
+            >
               <PageHeader
                 title={
                   showLogin
@@ -133,6 +137,7 @@ function Authentication({ isLogin }: Authentication.Props) {
                     e.preventDefault();
                     resetForm();
                     setShowLogin(!showLogin);
+                    setAPIError(undefined);
                   }}
                 >
                   {showLogin && Loc.Web.Auth.RegisterNow}

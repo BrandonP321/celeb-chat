@@ -23,8 +23,8 @@ const UserSchema: UserModel.Schema = new Schema(
     username: {
       type: String,
       required: [true, "Username required"],
+      index: true,
       unique: true,
-      match: [RegexUtils.usernameRegex, "Invalid username for user doc"],
     },
     jwtHash: {
       type: Schema.Types.Mixed,

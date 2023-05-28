@@ -77,22 +77,11 @@ export const RegisterUserController =
 
 export const LoginUserController = Controller<LoginRequest.Request>(
   async (req, res) => {
+    const { emailOrUsername } = req.body;
     const { error } = new ControllerErrors(res, LoginRequest.Errors);
 
-    // TODO: implement input validation
-    // const inputValidationErrors = AuthUtils.ValidateLoginFields(req.body);
-
-    // if (Object.keys(inputValidationErrors).length > 0) {
-    //   return ControllerUtils.respondWithErr(
-    //     ReqUserLoginErrors.InvalidFieldInput({
-    //       invalidFields: inputValidationErrors,
-    //     }),
-    //     res
-    //   );
-    // }
-
     db.User.findOne(
-      { email: req.body.email },
+      { $or: [{ email: emailOrUsername }, { username: emailOrUsername }] },
       async (err: CallbackError, user: UserModel.Document) => {
         if (err || !user) {
           return error.InvalidEmailOrPassword();

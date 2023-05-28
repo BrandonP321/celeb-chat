@@ -44,7 +44,7 @@ export namespace RegisterAccountRequest {
 
 export namespace LoginRequest {
   export type ReqBody = {
-    email: string;
+    emailOrUsername: string;
     password: string;
   };
 
