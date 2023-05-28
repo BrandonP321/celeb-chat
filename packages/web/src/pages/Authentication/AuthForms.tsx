@@ -6,6 +6,7 @@ import {
   PasswordInputField,
   UsernameInputField,
 } from "@/Components";
+import { Loc } from "@/Loc";
 
 enum LoginField {
   EmailOrUsername = "emailOrUsername",
@@ -23,7 +24,11 @@ export const LoginInitialValues: LoginForm.Values = {
 
 export const LoginFormFields = () => (
   <>
-    <EmailInputField name={LoginField.EmailOrUsername} autoComplete="email" />
+    <EmailInputField
+      name={LoginField.EmailOrUsername}
+      autoComplete="email"
+      label={Loc.Web.Auth.EmailOrUsername}
+    />
     <PasswordInputField autoComplete="password" />
   </>
 );

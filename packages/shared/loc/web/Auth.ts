@@ -10,4 +10,5 @@ export const Auth = {
   ShowLogin: "Already have an account? No problem, you can ",
   LoginNow: "log in from here.",
   ForgotPassword: "Uh-oh, forgot your password? Click here to reset it.",
+  EmailOrUsername: "Email or username",
 };
