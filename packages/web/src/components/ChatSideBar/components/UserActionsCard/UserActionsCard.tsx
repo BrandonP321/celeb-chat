@@ -22,9 +22,11 @@ export function UserActionsCard(props: UserActionsCard.Props) {
 
     await APIFetcher.signout().catch();
 
-    dispatch(Actions.User.signout());
     setIsLoggingOut(false);
     navigate("/");
+    setTimeout(() => {
+      dispatch(Actions.User.signout());
+    }, 1000);
   }, [navigate, dispatch]);
 
   return (
