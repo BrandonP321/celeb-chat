@@ -11,7 +11,7 @@ namespace Modal {
     hide: () => void;
     classes?: ClassesProp<"root" | "content" | "upperContent">;
     footerContent?: () => JSX.Element;
-    title?: string;
+    title?: React.ReactElement | string;
   }>;
 }
 

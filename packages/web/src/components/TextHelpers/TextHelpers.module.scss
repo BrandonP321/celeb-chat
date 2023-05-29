@@ -15,3 +15,7 @@
 .secondary {
   color: $textSecondary;
 }
+
+.faded {
+  color: rgba($textPrimary, 0.9);
+}

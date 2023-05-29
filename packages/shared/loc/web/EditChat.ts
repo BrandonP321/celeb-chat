@@ -1,4 +1,5 @@
 export const EditChat = {
+  LoadingChats: "Loading chats",
   PageTitle: "Edit Your Chat",
   PageDesc:
     "Modify your character's settings and preferences to fine-tune your conversation experience. Make it truly unique!",

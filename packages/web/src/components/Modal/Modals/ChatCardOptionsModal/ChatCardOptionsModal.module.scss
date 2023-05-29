@@ -3,10 +3,19 @@
 .modal {
 }
 
+.btnsOuterWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .btns {
   height: 100%;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
+
+  @include mobileVW() {
+    margin-top: 0.5rem;
+  }
 
   .btn {
     width: 100%;

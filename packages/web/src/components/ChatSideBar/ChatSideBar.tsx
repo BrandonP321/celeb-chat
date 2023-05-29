@@ -21,6 +21,10 @@ import { useLocation } from "react-router-dom";
 import { Loc } from "@/Loc";
 import { UserActionsCard } from "./components/UserActionsCard/UserActionsCard";
 
+export type ModalChatData = UserModel.UserChat & {
+  show: boolean;
+};
+
 export namespace ChatSideBar {
   export type Props = {
     showInMobile: boolean;
@@ -35,8 +39,8 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
   const location = useLocation();
 
   const [chatQuery, setChatQuery] = useState("");
-  const [optionsModalChatId, setOptionsModalChatId] = useState<string>();
-  const [deletionModalChatId, setDeletionModalChatId] = useState<string>();
+  const [optionsModalChat, setOptionsModalChat] = useState<ModalChatData>();
+  const [deletionModalChat, setDeletionModalChat] = useState<ModalChatData>();
   const [filteredChats, setFilteredChats] = useState<UserModel.UserChat[]>([]);
   const isFetchingChats = useRef(false);
 
@@ -65,6 +69,18 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
   useEffect(() => {
     hideInMobile();
   }, [location, hideInMobile]);
+
+  const toggleOptionsModal = (show: boolean, chat?: UserModel.UserChat) => {
+    const chatData = chat ?? optionsModalChat;
+
+    chatData && setOptionsModalChat({ ...chatData, show });
+  };
+
+  const toggleDeletionModal = (show: boolean) => {
+    const chatData = show ? optionsModalChat : deletionModalChat;
+
+    chatData && setDeletionModalChat({ ...chatData, show });
+  };
 
   return (
     <>
@@ -114,7 +130,7 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
               {...chat}
               key={i}
               onClick={hideInMobile}
-              showOptionsModal={setOptionsModalChatId}
+              showOptionsModal={(chat) => toggleOptionsModal(true, chat)}
             />
           ))}
         </div>
@@ -123,20 +139,20 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
       </div>
 
       <ChatCardOptionsModal
-        show={!!optionsModalChatId}
-        hide={() => setOptionsModalChatId(undefined)}
-        chatId={optionsModalChatId ?? ""}
-        showDeletionModal={() => setDeletionModalChatId(optionsModalChatId)}
+        show={!!optionsModalChat?.show}
+        hide={() => toggleOptionsModal(false)}
+        chat={optionsModalChat}
+        showDeletionModal={() => toggleDeletionModal(true)}
       />
 
       <ChatDeletionConfirmationModal
-        show={!!deletionModalChatId}
+        show={!!deletionModalChat?.show}
         hideAllModals={() => {
-          setDeletionModalChatId(undefined);
-          setOptionsModalChatId(undefined);
+          toggleDeletionModal(false);
+          toggleOptionsModal(false);
         }}
-        hide={() => setDeletionModalChatId(undefined)}
-        chatId={deletionModalChatId ?? ""}
+        hide={() => toggleDeletionModal(false)}
+        chat={deletionModalChat}
       />
     </>
   );

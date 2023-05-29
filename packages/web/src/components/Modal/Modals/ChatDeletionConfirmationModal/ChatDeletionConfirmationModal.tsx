@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./ChatDeletionConfirmationModal.module.scss";
-import { Modal, SaveModal } from "@/Components";
+import { Modal, SaveModal, TextAccentSecondary } from "@/Components";
 import { useAppDispatch, useChats } from "@/Hooks";
 import { APIFetcher } from "utils/APIFetcher";
 import { Actions } from "@/Slices";
@@ -9,16 +9,17 @@ import { DeleteChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requ
 import { useNavigate } from "react-router-dom";
 import { WebChatUtils } from "utils/ChatUtils";
 import { Loc } from "@/Loc";
+import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 
 export namespace ChatDeletionConfirmationModal {
   export type Props = Modal.Props & {
-    chatId: string;
+    chat?: UserModel.UserChat;
     hideAllModals: () => void;
   };
 }
 
 export function ChatDeletionConfirmationModal({
-  chatId,
+  chat,
   hide,
   hideAllModals,
   ...rest
@@ -29,9 +30,13 @@ export function ChatDeletionConfirmationModal({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const deleteChat = () => {
+    if (!chat) {
+      return;
+    }
+
     setIsDeleting(true);
 
-    APIFetcher.deleteChat({ chatId })
+    APIFetcher.deleteChat({ chatId: chat.id })
       .then(() => {
         dispatch(
           Actions.Alert.addAlert({
@@ -40,12 +45,12 @@ export function ChatDeletionConfirmationModal({
           })
         );
 
-        dispatch(Actions.Chat.removeChat({ chatId }));
+        dispatch(Actions.Chat.removeChat({ chatId: chat.id }));
 
         const chatIdFromUrl = WebChatUtils.getChatIdFromUrl();
         // nNavigate to first available chat if user is on page for deleted chat
-        if (chatIdFromUrl === chatId) {
-          const nextChatId = chats?.filter((c) => c.id !== chatId)[0]?.id;
+        if (chatIdFromUrl === chat?.id) {
+          const nextChatId = chats?.filter((c) => c.id !== chat?.id)[0]?.id;
           navigate(nextChatId ? `/chat/${nextChatId}` : "/chat/new");
         }
       })
@@ -64,7 +69,7 @@ export function ChatDeletionConfirmationModal({
     <SaveModal
       {...rest}
       hide={hide}
-      title={Loc.Web.Chat.DeleteChatModalTitle}
+      title={Loc.Web.Chat.DeleteChatTitle}
       onSave={deleteChat}
       saveBtnText={Loc.Web.Chat.DeleteChatModalDelBtn}
       savingBtnText={Loc.Web.Chat.DeleteChatModalDeleting}
@@ -72,7 +77,11 @@ export function ChatDeletionConfirmationModal({
       cancelBtnVariant="primaryGradient"
       saving={isDeleting}
     >
-      <p>{Loc.Web.Chat.DeleteChatModalBlurb}</p>
+      <p>
+        {Loc.Web.Chat.DeleteBlurbPrefix}
+        <TextAccentSecondary>{chat?.displayName}</TextAccentSecondary>
+        {Loc.Web.Chat.DeleteBlurbSuffix}
+      </p>
     </SaveModal>
   );
 }

@@ -11,7 +11,7 @@ import { Button } from "..";
 export namespace ChatCard {
   export type Props = UserModel.UserChat & {
     onClick?: () => void;
-    showOptionsModal: (chatId: string) => void;
+    showOptionsModal: (chat: UserModel.UserChat) => void;
   };
 }
 
@@ -44,7 +44,7 @@ function ChatCard(props: ChatCard.Props) {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          showOptionsModal(id);
+          showOptionsModal({ displayName, id });
         }}
       >
         <FontAwesomeIcon icon={faEllipsis} className={styles.icon} />

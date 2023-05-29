@@ -5,7 +5,7 @@ export const Chat = {
   },
   EditChat: "Edit Chat",
   DeleteChat: "DeleteChat",
-  ChatModalTitle: "Chat options",
+  ChatModalTitle: "Options for Chat: ",
   ChatNotFound: "Chat Not Found",
   Message: "Message",
   LoadMoreMsg: "Load more messages",
@@ -15,9 +15,10 @@ export const Chat = {
 
   /* Delete Chat Modal */
   ChatDeleted: "Chat successfully deleted",
-  DeleteChatModalTitle: "Are You Sure?",
-  DeleteChatModalBlurb:
-    "Wait a minute! You're about to erase this chat and all its messages from existence. Are you absolutely sure? This action can't be undone. If you're certain, click 'Delete.' If you're having second thoughts, click 'Cancel.'",
+  DeleteChatTitle: "Delete Chat",
+  DeleteBlurbPrefix: "Are you sure you want to delete your chat with ",
+  DeleteBlurbSuffix:
+    "? This action is permanent and cannot be undone. Take a moment to consider before you say goodbye.",
   DeleteChatModalDelBtn: "Delete",
   DeleteChatModalDeleting: "Deleting",
 

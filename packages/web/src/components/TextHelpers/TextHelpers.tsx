@@ -23,6 +23,10 @@ export function TextSecondary(props: TextColorProps) {
   return <TextColorHelper {...props} customClassName={styles.secondary} />;
 }
 
+export function TextFaded(props: TextColorProps) {
+  return <TextColorHelper {...props} customClassName={styles.faded} />;
+}
+
 export function TextAccentPrimary(props: TextColorProps) {
   return <TextColorHelper {...props} customClassName={styles.accentPrimary} />;
 }

@@ -19,6 +19,12 @@ export function EditChat(props: EditChat.Props) {
 
   useEffect(() => {
     const chatId = WebChatUtils.getChatIdFromEditUrl();
+
+    if (chatId === chat?.id) {
+      return;
+    }
+
+    setChat(null);
     setChatNotFound(false);
 
     chatId &&
@@ -29,11 +35,14 @@ export function EditChat(props: EditChat.Props) {
             setChatNotFound(true);
           }
         });
-  }, [location]);
+  }, [location, chat]);
 
   return (
     <ScrollablePage className={styles.editChat}>
-      <LoadingContainer loading={!chat && !chatNotFound} />
+      <LoadingContainer
+        loading={!chat && !chatNotFound}
+        loadingText={Loc.Web.EditChat.LoadingChats}
+      />
 
       {chatNotFound && <ChatNotFoundContent />}
 
