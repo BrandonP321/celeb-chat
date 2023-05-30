@@ -24,4 +24,8 @@ export const Chat = {
 
   /* Message Options Modal */
   MsgOptionsModalTitle: "Message Options",
+
+  /* Chat Sidebar */
+  NoChatsFound: "No Chats Found",
+  NoChatCTAPrefix: "Start a chat with ",
 };

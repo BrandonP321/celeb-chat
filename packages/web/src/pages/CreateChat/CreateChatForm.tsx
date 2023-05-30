@@ -1,21 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
-  Button,
   ButtonsWrapper,
   CreateChatHelpModal,
+  FormikForm,
+  FormikFormWrapper,
   HelpButton,
   InputField,
+  SubmitButton,
 } from "@/Components";
-import { CreateChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { CreateChatSchema } from "@celeb-chat/shared/src/schema";
-import { Form, Formik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { APIFetcher } from "utils/APIFetcher";
 import { FormikStringValues, FormikSubmit } from "utils/UtilityTypes";
 import { useAppDispatch } from "@/Hooks";
 import { Actions } from "@/Slices";
 import { UrlUtils } from "@/Utils";
-import { AlertType } from "@/Slices/Alerts/AlertsSlice";
 import { Loc } from "@/Loc";
 
 export enum CreateChatField {
@@ -34,56 +33,53 @@ export default function CreateChatForm() {
   const handleSubmit: FormikSubmit<CreateChatForm.Values> = async (values) => {
     const { description, displayName } = values;
 
-    return APIFetcher.createChat({ description, displayName })
-      .then(({ id, displayName }) => {
+    return APIFetcher.createChat({ description, displayName }).then(
+      ({ id, displayName }) => {
         dispatch(Actions.Chat.addChat({ id, displayName }));
         navigate(`/chat/${id}`);
-      })
-      .catch((err: CreateChatRequest.Error) => {
-        dispatch(
-          Actions.Alert.addAlert({ type: AlertType.Error, msg: err.msg })
-        );
-      });
+      }
+    );
+  };
+
+  const initialValues = {
+    [CreateChatField.DisplayName]:
+      UrlUtils.getParam(CreateChatField.DisplayName) ?? "",
+    [CreateChatField.Description]:
+      UrlUtils.getParam(CreateChatField.Description) ?? "",
   };
 
   return (
-    <Formik
-      initialValues={{
-        [CreateChatField.DisplayName]:
-          UrlUtils.getParam(CreateChatField.DisplayName) ?? "",
-        [CreateChatField.Description]:
-          UrlUtils.getParam(CreateChatField.Description) ?? "",
-      }}
+    <FormikFormWrapper
+      fields={CreateChatField}
+      initialValues={initialValues}
       validationSchema={CreateChatSchema}
-      validateOnChange={false}
-      onSubmit={handleSubmit}
+      defaultOnSubmit={handleSubmit}
     >
-      {({ isSubmitting, dirty }) => (
-        <Form autoComplete="off">
-          <InputField
-            name={CreateChatField.DisplayName}
-            label={Loc.Common.Name}
-            hintText={Loc.Web.CreateChat.NameHintText}
-          />
-          <InputField
-            name={CreateChatField.Description}
-            label={Loc.Common.Desc}
-            hintText={Loc.Web.CreateChat.DescHintText}
-          />
+      <FormikForm
+        autoComplete="off"
+        resetOnPageLoadProps={{ values: initialValues }}
+      >
+        <InputField
+          name={CreateChatField.DisplayName}
+          label={Loc.Common.Name}
+          hintText={Loc.Web.CreateChat.NameHintText}
+        />
+        <InputField
+          name={CreateChatField.Description}
+          label={Loc.Common.Desc}
+          hintText={Loc.Web.CreateChat.DescHintText}
+        />
 
-          <ButtonsWrapper>
-            <HelpButton HelpModal={CreateChatHelpModal} />
-            <Button
-              loading={isSubmitting}
-              disabled={!dirty}
-              variant="primaryGradient"
-              type="submit"
-            >
-              {Loc.Common.Create}
-            </Button>
-          </ButtonsWrapper>
-        </Form>
-      )}
-    </Formik>
+        <ButtonsWrapper>
+          <HelpButton HelpModal={CreateChatHelpModal} />
+          <SubmitButton
+            loadingText={Loc.Common.Creating}
+            disabledWhenDirty={false}
+          >
+            {Loc.Common.Create}
+          </SubmitButton>
+        </ButtonsWrapper>
+      </FormikForm>
+    </FormikFormWrapper>
   );
 }

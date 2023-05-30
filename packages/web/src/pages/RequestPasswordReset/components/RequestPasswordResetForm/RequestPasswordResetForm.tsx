@@ -4,7 +4,7 @@ import { APIFetcher } from "@/Utils";
 import {
   ButtonsWrapper,
   FormWarningMsg,
-  FormikForm,
+  FormikFormWrapper,
   InputField,
   SubmitButton,
 } from "@/Components";
@@ -22,7 +22,7 @@ export namespace RequestPasswordResetForm {
 
 export function RequestPasswordResetForm() {
   return (
-    <FormikForm
+    <FormikFormWrapper
       fields={Field}
       validationSchema={RequestPasswordResetSchema}
       defaultSubmitSuccessMsg={Loc.Web.RequestPassReset.Form.SuccessMsg}
@@ -45,6 +45,6 @@ export function RequestPasswordResetForm() {
           </SubmitButton>
         </ButtonsWrapper>
       </Form>
-    </FormikForm>
+    </FormikFormWrapper>
   );
 }

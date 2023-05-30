@@ -54,7 +54,7 @@ class Url {
 
   /** Adds a new search param to the url */
   public addParam = (param: TUrlParam) => {
-    this.params.append(param.key, param.value);
+    this.params.set(param.key, param.value);
 
     return this;
   };

@@ -1,14 +1,22 @@
-import React from "react";
-import { Formik, FormikConfig, FormikHelpers } from "formik";
+import React, { useEffect } from "react";
+import {
+  Formik,
+  FormikConfig,
+  FormikHelpers,
+  Form,
+  useFormikContext,
+  FormikState,
+} from "formik";
 import { ObjectUtils, WithSomeRequired } from "@celeb-chat/shared/src/utils";
 import { FormikSubmit } from "@/Utils";
 import { useAppDispatch } from "@/Hooks";
 import { Actions } from "@/Slices";
 import { DefaultErrors } from "@celeb-chat/shared/src/api/Requests";
+import { useLocation } from "react-router-dom";
 
 type TFields = { [key: string]: string };
 
-export namespace FormikForm {
+export namespace FormikFormWrapper {
   export type Props<
     EnumFields extends TFields,
     Values = { [key in EnumFields[keyof EnumFields]]: keyof EnumFields }
@@ -23,9 +31,10 @@ export namespace FormikForm {
   };
 }
 
-export function FormikForm<EnumFields extends TFields, Values extends TFields>(
-  props: FormikForm.Props<EnumFields, Values>
-) {
+export function FormikFormWrapper<
+  EnumFields extends TFields,
+  Values extends TFields
+>(props: FormikFormWrapper.Props<EnumFields, Values>) {
   const {
     initialValues,
     fields,
@@ -76,4 +85,24 @@ export function FormikForm<EnumFields extends TFields, Values extends TFields>(
       validateOnChange={validateOnChange}
     />
   );
+}
+
+export namespace FormikForm {
+  export type Props<T> = (typeof Form)["defaultProps"] & {
+    /** If value is provided, will exectute `resetForm` on page load with new state */
+    resetOnPageLoadProps?: Partial<FormikState<T>>;
+  };
+}
+
+export function FormikForm<T>(props: FormikForm.Props<T>) {
+  const { resetOnPageLoadProps, ...rest } = props;
+
+  const { resetForm } = useFormikContext();
+  const location = useLocation();
+
+  useEffect(() => {
+    resetOnPageLoadProps && resetForm(resetOnPageLoadProps);
+  }, [location, resetForm, resetOnPageLoadProps]);
+
+  return <Form {...rest} />;
 }

@@ -32,6 +32,11 @@ export type HTMLAnchorProps = React.DetailedHTMLProps<
   HTMLAnchorElement
 >;
 
+export type HTMLFormProps = React.DetailedHTMLProps<
+  React.FormHTMLAttributes<HTMLFormElement>,
+  HTMLFormElement
+>;
+
 export type HTMLLinkProps = LinkProps & React.RefAttributes<HTMLAnchorElement>;
 
 export type FormikSubmit<Values extends {}, ReturnValue = any> = (

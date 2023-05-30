@@ -5,7 +5,7 @@ import { Form } from "formik";
 import {
   ButtonsWrapper,
   FormWarningMsg,
-  FormikForm,
+  FormikFormWrapper,
   InputField,
   SubmitButton,
 } from "@/Components";
@@ -42,7 +42,7 @@ export function PasswordResetForm(props: PasswordResetForm.Props) {
   };
 
   return (
-    <FormikForm
+    <FormikFormWrapper
       fields={PasswordResetField}
       defaultSubmitSuccessMsg={Loc.Web.PassReset.Form.successMsg}
       defaultOnSubmit={handleSubmit}
@@ -68,6 +68,6 @@ export function PasswordResetForm(props: PasswordResetForm.Props) {
           </SubmitButton>
         </ButtonsWrapper>
       </Form>
-    </FormikForm>
+    </FormikFormWrapper>
   );
 }

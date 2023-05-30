@@ -5,6 +5,7 @@ export const Common = {
   Cancel: "Cancel",
   Name: "Name",
   Create: "Create",
+  Creating: "Creating",
   Desc: "Description",
   Email: "Email",
   Username: "Username",

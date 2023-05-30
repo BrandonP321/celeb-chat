@@ -4,6 +4,7 @@ import {
   ChatCard,
   ChatCardOptionsModal,
   ChatDeletionConfirmationModal,
+  ChatNoMatch,
   LoadingContainer,
   StandaloneInputField,
 } from "@/Components";
@@ -109,6 +110,7 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
             placeholder={Loc.Web.Chat.SideBar.SearchPlaceholder}
             onChange={(v) => setChatQuery(v)}
             classes={{ root: styles.searchBar, input: styles.input }}
+            value={chatQuery}
             autoComplete="off"
           />
           <ButtonLink
@@ -133,6 +135,13 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
               showOptionsModal={(chat) => toggleOptionsModal(true, chat)}
             />
           ))}
+
+          {chatQuery && filteredChats?.length === 0 && (
+            <ChatNoMatch
+              query={chatQuery}
+              onRedirect={() => setChatQuery("")}
+            />
+          )}
         </div>
 
         <UserActionsCard />

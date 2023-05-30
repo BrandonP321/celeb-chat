@@ -125,7 +125,16 @@ export function HelpButton(props: HelpButton.Props) {
   );
 }
 
-export function SubmitButton(props: Button.Props) {
+export namespace SubmitButton {
+  export type Props = Button.Props & {
+    disabledWhenDirty?: boolean;
+  };
+}
+
+export function SubmitButton({
+  disabledWhenDirty = true,
+  ...props
+}: SubmitButton.Props) {
   const { variant = "primaryGradient", ...rest } = props;
 
   const { dirty, isSubmitting } = useFormikContext();
@@ -136,7 +145,7 @@ export function SubmitButton(props: Button.Props) {
       type="submit"
       variant={variant}
       loading={isSubmitting}
-      disabled={!dirty}
+      disabled={disabledWhenDirty && !dirty}
     />
   );
 }

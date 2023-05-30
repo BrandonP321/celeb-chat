@@ -8,7 +8,7 @@ import {
   ButtonsWrapper,
   EditChatHelpModal,
   FormWarningMsg,
-  FormikForm,
+  FormikFormWrapper,
   HelpButton,
   InputField,
   SubmitButton,
@@ -43,7 +43,7 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
   };
 
   return (
-    <FormikForm
+    <FormikFormWrapper
       fields={EditChatField}
       initialValues={{
         [EditChatField.DisplayName]: chat.displayName,
@@ -74,6 +74,6 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
           </SubmitButton>
         </ButtonsWrapper>
       </Form>
-    </FormikForm>
+    </FormikFormWrapper>
   );
 }
