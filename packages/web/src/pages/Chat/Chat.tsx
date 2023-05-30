@@ -93,7 +93,7 @@ function Chat(props: Chat.Props) {
 
         {hasNoMessages && (
           <PageHeader
-            classes={{ root: styles.firstMsgNotice }}
+            classes={{ root: styles.firstMsgNotice, desc: styles.desc }}
             title={Loc.Web.Chat.EmptyChatTitle}
             desc={Loc.Web.Chat.EmptyChatDesc(chat?.displayName ?? "")}
           />

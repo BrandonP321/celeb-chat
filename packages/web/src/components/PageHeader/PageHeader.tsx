@@ -7,15 +7,15 @@ export namespace PageHeader {
   export type Props = {
     title: string;
     desc?: string;
-    classes?: ClassesProp<"root">;
+    classes?: ClassesProp<"root" | "title" | "desc">;
   };
 }
 
 export function PageHeader({ title, desc, classes }: PageHeader.Props) {
   return (
     <div className={classNames(styles.header, classes?.root)}>
-      <h1>{title}</h1>
-      <p>{desc}</p>
+      <h1 className={classNames(classes?.title)}>{title}</h1>
+      <p className={classNames(classes?.desc)}>{desc}</p>
     </div>
   );
 }

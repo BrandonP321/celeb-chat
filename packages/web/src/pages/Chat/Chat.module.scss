@@ -211,6 +211,10 @@ $maxInputHeight: calc(
   align-items: center;
   margin-bottom: 0;
   flex-grow: 1;
+
+  .desc {
+    text-align: center;
+  }
 }
 
 .scrollingAnchor {
