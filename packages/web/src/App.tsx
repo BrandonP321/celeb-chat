@@ -9,6 +9,7 @@ import {
   RequestPasswordReset,
   UserDashboard,
   Home,
+  ChatHome,
 } from "@/Pages";
 import { EmailBody, PasswordResetEmailBody } from "@/Pages/DevPages";
 import {
@@ -54,6 +55,7 @@ function App() {
           </Route>
 
           <Route element={<AuthenticatedAppLayout withChatSidebar />}>
+            <Route path="/chats" element={<ChatHome />} />
             <Route path="/chat/new" element={<CreateChat />} />
             <Route path="/chat/:chatId/edit" element={<EditChat />} />
             <Route path="/chat/:chatId" element={<Chat />} />

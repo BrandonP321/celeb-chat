@@ -11,6 +11,8 @@ import { Modal, Spinner } from "@/Components";
 import { Link } from "react-router-dom";
 import { useFormikContext } from "formik";
 import { Loc } from "@/Loc";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 type ButtonHTMLProps = HTMLButtonProps & {
   to?: undefined;
@@ -24,6 +26,8 @@ type LinkHTMLProps = Omit<HTMLLinkProps, "href"> & {
 export namespace ButtonBase {
   export type Props = React.PropsWithChildren<{
     classes?: ClassesProp<"root">;
+    leftIcon?: IconProp;
+    rightIcon?: IconProp;
     variant?:
       | "primary"
       | "primaryGradient"
@@ -40,23 +44,45 @@ export namespace ButtonBase {
 }
 
 export function ButtonBase(props: ButtonBase.OwnProps) {
-  const { children, classes, variant = "primaryGradient", ...rest } = props;
+  const {
+    children,
+    classes,
+    variant = "primaryGradient",
+    leftIcon,
+    rightIcon,
+    ...rest
+  } = props;
 
   const eleProps: HTMLProps = {
     ...rest,
     className: classNames(styles.btn, classes?.root, styles[variant]),
   };
 
+  const inner = (
+    <>
+      <div className={styles.btnBg} />
+      <span>
+        {leftIcon && (
+          <>
+            <FontAwesomeIcon icon={leftIcon} className={styles.icon} />
+            &nbsp;&nbsp;
+          </>
+        )}
+        {children}
+        {rightIcon && (
+          <>
+            &nbsp;&nbsp;
+            <FontAwesomeIcon icon={rightIcon} className={styles.icon} />
+          </>
+        )}
+      </span>
+    </>
+  );
+
   return !rest.to ? (
-    <button {...(eleProps as ButtonHTMLProps)}>
-      <div className={styles.btnBg} />
-      <span>{children}</span>
-    </button>
+    <button {...(eleProps as ButtonHTMLProps)}>{inner}</button>
   ) : (
-    <Link {...(eleProps as LinkHTMLProps)}>
-      <div className={styles.btnBg} />
-      <span>{children}</span>
-    </Link>
+    <Link {...(eleProps as LinkHTMLProps)}>{inner}</Link>
   );
 }
 

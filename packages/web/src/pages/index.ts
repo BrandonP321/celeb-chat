@@ -6,3 +6,4 @@ export * from "./EditChat/EditChat";
 export * from "./PasswordReset/PasswordReset";
 export * from "./RequestPasswordReset/RequestPasswordReset";
 export * from "./Home/Home";
+export * from "./ChatHome/ChatHome";

@@ -6,3 +6,4 @@ export * from "./EditChat";
 export * from "./PasswordReset";
 export * from "./RequestPasswordReset";
 export * from "./UserDash";
+export * from "./ChatHome";

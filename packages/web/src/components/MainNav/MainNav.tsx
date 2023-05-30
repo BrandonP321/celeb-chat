@@ -4,26 +4,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faHome, faMessage } from "@fortawesome/pro-solid-svg-icons";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-import { useChat } from "@/Hooks";
+import { useAppDispatch, useChat, useChatSidebar } from "@/Hooks";
 import { RouteHelper } from "utils/RouteHelper";
+import { Actions } from "@/Slices";
 
 export namespace MainNav {
   export type Props = {
-    toggleMobileNav: () => void;
-    hideMobileNav: () => void;
-    isMobileNavVisible: boolean;
     showChatNavLink?: boolean;
     withChatSidebar?: boolean;
   };
 }
 
-function MainNav({
-  toggleMobileNav,
-  isMobileNavVisible,
-  showChatNavLink,
-  withChatSidebar,
-}: MainNav.Props) {
+function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
   const { chat } = useChat();
+  const sidebar = useChatSidebar();
+  const dispatch = useAppDispatch();
+
+  const toggleSidebar = () => {
+    dispatch(Actions.ChatSidebar.toggle());
+  };
 
   return (
     <div className={styles.mainNav}>
@@ -38,13 +37,10 @@ function MainNav({
       </Link>
 
       {withChatSidebar && (
-        <button className={styles.mobileNavBtn} onClick={toggleMobileNav}>
+        <button className={styles.mobileNavBtn} onClick={toggleSidebar}>
           <FontAwesomeIcon
             icon={faBars}
-            className={classNames(
-              styles.icon,
-              isMobileNavVisible && styles.close
-            )}
+            className={classNames(styles.icon, sidebar.show && styles.close)}
           />
         </button>
       )}

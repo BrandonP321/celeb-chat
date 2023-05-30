@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ButtonLink,
   ChatCard,
@@ -10,7 +10,7 @@ import {
 } from "@/Components";
 import styles from "./ChatSideBar.module.scss";
 import classNames from "classnames";
-import { useAppDispatch, useChats, useUser } from "@/Hooks";
+import { useAppDispatch, useChatSidebar, useChats, useUser } from "@/Hooks";
 import { useEffect } from "react";
 import { Actions } from "@/Slices";
 import { useRef } from "react";
@@ -27,15 +27,13 @@ export type ModalChatData = UserModel.UserChat & {
 };
 
 export namespace ChatSideBar {
-  export type Props = {
-    showInMobile: boolean;
-    hideInMobile: () => void;
-  };
+  export type Props = {};
 }
 
-function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
+function ChatSideBar(props: ChatSideBar.Props) {
   const { chats } = useChats();
   const { user } = useUser();
+  const { show } = useChatSidebar();
   const dispatch = useAppDispatch();
   const location = useLocation();
 
@@ -67,9 +65,13 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
     }
   }, [chats, chatQuery]);
 
+  const hide = useCallback(() => {
+    dispatch(Actions.ChatSidebar.hide());
+  }, [dispatch]);
+
   useEffect(() => {
-    hideInMobile();
-  }, [location, hideInMobile]);
+    hide();
+  }, [location, hide]);
 
   const toggleOptionsModal = (show: boolean, chat?: UserModel.UserChat) => {
     const chatData = chat ?? optionsModalChat;
@@ -86,19 +88,11 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
   return (
     <>
       <div
-        className={classNames(
-          styles.mobilePageOverlay,
-          showInMobile && styles.show
-        )}
-        onClick={hideInMobile}
+        className={classNames(styles.mobilePageOverlay, show && styles.show)}
+        onClick={hide}
       />
 
-      <div
-        className={classNames(
-          styles.chatBar,
-          showInMobile && styles.showMobile
-        )}
-      >
+      <div className={classNames(styles.chatBar, show && styles.showMobile)}>
         <LoadingContainer
           loading={!chats}
           loadingText={Loc.Web.Chat.SideBar.LoadingChats}
@@ -121,7 +115,7 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
             <FontAwesomeIcon
               icon={faPlus}
               className={styles.icon}
-              onClick={hideInMobile}
+              onClick={hide}
             />
           </ButtonLink>
         </div>
@@ -131,7 +125,7 @@ function ChatSideBar({ showInMobile, hideInMobile }: ChatSideBar.Props) {
             <ChatCard
               {...chat}
               key={i}
-              onClick={hideInMobile}
+              onClick={hide}
               showOptionsModal={(chat) => toggleOptionsModal(true, chat)}
             />
           ))}

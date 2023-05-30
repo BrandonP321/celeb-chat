@@ -41,6 +41,9 @@ export const useAlert = (index: number) => {
   return alerts[index];
 };
 
+export const useChatSidebar = () =>
+  useAppSelector((state) => state.chatSidebar);
+
 type UserUserProps = {
   fetchIfNotExists?: boolean;
 };

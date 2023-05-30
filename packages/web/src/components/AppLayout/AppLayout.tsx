@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import {
   MainNav,
   ChatSideBar,
@@ -22,28 +22,15 @@ function AppLayout({
   renderOutlet = true,
   showChatNavLink,
 }: AppLayout.Props) {
-  const [showMobileNav, setShowMobileNav] = useState(false);
-
-  const hideMobileNav = useCallback(() => {
-    setShowMobileNav(false);
-  }, []);
-
   return (
     <div className={styles.layout}>
       <MainNav
-        toggleMobileNav={() => setShowMobileNav(!showMobileNav)}
-        hideMobileNav={() => setShowMobileNav(false)}
-        isMobileNavVisible={showMobileNav}
         showChatNavLink={showChatNavLink}
         withChatSidebar={withChatSidebar}
       />
       <div className={styles.lowerContent}>
-        {withChatSidebar && (
-          <ChatSideBar
-            showInMobile={showMobileNav}
-            hideInMobile={hideMobileNav}
-          />
-        )}
+        {withChatSidebar && <ChatSideBar />}
+
         <div className={styles.mainContent}>
           <LoadingContainer loading={!renderOutlet} />
           <AlertToasts />
