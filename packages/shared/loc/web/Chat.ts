@@ -7,6 +7,8 @@ export const Chat = {
   DeleteChat: "DeleteChat",
   ChatModalTitle: "Options for Chat: ",
   ChatNotFound: "Chat Not Found",
+  ChatNotFoundDesc:
+    "Whoops! The chat you're looking for seems to be off the grid. It may have been deleted or does not exist. Time to start a new adventure, perhaps?",
   Message: "Message",
   LoadMoreMsg: "Load more messages",
   LoadingMsgs: "Loading messages",

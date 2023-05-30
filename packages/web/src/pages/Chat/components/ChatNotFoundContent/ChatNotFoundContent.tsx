@@ -1,6 +1,13 @@
 import React from "react";
 import styles from "./ChatNotFoundContent.module.scss";
 import { Loc } from "@/Loc";
+import {
+  ButtonLink,
+  ButtonsWrapper,
+  PageHeader,
+  ScrollablePage,
+} from "@/Components";
+import { RouteHelper } from "utils/RouteHelper";
 
 export namespace ChatNotFoundContent {
   export type Props = {};
@@ -9,9 +16,18 @@ export namespace ChatNotFoundContent {
 export function ChatNotFoundContent(props: ChatNotFoundContent.Props) {
   return (
     <div className={styles.notFound}>
-      <div className={styles.content}>
-        <h2>{Loc.Web.Chat.ChatNotFound}</h2>
-      </div>
+      <ScrollablePage className={styles.innerContent}>
+        <PageHeader
+          classes={{ root: styles.content, desc: styles.desc }}
+          title={Loc.Web.Chat.ChatNotFound}
+          desc={Loc.Web.Chat.ChatNotFoundDesc}
+        />
+        <ButtonsWrapper className={styles.cta}>
+          <ButtonLink to={RouteHelper.CreateChat()}>
+            Start a New Chat
+          </ButtonLink>
+        </ButtonsWrapper>
+      </ScrollablePage>
     </div>
   );
 }

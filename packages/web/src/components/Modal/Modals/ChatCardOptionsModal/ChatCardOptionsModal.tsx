@@ -34,23 +34,21 @@ export function ChatCardOptionsModal({
 
   return (
     <Modal {...props} title={title} classes={{ content: styles.modal }}>
-      <div className={styles.btnsOuterWrapper}>
-        <ButtonsWrapper align={BtnAlign.Top} className={styles.btns}>
-          <ActionIconLink
-            icon={faEdit}
-            to={`/chat/${chat?.id}/edit`}
-            onClick={props.hide}
-            classes={{ root: styles.btn, icon: styles.icon }}
-          />
+      <ButtonsWrapper align={BtnAlign.Top} className={styles.btns}>
+        <ActionIconLink
+          icon={faEdit}
+          to={`/chat/${chat?.id}/edit`}
+          onClick={props.hide}
+          classes={{ root: styles.btn, icon: styles.icon }}
+        />
 
-          <ActionIcon
-            icon={faTrash}
-            variant="danger"
-            onClick={showDeletionModal}
-            classes={{ root: styles.btn, icon: styles.icon }}
-          />
-        </ButtonsWrapper>
-      </div>
+        <ActionIcon
+          icon={faTrash}
+          variant="danger"
+          onClick={showDeletionModal}
+          classes={{ root: styles.btn, icon: styles.icon }}
+        />
+      </ButtonsWrapper>
     </Modal>
   );
 }
