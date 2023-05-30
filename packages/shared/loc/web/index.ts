@@ -7,3 +7,4 @@ export * from "./PasswordReset";
 export * from "./RequestPasswordReset";
 export * from "./UserDash";
 export * from "./ChatHome";
+export * from "./PageNotFound";

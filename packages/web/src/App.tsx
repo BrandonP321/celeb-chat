@@ -10,6 +10,7 @@ import {
   UserDashboard,
   Home,
   ChatHome,
+  PageNotFound,
 } from "@/Pages";
 import { EmailBody, PasswordResetEmailBody } from "@/Pages/DevPages";
 import {
@@ -70,7 +71,9 @@ function App() {
             />
           </Route>
 
-          <Route path="*" element={<h1>404</h1>} />
+          <Route element={<AppLayout showChatNavLink />}>
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
         </Routes>
       </Router>
     </>
