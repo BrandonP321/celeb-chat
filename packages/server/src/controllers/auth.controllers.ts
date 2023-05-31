@@ -32,9 +32,9 @@ export const RegisterUserController =
       UserModel.User,
       "email" | "jwtHash" | "password" | "username"
     > = {
-      email: req.body.email,
+      email: req.body.email.toLowerCase().trim(),
       password: req.body.password,
-      username: req.body.username,
+      username: req.body.username.trim(),
       jwtHash: { [newTokenHash]: true },
     };
 
@@ -77,11 +77,16 @@ export const RegisterUserController =
 
 export const LoginUserController = Controller<LoginRequest.Request>(
   async (req, res) => {
-    const { emailOrUsername } = req.body;
+    const emailOrUsername = req.body.emailOrUsername.trim();
     const { error } = new ControllerErrors(res, LoginRequest.Errors);
 
     db.User.findOne(
-      { $or: [{ email: emailOrUsername }, { username: emailOrUsername }] },
+      {
+        $or: [
+          { email: emailOrUsername.toLowerCase() },
+          { username: emailOrUsername },
+        ],
+      },
       async (err: CallbackError, user: UserModel.Document) => {
         if (err || !user) {
           return error.InvalidEmailOrPassword();
