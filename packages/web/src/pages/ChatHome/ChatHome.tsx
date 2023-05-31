@@ -5,6 +5,7 @@ import {
   Button,
   ButtonLink,
   ButtonsWrapper,
+  LoadingContainer,
   PageHeader,
   ScrollablePage,
 } from "@/Components";
@@ -32,6 +33,8 @@ export function ChatHome(props: ChatHome.Props) {
   return (
     <ScrollablePage className={styles.home}>
       <AppHelmet />
+
+      <LoadingContainer loading={!chats} />
 
       <PageHeader
         title={Loc.Web.ChatHome.PageTitle}
