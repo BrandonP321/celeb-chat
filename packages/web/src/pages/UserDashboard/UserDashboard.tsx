@@ -7,7 +7,8 @@ import EditUserModal, {
 } from "./components/EditUserModal/EditUserModal";
 import { Formik } from "formik";
 import { EditUserSchema } from "@celeb-chat/shared/src/schema";
-import { LoadingContainer } from "@/Components";
+import { AppHelmet, LoadingContainer } from "@/Components";
+import { Loc } from "@/Loc";
 
 namespace UserDashboard {
   export type Props = {};
@@ -29,6 +30,8 @@ function UserDashboard(props: UserDashboard.Props) {
 
   return (
     <div className={styles.userDash}>
+      <AppHelmet title={Loc.Web.UserDash.Meta.Title} />
+
       <LoadingContainer loading={!user} loadingText="Loading dashboard" />
       <h1 onClick={() => setShowEditModal(true)}>Dashboard</h1>
 

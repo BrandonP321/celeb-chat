@@ -1,1 +1,5 @@
-export const UserDash = {};
+export const UserDash = {
+  Meta: {
+    Title: "Dashboard",
+  },
+};

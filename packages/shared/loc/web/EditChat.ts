@@ -12,4 +12,8 @@ export const EditChat = {
     "Update the name of the celebrity, character, or figure you're chatting with. Don't be afraid of a little change!",
   DescHintText:
     "Update some details or context for your chat – great for tweaking your ongoing chat experience (optional).",
+
+  Meta: {
+    Title: "Edit Chat",
+  },
 } as const;

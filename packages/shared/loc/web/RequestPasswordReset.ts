@@ -10,4 +10,8 @@ export const RequestPassReset = {
     WarningMsg:
       "A friendly reminder: We will only send a password reset link if your email is in our database. No sight of it? Your spam folder might hold the answer.",
   },
+
+  Meta: {
+    Title: "Reset Password",
+  },
 } as const;

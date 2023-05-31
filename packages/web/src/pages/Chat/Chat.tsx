@@ -4,6 +4,7 @@ import { ChatCompletionResponseMessageRoleEnum } from "openai";
 import styles from "./Chat.module.scss";
 import { useChat } from "@/Hooks";
 import {
+  AppHelmet,
   LoadingContainer,
   MsgOptionsModal,
   PageHeader,
@@ -46,6 +47,8 @@ function Chat(props: Chat.Props) {
 
   return (
     <div className={styles.pageMain}>
+      <AppHelmet title={Loc.Web.Chat.Meta.Title(chat?.displayName)} />
+
       <LoadingContainer
         loading={isFetchingChat}
         loadingText={Loc.Web.Chat.LoadingMsgs}

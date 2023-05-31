@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./ChatHome.module.scss";
 import {
+  AppHelmet,
   Button,
   ButtonLink,
   ButtonsWrapper,
@@ -30,6 +31,8 @@ export function ChatHome(props: ChatHome.Props) {
 
   return (
     <ScrollablePage className={styles.home}>
+      <AppHelmet />
+
       <PageHeader
         title={Loc.Web.ChatHome.PageTitle}
         desc={Loc.Web.ChatHome.PageDesc}

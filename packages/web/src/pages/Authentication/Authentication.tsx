@@ -4,6 +4,7 @@ import { LoginSchema, RegistrationSchema } from "@celeb-chat/shared/src/schema";
 import styles from "./Authentication.module.scss";
 import { FormikSubmit } from "utils/UtilityTypes";
 import {
+  AppHelmet,
   Button,
   ButtonsWrapper,
   PageHeader,
@@ -66,9 +67,9 @@ function Authentication({ isLogin }: Authentication.Props) {
         const redirectPath = UrlUtils.getParam(
           UrlUtils.queryParamKeys.redirectTo
         );
+
         dispatch(Actions.User.setUser(user));
-        // TODO: Don't navigate to /chat/asdf
-        navigate(redirectPath ?? "/chat/asdf", { replace: true });
+        navigate(redirectPath ?? "/chats", { replace: true });
       })
       .catch(({ msg }: APIErrorResponse<{}>) => {
         setAPIError(msg);
@@ -77,6 +78,7 @@ function Authentication({ isLogin }: Authentication.Props) {
 
   return (
     <ScrollablePage className={styles.auth}>
+      <AppHelmet title={Loc.Web.Auth.Meta.Title(isLogin)} />
       <div className={styles.authFormWrapper}>
         <Formik
           initialValues={

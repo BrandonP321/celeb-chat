@@ -7,4 +7,8 @@ export const CreateChat = {
     "Enter the name of the celebrity, character, or figure you'd like to chat with.",
   DescHintText:
     "Provide a brief description or context for your chat (optional).",
+
+  Meta: {
+    Title: "Create Chat",
+  },
 };

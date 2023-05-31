@@ -18,3 +18,4 @@ export * from "./ActionIcon/ActionIcon";
 export * from "./AppLayout/AppLayout";
 export * from "./Form";
 export * from "./ChatNoMatch/ChatNoMatch";
+export * from "./AppHelmet/AppHelmet";

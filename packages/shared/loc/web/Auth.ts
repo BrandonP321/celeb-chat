@@ -11,4 +11,8 @@ export const Auth = {
   LoginNow: "log in from here.",
   ForgotPassword: "Uh-oh, forgot your password? Click here to reset it.",
   EmailOrUsername: "Email or username",
+
+  Meta: {
+    Title: (isLogin?: boolean) => (isLogin ? "Login" : "Register"),
+  },
 };

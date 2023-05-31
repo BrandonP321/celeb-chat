@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./PageNotFound.module.scss";
 import {
+  AppHelmet,
   ButtonLink,
   ButtonsWrapper,
   PageHeader,
@@ -16,6 +17,8 @@ export namespace PageNotFound {
 export function PageNotFound(props: PageNotFound.Props) {
   return (
     <ScrollablePage className={styles.page}>
+      <AppHelmet title={Loc.Web.PageNotFound.Meta.Title} />
+
       <PageHeader
         title={Loc.Web.PageNotFound.PageTitle}
         desc={Loc.Web.PageNotFound.PageDesc}

@@ -30,4 +30,8 @@ export const Chat = {
   /* Chat Sidebar */
   NoChatsFound: "No Chats Found",
   NoChatCTAPrefix: "Start a chat with ",
+
+  Meta: {
+    Title: (name?: string) => name,
+  },
 };

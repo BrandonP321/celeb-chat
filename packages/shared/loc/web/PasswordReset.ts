@@ -10,4 +10,8 @@ export const PassReset = {
     WarningMsg:
       "Attention: You're on the right page only if you've clicked through from our password reset email. The link contains important data needed to get you back chatting!",
   },
+
+  Meta: {
+    Title: "Reset Password",
+  },
 } as const;
