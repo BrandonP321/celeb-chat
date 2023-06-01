@@ -9,6 +9,7 @@ import {
   MsgOptionsModal,
   PageHeader,
   Spinner,
+  TextAccentSecondary,
 } from "@/Components";
 import { ChatNotFoundContent } from "./components/ChatNotFoundContent/ChatNotFoundContent";
 import { MessageBar } from "./components/MessageBar/MessageBar";
@@ -98,7 +99,11 @@ function Chat(props: Chat.Props) {
           <PageHeader
             classes={{ root: styles.firstMsgNotice, desc: styles.desc }}
             title={Loc.Web.Chat.EmptyChatTitle}
-            desc={Loc.Web.Chat.EmptyChatDesc(chat?.displayName ?? "")}
+            desc={Loc.Web.Chat.EmptyChatDesc(
+              <TextAccentSecondary>
+                {chat?.displayName ?? ""}
+              </TextAccentSecondary>
+            )}
           />
         )}
 

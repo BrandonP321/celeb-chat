@@ -6,7 +6,7 @@ import classNames from "classnames";
 export namespace PageHeader {
   export type Props = {
     title: string;
-    desc?: string;
+    desc?: string | React.ReactElement;
     classes?: ClassesProp<"root" | "title" | "desc">;
   };
 }

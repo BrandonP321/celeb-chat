@@ -1,3 +1,5 @@
+import React from "react";
+
 export const Chat = {
   SideBar: {
     LoadingChats: "Loading chats",
@@ -13,7 +15,9 @@ export const Chat = {
   LoadMoreMsg: "Load more messages",
   LoadingMsgs: "Loading messages",
   EmptyChatTitle: "Get the conversation started",
-  EmptyChatDesc: (name: string) => `Send your first message to ${name} now.`,
+  EmptyChatDesc: (name: string | React.ReactElement) => (
+    <div>Send your first message to {name} now.</div>
+  ),
 
   /* Delete Chat Modal */
   ChatDeleted: "Chat successfully deleted",
