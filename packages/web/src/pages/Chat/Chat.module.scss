@@ -91,6 +91,7 @@ $maxInputHeight: calc(
     max-width: 70%;
     background: ColorAccentPrimaryGradient();
     border-radius: 2px 0.75rem 0.75rem 0.75rem;
+    overflow-wrap: break-word;
     padding: 0.75rem;
     align-self: flex-start;
 
@@ -242,6 +243,13 @@ $maxInputHeight: calc(
   padding-left: $inputHorizontalPadding;
   font-size: 0.9rem;
   color: $textSecondary;
+  opacity: 0;
+  pointer-events: none;
+
+  &.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
 
   &.max {
     color: $colorDanger;

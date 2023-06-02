@@ -14,7 +14,7 @@ export type TChat = Pick<
 export type Message = ChatCompletionResponseMessage & { index: number };
 
 export class ChatUtils {
-  public static maxMsgCharCount = 100;
+  public static maxMsgCharCount = 400;
   public static maxChatCount = 15;
 
   public static constructMsg = (

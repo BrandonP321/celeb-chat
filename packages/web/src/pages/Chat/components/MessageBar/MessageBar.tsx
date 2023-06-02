@@ -113,12 +113,16 @@ function MessageBarInnerForm(props: MessageBarInnerForm.Props) {
     resetForm();
   }, [location, resetForm]);
 
+  const showCharCount =
+    values.msgBody.length / ChatUtils.maxMsgCharCount >= 0.75;
+
   return (
     <Form className={styles.form} autoComplete="off">
       <div className={styles.formUpperContent}>
         <p
           className={classNames(
             styles.msgCharCount,
+            showCharCount && styles.visible,
             values.msgBody.length >= ChatUtils.maxMsgCharCount && styles.max
           )}
         >
