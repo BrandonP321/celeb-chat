@@ -16,7 +16,7 @@ export const Chat = {
   LoadingMsgs: "Loading messages",
   EmptyChatTitle: "Get the conversation started",
   EmptyChatDesc: (name: string | React.ReactElement) => (
-    <div>Send your first message to {name} now.</div>
+    <>Send your first message to {name} now.</>
   ),
 
   /* Delete Chat Modal */
