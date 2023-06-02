@@ -54,6 +54,18 @@ export const CreatePasswordResetRequestController =
     const confirmationHash = await bcrypt.hash(process.env.SECRET ?? "", 10);
     let confirmationId: string;
 
+    try {
+      // Verify email belongs to an account
+      const count = await db.User.count({ email });
+
+      if (count === 0) {
+        return res.json({}).end();
+      }
+    } catch (err) {
+      // TODO: log this error without sending error to client
+      return res.json({}).end();
+    }
+
     // If request already exists, replace hash
     if (request) {
       confirmationId = request.id;
