@@ -38,4 +38,16 @@ export const Chat = {
   Meta: {
     Title: (name?: string) => name,
   },
+
+  Schema: {
+    NameRequired: "Don't forget to add a name!",
+    NameMaxLength: (max: number) =>
+      `Whoops, your character's name is a little too long. It should be under ${max} characters.`,
+    NameRegexMatch:
+      "Hold up! Double quotes aren't friends with character names. Could you remove them, please?",
+    DescMaxLength: (max: number) =>
+      `Easy there, Tolstoy! Your character description is too lengthy. It needs to be under ${max} characters.`,
+    DescRegexMatch:
+      "Oops, your character description has double quotes in it. They're not allowed, sorry! Can you take them out for us?",
+  },
 };

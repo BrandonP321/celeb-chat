@@ -5,9 +5,10 @@ import {
 } from "./partials/ChatSchemaPartials";
 import { SchemaUtils } from "../utils";
 import { CreateChatRequest } from "../api/Requests/chat.requests";
+import { Loc } from "../../loc";
 
 export const CreateChatSchema = Yup.object().shape({
-  displayName: chatDisplayNameSchema.required("Don't forget to add a name!"),
+  displayName: chatDisplayNameSchema.required(Loc.Web.Chat.Schema.NameRequired),
   description: chatDescriptionSchema,
 });
 

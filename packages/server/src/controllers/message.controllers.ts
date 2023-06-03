@@ -4,7 +4,7 @@ import { ChatWithMsgsResLocals } from "@/Middleware/Chat.middleware";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import { validateMsg } from "@celeb-chat/shared/src/schema";
-import { Controller, ControllerErrors, OpenaiFetcher } from "@/Utils";
+import { Controller, ControllerErrors, Loc, OpenaiFetcher } from "@/Utils";
 
 /** Returns full user JSON without sensitive data */
 export const SendMsgController = Controller<
@@ -44,7 +44,7 @@ export const SendMsgController = Controller<
   if (!newMsg) {
     return error.ErrorFetchingChatCompletion(
       undefined,
-      "A new chat was unable to be created"
+      Loc.Server.Msg.OpenAIFetchErr
     );
   }
 

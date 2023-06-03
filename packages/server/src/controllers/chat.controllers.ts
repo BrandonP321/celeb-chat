@@ -19,7 +19,7 @@ import {
   validateCreateChatFields,
 } from "@celeb-chat/shared/src/schema";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
-import { Controller, ControllerErrors } from "@/Utils";
+import { Controller, ControllerErrors, Loc } from "@/Utils";
 
 /** Returns a chat without its first page of messages */
 export const GetChatController = Controller<
@@ -76,9 +76,7 @@ export const CreateChatController = Controller<
 
   db.Chat.create(newChat, async (err, chat) => {
     if (err ?? !chat) {
-      return error.InternalServerError(
-        "Oops, looks like our servers are having a hiccup. Couldn't create the chat this time. Please try again in a few moments!"
-      );
+      return error.InternalServerError(Loc.Server.Chat.CreationErr);
     }
 
     const newUserChat: UserModel.UserChat = {
@@ -93,7 +91,7 @@ export const CreateChatController = Controller<
     if (!chatJSON) {
       return error.InternalServerError(
         undefined,
-        "An error occurred while converting a chat to a JSON"
+        Loc.Server.Chat.JSONConversionErr
       );
     }
 
@@ -115,10 +113,7 @@ export const DeleteChatController = Controller<
   const isRemovedFromUser = await user.removeChat(chatId);
 
   if (!isRemovedFromUser) {
-    return error.ErrorDeletingChat(
-      undefined,
-      "An error occurred while removing a chat from a user's chat list"
-    );
+    return error.ErrorDeletingChat(undefined, Loc.Server.Chat.DeletionErr);
   }
 
   Promise.all([chat.delete(), user.save()]);
@@ -144,19 +139,13 @@ export const UpdateChatController = Controller<
   const isChatUpdated = await chat.updateChat(user, updates);
 
   if (!isChatUpdated) {
-    return error.ErrorUpdatingChat(
-      undefined,
-      "An error occurred while updating a chat"
-    );
+    return error.ErrorUpdatingChat(undefined, Loc.Server.Chat.UpdateErr);
   }
 
   try {
     Promise.all([user.save(), chat.save()]);
   } catch (err) {
-    return error.ErrorUpdatingChat(
-      undefined,
-      "An error occurred while saving a chat."
-    );
+    return error.ErrorUpdatingChat(undefined, Loc.Server.Chat.SaveErr);
   }
 
   res.json({}).end();

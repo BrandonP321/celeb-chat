@@ -6,11 +6,12 @@ import {
   chatDisplayNameSchema,
 } from "./partials/ChatSchemaPartials";
 import { SchemaUtils } from "../utils";
+import { Loc } from "../../loc";
 
 export const EditChatSchema = Yup.object<
   YupShape<UpdateChatRequest.UpdateFields>
 >().shape({
-  displayName: chatDisplayNameSchema.required(),
+  displayName: chatDisplayNameSchema.required(Loc.Web.Chat.Schema.NameRequired),
   description: chatDescriptionSchema,
 });
 

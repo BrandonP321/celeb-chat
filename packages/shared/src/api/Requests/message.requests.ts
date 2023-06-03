@@ -1,4 +1,5 @@
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
+import { Loc } from "../../../loc";
 import { Message, TChat } from "../../utils/ChatUtils";
 import { ChatModel } from "../models/Chat.model";
 import { ChatRequest } from "./chat.requests";
@@ -39,12 +40,12 @@ export namespace SendMsgRequest {
     ErrorFetchingChatCompletion: {
       status: ClientErrorStatusCodes.BadRequest,
       errCode: ErrorCode.ErrorFetchingChatCompletion,
-      msg: "Whoops, we're having a hiccup getting a response for your message. Give it another try, and if the problem persists, let us know!",
+      msg: Loc.Server.Msg.ChatCompleteErr,
     },
     InvalidMsgInput: {
       status: ClientErrorStatusCodes.BadRequest,
       errCode: ErrorCode.InvalidMsgInput,
-      msg: "Message input does not match required format",
+      msg: Loc.Server.Msg.InvalidInput,
     },
   } as const;
 

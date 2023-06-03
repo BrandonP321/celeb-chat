@@ -5,7 +5,13 @@ import {
   RegisterAccountRequest,
   SignoutRequest,
 } from "@celeb-chat/shared/src/api/Requests/auth.requests";
-import { JWTResLocals, JWTUtils, ControllerErrors, Controller } from "@/Utils";
+import {
+  JWTResLocals,
+  JWTUtils,
+  ControllerErrors,
+  Controller,
+  Loc,
+} from "@/Utils";
 import { CallbackError } from "mongoose";
 import { TUserDocSaveErr } from "@/Models/User/userHelpers";
 import db from "@/Models";
@@ -64,7 +70,7 @@ export const RegisterUserController =
         if (!tokens) {
           return error.InternalServerError(
             undefined,
-            "No tokens were generated during registration."
+            Loc.Server.Auth.NoTokensGenerated
           );
         }
 
@@ -107,7 +113,7 @@ export const LoginUserController = Controller<LoginRequest.Request>(
         if (!tokens) {
           return error.InternalServerError(
             undefined,
-            "No tokens were generated during login."
+            Loc.Server.Auth.NoTokensDuringLogin
           );
         }
 

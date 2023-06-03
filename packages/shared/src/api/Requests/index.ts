@@ -1,3 +1,4 @@
+import { Loc } from "../../../loc";
 import { HttpStatusCode } from "./HttpStatusCodes";
 
 // TODO: look at optimizing this
@@ -39,22 +40,22 @@ export namespace DefaultErrors {
     NotAuthenticated: {
       status: HttpStatusCode.Unauthorized,
       errCode: ErrorCode.NotAuthenticated,
-      msg: "User must authenticate",
+      msg: Loc.Server.User.NotAuthenticated,
     },
     UserNotFound: {
       status: HttpStatusCode.NotFound,
       errCode: ErrorCode.UserNotFound,
-      msg: "Oops, we're having trouble finding your account info. Please log out and log back in. If the problem persists, reach out to our support team!",
+      msg: Loc.Server.User.AccountNotFound,
     },
     InternalServerError: {
       status: HttpStatusCode.InternalServerError,
       errCode: ErrorCode.InternalServerError,
-      msg: "Whoops, we're having some tech issues on our end. Try again in a bit. If the problem persists, let our support team know!",
+      msg: Loc.Server.Common.InternalServerErr,
     },
     NetworkError: {
       status: HttpStatusCode.InternalServerError,
       errCode: ErrorCode.NetworkError,
-      msg: "Hmm, looks like we're having connection issues. Check your internet and try again!",
+      msg: Loc.Server.Common.NetworkErr,
     },
   };
 

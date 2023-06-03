@@ -14,4 +14,8 @@ export const RequestPassReset = {
   Meta: {
     Title: "Reset Password",
   },
+
+  Schema: {
+    EmailRequired: "Looks like you forgot your email. Fill it in to continue!",
+  },
 } as const;

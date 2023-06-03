@@ -1,5 +1,4 @@
 import * as Yup from "yup";
+import { Loc } from "../../../loc";
 
-export const emailSchema = Yup.string().email(
-  "Hmm, that email doesn't look quite right. Check the format and try again!"
-);
+export const emailSchema = Yup.string().email(Loc.Web.Auth.InvalidEmail);

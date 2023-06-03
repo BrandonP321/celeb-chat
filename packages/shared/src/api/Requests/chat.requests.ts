@@ -1,4 +1,5 @@
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
+import { Loc } from "../../../loc";
 import { ChatUtils, TChat } from "../../utils/ChatUtils";
 import { ChatModel } from "../models/Chat.model";
 import {
@@ -27,12 +28,12 @@ export namespace ChatRequest {
     ChatNotFound: {
       status: HttpStatusCode.NotFound,
       errCode: ErrorCode.ChatNotFound,
-      msg: "Chat not found",
+      msg: Loc.Server.Chat.ChatNotFound,
     },
     UnauthorizedChat: {
       status: HttpStatusCode.Unauthorized,
       errCode: ErrorCode.UnauthorizedChat,
-      msg: "Whoa there, this chat isn't on your list. Let's stick to your own chats, okay?",
+      msg: Loc.Server.Chat.UnauthorizedChat,
     },
   };
 }
@@ -50,7 +51,6 @@ export namespace CreateChatRequest {
   export const ErrorCode = {
     ...DefaultErrors.ErrorCode,
     InvalidFieldInput: "InvalidFieldInput",
-    UnableToFindRecipient: "UnableToFindRecipient",
     MaxChatLimitReached: "MaxChatLimitReached",
   } as const;
 
@@ -59,17 +59,12 @@ export namespace CreateChatRequest {
     InvalidFieldInput: {
       status: HttpStatusCode.BadRequest,
       errCode: ErrorCode.InvalidFieldInput,
-      msg: "Input format does not match requirements",
-    },
-    UnableToFindRecipient: {
-      status: HttpStatusCode.NotFound,
-      errCode: ErrorCode.UnableToFindRecipient,
-      msg: "Unable to find recipient",
+      msg: Loc.Server.Chat.CreateChat.InvalidField,
     },
     MaxChatLimitReached: {
       status: HttpStatusCode.Conflict,
       errCode: ErrorCode.MaxChatLimitReached,
-      msg: `Hold up, you've already got ${ChatUtils.maxChatCount} chats going! Need to clear some space before starting a new one.`,
+      msg: Loc.Server.Chat.CreateChat.MaxChatLimitReached,
     },
   } as const;
 
@@ -129,7 +124,7 @@ export namespace DeleteChatRequest {
     ...ChatRequest.Errors,
     ErrorDeletingChat: {
       errCode: ErrorCode.ErrorDeletingChat,
-      msg: "Oops, something's up on our end. We couldn't delete your chat this time. Give it another try!",
+      msg: Loc.Server.Chat.DeleteChat.InternalErr,
       status: ServerErrorStatusCodes.InternalServerError,
     },
   } as const;
@@ -156,7 +151,7 @@ export namespace UpdateChatRequest {
     ...ChatRequest.Errors,
     ErrorUpdatingChat: {
       errCode: ErrorCode.ErrorUpdatingChat,
-      msg: "Whoops, we hit a snag. Couldn't update your chat this time. Try again, will you?",
+      msg: Loc.Server.Chat.UpdateChat.InternalErr,
       status: ServerErrorStatusCodes.InternalServerError,
     },
     InvalidInput: {

@@ -3,28 +3,21 @@ import { RegexUtils, SchemaUtils } from "../utils";
 import { RegisterAccountRequest } from "../api/Requests/auth.requests";
 import { PasswordSchemaPartial } from "./partials/PasswordSchemaPartial";
 import { emailSchema } from "./partials/AuthPartials";
+import { Loc } from "../../loc";
 
 const usernameMinLength = 8;
 const usernameMaxLength = 30;
 
 export const RegistrationSchema = Yup.object().shape({
-  email: emailSchema.required(
-    "Don't forget your email. We need it to set up your account!"
-  ),
+  email: emailSchema.required(Loc.Web.Auth.SignupSchema.EmailRequired),
   username: Yup.string()
     .min(
       usernameMinLength,
-      `Your username needs to be at least ${usernameMinLength} characters long. Add a few more!`
+      Loc.Web.Auth.SignupSchema.UsernameMinLength(usernameMinLength)
     )
-    .max(
-      30,
-      `Whoa there, that's a long one! Keep your username under ${usernameMaxLength} characters, please.`
-    )
-    .matches(
-      RegexUtils.alphaNumeric,
-      "Oops! Usernames can only include uppercase letters, lowercase letters, and numbers. No special characters allowed!"
-    )
-    .required("Let's get creative! Give us a username to continue."),
+    .max(30, Loc.Web.Auth.SignupSchema.usernameMaxLength(usernameMaxLength))
+    .matches(RegexUtils.alphaNumeric, Loc.Web.Auth.SignupSchema.usernameRegex)
+    .required(Loc.Web.Auth.SignupSchema.usernameRequired),
   ...PasswordSchemaPartial,
 });
 

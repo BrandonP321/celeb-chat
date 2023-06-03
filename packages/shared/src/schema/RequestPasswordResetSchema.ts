@@ -1,8 +1,7 @@
 import * as Yup from "yup";
 import { emailSchema } from "./partials/AuthPartials";
+import { Loc } from "../../loc";
 
 export const RequestPasswordResetSchema = Yup.object().shape({
-  email: emailSchema.required(
-    "Looks like you forgot your email. Fill it in to continue!"
-  ),
+  email: emailSchema.required(Loc.Web.RequestPassReset.Schema.EmailRequired),
 });

@@ -7,7 +7,7 @@ import {
 } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import { validatePasswordResetInput } from "@celeb-chat/shared/src/schema/ResetPasswordSchema";
 import { TUserDocLocals } from "@/Middleware";
-import { Controller, ControllerErrors, Mailer } from "@/Utils";
+import { Controller, ControllerErrors, Loc, Mailer } from "@/Utils";
 import db from "@/Models";
 import bcrypt from "bcrypt";
 
@@ -128,9 +128,7 @@ export const ResetPasswordController = Controller<ResetPasswordRequest.Request>(
     const user = await db.User.findOne({ email: request.email });
 
     if (!user) {
-      return error.UserNotFound(
-        "A user with this email address could not be found"
-      );
+      return error.UserNotFound(Loc.Server.User.UserNotFound);
     }
 
     user.password = password;
