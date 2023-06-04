@@ -95,6 +95,7 @@ export const CreateChatController = Controller<
       );
     }
 
+    await user.updateChatCount();
     await user.save();
 
     res.json(chatJSON).end();
@@ -116,7 +117,9 @@ export const DeleteChatController = Controller<
     return error.ErrorDeletingChat(undefined, Loc.Server.Chat.DeletionErr);
   }
 
-  Promise.all([chat.delete(), user.save()]);
+  await user.updateChatCount();
+
+  await Promise.all([chat.delete(), user.save()]);
 
   res.json({}).end();
 });

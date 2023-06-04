@@ -36,10 +36,11 @@ export const SendMsgController = Controller<
   );
 
   const newMsg = incomingMsg?.choices?.[0]?.message;
-  // TODO: store total & avg token per msg used in DB
   const tokensUsed = incomingMsg.usage?.total_tokens;
-  const msgCount = messages.length + 1;
-  const cost = ((tokensUsed ?? 0) / 1000) * 0.002;
+
+  await user.updateAIResponseStats(newMsg?.content.length);
+  await user.updateTokenCount(tokensUsed ?? 0);
+  await user.updateMsgStats(outgoingMsg.content.length);
 
   if (!newMsg) {
     return error.ErrorFetchingChatCompletion(

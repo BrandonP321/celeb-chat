@@ -5,6 +5,18 @@ import bcrypt from "bcrypt";
 import { UserMethods } from "./userMethods";
 import { handleUserDocSaveErr } from "./userHelpers";
 
+const userStatsDefault: UserModel.UserStats = {
+  tokens: {
+    monthly: {},
+  },
+  chats: {
+    monthly: {},
+  },
+  msg: {
+    monthly: {},
+  },
+};
+
 const UserSchema: UserModel.Schema = new Schema(
   {
     email: {
@@ -33,6 +45,10 @@ const UserSchema: UserModel.Schema = new Schema(
     chats: {
       type: Schema.Types.Mixed,
       default: [],
+    },
+    stats: {
+      type: Schema.Types.Mixed,
+      default: userStatsDefault,
     },
   },
   { timestamps: true }
