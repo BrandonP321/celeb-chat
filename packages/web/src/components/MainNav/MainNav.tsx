@@ -46,7 +46,7 @@ function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
       )}
 
       {showChatNavLink && (
-        <Link to={"/chat/new"} className={styles.msgNavIcon}>
+        <Link to={"/chats"} className={styles.msgNavIcon}>
           <FontAwesomeIcon icon={faMessage} className={styles.icon} />
         </Link>
       )}
