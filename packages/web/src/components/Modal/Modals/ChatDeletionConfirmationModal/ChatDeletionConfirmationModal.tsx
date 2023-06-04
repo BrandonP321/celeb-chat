@@ -51,7 +51,7 @@ export function ChatDeletionConfirmationModal({
         // nNavigate to first available chat if user is on page for deleted chat
         if (chatIdFromUrl === chat?.id) {
           const nextChatId = chats?.filter((c) => c.id !== chat?.id)[0]?.id;
-          navigate(nextChatId ? `/chat/${nextChatId}` : "/chat/new");
+          navigate(nextChatId ? `/chat/${nextChatId}` : "/chats");
         }
       })
       .catch((err: DeleteChatRequest.Error) => {
