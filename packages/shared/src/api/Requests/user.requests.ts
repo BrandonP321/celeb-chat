@@ -1,4 +1,5 @@
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
+import { Loc } from "../../../loc";
 import { UserModel } from "../models/User.model";
 import { HttpStatusCode } from "./HttpStatusCodes";
 
@@ -81,7 +82,7 @@ export namespace ResetPasswordRequest {
     ...DefaultErrors.Errors,
     MissingConfirmationData: {
       errCode: ErrorCode.MissingConfirmationData,
-      msg: "Missing required data to reset password",
+      msg: Loc.Web.PassReset.APIErrors.BadURL,
       status: HttpStatusCode.BadRequest,
     },
     InvalidInput: {
@@ -91,17 +92,17 @@ export namespace ResetPasswordRequest {
     },
     RequestNotFound: {
       errCode: ErrorCode.RequestNotFound,
-      msg: "Request to reset password does not exist",
+      msg: Loc.Web.PassReset.APIErrors.BadURL,
       status: HttpStatusCode.NotFound,
     },
     IncorrectHash: {
       errCode: ErrorCode.IncorrectHash,
-      msg: "Incorrect has was supplied",
+      msg: Loc.Web.PassReset.APIErrors.BadURL,
       status: HttpStatusCode.BadRequest,
     },
     RequestExpired: {
       errCode: ErrorCode.RequestExpired,
-      msg: "Request to reset password has expired",
+      msg: Loc.Web.PassReset.APIErrors.ExpiredRequest,
       status: HttpStatusCode.Forbidden,
     },
   } as const;
@@ -128,12 +129,12 @@ export namespace CreatePasswordResetRequest {
     ...DefaultErrors.Errors,
     EmailRequired: {
       errCode: ErrorCode.EmailRequired,
-      msg: "Email Required",
+      msg: Loc.Web.RequestPassReset.APIErrors.EmailRequired,
       status: HttpStatusCode.BadRequest,
     },
     UnableToSendEmail: {
       errCode: ErrorCode.UnableToSendEmail,
-      msg: "Unable to send email",
+      msg: Loc.Web.RequestPassReset.APIErrors.UnableToSendEmail,
       status: HttpStatusCode.InternalServerError,
     },
   } as const;

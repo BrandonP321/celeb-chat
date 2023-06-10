@@ -14,4 +14,11 @@ export const PassReset = {
   Meta: {
     Title: "Reset Password",
   },
+
+  APIErrors: {
+    BadURL:
+      "Hm, something seems off. Could you please check the password reset email we sent you and click on the link provided there?",
+    ExpiredRequest:
+      "Oh no, looks like this password reset request has expired. No worries though, you can request a new one on the login page",
+  },
 } as const;

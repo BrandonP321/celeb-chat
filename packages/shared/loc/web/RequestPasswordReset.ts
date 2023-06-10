@@ -18,4 +18,11 @@ export const RequestPassReset = {
   Schema: {
     EmailRequired: "Looks like you forgot your email. Fill it in to continue!",
   },
+
+  APIErrors: {
+    EmailRequired:
+      "Oops! Looks like you forgot to enter your email. We need it to send you the password reset link.",
+    UnableToSendEmail:
+      "Yikes! We're having a little trouble sending the password reset link to your email. Could you please double-check your email address or try again later?",
+  },
 } as const;
