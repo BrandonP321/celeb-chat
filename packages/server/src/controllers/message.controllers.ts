@@ -5,6 +5,7 @@ import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import { validateMsg } from "@celeb-chat/shared/src/schema";
 import { Controller, ControllerErrors, Loc, OpenaiFetcher } from "@/Utils";
+import { CreateChatCompletionResponse } from "openai";
 
 /** Returns full user JSON without sensitive data */
 export const SendMsgController = Controller<
@@ -29,11 +30,15 @@ export const SendMsgController = Controller<
     })
   );
 
-  // TODO: Add error handling
-  const { data: incomingMsg } = await OpenaiFetcher.fetchChatCompletion(
-    msgBody,
-    messages
-  );
+  let incomingMsg: CreateChatCompletionResponse;
+
+  try {
+    const { data } = await OpenaiFetcher.fetchChatCompletion(msgBody, messages);
+
+    incomingMsg = data;
+  } catch (err) {
+    return error.ErrorFetchingChatCompletion(undefined, err);
+  }
 
   const newMsg = incomingMsg?.choices?.[0]?.message;
   const tokensUsed = incomingMsg.usage?.total_tokens;
