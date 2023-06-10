@@ -63,7 +63,8 @@ export class Mailer {
       this.getSendEmailInput({
         to: [to],
         body: PasswordResetEmailString({ confirmationHash, confirmationId }),
-        subject: "Reset your password",
+        // TODO: Update with app name
+        subject: "Your XYZ Password Reset Instructions",
       })
     );
 
