@@ -32,7 +32,7 @@ export function StartChatForm(props: StartChatForm.Props) {
   }) => {
     if (recipient) {
       setIsNavigating(true);
-      navigate(RouteHelper.CreateChat({ description: recipient }));
+      navigate(RouteHelper.CreateChat({ displayName: recipient }));
     }
   };
 
