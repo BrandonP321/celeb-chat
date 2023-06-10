@@ -16,6 +16,7 @@ namespace FormField {
     as?: "input" | "select" | "textarea";
     initialValue?: string;
     id?: string;
+    required?: boolean;
   }>;
 }
 
@@ -30,6 +31,7 @@ function FormField(props: FormField.Props) {
     hintText,
     name,
     id,
+    required,
     ...rest
   } = props;
 
@@ -50,6 +52,7 @@ function FormField(props: FormField.Props) {
   const value = values[name];
   const error = errors[name];
   const inputId = id ?? name;
+  const fieldLabel = required ? `${label}*` : label;
 
   return (
     <div
@@ -65,7 +68,7 @@ function FormField(props: FormField.Props) {
         className={classNames(styles.label, classes?.label)}
         htmlFor={inputId}
       >
-        {label}
+        {fieldLabel}
       </label>
 
       <Field

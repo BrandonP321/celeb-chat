@@ -28,8 +28,9 @@ export const LoginFormFields = () => (
       name={LoginField.EmailOrUsername}
       autoComplete="email"
       label={Loc.Web.Auth.EmailOrUsername}
+      required
     />
-    <PasswordInputField autoComplete="password" />
+    <PasswordInputField autoComplete="password" required />
   </>
 );
 
@@ -53,12 +54,13 @@ export const RegistrationInitialValues: RegistrationForm.Values = {
 
 export const RegistrationFormFields = () => (
   <>
-    <EmailInputField autoComplete="email" />
-    <UsernameInputField autoComplete="off" />
-    <PasswordInputField autoComplete="password" />
+    <EmailInputField autoComplete="email" required />
+    <UsernameInputField autoComplete="off" required />
+    <PasswordInputField autoComplete="password" required />
     <ConfirmPasswordInputField
       name={RegistrationField.PasswordConfirm}
       autoComplete="off"
+      required
     />
   </>
 );

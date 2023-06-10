@@ -63,6 +63,7 @@ export default function CreateChatForm() {
           name={CreateChatField.DisplayName}
           label={Loc.Common.Name}
           hintText={Loc.Web.CreateChat.NameHintText}
+          required
         />
         <InputField
           name={CreateChatField.Description}

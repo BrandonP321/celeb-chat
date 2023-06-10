@@ -31,7 +31,7 @@ export function RequestPasswordResetForm() {
       }
     >
       <Form autoComplete="off">
-        <InputField name={Field.Email} label={Loc.Common.Email} />
+        <InputField name={Field.Email} label={Loc.Common.Email} required />
 
         <FormWarningMsg>
           {Loc.Web.RequestPassReset.Form.WarningMsg}

@@ -53,11 +53,13 @@ export function PasswordResetForm(props: PasswordResetForm.Props) {
           name={PasswordResetField.Password}
           label={Loc.Common.Password}
           type="password"
+          required
         />
         <InputField
           name={PasswordResetField.PasswordConfirmation}
           label={Loc.Common.ConfirmPassword}
           type="password"
+          required
         />
 
         <FormWarningMsg>{Loc.Web.PassReset.Form.WarningMsg}</FormWarningMsg>

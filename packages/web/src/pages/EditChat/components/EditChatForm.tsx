@@ -58,6 +58,7 @@ export function EditChatForm({ chat }: EditChatForm.Props) {
           name={EditChatField.DisplayName}
           label={Loc.Common.Name}
           hintText={Loc.Web.EditChat.NameHintText}
+          required
         />
         <InputField
           name={EditChatField.Description}
