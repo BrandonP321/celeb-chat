@@ -1,0 +1,21 @@
+@import "../../styles/uiBase.scss";
+
+.accentPrimary {
+  color: $colorAccentPrimary;
+}
+
+.accentSecondary {
+  color: $colorAccentSecondary;
+}
+
+.accentSecondaryLight {
+  color: $colorAccentSecondaryLight;
+}
+
+.secondary {
+  color: $textSecondary;
+}
+
+.faded {
+  color: rgba($textPrimary, 0.9);
+}

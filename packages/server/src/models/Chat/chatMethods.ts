@@ -1,5 +1,7 @@
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
-import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
+import { ChatUtils, Message } from "@celeb-chat/shared/src/utils/ChatUtils";
+import db from "@/Models";
+import mongoose from "mongoose";
 
 const toFullChatJSON: ChatModel.InstanceMethods["toFullChatJSON"] =
   async function (user) {
@@ -15,12 +17,8 @@ const toFullChatJSON: ChatModel.InstanceMethods["toFullChatJSON"] =
 
 const toFullJSON: ChatModel.InstanceMethods["toFullJSON"] = function () {
   return {
-    id: this.id,
-    ownerId: this.ownerId,
-    description: this.description,
+    ...this.toFullMessagelessJSON(),
     messages: this.messages,
-    createdAt: this.createdAt,
-    updatedAt: this.updatedAt,
   };
 };
 
@@ -38,17 +36,78 @@ const toJSONWithoutMessages: ChatModel.InstanceMethods["toJSONWithoutMessages"] 
   };
 
 const addMsg: ChatModel.InstanceMethods["addMsg"] = async function (...msg) {
-  this.messages.push(...msg);
-  this.markModified("messages");
+  const messages = msg?.map((m, i): Message => {
+    const message = {
+      ...m,
+      index: this.msgCount,
+    };
+    this.incrememtMsgCount();
+
+    return message;
+  });
+
+  try {
+    const res = await db.Chat.updateOne(
+      { _id: new mongoose.Types.ObjectId(this.id) },
+      { $push: { messages: { $each: messages } } }
+    );
+
+    return true;
+  } catch (err) {
+    return false;
+  }
 };
 
 const getTrainingMsg: ChatModel.InstanceMethods["getTrainingMsg"] =
-  async function () {
-    return ChatUtils.getTrainingMsg(this.description);
+  async function (user) {
+    const displayName = (await user.getChatJSON(this.id))?.displayName;
+    return ChatUtils.getTrainingMsg(displayName ?? "", this.description);
   };
 
+const incrememtMsgCount: ChatModel.InstanceMethods["incrememtMsgCount"] =
+  async function () {
+    this.msgCount += 1;
+    this.markModified("msgCount");
+  };
+
+const toFullMessagelessJSON: ChatModel.InstanceMethods["toFullMessagelessJSON"] =
+  function () {
+    return {
+      id: this.id,
+      ownerId: this.ownerId,
+      description: this.description,
+      msgCount: this.msgCount,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
+  };
+
+const updateChat: ChatModel.InstanceMethods["updateChat"] = async function (
+  user,
+  updates
+) {
+  try {
+    const userChat = await user.getChatJSON(this.id);
+
+    if (userChat) {
+      user.updateChat(this.id, {
+        displayName: updates.displayName ?? userChat.displayName,
+      });
+    }
+
+    this.description = updates.description ?? this.description;
+
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
+
 export const ChatMethods: ChatModel.InstanceMethods = {
+  updateChat,
+  toFullMessagelessJSON,
   getTrainingMsg,
+  incrememtMsgCount,
   addMsg,
   toFullJSON,
   toFullChatJSON,

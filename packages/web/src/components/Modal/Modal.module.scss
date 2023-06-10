@@ -1,0 +1,91 @@
+@import "../../styles/uiBase.scss";
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  transition: all 0.25s;
+
+  &.hidden {
+    pointer-events: none;
+    opacity: 0;
+
+    .modalContentWrapper {
+      transform: scale(0.8);
+    }
+  }
+}
+
+.modalContentWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  background-color: $bodyBgPrimary;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 35rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.75);
+  transition: all 0.25s;
+
+  @include mobileVW() {
+    max-width: none;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+.scrollWrapper {
+  padding: 1.5rem;
+  overflow-y: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  @include mobileVW() {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+}
+
+.exitIcon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.15s;
+  cursor: pointer;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.modalTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+
+  @include mobileVW() {
+    font-size: 1.5rem;
+  }
+}

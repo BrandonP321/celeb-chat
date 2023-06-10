@@ -1,0 +1,22 @@
+@import "../../../../styles/uiBase.scss";
+
+.modal {
+}
+
+.btns {
+  justify-content: center;
+  margin-top: 1rem;
+
+  @include mobileVW() {
+    margin-top: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 1rem 1.5rem;
+
+    .icon {
+      font-size: 1.5rem;
+    }
+  }
+}

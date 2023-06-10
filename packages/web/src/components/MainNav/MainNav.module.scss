@@ -1,20 +1,84 @@
 @import "../../styles/uiBase.scss";
 
 .mainNav {
+  position: relative;
+  z-index: 15;
   transition: all 0.25s;
   height: 3.5rem;
   width: 100%;
   display: flex;
-  justify-content: flex-end;
-  padding-right: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
   background-color: $bodyBgPrimary;
   box-shadow: $boxShadowDark;
+
+  .rightContent {
+    display: flex;
+  }
+}
+
+.homeBtn,
+.mobileNavBtn,
+.msgNavIcon {
+  flex-shrink: 0;
+  width: 1.7rem;
+}
+
+.homeBtn,
+.msgNavIcon {
+  .icon {
+    font-size: 1.5rem;
+  }
 }
 
 .mobileNavBtn {
   display: none;
 
   @include mobileVW() {
-    display: inline-block;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .icon {
+    font-size: 1.5rem;
+    transition: all 0.25s;
+
+    &.close {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.chatName {
+  display: none;
+  position: relative;
+  flex-grow: 1;
+  padding: 0 1rem;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: bold;
+
+  @include mobileVW() {
+    display: block;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2rem;
+    background: linear-gradient(
+      to right,
+      rgba($bodyBgPrimary, 0),
+      $bodyBgPrimary
+    );
+  }
+
+  p {
+    white-space: nowrap;
+    text-align: center;
   }
 }

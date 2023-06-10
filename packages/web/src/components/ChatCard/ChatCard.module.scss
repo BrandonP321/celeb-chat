@@ -1,24 +1,96 @@
 @import "../../styles/uiBase.scss";
 
 .chatCard {
-  display: block;
-  padding: 1rem;
-  transition: all 0.05s;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
 
   &:hover,
   &.selected {
     background-color: $primaryHover;
+
+    .textWrapper::after {
+      background: linear-gradient(
+        to right,
+        rgba($primaryHover, 0),
+        $primaryHover
+      );
+    }
   }
+
+  &:hover .moreBtn {
+    display: flex;
+  }
+}
+
+.textWrapper,
+.moreBtn {
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.textWrapper {
+  flex: 1 1 0;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2rem;
+    background: linear-gradient(
+      to right,
+      rgba($bodyBgPrimary, 0),
+      $bodyBgPrimary
+    );
+  }
+}
+
+.recipientName,
+.lastMsg {
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .recipientName {
   font-weight: bold;
+  margin-top: 1rem;
 }
 
 .lastMsg {
   font-size: 0.7rem;
   color: $textSecondary;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  margin-bottom: 1rem;
+}
+
+.chatCard .moreBtn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.25rem;
+  transition: all 0s;
+
+  @include touchDevice() {
+    display: flex;
+  }
+
+  > span {
+    display: flex;
+  }
+
+  .icon {
+    color: $textSecondary;
+    transition: all 0.1s;
+  }
+
+  &:hover {
+    .icon {
+      color: $textPrimary;
+    }
+  }
 }

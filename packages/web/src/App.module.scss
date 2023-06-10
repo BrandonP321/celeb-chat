@@ -1,2 +1,6 @@
 @import "./styles/uiBase.scss";
 @import "./styles/globals.scss";
+
+.pageLoadingSpinner {
+  z-index: 999999999;
+}

@@ -1,0 +1,9 @@
+services:
+  server:
+    image: "celeb-chat-app"
+    env_file: ./packages/server/.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"

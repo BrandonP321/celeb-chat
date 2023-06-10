@@ -1,0 +1,44 @@
+@import "../../../../styles/uiBase.scss";
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid $primaryHover;
+
+  .name {
+    position: relative;
+    flex-grow: 1;
+    margin-right: 0.5rem;
+    min-width: 0;
+    color: $colorAccentPrimary;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: color 0.1s;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 2rem;
+      background: linear-gradient(
+        to right,
+        rgba($bodyBgPrimary, 0),
+        $bodyBgPrimary
+      );
+    }
+
+    &:hover {
+      color: $colorAccentSecondaryLight;
+      text-decoration: underline;
+    }
+  }
+
+  .signoutBtn {
+    position: relative;
+    flex-shrink: 0;
+  }
+}

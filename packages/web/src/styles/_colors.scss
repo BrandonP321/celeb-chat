@@ -1,22 +1,82 @@
-// HUE & SATURATION
-$hueBgPrimary: 231;
-$satBgPrimary: 14%;
-
 // SITE
-$bodyBgPrimary: hsl($hueBgPrimary, $satBgPrimary, 10%);
-$primaryHover: hsl($hueBgPrimary, $satBgPrimary, 20%);
-$colorDanger: red;
-$colorAccentPrimary: #ffc297;
-$colorAccentSecondary: #ab2ccb;
+$bodyBgPrimary: hsl(0, 0%, 10%);
+$primaryHover: hsl(0, 0%, 20%);
+
+$hueDanger: 348;
+$colorDanger: hsl($hueDanger, 83%, 47%);
+$colorDangerLight: hsl($hueDanger, 83%, 60%);
+$colorDangerLightUnfocused: hsl($hueDanger, 50%, 60%);
+$colorDangerDisabled: hsl($hueDanger, 50%, 60%);
+@function ColorDangerGradient($dir: to bottom right, $opacity: 1) {
+  @return linear-gradient(
+    $dir,
+    hsl($hueDanger, 83%, 47%),
+    hsl($hueDanger, 83%, 30%)
+  );
+}
+
+$hueAccentPrimary: 206;
+$colorAccentPrimary: hsl($hueAccentPrimary, 41%, 50%);
+$colorAccentPrimaryFocused: hsl($hueAccentPrimary, 80%, 50%);
+$colorAccentPrimaryDisabled: hsl($hueAccentPrimary, 20%, 50%);
+$colorAccentPrimaryDark: hsl($hueAccentPrimary, 41%, 20%);
+@function ColorAccentPrimaryGradient($dir: to bottom right, $opacity: 1) {
+  @return linear-gradient(
+    $dir,
+    hsl($hueAccentPrimary, 41%, 30%),
+    $colorAccentPrimaryDark
+  );
+}
+@function ColorAccentPrimaryDisabledGradient(
+  $dir: to bottom right,
+  $opacity: 1
+) {
+  @return linear-gradient(
+    $dir,
+    rgba(hsl($hueAccentPrimary, 41%, 70%), 0.7),
+    rgba(hsl($hueAccentPrimary, 41%, 30%), 0.7)
+  );
+}
+
+$hueAccentSecondary: 39;
+$colorAccentSecondary: hsl($hueAccentSecondary, 100%, 50%);
+$colorAccentSecondaryLight: hsl($hueAccentSecondary, 100%, 70%);
+$colorAccentSecondaryLightUnfocused: hsl($hueAccentSecondary, 100%, 70%);
+$colorAccentSecondaryDark: hsl($hueAccentSecondary, 100%, 20%);
+@function ColorAccentSecondaryGradient($dir: to bottom right) {
+  @return linear-gradient(
+    $dir,
+    hsl($hueAccentSecondary, 100%, 30%),
+    $colorAccentSecondaryDark
+  );
+}
+
+@function BlackGradient($dir: to bottom right) {
+  @return linear-gradient($dir, hsl(0, 0%, 0%), hsl(0, 0%, 20%));
+}
+@function BlackDisabledGradient($dir: to bottom right) {
+  @return linear-gradient($dir, hsl(0, 0%, 0%), hsl(0, 0%, 0%));
+}
+
 $colorAccentTertiary: #f76aab;
 $colorScrollbar: #5d5362;
 
 // TEXT
-$textPrimary: whitesmoke;
-$textSecondary: rgba($textPrimary, 0.6);
+$hueTextPrimary: 0;
+$satTextPrimary: 0%;
+$textPrimary: hsl($hueTextPrimary, $satTextPrimary, 96%);
+$textPrimaryUnfocused: hsl($hueTextPrimary, $satTextPrimary, 90%);
+
+// $textSecondary: #c0c0c0;
+$textSecondary: #d7d7d7;
 $textDark: $bodyBgPrimary;
 
 // GRADIENTS
-$gradientBgColored: linear-gradient(to bottom left, $colorAccentPrimary, $colorAccentTertiary, $colorAccentSecondary);
+$gradientBgColored: linear-gradient(
+  to bottom left,
+  $colorAccentPrimary,
+  $colorAccentTertiary,
+  $colorAccentSecondary
+);
 $gradientBgDark: linear-gradient(to top right, #121218, #323242);
 $gradientBgDanger: linear-gradient(to top right, #2d0000, #740000);

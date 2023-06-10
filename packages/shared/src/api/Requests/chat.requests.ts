@@ -1,11 +1,20 @@
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
-import { TChat } from "../../utils/ChatUtils";
+import { Loc } from "../../../loc";
+import { ChatUtils, TChat } from "../../utils/ChatUtils";
 import { ChatModel } from "../models/Chat.model";
-import { HttpStatusCode } from "./HttpStatusCodes";
+import {
+  ClientErrorStatusCodes,
+  HttpStatusCode,
+  ServerErrorStatusCodes,
+} from "./HttpStatusCodes";
 
 export namespace ChatRequest {
   export type ReqBody = {
     chatId: string;
+  };
+
+  export type WithMsgsReqBody = ReqBody & {
+    marker?: number | null;
   };
 
   export const ErrorCode = {
@@ -19,18 +28,18 @@ export namespace ChatRequest {
     ChatNotFound: {
       status: HttpStatusCode.NotFound,
       errCode: ErrorCode.ChatNotFound,
-      msg: "Chat not found",
+      msg: Loc.Server.Chat.ChatNotFound,
     },
     UnauthorizedChat: {
       status: HttpStatusCode.Unauthorized,
       errCode: ErrorCode.UnauthorizedChat,
-      msg: "User is unauthorized to access this chat",
+      msg: Loc.Server.Chat.UnauthorizedChat,
     },
   };
 }
 
 export namespace CreateChatRequest {
-  type ReqBody = {
+  export type ReqBody = {
     description: string;
     displayName: string;
   };
@@ -42,7 +51,7 @@ export namespace CreateChatRequest {
   export const ErrorCode = {
     ...DefaultErrors.ErrorCode,
     InvalidFieldInput: "InvalidFieldInput",
-    UnableToFindRecipient: "UnableToFindRecipient",
+    MaxChatLimitReached: "MaxChatLimitReached",
   } as const;
 
   export const Errors: APIErrors<typeof ErrorCode> = {
@@ -50,12 +59,12 @@ export namespace CreateChatRequest {
     InvalidFieldInput: {
       status: HttpStatusCode.BadRequest,
       errCode: ErrorCode.InvalidFieldInput,
-      msg: "Input format does not match requirements",
+      msg: Loc.Server.Chat.CreateChat.InvalidField,
     },
-    UnableToFindRecipient: {
-      status: HttpStatusCode.NotFound,
-      errCode: ErrorCode.UnableToFindRecipient,
-      msg: "Unable to find recipient",
+    MaxChatLimitReached: {
+      status: HttpStatusCode.Conflict,
+      errCode: ErrorCode.MaxChatLimitReached,
+      msg: Loc.Server.Chat.CreateChat.MaxChatLimitReached,
     },
   } as const;
 
@@ -79,8 +88,12 @@ export namespace GetChatRequest {
 }
 
 export namespace GetChatMessagesRequest {
-  export type ReqBody = ChatRequest.ReqBody & {};
-  export type Response = ChatModel.MessagesJSON;
+  export type ReqBody = ChatRequest.WithMsgsReqBody & {};
+
+  export type Response = ChatModel.MessagesJSON & {
+    nextPageMarker: number | null;
+    displayName: string;
+  };
 
   export type Request = APIRequest<{}, ReqBody, Response>;
 
@@ -90,6 +103,62 @@ export namespace GetChatMessagesRequest {
 
   export const Errors: APIErrors<typeof ErrorCode> = {
     ...ChatRequest.Errors,
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}
+
+export namespace DeleteChatRequest {
+  export type ReqBody = ChatRequest.ReqBody & {};
+
+  export type Response = {};
+
+  export type Request = APIRequest<{}, ReqBody, Response>;
+
+  export const ErrorCode = {
+    ...ChatRequest.ErrorCode,
+    ErrorDeletingChat: "ErrorDeletingChat",
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...ChatRequest.Errors,
+    ErrorDeletingChat: {
+      errCode: ErrorCode.ErrorDeletingChat,
+      msg: Loc.Server.Chat.DeleteChat.InternalErr,
+      status: ServerErrorStatusCodes.InternalServerError,
+    },
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}
+
+export namespace UpdateChatRequest {
+  export type UpdateFields = ChatModel.ChatUpdates;
+
+  export type ReqBody = ChatRequest.ReqBody & Partial<UpdateFields> & {};
+
+  export type Response = {};
+
+  export type Request = APIRequest<{}, ReqBody, Response>;
+
+  export const ErrorCode = {
+    ...ChatRequest.ErrorCode,
+    ErrorUpdatingChat: "ErrorUpdatingChat",
+    InvalidInput: "InvalidInput",
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...ChatRequest.Errors,
+    ErrorUpdatingChat: {
+      errCode: ErrorCode.ErrorUpdatingChat,
+      msg: Loc.Server.Chat.UpdateChat.InternalErr,
+      status: ServerErrorStatusCodes.InternalServerError,
+    },
+    InvalidInput: {
+      errCode: ErrorCode.InvalidInput,
+      msg: "",
+      status: ClientErrorStatusCodes.BadRequest,
+    },
   } as const;
 
   export type Error = APIErrorResponse<typeof ErrorCode>;

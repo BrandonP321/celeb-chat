@@ -1,6 +1,7 @@
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
 import { UserModel } from "../models/User.model";
 import { HttpStatusCode } from "./HttpStatusCodes";
+import { Loc } from "../../../loc";
 
 export namespace RegisterAccountRequest {
   export type ReqBody = {
@@ -25,17 +26,17 @@ export namespace RegisterAccountRequest {
     EmailTaken: {
       status: HttpStatusCode.BadRequest,
       errCode: ErrorCode.EmailTaken,
-      msg: "Email Taken",
+      msg: Loc.Server.Auth.EmailTaken,
     },
     UsernameTaken: {
       status: HttpStatusCode.BadRequest,
       errCode: ErrorCode.UsernameTaken,
-      msg: "Username taken",
+      msg: Loc.Server.Auth.UsernameTaken,
     },
     InvalidFieldInput: {
       status: HttpStatusCode.BadRequest,
       errCode: ErrorCode.InvalidFieldInput,
-      msg: "Registration fields don't meet the required format",
+      msg: Loc.Server.Auth.InvalidFieldInput,
     },
   } as const;
 
@@ -44,7 +45,7 @@ export namespace RegisterAccountRequest {
 
 export namespace LoginRequest {
   export type ReqBody = {
-    email: string;
+    emailOrUsername: string;
     password: string;
   };
 
@@ -62,7 +63,7 @@ export namespace LoginRequest {
     InvalidEmailOrPassword: {
       status: HttpStatusCode.Unauthorized,
       errCode: ErrorCode.InvalidEmailOrPassword,
-      msg: "Email or password is incorrect",
+      msg: Loc.Server.Auth.InvalidEmailOrPass,
     },
   } as const;
 

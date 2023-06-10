@@ -1,61 +1,80 @@
 import { SendMsgRequest } from "@celeb-chat/shared/src/api/Requests/message.requests";
 import { TRouteController } from ".";
-import { TUserDocLocals } from "@/Middleware";
-import { ChatResLocals } from "@/Middleware/Chat.middleware";
-import { ControllerErrors } from "utils/ControllerUtils";
-import { OpenaiFetcher } from "utils/OpenaiFetcher";
+import { ChatWithMsgsResLocals } from "@/Middleware/Chat.middleware";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
-
-const sendMsgErrors = new ControllerErrors(SendMsgRequest.Errors);
+import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
+import { validateMsg } from "@celeb-chat/shared/src/schema";
+import { Controller, ControllerErrors, Loc, OpenaiFetcher } from "@/Utils";
+import { CreateChatCompletionResponse } from "openai";
 
 /** Returns full user JSON without sensitive data */
-export const SendMsgController: TRouteController<
+export const SendMsgController = Controller<
   SendMsgRequest.Request,
-  ChatResLocals
-> = async (req, res) => {
-  try {
-    const { chatId, msgBody } = req.body;
-    const { chat, user } = res.locals;
+  ChatWithMsgsResLocals
+>(async (req, res) => {
+  const { error } = new ControllerErrors(res, SendMsgRequest.Errors);
+  const { chatId, msgBody } = req.body;
+  const { chat, user } = res.locals;
 
-    const outgoingMsg = ChatUtils.constructMsg(msgBody);
-    const messages = [await chat.getTrainingMsg(), ...chat.messages];
+  const validationError = await validateMsg({ msgBody });
 
-    // TODO: Add error handling
-    const { data: incomingMsg } = await OpenaiFetcher.fetchChatCompletion(
-      msgBody,
-      messages
-    );
-
-    const newMsg = incomingMsg?.choices?.[0]?.message;
-    // TODO: store total & avg token per msg used in DB
-    const tokensUsed = incomingMsg.usage?.total_tokens;
-    const msgCount = messages.length + 1;
-    const cost = ((tokensUsed ?? 0) / 1000) * 0.002;
-    console.log({ tokensUsed, msgCount, cost });
-
-    if (!newMsg) {
-      return sendMsgErrors.error.ErrorFetchingChatCompletion(res);
-    }
-
-    chat.addMsg(outgoingMsg, newMsg);
-    const isChatUpdated = await user.updateChat(chatId, {
-      lastMessage: newMsg.content,
-    });
-
-    if (!isChatUpdated) {
-      return sendMsgErrors.error.InternalServerError(res);
-    }
-
-    try {
-      chat.save();
-      user.save();
-    } catch (err) {
-      // TODO: add 'unable to save' error handling
-      return sendMsgErrors.error.InternalServerError(res);
-    }
-
-    return res.json({ newMsg }).end();
-  } catch (err) {
-    return sendMsgErrors.error.InternalServerError(res);
+  if (validationError) {
+    return error.InvalidMsgInput(validationError);
   }
-};
+
+  const outgoingMsg = ChatUtils.constructMsg(msgBody);
+  const messages = [await chat.getTrainingMsg(user), ...chat.messages].map(
+    (m): ChatModel.IndexlessMessage => ({
+      content: m.content,
+      role: m.role,
+    })
+  );
+
+  let incomingMsg: CreateChatCompletionResponse;
+
+  try {
+    const { data } = await OpenaiFetcher.fetchChatCompletion(msgBody, messages);
+
+    incomingMsg = data;
+  } catch (err) {
+    return error.ErrorFetchingChatCompletion(undefined, err);
+  }
+
+  const newMsg = incomingMsg?.choices?.[0]?.message;
+  const tokensUsed = incomingMsg.usage?.total_tokens;
+
+  await user.updateAIResponseStats(newMsg?.content.length);
+  await user.updateTokenCount(tokensUsed ?? 0);
+  await user.updateMsgStats(outgoingMsg.content.length);
+
+  if (!newMsg) {
+    return error.ErrorFetchingChatCompletion(
+      undefined,
+      Loc.Server.Msg.OpenAIFetchErr
+    );
+  }
+
+  const isMsgAdded = await chat.addMsg(outgoingMsg, newMsg);
+  const isChatUpdated = await user.updateChat(chatId, {
+    lastMessage: newMsg.content,
+  });
+
+  if (!isChatUpdated || !isMsgAdded) {
+    return error.InternalServerError(
+      undefined,
+      "An error occurred while adding a message to a chat"
+    );
+  }
+
+  try {
+    await user.save();
+    await chat.save();
+  } catch (err) {
+    return error.InternalServerError(
+      undefined,
+      "An error occurred while saving a chat and user during message sending"
+    );
+  }
+
+  return res.json({ newMsg }).end();
+});

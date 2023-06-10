@@ -20,11 +20,13 @@
     "paths": {
       "@/Components": ["./components"],
       "@/Pages": ["./pages"],
+      "@/Pages/*": ["./pages/*"],
       "@/Store": ["./store/store.ts"],
       "@/Hooks": ["./store/hooks.ts"],
       "@/Slices": ["./store/slices"],
       "@/Slices/*": ["./store/slices/*"],
-      "@/Utils": ["./src/utils"]
+      "@/Utils": ["./utils"],
+      "@/Loc": ["./utils/Loc"]
     }
   },
   "include": ["src"]

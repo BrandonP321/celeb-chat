@@ -5,150 +5,152 @@ import {
   RegisterAccountRequest,
   SignoutRequest,
 } from "@celeb-chat/shared/src/api/Requests/auth.requests";
-// import { AuthUtils } from "@celeb-chat/shared/src/utils/AuthUtils";
-import { JWTResLocals, JWTUtils, ControllerErrors } from "@/Utils";
-import { TRouteController } from ".";
+import {
+  JWTResLocals,
+  JWTUtils,
+  ControllerErrors,
+  Controller,
+  Loc,
+} from "@/Utils";
 import { CallbackError } from "mongoose";
 import { TUserDocSaveErr } from "@/Models/User/userHelpers";
 import db from "@/Models";
 import { TUserDocLocals } from "@/Middleware/User.middleware";
+import { validateRegistrationInput } from "@celeb-chat/shared/src/schema";
 
-const registrationErrors = new ControllerErrors(RegisterAccountRequest.Errors);
+export const RegisterUserController =
+  Controller<RegisterAccountRequest.Request>(async (req, res) => {
+    const { error } = new ControllerErrors(res, RegisterAccountRequest.Errors);
 
-export const RegisterUserController: TRouteController<
-  RegisterAccountRequest.Request,
-  {}
-> = async (req, res) => {
-  // TODO: implement input validation
-  // const inputValidationErrors = AuthUtils.ValidateRegistrationFields(req.body);
+    const inputValidationError = await validateRegistrationInput({
+      ...req.body,
+      passwordConfirmation: req.body.password,
+    });
 
-  // if (Object.keys(inputValidationErrors).length > 0) {
-  //   return registrationErrors.error.InvalidFieldInput(res);
-  // }
+    if (inputValidationError) {
+      return error.InvalidFieldInput(inputValidationError);
+    }
 
-  /** Hash used as identifier to enforce single use of refresh tokens */
-  const newTokenHash = await JWTUtils.generateHash();
+    /** Hash used as identifier to enforce single use of refresh tokens */
+    const newTokenHash = await JWTUtils.generateHash();
 
-  const newUser: Pick<
-    UserModel.User,
-    "email" | "jwtHash" | "password" | "username"
-  > = {
-    email: req.body.email,
-    password: req.body.password,
-    username: req.body.username,
-    jwtHash: { [newTokenHash]: true },
-  };
+    const newUser: Pick<
+      UserModel.User,
+      "email" | "jwtHash" | "password" | "username"
+    > = {
+      email: req.body.email.toLowerCase().trim(),
+      password: req.body.password,
+      username: req.body.username.trim(),
+      jwtHash: { [newTokenHash]: true },
+    };
 
-  db.User.create(
-    newUser,
-    async (err: CallbackError | TUserDocSaveErr, user) => {
-      if (err && !(err instanceof global.Error) && err.reason) {
-        switch (err.reason) {
-          case "emailOrUsernameTaken":
-            return err.duplicateKey === "email"
-              ? registrationErrors.error.EmailTaken(res)
-              : registrationErrors.error.UsernameTaken(res);
-          default:
-            return registrationErrors.error.InternalServerError(res);
+    db.User.create(
+      newUser,
+      async (err: CallbackError | TUserDocSaveErr, user) => {
+        if (err && !(err instanceof global.Error) && err.reason) {
+          switch (err.reason) {
+            case "emailOrUsernameTaken":
+              return err.duplicateKey === "email"
+                ? error.EmailTaken()
+                : error.UsernameTaken();
+            default:
+              return error.InternalServerError(undefined, err);
+          }
+        } else if (err) {
+          return error.InternalServerError(undefined, err);
         }
-      } else if (err) {
-        return registrationErrors.error.InternalServerError(res);
+
+        // generate auth tokens and set them in response header
+        const { tokens } = await JWTUtils.generateAndSetTokens(
+          user.id,
+          res,
+          newTokenHash
+        );
+
+        if (!tokens) {
+          return error.InternalServerError(
+            undefined,
+            Loc.Server.Auth.NoTokensGenerated
+          );
+        }
+
+        const userJSON = await user.toShallowJSON();
+
+        return res.json(userJSON).end();
       }
+    );
+  });
 
-      // generate auth tokens and set them in response header
-      const { tokens } = await JWTUtils.generateAndSetTokens(
-        user.id,
-        res,
-        newTokenHash
-      );
+export const LoginUserController = Controller<LoginRequest.Request>(
+  async (req, res) => {
+    const emailOrUsername = req.body.emailOrUsername.trim();
+    const { error } = new ControllerErrors(res, LoginRequest.Errors);
 
-      if (!tokens) {
-        return registrationErrors.error.InternalServerError(res);
+    db.User.findOne(
+      {
+        $or: [
+          { email: emailOrUsername.toLowerCase() },
+          { username: emailOrUsername },
+        ],
+      },
+      async (err: CallbackError, user: UserModel.Document) => {
+        if (err || !user) {
+          return error.InvalidEmailOrPassword();
+        }
+
+        const isValidPassword = await user.validatePassword(req.body.password);
+
+        if (!isValidPassword) {
+          return error.InvalidEmailOrPassword();
+        }
+
+        // generate and set auth tokens in response header
+        const { tokenHashId, tokens } = await JWTUtils.generateAndSetTokens(
+          user.id,
+          res
+        );
+
+        if (!tokens) {
+          return error.InternalServerError(
+            undefined,
+            Loc.Server.Auth.NoTokensDuringLogin
+          );
+        }
+
+        // add jwt id to user's doc in db
+        await user.addJWTHash(tokenHashId);
+
+        const userJSON = await user.toShallowJSON();
+
+        return res.json(userJSON).end();
       }
-
-      const userJSON = await user.toShallowJSON();
-
-      return res.json(userJSON).end();
-    }
-  );
-};
-
-const loginErrors = new ControllerErrors(LoginRequest.Errors);
-
-export const LoginUserController: TRouteController<
-  LoginRequest.Request,
-  {}
-> = async (req, res) => {
-  // TODO: implement input validation
-  // const inputValidationErrors = AuthUtils.ValidateLoginFields(req.body);
-
-  // if (Object.keys(inputValidationErrors).length > 0) {
-  //   return ControllerUtils.respondWithErr(
-  //     ReqUserLoginErrors.InvalidFieldInput({
-  //       invalidFields: inputValidationErrors,
-  //     }),
-  //     res
-  //   );
-  // }
-
-  db.User.findOne(
-    { email: req.body.email },
-    async (err: CallbackError, user: UserModel.Document) => {
-      if (err || !user) {
-        return loginErrors.error.InvalidEmailOrPassword(res);
-      }
-
-      const isValidPassword = await user.validatePassword(req.body.password);
-
-      if (!isValidPassword) {
-        return loginErrors.error.InvalidEmailOrPassword(res);
-      }
-
-      // generate and set auth tokens in response header
-      const { tokenHashId, tokens } = await JWTUtils.generateAndSetTokens(
-        user.id,
-        res
-      );
-
-      if (!tokens) {
-        return loginErrors.error.InternalServerError(res);
-      }
-
-      // add jwt id to user's doc in db
-      await user.addJWTHash(tokenHashId);
-
-      const userJSON = await user.toShallowJSON();
-
-      return res.json(userJSON).end();
-    }
-  );
-};
-
-const signoutErrors = new ControllerErrors(SignoutRequest.Errors);
+    );
+  }
+);
 
 // /** Signs user out of all devices by invalidating all refresh tokens */
-export const SignoutUserController: TRouteController<
+export const SignoutUserController = Controller<
   SignoutRequest.Request,
   TUserDocLocals
-> = async (req, res) => {
-  try {
-    const user = res.locals.user;
+>(async (req, res) => {
+  const { error } = new ControllerErrors(res, SignoutRequest.Errors);
+  const user = res.locals.user;
 
-    user.jwtHash = {};
-    user.markModified("jwtHash");
-    await user.save();
+  user.jwtHash = {};
+  user.markModified("jwtHash");
 
-    res.json({}).end();
-  } catch (err) {
-    return signoutErrors.error.InternalServerError(res);
-  }
-};
+  JWTUtils.destroyTokenCookie(res);
+
+  await user.save();
+
+  res.json({}).end();
+});
 
 /** Checks the auth status of the user */
-export const AuthStatusController: TRouteController<
+export const AuthStatusController = Controller<
   AuthStatusRequest.Request,
   JWTResLocals
-> = async (req, res) => {
+>(async (req, res) => {
   // if this controller is being executed, we know the user's auth status is valid
   res.json({}).end();
-};
+});

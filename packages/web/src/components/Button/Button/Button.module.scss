@@ -1,0 +1,135 @@
+@import "../../../styles/uiBase.scss";
+
+@mixin ButtonColorScheme($bg, $bgHover, $bgDisabled) {
+  background: $bg;
+
+  &:disabled {
+    .btnBg {
+      background: $bgDisabled;
+    }
+  }
+
+  &:hover:not(:disabled) .btnBg {
+    background: $bgHover;
+  }
+}
+
+@mixin ButtonGradientColorScheme(
+  $gradient,
+  $disabledGradient,
+  $normalOpacity: 0.75,
+  $transitionDuration: 0.2s
+) {
+  .btnBg {
+    background: $gradient;
+    opacity: $normalOpacity;
+
+    @include touchDevice() {
+      opacity: 1;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: $disabledGradient;
+      opacity: 0;
+      transition: all $transitionDuration;
+    }
+  }
+
+  &:disabled {
+    color: $textSecondary;
+
+    .btnBg {
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  &:hover:not(:disabled) .btnBg {
+    opacity: 1;
+  }
+}
+
+.btn {
+  position: relative;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+
+  &.primary {
+    @include ButtonColorScheme(
+      $colorAccentPrimary,
+      $colorAccentPrimaryFocused,
+      $colorAccentPrimaryDisabled
+    );
+  }
+
+  &.primaryGradient {
+    @include ButtonGradientColorScheme(
+      ColorAccentPrimaryGradient(),
+      ColorAccentPrimaryDisabledGradient()
+    );
+  }
+
+  &.secondary {
+    @include ButtonColorScheme(
+      $colorAccentSecondaryLight,
+      $colorAccentSecondaryLight,
+      $colorAccentSecondaryLight
+    );
+  }
+
+  &.danger {
+    @include ButtonGradientColorScheme(
+      ColorDangerGradient(),
+      ColorDangerGradient()
+    );
+  }
+
+  &.black {
+    @include ButtonGradientColorScheme(
+      BlackGradient(),
+      BlackDisabledGradient(to top left),
+      0.5
+    );
+    box-shadow: inset 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
+  }
+
+  &.help {
+    @include ButtonColorScheme(
+      transparent,
+      rgba($primaryHover, 0.5),
+      transparent
+    );
+    color: $colorAccentSecondaryLight;
+  }
+
+  span {
+    position: relative;
+  }
+
+  .icon {
+  }
+
+  .spinner {
+    font-size: 1rem;
+    color: $textPrimary;
+  }
+}
+
+.btnBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 0.15s;
+}

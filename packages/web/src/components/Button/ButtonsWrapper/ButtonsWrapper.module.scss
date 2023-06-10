@@ -1,0 +1,47 @@
+@import "../../../styles/uiBase.scss";
+
+.btnsWrapper {
+  display: flex;
+
+  &.alignLeft {
+    justify-content: flex-start;
+  }
+
+  &.alignRight {
+    justify-content: flex-end;
+  }
+
+  &.alignTop,
+  &.alignBottom {
+    flex-direction: column;
+
+    > a,
+    > button {
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  &.alignTop {
+    align-items: center;
+  }
+
+  &.alignBottom {
+    align-items: center;
+  }
+
+  &.alignLeft,
+  &.alignRight {
+    > a,
+    > button {
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  &.alignCenter {
+    justify-content: center;
+  }
+}

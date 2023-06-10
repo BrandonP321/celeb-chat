@@ -1,0 +1,18 @@
+@import "../../styles/uiBase.scss";
+
+.header {
+  margin-bottom: 2rem;
+
+  h1,
+  p {
+  }
+
+  h1 {
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  p {
+    color: $textSecondary;
+  }
+}

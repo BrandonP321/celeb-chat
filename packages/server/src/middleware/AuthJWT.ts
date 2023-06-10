@@ -5,10 +5,10 @@ import { ControllerErrors } from "@/Utils";
 import { JWTResLocals, JWTUtils } from "@/Utils";
 import db from "../models";
 
-const authJWTErrors = new ControllerErrors(DefaultErrors.Errors);
-
 const haveUserReAuth = (res: Response, errMsg?: string) => {
-  return authJWTErrors.error.NotAuthenticated(res, errMsg);
+  const { error } = new ControllerErrors(res, DefaultErrors.Errors);
+
+  return error.NotAuthenticated(errMsg);
 };
 
 /** Middleware for protected API endpoints.  Authenticates user via JWTs sent in request header */

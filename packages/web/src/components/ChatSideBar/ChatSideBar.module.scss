@@ -13,13 +13,18 @@
 }
 
 .chatBar {
+  display: flex;
+  flex-direction: column;
+  position: relative;
   background-color: $bodyBgPrimary;
   width: 100%;
   max-width: 20rem;
   border-top: 1px solid rgba($primaryHover, 1);
   box-shadow: $boxShadowDark;
+  z-index: 20;
 
   @include mobileVW() {
+    position: absolute;
     box-shadow: none;
     transform: translateX(100%);
 
@@ -39,6 +44,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
   pointer-events: none;
+  z-index: 20;
 
   @include mobileVW() {
     display: block;
@@ -48,4 +54,39 @@
     pointer-events: all;
     opacity: 1;
   }
+}
+
+.chatActions {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.searchBar {
+  flex-grow: 1;
+
+  .input {
+    border-radius: 0.25rem;
+  }
+}
+
+.chatBar .newChatLink {
+  height: $inputFieldHeight;
+  width: $inputFieldHeight;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  padding: 0;
+
+  .icon {
+    font-size: 1.5rem;
+  }
+}
+
+.chats {
+  flex-grow: 1;
+  overflow-y: auto;
 }

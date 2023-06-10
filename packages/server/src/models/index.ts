@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { User } from "./User";
 import { Chat } from "./Chat";
+import { PasswordReset } from "./PasswordReset";
 
 export const connectToMongoDb = () => {
   mongoose.connect(
@@ -12,4 +13,5 @@ export const connectToMongoDb = () => {
 export default {
   User,
   Chat,
+  PasswordReset,
 };

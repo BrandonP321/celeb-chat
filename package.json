@@ -1,6 +1,7 @@
 {
   "name": "celeb-chat",
   "version": "1.0.0",
+  "private": true,
   "workspaces": [
     "packages/*"
   ],
@@ -9,13 +10,16 @@
     "server": "yarn workspace @celeb-chat/server",
     "web:client:dev": "yarn web start",
     "server:dev": "yarn server dev",
-    "web:dev": "yarn concurrently --kill-others-on-fail -n \"SERVER,WEB\" -c \"magenta,cyan\" \"yarn server:dev\" \"yarn web:client:dev\""
+    "web:dev": "yarn updateIPEnvVars && yarn concurrently --kill-others-on-fail -n \"SERVER,WEB\" -c \"magenta,cyan\" \"yarn server:dev\" \"yarn web:client:dev\"",
+    "updateIPEnvVars": "ts-node ./scripts/setLocalIP.ts"
   },
   "repository": "https://github.com/BrandonP321/celeb-chat.git",
   "author": "Brandon Phillips <brandon.phillips@bphillips.dev>",
   "license": "MIT",
   "packageManager": "yarn@3.5.0",
   "dependencies": {
+    "@aws-sdk/client-cloudwatch-logs": "^3.332.0",
+    "@types/lodash": "^4.14.194",
     "@types/mongoose": "^5.11.97",
     "axios": "^1.3.5",
     "concurrently": "^7.6.0",
@@ -23,6 +27,18 @@
     "lodash": "^4.17.21",
     "mongoose": "^6.6.0",
     "openai": "^3.2.1",
-    "typescript": "^4.9.5"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.0.4",
+    "winston": "^3.8.2",
+    "winston-cloudwatch": "^6.1.1",
+    "yup": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/qrcode-terminal": "^0.12.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/winston": "^2.4.4",
+    "qrcode-terminal": "^0.12.0"
   }
 }

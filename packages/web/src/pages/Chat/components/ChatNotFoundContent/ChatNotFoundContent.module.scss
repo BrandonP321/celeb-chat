@@ -1,0 +1,34 @@
+@import "../../../../styles/uiBase.scss";
+
+.notFound {
+  width: 100%;
+  max-width: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $bodyBgPrimary;
+  z-index: 2;
+}
+
+.innerContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+}
+
+.content {
+  width: 90%;
+  margin: 0 auto;
+
+  .desc {
+    text-align: center;
+  }
+}
+
+.cta {
+  margin: 1rem 0 2rem 0;
+}

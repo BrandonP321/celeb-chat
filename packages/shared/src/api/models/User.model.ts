@@ -13,6 +13,7 @@ export namespace UserModel {
     username: string;
     jwtHash: { [key: string]: boolean };
     chats: UserChat[];
+    stats: UserStats;
   };
 
   export type Document = TMongooseDoc<User, InstanceMethods>;
@@ -41,6 +42,14 @@ export namespace UserModel {
       chatId: string,
       chatUpdate: Partial<UserChat>
     ) => Promise<boolean>;
+    removeChat: (this: Document, chatId: string) => Promise<boolean>;
+    updateTokenCount: (this: Document, tokens: number) => Promise<void>;
+    updateChatCount: (this: Document) => Promise<void>;
+    updateAIResponseStats: (
+      this: Document,
+      newMsgLength?: number
+    ) => Promise<void>;
+    updateMsgStats: (this: Document, newMsgLength: number) => Promise<void>;
   };
 
   export type StaticMethods = {};
@@ -61,5 +70,40 @@ export namespace UserModel {
     id: string;
     displayName: string;
     lastMessage?: string;
+  };
+
+  export type ChatMonthlyStats = {
+    chatCount: number;
+    totalAIResponses: number;
+    totalCharsInAIResponse: number;
+    avgCharsInAIResponse: number;
+  };
+
+  export type TokenMonthlyStats = {
+    tokenCount: number;
+  };
+
+  export type MsgMonthlyStats = {
+    totalCharsSent: number;
+    msgCount: number;
+    avgMsgLength: number;
+  };
+
+  export type UserStats = {
+    tokens: {
+      monthly: {
+        [month: string]: TokenMonthlyStats;
+      };
+    };
+    chats: {
+      monthly: {
+        [month: string]: ChatMonthlyStats;
+      };
+    };
+    msg: {
+      monthly: {
+        [month: string]: MsgMonthlyStats;
+      };
+    };
   };
 }

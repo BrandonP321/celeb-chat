@@ -1,3 +1,4 @@
+import { Loc } from "../../../loc";
 import { HttpStatusCode } from "./HttpStatusCodes";
 
 // TODO: look at optimizing this
@@ -32,23 +33,31 @@ export namespace DefaultErrors {
     NotAuthenticated: "NotAuthenticated",
     UserNotFound: "UserNotFound",
     InternalServerError: "InternalServerError",
+    NetworkError: "NetworkError",
   } as const;
 
   export const Errors: APIErrors<typeof ErrorCode> = {
     NotAuthenticated: {
       status: HttpStatusCode.Unauthorized,
       errCode: ErrorCode.NotAuthenticated,
-      msg: "User must authenticate",
+      msg: Loc.Server.User.NotAuthenticated,
     },
     UserNotFound: {
       status: HttpStatusCode.NotFound,
       errCode: ErrorCode.UserNotFound,
-      msg: "User not found",
+      msg: Loc.Server.User.AccountNotFound,
     },
     InternalServerError: {
       status: HttpStatusCode.InternalServerError,
       errCode: ErrorCode.InternalServerError,
-      msg: "An unexpected error has occurred",
+      msg: Loc.Server.Common.InternalServerErr,
+    },
+    NetworkError: {
+      status: HttpStatusCode.InternalServerError,
+      errCode: ErrorCode.NetworkError,
+      msg: Loc.Server.Common.NetworkErr,
     },
   };
+
+  export type Error = APIErrorResponse<typeof Errors>;
 }

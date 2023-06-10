@@ -7,6 +7,14 @@
 // SHADOWS
 $boxShadowDark: 0 0 1rem 0rem rgba(0, 0, 0, 0.5);
 
+$inputPadding: 0.9rem;
+$inputBorderRadius: 0.75rem;
+$inputBorderWidth: 2px;
+$inputLineHeight: $lineHeightNormal;
+$inputFieldHeight: calc(
+  $lineHeightNormal + (($inputPadding + $inputBorderWidth) * 2)
+);
+
 .pageMain {
   padding: 1rem;
   overflow-y: auto;

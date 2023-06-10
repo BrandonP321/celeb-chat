@@ -5,10 +5,11 @@
   "packageManager": "yarn@3.5.0",
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "start": "yarn build && node -r ts-node/register -r tsconfig-paths/register dist/src/server.js",
+    "start": "node -r ts-node/register -r tsconfig-paths/register dist/src/server.js",
     "build": "tsc --build"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.332.0",
     "@celeb-chat/shared": "1.0.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.2",
@@ -23,6 +24,8 @@
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "node-ts": "^5.1.2",
+    "nodemailer": "^6.9.2",
+    "ts-node": "^10.9.1",
     "tsc-alias": "^1.7.0",
     "tsconfig-paths": "^3.12.0"
   },
@@ -31,5 +34,8 @@
       "src",
       "../shared/src"
     ]
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.7"
   }
 }

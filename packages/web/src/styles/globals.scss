@@ -30,6 +30,34 @@ body {
   height: 100%;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  /* Ensures that autofill styles don't get applied while user is still on page */
+  transition: all 99999s 99999s, border-color 0.25s;
+}
+
+input:focus {
+  outline: none;
+}
+
 #root {
   height: 100%;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 2rem;
+
+  @include tinyVW() {
+    font-size: 1.5rem;
+  }
+}
+
+p,
+li,
+a {
+  font-size: 1.15rem;
+  line-height: 1.35rem;
 }

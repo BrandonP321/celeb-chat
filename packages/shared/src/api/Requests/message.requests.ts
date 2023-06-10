@@ -1,4 +1,5 @@
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
+import { Loc } from "../../../loc";
 import { Message, TChat } from "../../utils/ChatUtils";
 import { ChatModel } from "../models/Chat.model";
 import { ChatRequest } from "./chat.requests";
@@ -17,12 +18,13 @@ export namespace MessageRequest {
 }
 
 export namespace SendMsgRequest {
-  export type ReqBody = MessageRequest.ReqBody & {
-    msgBody: string;
-  };
+  export type ReqBody = MessageRequest.ReqBody &
+    ChatRequest.WithMsgsReqBody & {
+      msgBody: string;
+    };
 
   export type Response = {
-    newMsg: Message;
+    newMsg: ChatModel.IndexlessMessage;
   };
 
   export type Request = APIRequest<{}, ReqBody, Response>;
@@ -30,6 +32,7 @@ export namespace SendMsgRequest {
   export const ErrorCode = {
     ...DefaultErrors.ErrorCode,
     ErrorFetchingChatCompletion: "ErrorFetchingChatCompletion",
+    InvalidMsgInput: "InvalidMsgInput",
   } as const;
 
   export const Errors: APIErrors<typeof ErrorCode> = {
@@ -37,7 +40,12 @@ export namespace SendMsgRequest {
     ErrorFetchingChatCompletion: {
       status: ClientErrorStatusCodes.BadRequest,
       errCode: ErrorCode.ErrorFetchingChatCompletion,
-      msg: "An error occurred while retrieving a response",
+      msg: Loc.Server.Msg.ChatCompleteErr,
+    },
+    InvalidMsgInput: {
+      status: ClientErrorStatusCodes.BadRequest,
+      errCode: ErrorCode.InvalidMsgInput,
+      msg: Loc.Server.Msg.InvalidInput,
     },
   } as const;
 

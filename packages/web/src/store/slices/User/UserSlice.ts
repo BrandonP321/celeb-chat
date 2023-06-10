@@ -1,27 +1,33 @@
+import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type UserState = {
-  id: string | null;
-  username: string | null;
-}
+  user: UserModel.ShallowJSON | null;
+  isFetching: boolean;
+};
 
 const initialState: UserState = {
-  id: null,
-  username: null,
-}
+  user: null,
+  isFetching: true,
+};
 
 /** Returns basic user data to be displayed across site */
 const userSlice = createSlice({
-    name: "user",
-    initialState,
-    reducers: {
-      /** Updates user data in store */
-      setUser: (state, action: PayloadAction<UserState>) => {
-			  state.id = action.payload.id;
-        state.username = action.payload.username
-		  }
-    }
+  name: "user",
+  initialState,
+  reducers: {
+    /** Updates user data in store */
+    setUser: (state, action: PayloadAction<UserModel.ShallowJSON>) => {
+      state.user = action.payload;
+    },
+    setIsFetching: (state, action: PayloadAction<{ isFetching: boolean }>) => {
+      state.isFetching = action.payload.isFetching;
+    },
+    signout: (state) => {
+      state.user = null;
+    },
+  },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setIsFetching, signout } = userSlice.actions;
 export default userSlice.reducer;
