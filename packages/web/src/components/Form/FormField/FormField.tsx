@@ -52,7 +52,7 @@ function FormField(props: FormField.Props) {
   const value = values[name];
   const error = errors[name];
   const inputId = id ?? name;
-  const fieldLabel = required ? `${label}*` : label;
+  const fieldLabel = required && !isFocused && !value ? `${label}*` : label;
 
   return (
     <div
