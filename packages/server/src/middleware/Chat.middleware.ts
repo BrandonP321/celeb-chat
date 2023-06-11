@@ -72,12 +72,13 @@ const getChat = async (
   const { error: resError } = new ControllerErrors(res, ChatRequest.Errors);
 
   try {
-    const chat = sliceOptions
-      ? await db.Chat.findById(chatId).slice("messages", [
-          sliceOptions.marker,
-          sliceOptions.pageSize,
-        ])
-      : await db.Chat.findById(chatId).select("-messages");
+    const chat =
+      sliceOptions && sliceOptions.pageSize > 0
+        ? await db.Chat.findById(chatId).slice("messages", [
+            sliceOptions.marker,
+            sliceOptions.pageSize,
+          ])
+        : await db.Chat.findById(chatId).select("-messages");
 
     if (!chat) {
       return resError.ChatNotFound();

@@ -65,7 +65,7 @@ export const Controller = <
     const { error } = new ControllerErrors(res, DefaultErrors.Errors);
 
     try {
-      cb(req, res, next);
+      await cb(req, res, next);
     } catch (err) {
       return error.InternalServerError(undefined, err);
     }

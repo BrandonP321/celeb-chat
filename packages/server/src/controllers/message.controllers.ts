@@ -1,5 +1,4 @@
 import { SendMsgRequest } from "@celeb-chat/shared/src/api/Requests/message.requests";
-import { TRouteController } from ".";
 import { ChatWithMsgsResLocals } from "@/Middleware/Chat.middleware";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
@@ -23,7 +22,10 @@ export const SendMsgController = Controller<
   }
 
   const outgoingMsg = ChatUtils.constructMsg(msgBody);
-  const messages = [await chat.getTrainingMsg(user), ...chat.messages].map(
+  const messages = [
+    await chat.getTrainingMsg(user),
+    ...(chat.messages ?? []),
+  ].map(
     (m): ChatModel.IndexlessMessage => ({
       content: m.content,
       role: m.role,
@@ -54,6 +56,7 @@ export const SendMsgController = Controller<
     );
   }
 
+  // TODO: Possible make call to DB to add message rather than whatever less performant method is being used
   const isMsgAdded = await chat.addMsg(outgoingMsg, newMsg);
   const isChatUpdated = await user.updateChat(chatId, {
     lastMessage: newMsg.content,
