@@ -22,7 +22,7 @@ function ChatCard(props: ChatCard.Props) {
   const location = useLocation();
 
   useEffect(() => {
-    const activeChatId = WebChatUtils.getChatIdFromChatUrl();
+    const activeChatId = WebChatUtils.getChatIdFromUrl();
 
     setIsSelected(activeChatId === id);
   }, [location, id]);
