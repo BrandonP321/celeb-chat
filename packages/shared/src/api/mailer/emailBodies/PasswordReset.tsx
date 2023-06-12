@@ -8,6 +8,7 @@ import {
   Title,
 } from "./emailBody";
 import { AllOrPartial } from "../../../utils";
+import { Loc } from "../../../../loc";
 
 type Props = AllOrPartial<{
   name: string;
@@ -25,9 +26,8 @@ export function PasswordResetEmailJSX({
   return (
     <>
       <Title>Hello,</Title>
-      {/* // TODO: Update app name */}
       <Text>
-        We received a request to reset your password for your XYZ account.
+        We received a request to reset your password for your {Loc.Common.AppName} account.
       </Text>
       <Text>To reset your password, please click the link below:</Text>
       <br />
@@ -42,8 +42,7 @@ export function PasswordResetEmailJSX({
       <br />
       <br />
       <Text>Best,</Text>
-      {/* // TODO: Update app name */}
-      <Text>The XYZ Team</Text>
+      <Text>The {Loc.Common.AppName} Team</Text>
     </>
   );
 }

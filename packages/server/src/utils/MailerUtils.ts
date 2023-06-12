@@ -4,6 +4,7 @@ import {
   SESClient,
 } from "@aws-sdk/client-ses";
 import { PasswordResetEmailString } from "@celeb-chat/shared/src/api/mailer/emailBodies";
+import { Loc } from "./Loc";
 
 const client = new SESClient({
   region: process.env.AWS_IAM_SES_FULL_ACCESS_REGION ?? "",
@@ -63,8 +64,7 @@ export class Mailer {
       this.getSendEmailInput({
         to: [to],
         body: PasswordResetEmailString({ confirmationHash, confirmationId }),
-        // TODO: Update with app name
-        subject: "Your XYZ Password Reset Instructions",
+        subject: `Your ${Loc.Common.AppName} Password Reset Instructions`,
       })
     );
 

@@ -1,6 +1,7 @@
+import { Common } from "../common";
+
 export const ChatHome = {
-  // TODO: Update app name
-  PageTitle: "Welcome to Personaverse!",
+  PageTitle: `Welcome to ${Common.AppName}!`,
   PageDesc:
     "Get ready to jump into extraordinary conversations with the most fascinating figures you can imagine. Here, you're the director of the discourse, the maestro of the chat. Ready to get started?",
   CreateChat: {
