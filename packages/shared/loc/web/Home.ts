@@ -1,5 +1,7 @@
+import { Common } from "../common";
+
 export const Home = {
-  Title: "Welcome to Fiction Chat",
+  Title: `Welcome to ${Common.AppName}`,
 
   ChatForm: {
     Title: "Who would you like to chat with?",
