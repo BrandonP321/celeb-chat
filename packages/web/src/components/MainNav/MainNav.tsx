@@ -27,7 +27,7 @@ function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
   return (
     <div className={styles.mainNav}>
       <Link to={"/"} className={styles.homeBtn}>
-        <FontAwesomeIcon icon={faHome} className={styles.icon} />
+        <img src="/appLogo.svg" className={styles.icon}/>
       </Link>
       <Link
         to={RouteHelper.EditChat({ chatId: chat?.id ?? "" })}

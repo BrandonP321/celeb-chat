@@ -26,7 +26,8 @@
       "@/Slices": ["./store/slices"],
       "@/Slices/*": ["./store/slices/*"],
       "@/Utils": ["./utils"],
-      "@/Loc": ["./utils/Loc"]
+      "@/Loc": ["./utils/Loc"],
+      "@/Media/*": ["./media/*"]
     }
   },
   "include": ["src"]

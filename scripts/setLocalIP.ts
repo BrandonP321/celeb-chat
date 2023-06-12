@@ -59,7 +59,7 @@ function getIpAddress() {
     }
   }
 
-  const ipAddress = results.Ethernet?.[0];
+  const ipAddress = results.Ethernet?.[0] ?? results["Wi-Fi"][0]
 
   if (!ipAddress) {
     throw new Error(
