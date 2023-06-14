@@ -45,9 +45,9 @@ export const SendMsgController = Controller<
   const newMsg = incomingMsg?.choices?.[0]?.message;
   const tokensUsed = incomingMsg.usage?.total_tokens;
 
-  await user.updateAIResponseStats(newMsg?.content.length);
+  await user.updateAIResponseStats(newMsg?.content?.length ?? 0);
   await user.updateTokenCount(tokensUsed ?? 0);
-  await user.updateMsgStats(outgoingMsg.content.length);
+  await user.updateMsgStats(outgoingMsg.content?.length ?? 0);
 
   if (!newMsg) {
     return error.ErrorFetchingChatCompletion(
