@@ -19,6 +19,11 @@ configureApp(app);
 // ROUTES
 configureRoutes(app);
 
+// Health check endpoint for Elastic Beanstalk
+app.get("/health-check", (req, res) => {
+  res.json({}).end();
+});
+
 // DB CONNECTION
 connectToMongoDb();
 
