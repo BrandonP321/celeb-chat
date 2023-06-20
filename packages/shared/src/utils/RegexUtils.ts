@@ -6,7 +6,7 @@ export class RegexUtils {
 
   public static usernameMinLength = 5;
   public static usernameMaxLength = 15;
-  public static alphaNumeric = /[a-z][A-Z][0-9]/;
+  public static alphaNumeric = /^[a-zA-Z0-9]*$/;
 
   public static chatNameRegex = /^[^"]*$/;
   public static chatDescRegex = /^[^"]*$/;
