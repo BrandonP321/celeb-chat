@@ -14,6 +14,10 @@ export class RouteHelper {
     return `/chat/${chatId}/edit`;
   };
 
+  public static Chat = ({ chatId }: { chatId: string }) => {
+    return `/chat/${chatId}`;
+  };
+
   public static Login = (withRedirect?: boolean) => {
     if (withRedirect) {
       return (window.location.href = UrlUtils.url()

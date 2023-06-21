@@ -8,6 +8,7 @@ import { useAppDispatch, useChat, useChatSidebar } from "@/Hooks";
 import { RouteHelper } from "utils/RouteHelper";
 import { Actions } from "@/Slices";
 import { Loc } from "@/Loc";
+import { WebChatUtils } from "@/Utils";
 
 export namespace MainNav {
   export type Props = {
@@ -25,18 +26,25 @@ function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
     dispatch(Actions.ChatSidebar.toggle());
   };
 
+  const chatIdFromEditUrl = WebChatUtils.getChatIdFromEditUrl();
+  const chatIdFromChatUrl = WebChatUtils.getChatIdFromChatUrl();
+
+  const chatUrl = chatIdFromEditUrl
+    ? RouteHelper.Chat({ chatId: chatIdFromEditUrl })
+    : RouteHelper.EditChat({ chatId: chatIdFromChatUrl ?? "" });
+
   return (
     <div className={styles.mainNav}>
       <Link to={"/"} className={styles.homeBtn}>
         <img src="/appLogo.svg" className={styles.icon} />
         <span>{Loc.Common.AppName}</span>
       </Link>
-      <Link
-        to={RouteHelper.EditChat({ chatId: chat?.id ?? "" })}
-        className={styles.chatName}
-      >
-        <p>{chat?.displayName}</p>
-      </Link>
+
+      {chat?.displayName && (
+        <Link to={chatUrl} className={styles.chatName}>
+          <p>{chat?.displayName}</p>
+        </Link>
+      )}
 
       {withChatSidebar && (
         <button className={styles.mobileNavBtn} onClick={toggleSidebar}>
