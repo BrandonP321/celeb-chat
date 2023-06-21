@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useChat, useChatSidebar } from "@/Hooks";
 import { RouteHelper } from "utils/RouteHelper";
 import { Actions } from "@/Slices";
+import { Loc } from "@/Loc";
 
 export namespace MainNav {
   export type Props = {
@@ -27,7 +28,8 @@ function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
   return (
     <div className={styles.mainNav}>
       <Link to={"/"} className={styles.homeBtn}>
-        <img src="/appLogo.svg" className={styles.icon}/>
+        <img src="/appLogo.svg" className={styles.icon} />
+        <span>{Loc.Common.AppName}</span>
       </Link>
       <Link
         to={RouteHelper.EditChat({ chatId: chat?.id ?? "" })}

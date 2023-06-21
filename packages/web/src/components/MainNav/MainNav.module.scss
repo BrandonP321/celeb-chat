@@ -18,17 +18,54 @@
   }
 }
 
+$navIconHeight: 1.7rem;
+
 .homeBtn,
 .mobileNavBtn,
 .msgNavIcon {
   flex-shrink: 0;
-  width: 1.7rem;
+  width: $navIconHeight;
+}
+
+.homeBtn {
+  span {
+    display: none;
+  }
+
+  @include notMobileVW() {
+    display: flex;
+    align-items: center;
+    width: initial;
+    height: 2rem;
+
+    span {
+      display: initial;
+      font-weight: bold;
+      color: $textAccentSecondary;
+    }
+
+    .icon {
+      height: 100%;
+      margin-right: 0.5rem;
+    }
+  }
 }
 
 .homeBtn,
 .msgNavIcon {
   .icon {
     font-size: 1.5rem;
+  }
+}
+
+.msgNavIcon {
+  &:hover .icon {
+    color: $textPrimary;
+  }
+
+  .icon {
+    color: hsl(0, 0, 70%);
+    transition: all 0.15s;
   }
 }
 
