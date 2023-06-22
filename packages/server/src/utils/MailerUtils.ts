@@ -31,10 +31,15 @@ type PasswordResetEmailConfig = EmailConfig & {
 };
 
 export class Mailer {
+  public static getPersonaVerseEmail = (alias: string) => {
+    return `${alias}@personaverse.com`;
+  }
+
+  public static noReplyEmail = this.getPersonaVerseEmail("no-reply");
+
   private static getSendEmailInput = ({
     to,
-    // TODO: Update when no-reply email is created
-    from = "bphillips@fiction-chat.com",
+    from = this.noReplyEmail,
     body,
     subject,
   }: SendEmailInputParams): SendEmailCommandInput => ({
@@ -70,4 +75,5 @@ export class Mailer {
 
     return client.send(command);
   };
+
 }

@@ -1,8 +1,6 @@
 import React from "react";
 import {
   convertJSXToString,
-  Color,
-  Header,
   Link,
   Text,
   Title,
@@ -21,7 +19,7 @@ export function PasswordResetEmailJSX({
   confirmationHash = "someConfirmationHash",
   confirmationId = "someConfirmationId",
 }: Props) {
-  const resetUrl = `https://dev.fiction-chat.com/password/reset?confirmationId=${confirmationId}&confirmationHash=${confirmationHash}`;
+  const resetUrl = `https://personaverse.com/password/reset?confirmationId=${confirmationId}&confirmationHash=${confirmationHash}`;
 
   return (
     <>
