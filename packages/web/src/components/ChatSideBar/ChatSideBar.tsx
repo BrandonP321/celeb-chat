@@ -111,6 +111,7 @@ function ChatSideBar(props: ChatSideBar.Props) {
             variant="primaryGradient"
             to="/chat/new"
             classes={{ root: styles.newChatLink }}
+            aria-label="Create new chat"
           >
             <FontAwesomeIcon
               icon={faPlus}

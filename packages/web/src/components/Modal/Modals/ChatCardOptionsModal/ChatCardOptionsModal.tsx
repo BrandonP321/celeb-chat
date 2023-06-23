@@ -40,6 +40,7 @@ export function ChatCardOptionsModal({
           to={`/chat/${chat?.id}/edit`}
           onClick={props.hide}
           classes={{ root: styles.btn, icon: styles.icon }}
+          aria-label="Edit chat"
         />
 
         <ActionIcon
@@ -47,6 +48,7 @@ export function ChatCardOptionsModal({
           variant="danger"
           onClick={showDeletionModal}
           classes={{ root: styles.btn, icon: styles.icon }}
+          aria-label="Delete chat"
         />
       </ButtonsWrapper>
     </Modal>

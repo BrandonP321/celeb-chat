@@ -161,6 +161,7 @@ function MessageBarInnerForm(props: MessageBarInnerForm.Props) {
           loading={pendingResponse}
           variant="primaryGradient"
           type="submit"
+          aria-label="Send message"
         >
           <FontAwesomeIcon className={styles.icon} icon={faPaperPlane} />
         </Button>
