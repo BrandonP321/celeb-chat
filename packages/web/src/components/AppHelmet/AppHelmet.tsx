@@ -13,8 +13,7 @@ type PageMetaData = {
 const defaultMetaData: PageMetaData = {
   title: Loc.Web.Meta.Title,
   desc: Loc.Web.Meta.Desc,
-  // TODO: Update image
-  image: "https://i.imgur.com/RNeSEhF.png",
+  image: "/meta_img.jpg",
   imageAltText: "Some image alt text",
 };
 
@@ -33,7 +32,8 @@ export function AppHelmet(props: AppHelmet.Props) {
   return (
     <Helmet prioritizeSeoTags>
       <title>
-        {meta.title ?? ""} | {Loc.Common.AppName}
+        {(props.title && `${props.title} | `) || ""}
+        {Loc.Common.AppName}
       </title>
       <meta name="description" content={meta.desc} />
 

@@ -32,7 +32,7 @@ export function ChatHome(props: ChatHome.Props) {
 
   return (
     <ScrollablePage className={styles.home}>
-      <AppHelmet />
+      <AppHelmet title="Welcome" />
 
       <LoadingContainer loading={!chats} />
 
