@@ -13,7 +13,7 @@ export class OpenaiFetcher {
   public static fetchChatCompletion = (
     msgBody: string,
     messages: ChatModel.IndexlessMessage[]
-  ): ReturnType<typeof openai["createChatCompletion"]> => {
+  ): ReturnType<(typeof openai)["createChatCompletion"]> => {
     const msg = ChatUtils.constructMsg(msgBody);
 
     return openai.createChatCompletion({

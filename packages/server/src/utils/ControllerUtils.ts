@@ -38,8 +38,7 @@ export class ControllerErrors<Errors extends ControllerResponses<{}>> {
   private logError = (err: any) => {
     if (err) {
       if (typeof err !== "string") {
-        // TODO: Consider not stringifying the error to get a full JSON
-        // err = JSON.stringify(err);
+        err = JSON.stringify(err);
       }
 
       if (EnvUtils.local) {
