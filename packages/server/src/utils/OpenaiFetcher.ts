@@ -15,12 +15,10 @@ export class OpenaiFetcher {
     messages: ChatModel.IndexlessMessage[]
   ): ReturnType<(typeof openai)["createChatCompletion"]> => {
     const msg = ChatUtils.constructMsg(msgBody);
-    const msgs: any = undefined;
 
     return openai.createChatCompletion({
       model: OpenaiUtils.OpenAIModel.GPT3Turbo,
-      // messages: [...messages, msg],
-      messages: msgs,
+      messages: [...messages, msg],
     });
   };
 }
