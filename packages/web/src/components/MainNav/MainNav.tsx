@@ -36,7 +36,11 @@ function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
   return (
     <div className={styles.mainNav}>
       <Link to={"/"} className={styles.homeBtn}>
-        <img src="/appLogo.svg" className={styles.icon} />
+        <img
+          src="/appLogo.svg"
+          className={styles.icon}
+          alt="PersonaVerse Logo"
+        />
         <span>{Loc.Common.AppName}</span>
       </Link>
 
@@ -56,7 +60,11 @@ function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
       )}
 
       {showChatNavLink && (
-        <Link to={"/chats"} className={styles.msgNavIcon}>
+        <Link
+          to={"/chats"}
+          className={styles.msgNavIcon}
+          aria-label="Go to chats"
+        >
           <FontAwesomeIcon icon={faMessage} className={styles.icon} />
         </Link>
       )}
