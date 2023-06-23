@@ -119,6 +119,7 @@ export const LoginUserController = Controller<LoginRequest.Request>(
 
         // add jwt id to user's doc in db
         await user.addJWTHash(tokenHashId);
+        await user.save();
 
         const userJSON = await user.toShallowJSON();
 

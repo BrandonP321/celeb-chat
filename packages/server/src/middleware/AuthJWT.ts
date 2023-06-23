@@ -92,6 +92,7 @@ const refreshTokens = async (
     await user.removeJWTHash(rTokenHash);
     // add enw jwt id to user doc
     await user.addJWTHash(tokenHashId);
+    await user.save();
 
     return true;
   } catch (err) {

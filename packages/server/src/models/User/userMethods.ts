@@ -55,7 +55,6 @@ const addJWTHash: UserModel.InstanceMethods["addJWTHash"] = async function (
   hash
 ) {
   this.jwtHash = { ...(this.jwtHash ?? {}), [hash]: true };
-  await this.save();
 };
 
 /** See {@link UserModel.InstanceMethods.removeJWTHash} */
@@ -65,7 +64,6 @@ const removeJWTHash: UserModel.InstanceMethods["removeJWTHash"] =
     delete newJwtHashObj[hash];
 
     this.jwtHash = newJwtHashObj;
-    await this.save();
   };
 
 const getChatJSON: UserModel.InstanceMethods["getChatJSON"] = async function (
