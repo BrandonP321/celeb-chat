@@ -37,7 +37,7 @@ function Modal(props: Modal.Props) {
           <div
             className={classNames(styles.upperContent, classes?.upperContent)}
           >
-            <h3 className={styles.modalTitle}>{title}</h3>
+            <p className={styles.modalTitle}>{title}</p>
             {children}
           </div>
 
