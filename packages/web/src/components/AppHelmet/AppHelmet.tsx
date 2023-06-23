@@ -15,7 +15,7 @@ const defaultMetaData: PageMetaData = {
   title: Loc.Web.Meta.Title,
   desc: Loc.Web.Meta.Desc,
   image: "/meta_img.jpg",
-  imageAltText: "Some image alt text",
+  imageAltText: "PersonaVerse Logo",
 };
 
 export namespace AppHelmet {
