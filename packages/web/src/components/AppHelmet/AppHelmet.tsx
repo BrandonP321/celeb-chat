@@ -1,13 +1,14 @@
 import React from "react";
 import { Loc } from "@/Loc";
 import { Helmet } from "react-helmet-async";
+import { Keywords } from "./keywords";
 
-// TODO: Add keywords
 type PageMetaData = {
   title: string;
   desc: string;
   image: string;
   imageAltText: string;
+  keywords?: string[];
 };
 
 const defaultMetaData: PageMetaData = {
@@ -22,12 +23,15 @@ export namespace AppHelmet {
 }
 
 export function AppHelmet(props: AppHelmet.Props) {
-  const { ...rest } = props;
+  const { keywords: keywordsProp, ...rest } = props;
 
-  const meta = {
+  const meta: Required<PageMetaData> = {
     ...defaultMetaData,
     ...rest,
+    keywords: [...Keywords, ...(keywordsProp ?? [])],
   };
+
+  const metaKeywords = meta.keywords.join(", ");
 
   return (
     <Helmet prioritizeSeoTags>
@@ -36,6 +40,7 @@ export function AppHelmet(props: AppHelmet.Props) {
         {Loc.Common.AppName}
       </title>
       <meta name="description" content={meta.desc} />
+      <meta name="keywords" content={metaKeywords} />
 
       <meta property="og:title" content={meta.title} />
       <meta property="og:description" content={meta.desc} />
