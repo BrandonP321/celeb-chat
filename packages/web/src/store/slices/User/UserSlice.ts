@@ -1,3 +1,4 @@
+import { UpdateUserRequest } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -26,8 +27,15 @@ const userSlice = createSlice({
     signout: (state) => {
       state.user = null;
     },
+    updateUser: (state, action: PayloadAction<UpdateUserRequest.ReqBody>) => {
+      if (state.user) {
+        state.user.email = action.payload.email ?? state.user.email;
+        state.user.username = action.payload.username ?? state.user.username;
+      }
+    },
   },
 });
 
-export const { setUser, setIsFetching, signout } = userSlice.actions;
+export const { setUser, setIsFetching, signout, updateUser } =
+  userSlice.actions;
 export default userSlice.reducer;

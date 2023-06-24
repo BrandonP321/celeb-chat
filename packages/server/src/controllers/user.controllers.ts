@@ -4,12 +4,14 @@ import {
   GetUserChatsRequest,
   GetUserRequest,
   ResetPasswordRequest,
+  UpdateUserRequest,
 } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import { validatePasswordResetInput } from "@celeb-chat/shared/src/schema/ResetPasswordSchema";
 import { TUserDocLocals } from "@/Middleware";
 import { Controller, ControllerErrors, Loc, Mailer } from "@/Utils";
 import db from "@/Models";
 import bcrypt from "bcrypt";
+import { validateEditUserInput } from "@celeb-chat/shared/src/schema";
 
 /** Returns full user JSON without sensitive data */
 export const GetUserController = Controller<
@@ -17,6 +19,40 @@ export const GetUserController = Controller<
   TUserDocLocals
 >(async (req, res) => {
   return res.json(await res.locals.user.toFullJSON()).end();
+});
+
+export const UpdateUserController = Controller<
+  UpdateUserRequest.Request,
+  TUserDocLocals
+>(async (req, res) => {
+  const { email, username } = req.body;
+  const { user } = res.locals;
+  const { error } = new ControllerErrors(res, UpdateUserRequest.Errors);
+
+  const validationError = await validateEditUserInput({ email, username });
+
+  if (validationError) {
+    return error.InvalidInput(validationError);
+  }
+
+  user.email = email ?? user.email;
+  user.username = username ?? user.username;
+
+  try {
+    await user.save();
+
+    return res.json({}).end();
+  } catch (e) {
+    const err: any = e;
+
+    if (err?.duplicateKey === "username") {
+      return error.UsernameTaken();
+    } else if (err?.duplicateKey === "email") {
+      return error.EmailTaken();
+    } else {
+      return error.InternalServerError(undefined, err);
+    }
+  }
 });
 
 /** Returns basic user info  */

@@ -34,6 +34,14 @@
       border-color: $colorDanger;
     }
   }
+
+  &.disabled {
+    .formField {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(gray, 0.5);
+      color: rgba($textPrimary, 0.8);
+    }
+  }
 }
 
 .formField {

@@ -39,7 +39,8 @@ export const Auth = {
       "Oops, you skipped the password. We need that to log you in!",
   },
   SignupSchema: {
-    EmailRequired: "",
+    EmailRequired:
+      "Oops! It looks like you forgot to provide an email address.",
     UsernameMinLength: (min: number) =>
       `Your username needs to be at least ${min} characters long. Add a few more!`,
     usernameMaxLength: (max: number) =>

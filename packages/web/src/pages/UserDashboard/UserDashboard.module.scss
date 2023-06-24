@@ -4,3 +4,8 @@
   position: relative;
   min-height: 100%;
 }
+
+.errorMsg {
+  color: $colorDanger;
+  margin: 1rem 0;
+}

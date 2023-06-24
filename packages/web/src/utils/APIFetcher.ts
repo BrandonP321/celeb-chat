@@ -5,6 +5,7 @@ import {
   GetUserChatsRequest,
   GetUserRequest,
   ResetPasswordRequest,
+  UpdateUserRequest,
 } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import {
   LoginRequest,
@@ -156,4 +157,7 @@ export class APIFetcher {
       Routes.User.CreatePasswordResetRequest(),
       params
     );
+
+  public static updateUser = (params: UpdateUserRequest.ReqBody) =>
+    APIFetcher.post<{}>(Routes.User.UpdateUser(), params);
 }

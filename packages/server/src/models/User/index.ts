@@ -23,7 +23,6 @@ const UserSchema: UserModel.Schema = new Schema(
       type: String,
       lowercase: true,
       required: [true, "Email required"],
-      match: [RegexUtils.emailRegex, "Invalid email for user doc"],
       index: true,
       unique: true,
     },

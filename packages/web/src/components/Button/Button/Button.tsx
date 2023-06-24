@@ -159,6 +159,7 @@ export namespace SubmitButton {
 
 export function SubmitButton({
   disabledWhenDirty = true,
+  disabled,
   ...props
 }: SubmitButton.Props) {
   const { variant = "primaryGradient", ...rest } = props;
@@ -171,7 +172,7 @@ export function SubmitButton({
       type="submit"
       variant={variant}
       loading={isSubmitting}
-      disabled={disabledWhenDirty && !dirty}
+      disabled={disabled || (disabledWhenDirty && !dirty)}
     />
   );
 }

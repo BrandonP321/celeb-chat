@@ -11,5 +11,6 @@ export const Common = {
   Username: "Username",
   Password: "Password",
   ConfirmPassword: "Confirm Password",
-  AppName: "PersonaVerse"
+  AppName: "PersonaVerse",
+  Edit: "Edit",
 } as const;

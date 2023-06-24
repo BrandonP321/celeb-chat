@@ -17,6 +17,7 @@ namespace FormField {
     initialValue?: string;
     id?: string;
     required?: boolean;
+    disabled?: boolean;
   }>;
 }
 
@@ -61,7 +62,8 @@ function FormField(props: FormField.Props) {
         classes?.root,
         isFocused && styles.focused,
         !value && styles.empty,
-        error && styles.error
+        error && styles.error,
+        props.disabled && styles.disabled
       )}
     >
       <label

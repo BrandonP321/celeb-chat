@@ -21,6 +21,43 @@ export namespace GetUserRequest {
   export type Error = APIErrorResponse<typeof ErrorCode>;
 }
 
+export namespace UpdateUserRequest {
+  export type ReqBody = {
+    email?: string;
+    username?: string;
+  };
+
+  export type Request = APIRequest<{}, ReqBody, {}>;
+
+  export const ErrorCode = {
+    ...DefaultErrors.ErrorCode,
+    InvalidInput: "InvalidInput",
+    EmailTaken: "EmailTaken",
+    UsernameTaken: "UsernameTaken",
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...DefaultErrors.Errors,
+    InvalidInput: {
+      errCode: ErrorCode.InvalidInput,
+      msg: "Input does not match required format",
+      status: HttpStatusCode.BadRequest,
+    },
+    EmailTaken: {
+      status: HttpStatusCode.BadRequest,
+      errCode: ErrorCode.EmailTaken,
+      msg: Loc.Server.Auth.EmailTaken,
+    },
+    UsernameTaken: {
+      status: HttpStatusCode.BadRequest,
+      errCode: ErrorCode.UsernameTaken,
+      msg: Loc.Server.Auth.UsernameTaken,
+    },
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}
+
 export namespace GetUserAuthRequest {
   type ReqBody = {};
 

@@ -6,6 +6,7 @@ import {
   GetUserChatsController,
   GetUserController,
   ResetPasswordController,
+  UpdateUserController,
 } from "@/Controllers/user.controllers";
 import { AuthJwt } from "@/Middleware/AuthJWT";
 import { GetUserMiddleware } from "@/Middleware/User.middleware";
@@ -36,6 +37,13 @@ router.get(
 router.post(
   Routes.User.CreatePasswordResetRequest(),
   CreatePasswordResetRequestController
+);
+
+router.post(
+  Routes.User.UpdateUser(),
+  AuthJwt,
+  GetUserMiddleware,
+  UpdateUserController
 );
 
 router.post(Routes.User.ResetPassword(), ResetPasswordController);
