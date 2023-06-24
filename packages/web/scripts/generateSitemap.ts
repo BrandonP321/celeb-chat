@@ -26,7 +26,8 @@ export const writeSitemap = () =>
   streamToPromise(Readable.from(links).pipe(stream)).then(async (body) => {
     console.log("\nWRITING SITEMAP");
 
-    let prettyXML = xmlFormatter(body.toString());
+    // let prettyXML = xmlFormatter(body.toString());
+    let prettyXML = body.toString();
 
     prettyXML = prettyXML.replace(/T00:00:00\.000Z/g, "");
 
