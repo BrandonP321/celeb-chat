@@ -17,6 +17,7 @@
     "@types/node": "^16.18.18",
     "classnames": "^2.3.2",
     "craco-alias": "^3.0.1",
+    "date-fns": "^2.30.0",
     "destyle.css": "^4.0.0",
     "formik": "^2.2.9",
     "react-helmet-async": "^1.3.0",
@@ -24,13 +25,16 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "sass": "^1.59.3",
-    "web-vitals": "^2.1.4"
+    "sitemap": "^7.1.1",
+    "web-vitals": "^2.1.4",
+    "xml-formatter": "^3.4.1"
   },
   "scripts": {
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generateSitemap": "ts-node ./scripts/generateSitemap.ts"
   },
   "eslintConfig": {
     "extends": [
