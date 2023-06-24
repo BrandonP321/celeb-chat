@@ -34,7 +34,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "generateSitemap": "ts-node ./scripts/generateSitemap.ts"
+    "generateSitemap": "ts-node ./scripts/generateSitemap.ts",
+    "generateKeywords": "ts-node ./scripts/generateKeywords.ts"
   },
   "eslintConfig": {
     "extends": [
