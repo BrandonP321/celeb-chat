@@ -1,5 +1,7 @@
 @import "../../../styles/uiBase.scss";
 
+$disabledBgColor: hsl(0, 1%, 19%);
+
 .formFieldWrapper {
   position: relative;
   background-color: $bodyBgPrimary;
@@ -14,6 +16,7 @@
   }
 
   &.focused,
+  &.disabled,
   &:not(.empty) {
     .label {
       top: 0;
@@ -37,9 +40,13 @@
 
   &.disabled {
     .formField {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: $disabledBgColor;
       border-color: rgba(gray, 0.5);
       color: rgba($textPrimary, 0.8);
+    }
+
+    .label {
+      background: linear-gradient(to top, $disabledBgColor, $disabledBgColor, $bodyBgPrimary, $bodyBgPrimary);
     }
   }
 }
