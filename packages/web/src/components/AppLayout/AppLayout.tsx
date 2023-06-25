@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   MainNav,
   ChatSideBar,
@@ -6,8 +6,20 @@ import {
   LoadingContainer,
 } from "@/Components";
 import styles from "./AppLayout.module.scss";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useAuthenticatedPage, useUser } from "@/Hooks";
+import { UrlUtils } from "@/Utils";
+import ReactGA from "react-ga4";
+
+const useGoogleAnalytics = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = UrlUtils.url().path;
+
+    ReactGA.send({ hitType: "pageView", page: path });
+  }, [location])
+}
 
 export namespace AppLayout {
   export type Props = {
@@ -22,6 +34,8 @@ function AppLayout({
   renderOutlet = true,
   showChatNavLink,
 }: AppLayout.Props) {
+  useGoogleAnalytics()
+
   return (
     <div className={styles.layout}>
       <MainNav

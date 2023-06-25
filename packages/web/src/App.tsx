@@ -22,6 +22,9 @@ import { useEffect } from "react";
 import { Responsive } from "@/Slices/Responsive/Responsive";
 import { useUser } from "@/Hooks";
 import styles from "./App.module.scss";
+import ReactGA from "react-ga4";
+
+ReactGA.initialize("G-P9NX148C7X");
 
 function App() {
   const { isFetching } = useUser({ fetchIfNotExists: true });
