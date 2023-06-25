@@ -24,7 +24,7 @@ import { useUser } from "@/Hooks";
 import styles from "./App.module.scss";
 import ReactGA from "react-ga4";
 
-ReactGA.initialize("G-P9NX148C7X");
+ReactGA.initialize("G-Q2M9CVPE95");
 
 function App() {
   const { isFetching } = useUser({ fetchIfNotExists: true });
