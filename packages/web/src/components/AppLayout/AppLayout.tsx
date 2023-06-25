@@ -17,7 +17,10 @@ const useGoogleAnalytics = () => {
   useEffect(() => {
     const path = UrlUtils.url().path;
 
-    ReactGA.send({ hitType: "pageView", page: path });
+    ReactGA.send({ 
+      hitType: "pageview", 
+      page: path, 
+    });
   }, [location])
 }
 
