@@ -3,6 +3,12 @@
 .userDash {
   position: relative;
   min-height: 100%;
+  max-width: none;
+}
+
+.fixedWidthContent {
+  max-width: 40rem;
+  margin: 0 auto;
 }
 
 .errorMsg {
