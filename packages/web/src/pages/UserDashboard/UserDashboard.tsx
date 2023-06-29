@@ -12,6 +12,7 @@ import {
 } from "@/Components";
 import { Loc } from "@/Loc";
 import { EditUserForm } from "./components/EditUserForm/EditUserForm";
+import { PricingTable } from "./components/PricingTable/PricingTable";
 
 namespace UserDashboard {
   export type Props = {};
@@ -26,31 +27,31 @@ function UserDashboard(props: UserDashboard.Props) {
         setUser(user);
       })
       .catch(({ msg }: GetUserRequest.Error) => {
+        // TODO: Handle fetch error
         console.log({ msg });
       });
   }, []);
 
   return (
     <ScrollablePage className={styles.userDash}>
+      <AppHelmet title={Loc.Web.UserDash.Meta.Title} />
+      <LoadingContainer loading={!user} loadingText="Loading dashboard" />
       <div className={styles.fixedWidthContent}>
-        <AppHelmet title={Loc.Web.UserDash.Meta.Title} />
-        <LoadingContainer loading={!user} loadingText="Loading dashboard" />
-
         <PageHeader
           title={Loc.Web.UserDash.Title}
           desc={Loc.Web.UserDash.Blurb}
         />
 
-        {user && <EditUserForm user={user} />}
+        <h2>Subscription Settings</h2>
       </div>
 
-      {/* 
-      // @ts-ignore */}
-      <stripe-pricing-table
-        pricing-table-id="prctbl_1NOCYlIgIBGcrWnu3FoNe8OU"
-        publishable-key="pk_test_51NNsxlIgIBGcrWnuTaQUOwpOVCID7AEVhP8YQ07iXttgUe5u6sLEoKNTUMMN94GHZx4Q2WzdN3EMLhPODtJ0zdoV00PqgJEfym"
-        // @ts-ignore
-      ></stripe-pricing-table>
+      <PricingTable user={user} />
+
+      <div className={styles.fixedWidthContent}>
+        <h2 className={styles.account}>Account Settings</h2>
+
+        {user && <EditUserForm user={user} />}
+      </div>
     </ScrollablePage>
   );
 }

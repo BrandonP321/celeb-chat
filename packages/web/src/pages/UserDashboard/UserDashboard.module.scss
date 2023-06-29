@@ -4,6 +4,21 @@
   position: relative;
   min-height: 100%;
   max-width: none;
+
+  h2 {
+    text-align: center;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+
+    @include largeVW() {
+      margin-bottom: 0;
+    }
+
+    &.account {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
 }
 
 .fixedWidthContent {
