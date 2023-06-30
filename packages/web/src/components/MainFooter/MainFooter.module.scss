@@ -1,0 +1,45 @@
+@import "../../styles/uiBase.scss";
+
+.footer {
+  padding: 1rem 0;
+  background-color: rgba(white, 0.025);
+}
+
+.content {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.socials {
+  a {
+    font-size: 2rem;
+
+    &:hover {
+      .icon {
+        color: $textPrimary;
+      }
+    }
+
+    &:not(:last-child) {
+      margin-right: 1.5rem;
+    }
+
+    .icon {
+      color: rgba($textPrimary, 0.7);
+      transition: all 0.15s;
+    }
+  }
+}
+
+.support {
+  color: rgba($textPrimary, 0.6);
+  transition: all 0.15s;
+
+  &:hover {
+    color: $textPrimary;
+  }
+}

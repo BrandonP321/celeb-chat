@@ -20,3 +20,4 @@ export * from "./Form";
 export * from "./ChatNoMatch/ChatNoMatch";
 export * from "./AppHelmet/AppHelmet";
 export * from "./Alert/Alert";
+export * from "./MainFooter/MainFooter";
