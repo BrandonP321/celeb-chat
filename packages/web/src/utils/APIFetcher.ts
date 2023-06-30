@@ -6,6 +6,7 @@ import {
   GetUserRequest,
   ResetPasswordRequest,
   UpdateUserRequest,
+  VerifyEmailRequest,
 } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import {
   LoginRequest,
@@ -160,4 +161,10 @@ export class APIFetcher {
 
   public static updateUser = (params: UpdateUserRequest.ReqBody) =>
     APIFetcher.post<{}>(Routes.User.UpdateUser(), params);
+
+  public static sendEmailVerificationEmail = () =>
+    APIFetcher.post<{}>(Routes.User.SendVerificationEmail(), {});
+
+  public static verifyEmail = (params: VerifyEmailRequest.ReqBody) =>
+    APIFetcher.post<{}>(Routes.User.VerifyEmail(), params);
 }

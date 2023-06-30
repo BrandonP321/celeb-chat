@@ -28,14 +28,14 @@ export class ControllerErrors<Errors extends ControllerResponses<{}>> {
           msg: msg ?? error.msg,
         };
 
-        this.logError(err);
+        ControllerErrors.logError(err);
 
         return res.status(error.status).json(resJSON).end();
       };
     }
   }
 
-  private logError = (err: any) => {
+  public static logError = (err: any) => {
     if (err) {
       if (typeof err !== "string") {
         err = JSON.stringify(err);

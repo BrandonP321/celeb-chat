@@ -19,3 +19,4 @@ export * from "./AppLayout/AppLayout";
 export * from "./Form";
 export * from "./ChatNoMatch/ChatNoMatch";
 export * from "./AppHelmet/AppHelmet";
+export * from "./Alert/Alert";

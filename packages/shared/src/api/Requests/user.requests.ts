@@ -58,6 +58,47 @@ export namespace UpdateUserRequest {
   export type Error = APIErrorResponse<typeof ErrorCode>;
 }
 
+export namespace SendEmailVerificationRequest {
+  export type ReqBody = {};
+
+  export type Request = APIRequest<{}, ReqBody, {}>;
+
+  export const ErrorCode = {
+    ...DefaultErrors.ErrorCode,
+    UnableToSendEmail: "UnableToSendEmail",
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...DefaultErrors.Errors,
+    UnableToSendEmail: {
+      errCode: ErrorCode.UnableToSendEmail,
+      msg: Loc.Web.UserDash.VerificationEmailNotSent,
+      status: HttpStatusCode.InternalServerError,
+    },
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}
+
+export namespace VerifyEmailRequest {
+  export type ReqBody = {
+    userId: string;
+    hash: string;
+  };
+
+  export type Request = APIRequest<{}, ReqBody, {}>;
+
+  export const ErrorCode = {
+    ...DefaultErrors.ErrorCode,
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...DefaultErrors.Errors,
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}
+
 export namespace GetUserAuthRequest {
   type ReqBody = {};
 

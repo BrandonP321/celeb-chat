@@ -7,6 +7,8 @@ import {
   GetUserController,
   ResetPasswordController,
   UpdateUserController,
+  VerifyEmail,
+  sendEmailVerificationEmail,
 } from "@/Controllers/user.controllers";
 import { AuthJwt } from "@/Middleware/AuthJWT";
 import { GetUserMiddleware } from "@/Middleware/User.middleware";
@@ -45,6 +47,15 @@ router.post(
   GetUserMiddleware,
   UpdateUserController
 );
+
+router.post(
+  Routes.User.SendVerificationEmail(),
+  AuthJwt,
+  GetUserMiddleware,
+  sendEmailVerificationEmail
+);
+
+router.post(Routes.User.VerifyEmail(), VerifyEmail);
 
 router.post(Routes.User.ResetPassword(), ResetPasswordController);
 

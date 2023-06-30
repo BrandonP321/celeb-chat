@@ -12,6 +12,12 @@ export namespace UserModel {
     password: string;
     username: string;
     jwtHash: { [key: string]: boolean };
+    isEmailVerified: boolean;
+    emailVerification?: {
+      hash: string;
+      emailToVerify: string;
+      dateRequested: number;
+    };
     chats: UserChat[];
     stats: UserStats;
   };
@@ -50,6 +56,10 @@ export namespace UserModel {
       newMsgLength?: number
     ) => Promise<void>;
     updateMsgStats: (this: Document, newMsgLength: number) => Promise<void>;
+    updateVerificationRequest: (
+      this: Document
+    ) => Promise<{ encodedHash: string }>;
+    sendVerificationEmail: (this: Document) => Promise<void>;
   };
 
   export type StaticMethods = {};
@@ -58,13 +68,13 @@ export namespace UserModel {
   export type FullJSON = ResponseJSON<Omit<User, SensitiveFields>>;
   /** User JSON with only essential data for auth */
   export type ShallowJSON = ResponseJSON<
-    Pick<FullJSON, "email" | "username" | "id">
+    Pick<FullJSON, "email" | "username" | "id" | "isEmailVerified">
   >;
   /** Includes chat properties found on User model */
   export type ChatJSON = Omit<UserChat, "id">;
 
   /** Sensitive fields that should not be included in API response */
-  export type SensitiveFields = "password" | "jwtHash";
+  export type SensitiveFields = "password" | "jwtHash" | "emailVerification";
 
   export type UserChat = {
     id: string;

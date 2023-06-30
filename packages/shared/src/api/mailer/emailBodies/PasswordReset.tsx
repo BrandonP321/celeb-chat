@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  convertJSXToString,
-  Link,
-  Text,
-  Title,
-} from "./emailBody";
+import { convertJSXToString, Link, Text, Title } from "./emailBody";
 import { AllOrPartial } from "../../../utils";
 import { Loc } from "../../../../loc";
 
@@ -25,7 +20,8 @@ export function PasswordResetEmailJSX({
     <>
       <Title>Hello,</Title>
       <Text>
-        We received a request to reset your password for your {Loc.Common.AppName} account.
+        We received a request to reset your password for your{" "}
+        {Loc.Common.AppName} account.
       </Text>
       <Text>To reset your password, please click the link below:</Text>
       <br />

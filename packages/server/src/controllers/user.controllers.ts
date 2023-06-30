@@ -4,7 +4,9 @@ import {
   GetUserChatsRequest,
   GetUserRequest,
   ResetPasswordRequest,
+  SendEmailVerificationRequest,
   UpdateUserRequest,
+  VerifyEmailRequest,
 } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import { validatePasswordResetInput } from "@celeb-chat/shared/src/schema/ResetPasswordSchema";
 import { TUserDocLocals } from "@/Middleware";
@@ -35,7 +37,7 @@ export const UpdateUserController = Controller<
     return error.InvalidInput(validationError);
   }
 
-  user.email = email ?? user.email;
+  user.email = user.isEmailVerified || !email ? user.email : email;
   user.username = username ?? user.username;
 
   try {
@@ -171,6 +173,61 @@ export const ResetPasswordController = Controller<ResetPasswordRequest.Request>(
 
     await user.save();
     await request.delete();
+
+    return res.json({}).end();
+  }
+);
+
+export const sendEmailVerificationEmail = Controller<
+  SendEmailVerificationRequest.Request,
+  TUserDocLocals
+>(async (req, res) => {
+  const { user } = res.locals;
+  const { error } = new ControllerErrors(
+    res,
+    SendEmailVerificationRequest.Errors
+  );
+
+  try {
+    await user.sendVerificationEmail();
+  } catch (err) {
+    return error.UnableToSendEmail(undefined, err);
+  }
+
+  await user.save();
+
+  return res.json({}).end();
+});
+
+// Request should last 24 hours
+const emailVerificationRequestExpiration = 24 * 60 * 60 * 1000;
+
+export const VerifyEmail = Controller<VerifyEmailRequest.Request>(
+  async (req, res) => {
+    const { hash: encodedHash, userId } = req.body;
+    const { error } = new ControllerErrors(res, VerifyEmailRequest.Errors);
+
+    const hash = decodeURI(encodedHash);
+
+    const user = await db.User.findById(userId);
+
+    if (!user || !user.emailVerification) {
+      return error.UserNotFound();
+    }
+
+    if (
+      hash !== user.emailVerification.hash ||
+      user.emailVerification.emailToVerify !== user.email ||
+      user.emailVerification.dateRequested +
+        emailVerificationRequestExpiration <
+        Date.now()
+    ) {
+      return error.UserNotFound();
+    }
+
+    user.isEmailVerified = true;
+
+    await user.save();
 
     return res.json({}).end();
   }

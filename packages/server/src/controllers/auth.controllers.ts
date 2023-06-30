@@ -76,6 +76,12 @@ export const RegisterUserController =
 
         const userJSON = await user.toShallowJSON();
 
+        try {
+          await user.sendVerificationEmail();
+        } catch (err) {
+          ControllerErrors.logError(err);
+        }
+
         return res.json(userJSON).end();
       }
     );

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import styles from "./UserDashboard.module.scss";
 import { GetUserRequest } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import { APIFetcher } from "utils/APIFetcher";
-import { Formik } from "formik";
-import { EditUserSchema } from "@celeb-chat/shared/src/schema";
 import {
   AppHelmet,
   LoadingContainer,
@@ -12,7 +10,10 @@ import {
 } from "@/Components";
 import { Loc } from "@/Loc";
 import { EditUserForm } from "./components/EditUserForm/EditUserForm";
-import { PricingTable } from "./components/PricingTable/PricingTable";
+import {
+  PricingTable,
+  VerifyEmailAlert,
+} from "./components/PricingTable/PricingTable";
 
 namespace UserDashboard {
   export type Props = {};
@@ -43,6 +44,7 @@ function UserDashboard(props: UserDashboard.Props) {
         />
 
         <h2>Subscription Settings</h2>
+        {!user?.isEmailVerified && <VerifyEmailAlert />}
       </div>
 
       <PricingTable user={user} />

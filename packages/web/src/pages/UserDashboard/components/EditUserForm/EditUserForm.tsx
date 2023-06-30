@@ -67,7 +67,10 @@ export function EditUserForm({ user }: EditUserForm.Props) {
     >
       {({ resetForm }) => (
         <Form autoComplete="off">
-          <EmailInputField disabled={!isEditing} />
+          <EmailInputField
+            disabled={user?.isEmailVerified || !isEditing}
+            hintText={Loc.Web.UserDash.EmailHint}
+          />
           <UsernameInputField disabled={!isEditing} />
 
           {apiError && <p className={styles.errorMsg}>{apiError}</p>}

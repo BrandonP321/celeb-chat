@@ -12,7 +12,11 @@ import {
   ChatHome,
   PageNotFound,
 } from "@/Pages";
-import { EmailBody, PasswordResetEmailBody } from "@/Pages/DevPages";
+import {
+  EmailBody,
+  EmailVerificationEmailBody,
+  PasswordResetEmailBody,
+} from "@/Pages/DevPages";
 import {
   LoadingContainer,
   AppLayout,
@@ -23,6 +27,7 @@ import { Responsive } from "@/Slices/Responsive/Responsive";
 import { useUser } from "@/Hooks";
 import styles from "./App.module.scss";
 import ReactGA from "react-ga4";
+import { EmailVerification } from "./pages/EmailVerification/EmailVerification";
 
 ReactGA.initialize("G-V0DL9827RG");
 
@@ -56,6 +61,7 @@ function App() {
               path="/password/reset/request"
               element={<RequestPasswordReset />}
             />
+            <Route path="/email/verify" element={<EmailVerification />} />
           </Route>
 
           <Route element={<AuthenticatedAppLayout withChatSidebar />}>
@@ -71,6 +77,11 @@ function App() {
             <Route
               path="/_dev/email/password-reset"
               element={<PasswordResetEmailBody />}
+            />
+
+            <Route
+              path="/_dev/email/verify-email"
+              element={<EmailVerificationEmailBody />}
             />
           </Route>
 

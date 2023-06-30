@@ -1,0 +1,48 @@
+@import "../../styles/uiBase.scss";
+
+.alert {
+  display: flex;
+  padding: 1rem 0;
+  border-radius: 0.5rem;
+  border: 2px solid;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.5);
+
+  &.info {
+    border-color: $colorAccentPrimary;
+
+    .icon {
+      color: $colorAccentPrimary;
+    }
+  }
+
+  &.warning {
+    border-color: $colorDanger;
+
+    .icon {
+      color: $colorDanger;
+    }
+  }
+
+  &.success {
+    border-color: green;
+
+    .icon {
+      color: green;
+    }
+  }
+}
+
+.icon {
+  margin: 0 1rem;
+  font-size: 1.5rem;
+}
+
+.contentWrapper {
+  padding: 0 1rem 0 0;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}

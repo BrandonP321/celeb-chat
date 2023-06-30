@@ -1,3 +1,4 @@
+import { Mailer } from "@/Utils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import bcrypt from "bcrypt";
 
@@ -19,6 +20,7 @@ const toShallowJSON: UserModel.InstanceMethods["toShallowJSON"] =
       email: this.email,
       id: this.id,
       username: this.username,
+      isEmailVerified: this.isEmailVerified,
     };
   };
 
@@ -36,6 +38,7 @@ const removeSensitiveData = function (
   const sensitiveFields: { [key in UserModel.SensitiveFields]: true } = {
     jwtHash: true,
     password: true,
+    emailVerification: true,
   };
 
   const strippedUser = { ...user };
@@ -214,7 +217,34 @@ const updateTokenCount: UserModel.InstanceMethods["updateTokenCount"] =
     this.markModified("stats");
   };
 
+const updateVerificationRequest: UserModel.InstanceMethods["updateVerificationRequest"] =
+  async function () {
+    const hash = await bcrypt.hash(process.env.SECRET ?? "", 10);
+
+    this.emailVerification = {
+      hash,
+      dateRequested: Date.now(),
+      emailToVerify: this.email,
+    };
+
+    return { encodedHash: encodeURI(hash) };
+  };
+
+const sendVerificationEmail: UserModel.InstanceMethods["sendVerificationEmail"] =
+  async function () {
+    const { encodedHash } = await this.updateVerificationRequest();
+
+    Mailer.sendEmailVerificationEmail({
+      to: this.email,
+      hash: encodedHash,
+      userId: this.id,
+      username: this.username,
+    });
+  };
+
 export const UserMethods: UserModel.InstanceMethods = {
+  sendVerificationEmail,
+  updateVerificationRequest,
   removeChat,
   updateChat,
   getChatIndex,

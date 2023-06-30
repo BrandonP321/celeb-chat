@@ -1,0 +1,32 @@
+@import "../../../../styles/uiBase.scss";
+
+.emailAlert {
+  margin: 1rem 0 2rem 0;
+}
+
+.emailAlertBody {
+  display: flex;
+  align-items: flex-end;
+
+  @include mobileVW() {
+    display: block;
+  }
+
+  .blurb {
+    padding-right: 1rem;
+    flex: 1 1 0;
+    color: $textSecondary;
+
+    @include mobileVW() {
+      padding-right: 0;
+    }
+  }
+
+  .button {
+    flex-shrink: 0;
+
+    @include mobileVW() {
+      margin-top: 1rem;
+    }
+  }
+}

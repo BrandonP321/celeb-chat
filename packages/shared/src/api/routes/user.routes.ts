@@ -5,4 +5,6 @@ export const UserRoutes = {
   UpdateUser: () => `/api/user/update`,
   CreatePasswordResetRequest: () => `/api/user/password/reset/request`,
   ResetPassword: () => `/api/user/password/reset`,
+  VerifyEmail: () => `/api/email/verify`,
+  SendVerificationEmail: () => `/api/email/verification/send`,
 } as const;

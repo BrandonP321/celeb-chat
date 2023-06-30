@@ -49,6 +49,13 @@ const UserSchema: UserModel.Schema = new Schema(
       type: Schema.Types.Mixed,
       default: userStatsDefault,
     },
+    isEmailVerified: {
+      type: Schema.Types.Boolean,
+      default: false,
+    },
+    emailVerification: {
+      type: Schema.Types.Mixed,
+    },
   },
   { timestamps: true }
 );

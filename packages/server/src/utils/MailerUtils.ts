@@ -3,7 +3,10 @@ import {
   SendEmailCommandInput,
   SESClient,
 } from "@aws-sdk/client-ses";
-import { PasswordResetEmailString } from "@celeb-chat/shared/src/api/mailer/emailBodies";
+import {
+  EmailVerificationEmailString,
+  PasswordResetEmailString,
+} from "@celeb-chat/shared/src/api/mailer/emailBodies";
 import { Loc } from "./Loc";
 
 const client = new SESClient({
@@ -30,10 +33,16 @@ type PasswordResetEmailConfig = EmailConfig & {
   confirmationId: string;
 };
 
+type VerificationEmailConfig = EmailConfig & {
+  hash: string;
+  userId: string;
+  username: string;
+};
+
 export class Mailer {
   public static getPersonaVerseEmail = (alias: string) => {
     return `${alias}@personaverse.com`;
-  }
+  };
 
   public static noReplyEmail = this.getPersonaVerseEmail("no-reply");
 
@@ -59,7 +68,6 @@ export class Mailer {
     },
   });
 
-  // TODO: Pass in user's name/username for email HTML
   public static sendPasswordResetEmail = ({
     to,
     confirmationId,
@@ -76,4 +84,24 @@ export class Mailer {
     return client.send(command);
   };
 
+  public static sendEmailVerificationEmail = ({
+    to,
+    hash,
+    userId,
+    username,
+  }: VerificationEmailConfig) => {
+    const command = new SendEmailCommand(
+      this.getSendEmailInput({
+        to: [to],
+        body: EmailVerificationEmailString({
+          userId,
+          username,
+          verificationHash: hash,
+        }),
+        subject: `Verify your PersonaVerse Email`,
+      })
+    );
+
+    return client.send(command);
+  };
 }
