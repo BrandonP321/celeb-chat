@@ -157,7 +157,7 @@ export const ResetPasswordController = Controller<ResetPasswordRequest.Request>(
 
     if (!request) {
       return error.RequestNotFound();
-    } else if (request.requestCreationTime + requestLifeSpan >= Date.now()) {
+    } else if (request.requestCreationTime + requestLifeSpan < Date.now()) {
       return error.RequestExpired();
     } else if (request.confirmationHash !== confirmationHash) {
       return error.IncorrectHash();
