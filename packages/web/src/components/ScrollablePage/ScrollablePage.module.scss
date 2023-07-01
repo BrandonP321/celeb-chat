@@ -3,12 +3,14 @@
 .page {
   overflow-y: auto;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
-  min-height: 100%;
+  flex-grow: 1;
   width: 90%;
   max-width: 40rem;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 1rem 0 4rem 0;
 }
