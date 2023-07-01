@@ -47,7 +47,7 @@ export class Mailer {
     return `"${name}" <${alias}@personaverse.com>`;
   };
 
-  public static noReplyEmail = this.getPersonaVerseEmail("no-replies");
+  public static noReplyEmail = this.getPersonaVerseEmail("no-reply");
 
   private static getSendEmailInput = ({
     to,
