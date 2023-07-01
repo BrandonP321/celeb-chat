@@ -40,11 +40,14 @@ type VerificationEmailConfig = EmailConfig & {
 };
 
 export class Mailer {
-  public static getPersonaVerseEmail = (alias: string) => {
-    return `${alias}@personaverse.com`;
+  public static getPersonaVerseEmail = (
+    alias: string,
+    name = "PersonaVerse"
+  ) => {
+    return `"${name}" <${alias}@personaverse.com>`;
   };
 
-  public static noReplyEmail = this.getPersonaVerseEmail("no-reply");
+  public static noReplyEmail = this.getPersonaVerseEmail("no-replies");
 
   private static getSendEmailInput = ({
     to,
