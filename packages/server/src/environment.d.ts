@@ -17,6 +17,15 @@ declare global {
       AWS_IAM_SES_FULL_ACCESS_KEY_ID?: string;
       AWS_IAM_SES_FULL_ACCESS_KEY_SECRET?: string;
       AWS_IAM_SES_FULL_ACCESS_REGION?: string;
+      STRIPE_API_KEY_TEST?: string;
+      STRIPE_API_KEY_LIVE?: string;
+      STRIPE_VERSION?: string;
+      STRIPE_TEST_PRODUCT_TIER_FREE?: string;
+      STRIPE_TEST_PRODUCT_TIER_TWO?: string;
+      STRIPE_TEST_PRODUCT_TIER_THREE?: string;
+      STRIPE_LIVE_PRODUCT_TIER_FREE?: string;
+      STRIPE_LIVE_PRODUCT_TIER_TWO?: string;
+      STRIPE_LIVE_PRODUCT_TIER_THREE?: string;
     }
   }
 }

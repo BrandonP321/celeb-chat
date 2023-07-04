@@ -36,6 +36,9 @@ class Url {
   public get allButDomain() {
     return `${this.path}${this.url.search}`;
   }
+  public get href() {
+    return this.url.href;
+  }
 
   constructor(url: string) {
     this.url = new URL(url);

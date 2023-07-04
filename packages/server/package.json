@@ -25,6 +25,7 @@
     "jsonwebtoken": "^8.5.1",
     "node-ts": "^5.1.2",
     "nodemailer": "^6.9.2",
+    "stripe": "^12.11.0",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.7.0",
     "tsconfig-paths": "^3.12.0"

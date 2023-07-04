@@ -9,10 +9,12 @@ import {
 export namespace UserModel {
   export type User = TDefaultModelProps & {
     email: string;
+    stripeCustomerId?: string;
     password: string;
     username: string;
     jwtHash: { [key: string]: boolean };
     isEmailVerified: boolean;
+    subscription: Subscription;
     emailVerification?: {
       hash: string;
       emailToVerify: string;
@@ -68,7 +70,10 @@ export namespace UserModel {
   export type FullJSON = ResponseJSON<Omit<User, SensitiveFields>>;
   /** User JSON with only essential data for auth */
   export type ShallowJSON = ResponseJSON<
-    Pick<FullJSON, "email" | "username" | "id" | "isEmailVerified">
+    Pick<
+      FullJSON,
+      "email" | "username" | "id" | "isEmailVerified" | "subscription"
+    >
   >;
   /** Includes chat properties found on User model */
   export type ChatJSON = Omit<UserChat, "id">;
@@ -115,5 +120,20 @@ export namespace UserModel {
         [month: string]: MsgMonthlyStats;
       };
     };
+  };
+
+  export type Subscription = {
+    /**
+     * Indicates whether the user either is subscribed
+     * or has subscribed at any point
+     */
+    hasSubscribed: boolean;
+    plan?: SubscriptionPlan;
+  };
+
+  export type SubscriptionPlan = {
+    subscriptionId: string;
+    planId: string;
+    productId: string;
   };
 }

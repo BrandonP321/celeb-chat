@@ -3,12 +3,14 @@ import {
   GetUserRequest,
   SendEmailVerificationRequest,
 } from "@celeb-chat/shared/src/api/Requests/user.requests";
-import { Alert, Button, ButtonsWrapper } from "@/Components";
+import { Alert, Button, ButtonLink, ButtonsWrapper } from "@/Components";
 import styles from "./PricingTable.module.scss";
 import { Loc } from "@/Loc";
-import { APIFetcher } from "@/Utils";
+import { APIFetcher, StripeUtils } from "@/Utils";
 import { useAppDispatch } from "@/Hooks";
 import { Actions } from "@/Slices";
+import { BtnAlign } from "components/Button/ButtonsWrapper/ButtonsWrapper";
+import { faPenToSquare } from "@fortawesome/pro-solid-svg-icons";
 
 export namespace PricingTable {
   export type Props = {
@@ -22,15 +24,35 @@ export function PricingTable({ user }: PricingTable.Props) {
     pointerEvents: "none",
   };
 
+  const showTable =
+    user?.id && user?.email && !user.subscription?.hasSubscribed;
+
   return (
     <div className={"personaverse-pricing-table"}>
-      {user?.id && (
+      {showTable && (
         <stripe-pricing-table
           style={!user.isEmailVerified ? disabledStyle : undefined}
           client-reference-id={user.id}
-          pricing-table-id={process.env.REACT_APP_PRICING_TABLE_ID}
-          publishable-key={process.env.REACT_APP_PRICING_TABLE_KEY}
+          customer-email={user.email}
+          pricing-table-id={StripeUtils.pricingTable.id}
+          publishable-key={StripeUtils.pricingTable.key}
         ></stripe-pricing-table>
+      )}
+
+      {!showTable && (
+        <ButtonsWrapper
+          className={styles.manageSubWrapper}
+          align={BtnAlign.Center}
+        >
+          <ButtonLink
+            classes={{ root: styles.manageBtn }}
+            rightIcon={faPenToSquare}
+            target="_blank"
+            to={StripeUtils.getSubscriptionManagementUrl(user?.email) ?? "#"}
+          >
+            Manage Subscription
+          </ButtonLink>
+        </ButtonsWrapper>
       )}
     </div>
   );

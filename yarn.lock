@@ -3222,6 +3222,7 @@ __metadata:
     jsonwebtoken: ^8.5.1
     node-ts: ^5.1.2
     nodemailer: ^6.9.2
+    stripe: ^12.11.0
     ts-node: ^10.9.1
     tsc-alias: ^1.7.0
     tsconfig-paths: ^3.12.0
@@ -3231,6 +3232,8 @@ __metadata:
 "@celeb-chat/shared@1.0.0, @celeb-chat/shared@workspace:packages/shared":
   version: 0.0.0-use.local
   resolution: "@celeb-chat/shared@workspace:packages/shared"
+  dependencies:
+    stripe: ^12.11.0
   languageName: unknown
   linkType: soft
 
@@ -4500,6 +4503,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/async-retry@npm:^1.4.5":
+  version: 1.4.5
+  resolution: "@types/async-retry@npm:1.4.5"
+  dependencies:
+    "@types/retry": "*"
+  checksum: 39413b8bf4bb1bb7dbbd9a7415cc1d0fa8a10b9308afb4578dbdcaabc7e58a980a7c5a2cf7905912b722716e5d5aeb12f76ecf54b402932b863a80bc79108ae1
+  languageName: node
+  linkType: hard
+
 "@types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.14":
   version: 7.20.0
   resolution: "@types/babel__core@npm:7.20.0"
@@ -4810,6 +4822,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:>=8.1.0":
+  version: 20.3.3
+  resolution: "@types/node@npm:20.3.3"
+  checksum: 7a0d00800451ca8cd8df63a8cc218c697edadb3143bf46cd6afeb974542a6a1665c3679459be0016c29216ccfed6616b7e55851747527dfa71c5608d9157528c
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^10.0.3":
   version: 10.17.60
   resolution: "@types/node@npm:10.17.60"
@@ -4925,10 +4944,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/retry@npm:*":
+  version: 0.12.2
+  resolution: "@types/retry@npm:0.12.2"
+  checksum: e5675035717b39ce4f42f339657cae9637cf0c0051cf54314a6a2c44d38d91f6544be9ddc0280587789b6afd056be5d99dbe3e9f4df68c286c36321579b1bf4a
+  languageName: node
+  linkType: hard
+
 "@types/retry@npm:0.12.0":
   version: 0.12.0
   resolution: "@types/retry@npm:0.12.0"
   checksum: 61a072c7639f6e8126588bf1eb1ce8835f2cb9c2aba795c4491cf6310e013267b0c8488039857c261c387e9728c1b43205099223f160bb6a76b4374f741b5603
+  languageName: node
+  linkType: hard
+
+"@types/retry@npm:0.12.1":
+  version: 0.12.1
+  resolution: "@types/retry@npm:0.12.1"
+  checksum: 5f46b2556053655f78262bb33040dc58417c900457cc63ff37d6c35349814471453ef511af0cec76a540c601296cd2b22f64bab1ab649c0dacc0223765ba876c
   languageName: node
   linkType: hard
 
@@ -5823,6 +5856,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"async-retry@npm:^1.3.3":
+  version: 1.3.3
+  resolution: "async-retry@npm:1.3.3"
+  dependencies:
+    retry: 0.13.1
+  checksum: 38a7152ff7265a9321ea214b9c69e8224ab1febbdec98efbbde6e562f17ff68405569b796b1c5271f354aef8783665d29953f051f68c1fc45306e61aec82fdc4
+  languageName: node
+  linkType: hard
+
 "async@npm:^3.1.0, async@npm:^3.2.3":
   version: 3.2.4
   resolution: "async@npm:3.2.4"
@@ -6418,6 +6460,7 @@ __metadata:
   resolution: "celeb-chat@workspace:."
   dependencies:
     "@aws-sdk/client-cloudwatch-logs": ^3.332.0
+    "@types/async-retry": ^1.4.5
     "@types/lodash": ^4.14.194
     "@types/mongoose": ^5.11.97
     "@types/node": ^20.3.1
@@ -6425,15 +6468,19 @@ __metadata:
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
     "@types/winston": ^2.4.4
+    async-retry: ^1.3.3
     axios: ^1.3.5
     concurrently: ^7.6.0
     eslint: ^8.36.0
+    fetch-retry: ^5.0.6
     lodash: ^4.17.21
     mongoose: ^6.6.0
     openai: ^3.2.1
+    p-retry: ^5.1.2
     qrcode-terminal: ^0.12.0
     react: ^18.2.0
     react-dom: ^18.2.0
+    retry: ^0.13.1
     typescript: ^5.0.4
     winston: ^3.8.2
     winston-cloudwatch: ^6.1.1
@@ -8596,6 +8643,13 @@ __metadata:
   version: 4.2.3
   resolution: "fecha@npm:4.2.3"
   checksum: f94e2fb3acf5a7754165d04549460d3ae6c34830394d20c552197e3e000035d69732d74af04b9bed3283bf29fe2a9ebdcc0085e640b0be3cc3658b9726265e31
+  languageName: node
+  linkType: hard
+
+"fetch-retry@npm:^5.0.6":
+  version: 5.0.6
+  resolution: "fetch-retry@npm:5.0.6"
+  checksum: 4ad8bca6ec7a7b1212e636bb422a9ae8bb9dce38df0b441c9eb77a29af99b368029d6248ff69427da67e3d43c53808b121135ea395e7fe4f8f383e0ad65b4f27
   languageName: node
   linkType: hard
 
@@ -12361,6 +12415,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"p-retry@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "p-retry@npm:5.1.2"
+  dependencies:
+    "@types/retry": 0.12.1
+    retry: ^0.13.1
+  checksum: f063c08b1adc3cf7c01de01eb2dbda841970229f9f229c5167ebf4e2080d8a38b1f4e6eccefac74bca97cfaf4436d0a0eeb0b551175b26bc8b3116195f61bba8
+  languageName: node
+  linkType: hard
+
 "p-try@npm:^2.0.0":
   version: 2.2.0
   resolution: "p-try@npm:2.2.0"
@@ -13608,6 +13672,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qs@npm:^6.11.0":
+  version: 6.11.2
+  resolution: "qs@npm:6.11.2"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: e812f3c590b2262548647d62f1637b6989cc56656dc960b893fe2098d96e1bd633f36576f4cd7564dfbff9db42e17775884db96d846bebe4f37420d073ecdc0b
+  languageName: node
+  linkType: hard
+
 "querystringify@npm:^2.1.1":
   version: 2.2.0
   resolution: "querystringify@npm:2.2.0"
@@ -14266,17 +14339,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"retry@npm:0.13.1, retry@npm:^0.13.1":
+  version: 0.13.1
+  resolution: "retry@npm:0.13.1"
+  checksum: 47c4d5be674f7c13eee4cfe927345023972197dbbdfba5d3af7e461d13b44de1bfd663bfc80d2f601f8ef3fc8164c16dd99655a221921954a65d044a2fc1233b
+  languageName: node
+  linkType: hard
+
 "retry@npm:^0.12.0":
   version: 0.12.0
   resolution: "retry@npm:0.12.0"
   checksum: 623bd7d2e5119467ba66202d733ec3c2e2e26568074923bc0585b6b99db14f357e79bdedb63cab56cec47491c4a0da7e6021a7465ca6dc4f481d3898fdd3158c
-  languageName: node
-  linkType: hard
-
-"retry@npm:^0.13.1":
-  version: 0.13.1
-  resolution: "retry@npm:0.13.1"
-  checksum: 47c4d5be674f7c13eee4cfe927345023972197dbbdfba5d3af7e461d13b44de1bfd663bfc80d2f601f8ef3fc8164c16dd99655a221921954a65d044a2fc1233b
   languageName: node
   linkType: hard
 
@@ -15158,6 +15231,16 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 492f73e27268f9b1c122733f28ecb0e7e8d8a531a6662efbd08e22cccb3f9475e90a1b82cab06a392f6afae6d2de636f977e231296400d0ec5304ba70f166443
+  languageName: node
+  linkType: hard
+
+"stripe@npm:^12.11.0":
+  version: 12.11.0
+  resolution: "stripe@npm:12.11.0"
+  dependencies:
+    "@types/node": ">=8.1.0"
+    qs: ^6.11.0
+  checksum: 89c9e62f738256edabf6540f5db772c563ad988b5313a631c0fb54ba33b0ce0fadc09c847cf5c22e642334f06ebf5a6fa121efb95c1c11f2e3e22a480269fe93
   languageName: node
   linkType: hard
 

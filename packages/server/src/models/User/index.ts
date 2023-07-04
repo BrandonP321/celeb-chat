@@ -26,6 +26,17 @@ const UserSchema: UserModel.Schema = new Schema(
       index: true,
       unique: true,
     },
+    stripeCustomerId: {
+      type: String,
+      index: true,
+      unique: true,
+    },
+    subscription: {
+      type: Schema.Types.Mixed,
+      default: {
+        hasSubscribed: false,
+      },
+    },
     password: {
       type: String,
       required: [true, "Password required"],

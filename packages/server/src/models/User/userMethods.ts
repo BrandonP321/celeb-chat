@@ -21,6 +21,7 @@ const toShallowJSON: UserModel.InstanceMethods["toShallowJSON"] =
       id: this.id,
       username: this.username,
       isEmailVerified: this.isEmailVerified,
+      subscription: this.subscription,
     };
   };
 
