@@ -2,6 +2,7 @@ import React from "react";
 import { Loc } from "@/Loc";
 import { Helmet } from "react-helmet-async";
 import { Keywords } from "./keywords";
+import { UrlUtils } from "@/Utils";
 
 type PageMetaData = {
   title: string;
@@ -33,6 +34,9 @@ export function AppHelmet(props: AppHelmet.Props) {
 
   const metaKeywords = meta.keywords.join(", ");
 
+  const path = UrlUtils.url().path;
+  const prodUrl = `https://personaverse.com${path}`;
+
   return (
     <Helmet prioritizeSeoTags>
       <title>
@@ -46,6 +50,8 @@ export function AppHelmet(props: AppHelmet.Props) {
       <meta property="og:description" content={meta.desc} />
       <meta property="og:image" content={meta.image} />
       <meta property="og:image:alt" content={meta.imageAltText} />
+
+      <link rel="canonical" href={prodUrl} />
     </Helmet>
   );
 }
