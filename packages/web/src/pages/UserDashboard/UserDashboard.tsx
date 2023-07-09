@@ -53,6 +53,19 @@ function UserDashboard(props: UserDashboard.Props) {
           desc={Loc.Web.UserDash.Blurb}
         />
 
+        <Alert
+          title="Something not looking quite right?"
+          classes={{ root: styles.alert }}
+        >
+          <p className={styles.content}>
+            If any of the details displayed on this dashboard look wrong, try
+            refreshing the page. If the issue persists you can{" "}
+            <a href={"mailto:support@personaverse.com"}>
+              reach out to our support team.
+            </a>
+          </p>
+        </Alert>
+
         <PageHeader
           classes={{ root: styles.pageHeader }}
           title={Loc.Web.UserDash.SubTitle}

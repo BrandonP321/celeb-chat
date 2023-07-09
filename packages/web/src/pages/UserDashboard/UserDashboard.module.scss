@@ -43,12 +43,20 @@
     &.tier {
     }
   }
+}
 
-  .alert {
-    margin-top: 2rem;
+.alert {
+  margin-top: 2rem;
 
-    .content {
-      color: $textSecondary;
+  .content {
+    color: $textSecondary;
+
+    a {
+      color: $colorAccentSecondary;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }
