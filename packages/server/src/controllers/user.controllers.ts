@@ -10,7 +10,13 @@ import {
 } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import { validatePasswordResetInput } from "@celeb-chat/shared/src/schema/ResetPasswordSchema";
 import { TUserDocLocals } from "@/Middleware";
-import { Controller, ControllerErrors, Loc, Mailer } from "@/Utils";
+import {
+  Controller,
+  ControllerErrors,
+  Loc,
+  Mailer,
+  StripeUtils,
+} from "@/Utils";
 import db from "@/Models";
 import bcrypt from "bcrypt";
 import { validateEditUserInput } from "@celeb-chat/shared/src/schema";
@@ -20,7 +26,15 @@ export const GetUserController = Controller<
   GetUserRequest.Request,
   TUserDocLocals
 >(async (req, res) => {
-  return res.json(await res.locals.user.toFullJSON()).end();
+  const userJSON = await res.locals.user.toFullJSON();
+
+  return res
+    .json({
+      ...userJSON,
+      useStripeTest: !StripeUtils.useLiveStripeVersion,
+      activeSubscriptionTier: res.locals.subscriptionTier,
+    })
+    .end();
 });
 
 export const UpdateUserController = Controller<

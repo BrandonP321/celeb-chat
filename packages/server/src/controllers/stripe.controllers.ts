@@ -1,24 +1,34 @@
-import { Controller, EnvUtils } from "@/Utils";
+import { Controller, ControllerErrors, EnvUtils, StripeUtils } from "@/Utils";
 import {
   CustomerCreatedRequest,
+  InvoicePaidRequest,
+  StripeEventEnum,
+  StripeSubStatus,
   StripeWebhookRequest,
+  SubscriptionDeletedRequest,
   SubscriptionUpdatedRequest,
 } from "@celeb-chat/shared/src/api/Requests/stripe.requests";
 import db from "@/Models";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import retry from "async-retry";
+import { DefaultErrors } from "@celeb-chat/shared/src/api/Requests";
+import { Stripe } from "stripe";
+import _ from "lodash";
 
 export const StripeWebhookController = Controller<StripeWebhookRequest.Request>(
   async (...params) => {
-    const [req] = params;
+    const [req, res] = params;
     const { type: eventType } = req.body;
 
     switch (eventType) {
-      case "customer.created":
+      case StripeEventEnum.CustomerCreated:
         return await CustomerCreatedController(...params);
-      case "customer.subscription.updated":
+      // Also includes subscription getting cancelled (not when actually deleted)
+      case StripeEventEnum.SubscriptionUpdated:
         return await SubscriptionUpdatedController(...params);
     }
+
+    return res.json({}).end();
   }
 );
 
@@ -28,42 +38,75 @@ export const SubscriptionUpdatedController =
       data: { object },
     } = req.body;
 
-    const { id: subscriptionId, plan, customer: custId } = object;
+    const { error } = new ControllerErrors(res, DefaultErrors.Errors);
 
-    const updateObj: UserModel.Subscription = {
-      hasSubscribed: true,
-      plan: {
-        planId: plan.id,
-        productId: plan.product,
-        subscriptionId: subscriptionId,
+    const {
+      id: subscriptionId,
+      plan,
+      customer: custId,
+      status,
+      current_period_end,
+      canceled_at,
+      current_period_start: billingPeriodStart,
+      // If ended, date subscripton was ended at
+      ended_at,
+    } = object;
+
+    const billingPeriodEnd = current_period_end;
+    // Add two day padding to billing period end for leeway
+    const accessExpirationDate = billingPeriodEnd + 60 * 60 * 24 * 2;
+
+    const product = plan.product as string;
+
+    const user = await retry(
+      () => db.User.findOne({ stripeCustomerId: custId }),
+      {
+        retries: EnvUtils.local ? 1 : 10,
+        minTimeout: 1000,
+        maxTimeout: 3000,
+      }
+    );
+
+    if (!user) {
+      return error.UserNotFound(
+        `Unable to find user with stripe ID: ${custId}`
+      );
+    }
+
+    const productUpdate: UserModel.SubscriptionPlan = {
+      accessExpirationDate,
+      accessStartDate: billingPeriodStart,
+    };
+
+    const tierName = StripeUtils.getSubTierName(product);
+
+    user.subscription = {
+      canceledAt: canceled_at,
+      endedAt: ended_at,
+      renewalDate: billingPeriodEnd,
+      tierToRenew: tierName,
+      isActive: ![StripeSubStatus.Canceled, StripeSubStatus.Unpaid].includes(
+        status as StripeSubStatus
+      ),
+      plans: {
+        ...user.subscription.plans,
+        [tierName]: productUpdate,
       },
     };
+    user.markModified("subscription");
 
-    const updateUser = async () => {
-      const update = await db.User.updateOne(
-        { stripeCustomerId: custId },
-        { $set: { subscription: updateObj } }
-      );
-
-      if (!update.matchedCount) {
-        throw JSON.stringify(
-          {
-            msg: "Error updating subscription status.",
-            data: req.body,
-          },
-          null,
-          4
-        );
+    await retry(
+      async () => {
+        await user.save();
+      },
+      {
+        retries: EnvUtils.local ? 1 : 10,
+        minTimeout: 1000,
+        maxTimeout: 3000,
       }
+    );
 
-      return;
-    };
-
-    await retry(updateUser, {
-      retries: EnvUtils.local ? 1 : 10,
-      minTimeout: 1000,
-      maxTimeout: 3000,
-    });
+    return res.json({}).end();
   });
 
 export const CustomerCreatedController =
@@ -99,4 +142,6 @@ export const CustomerCreatedController =
       minTimeout: 1000,
       maxTimeout: 3000,
     });
+
+    return res.json({}).end();
   });

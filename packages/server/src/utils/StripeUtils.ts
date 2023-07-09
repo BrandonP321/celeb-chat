@@ -1,4 +1,5 @@
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
+import { SubscriptionTier } from "@celeb-chat/shared/src/utils/ChatUtils";
 
 export class StripeUtils {
   public static useLiveStripeVersion = process.env.STRIPE_VERSION !== "test";
@@ -8,9 +9,8 @@ export class StripeUtils {
     live: process.env.STRIPE_API_KEY_LIVE,
   };
 
-  public static apiKey = this.useLiveStripeVersion
-    ? this.apiKeys.live
-    : this.apiKeys.test;
+  public static apiKey =
+    (this.useLiveStripeVersion ? this.apiKeys.live : this.apiKeys.test) ?? "";
 
   private static testProductTierIDs = {
     free: process.env.STRIPE_TEST_PRODUCT_TIER_FREE,
@@ -24,30 +24,60 @@ export class StripeUtils {
     three: process.env.STRIPE_LIVE_PRODUCT_TIER_THREE,
   };
 
+  public static allProductIds = [
+    ...Object.values(this.testProductTierIDs),
+    ...Object.values(this.liveProductTierIDs),
+  ];
+
   public static productTierIDs = this.useLiveStripeVersion
     ? this.liveProductTierIDs
     : this.testProductTierIDs;
 
-  //   public static getSubscriptionTier = (user: UserModel.Document) => {
-  //     const { tier } = user.subscription;
+  /** Product IDs ordered by price */
+  public static orderedProductIds = [
+    this.productTierIDs.free,
+    this.productTierIDs.two,
+    this.productTierIDs.three,
+  ];
 
-  //     const tierStatus = {
-  //       free: false,
-  //       two: false,
-  //       three: false,
-  //     };
+  public static orderedTiers: SubscriptionTier[] = ["free", "two", "three"];
 
-  //     switch (tier) {
-  //       case this.productTierIDs.two:
-  //         tierStatus.two = true;
-  //         break;
-  //       case this.productTierIDs.three:
-  //         tierStatus.three = true;
-  //         break;
-  //       default:
-  //         tierStatus.free = true;
-  //     }
+  /** Checks if product a is greater than product b */
+  public static isProductGreaterThan = (a: string, b: string) => {
+    const aIndex = this.orderedProductIds.findIndex((v) => v === a);
+    const bIndex = this.orderedProductIds.findIndex((v) => v === b);
 
-  //     return tierStatus;
-  //   };
+    return aIndex > bIndex;
+  };
+
+  public static getSubscriptionTier = (user: UserModel.Document) => {
+    let highestTierWithAccess: SubscriptionTier = "free";
+
+    this.orderedTiers.forEach((tier) => {
+      const userSubTier = user.subscription?.plans?.[tier];
+
+      if (
+        userSubTier &&
+        Math.round(Date.now() / 1000) <= userSubTier.accessExpirationDate
+      ) {
+        highestTierWithAccess = tier;
+      }
+    });
+
+    return highestTierWithAccess;
+  };
+
+  public static getSubTierName = (productId: string) => {
+    let tierName: SubscriptionTier | null = null;
+
+    let tier: SubscriptionTier;
+    for (tier in this.productTierIDs) {
+      if (this.productTierIDs[tier] === productId) {
+        tierName = tier;
+        break;
+      }
+    }
+
+    return tierName ?? "free";
+  };
 }

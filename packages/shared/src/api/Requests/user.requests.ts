@@ -1,12 +1,17 @@
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
 import { Loc } from "../../../loc";
+import { SubscriptionTier } from "../../utils/ChatUtils";
 import { UserModel } from "../models/User.model";
 import { HttpStatusCode } from "./HttpStatusCodes";
 
 export namespace GetUserRequest {
   type ReqBody = {};
 
-  export type Response = UserModel.FullJSON;
+  export type Response = UserModel.FullJSON & {
+    useStripeTest: boolean;
+    /** Subscription currently being applied to user's account */
+    activeSubscriptionTier: SubscriptionTier;
+  };
 
   export type Request = APIRequest<{}, ReqBody, Response>;
 

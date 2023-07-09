@@ -34,7 +34,12 @@ const UserSchema: UserModel.Schema = new Schema(
     subscription: {
       type: Schema.Types.Mixed,
       default: {
-        hasSubscribed: false,
+        canceledAt: null,
+        endedAt: null,
+        renewalDate: null,
+        isActive: false,
+        tierToRenew: "free",
+        plans: {},
       },
     },
     password: {
@@ -68,7 +73,7 @@ const UserSchema: UserModel.Schema = new Schema(
       type: Schema.Types.Mixed,
     },
   },
-  { timestamps: true }
+  { timestamps: true, minimize: false }
 );
 
 /** Hashes password before storing new document */

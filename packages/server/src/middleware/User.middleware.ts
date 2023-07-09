@@ -1,13 +1,19 @@
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import { DefaultErrors, APIRequest } from "@celeb-chat/shared/src/api/Requests";
-import { TRouteController } from "@/Controllers/index";
-import { JWTResLocals, ControllerErrors, Controller } from "@/Utils";
+import {
+  JWTResLocals,
+  ControllerErrors,
+  Controller,
+  StripeUtils,
+} from "@/Utils";
 import db from "@/Models";
 import { ChatResLocals } from "./Chat.middleware";
 import { ChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
+import { SubscriptionTier } from "@celeb-chat/shared/src/utils/ChatUtils";
 
 export type TUserDocLocals = JWTResLocals & {
   user: UserModel.Document;
+  subscriptionTier: SubscriptionTier;
 };
 
 /**
@@ -22,6 +28,7 @@ export const GetUserMiddleware = Controller<
   const user = await db.User.findById(res.locals.userId);
 
   if (user) {
+    res.locals.subscriptionTier = StripeUtils.getSubscriptionTier(user);
     res.locals.user = user;
     next();
   } else {

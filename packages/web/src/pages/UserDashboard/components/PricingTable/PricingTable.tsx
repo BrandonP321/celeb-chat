@@ -24,8 +24,7 @@ export function PricingTable({ user }: PricingTable.Props) {
     pointerEvents: "none",
   };
 
-  const showTable =
-    user?.id && user?.email && !user.subscription?.hasSubscribed;
+  const showTable = user?.id && user?.email && !user.stripeCustomerId;
 
   return (
     <div className={"personaverse-pricing-table"}>
@@ -34,8 +33,8 @@ export function PricingTable({ user }: PricingTable.Props) {
           style={!user.isEmailVerified ? disabledStyle : undefined}
           client-reference-id={user.id}
           customer-email={user.email}
-          pricing-table-id={StripeUtils.pricingTable.id}
-          publishable-key={StripeUtils.pricingTable.key}
+          pricing-table-id={StripeUtils.pricingTable(user.useStripeTest).id}
+          publishable-key={StripeUtils.pricingTable(user.useStripeTest).key}
         ></stripe-pricing-table>
       )}
 
@@ -48,7 +47,12 @@ export function PricingTable({ user }: PricingTable.Props) {
             classes={{ root: styles.manageBtn }}
             rightIcon={faPenToSquare}
             target="_blank"
-            to={StripeUtils.getSubscriptionManagementUrl(user?.email) ?? "#"}
+            to={
+              StripeUtils.getSubscriptionManagementUrl(
+                !!user?.useStripeTest,
+                user?.email
+              ) ?? "#"
+            }
           >
             Manage Subscription
           </ButtonLink>

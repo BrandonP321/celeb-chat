@@ -5,6 +5,12 @@ import {
 import { ChatModel } from "../api/models/Chat.model";
 import { UserModel } from "../api/models/User.model";
 
+export type SubscriptionTier = "free" | "two" | "three";
+
+export type SubScriptionTierMap<T> = {
+  [key in SubscriptionTier]: T;
+};
+
 export type TChat = Pick<
   ChatModel.Chat,
   "createdAt" | "description" | "id" | "messages" | "ownerId"

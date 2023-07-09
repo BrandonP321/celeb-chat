@@ -14,6 +14,7 @@ import {
   PricingTable,
   VerifyEmailAlert,
 } from "./components/PricingTable/PricingTable";
+import { SubScriptionTierMap } from "@celeb-chat/shared/src/utils/ChatUtils";
 
 namespace UserDashboard {
   export type Props = {};
@@ -45,6 +46,8 @@ function UserDashboard(props: UserDashboard.Props) {
 
         <h2>Subscription Settings</h2>
         {!user?.isEmailVerified && <VerifyEmailAlert />}
+
+        {user?.stripeCustomerId && <SubscriptionDetails user={user} />}
       </div>
 
       <PricingTable user={user} />
@@ -57,5 +60,47 @@ function UserDashboard(props: UserDashboard.Props) {
     </ScrollablePage>
   );
 }
+
+const tierTitleMap: SubScriptionTierMap<string> = {
+  free: "Free tier",
+  two: "Standard Tier",
+  three: "Premium Tier",
+};
+
+type SubscriptionDetailsProps = {
+  user: GetUserRequest.Response;
+};
+
+const SubscriptionDetails = ({ user }: SubscriptionDetailsProps) => {
+  const { canceledAt, endedAt, isActive, renewalDate, tierToRenew } =
+    user.subscription ?? {};
+  const plan = user.subscription?.plans?.[user.activeSubscriptionTier];
+
+  const isFreeTier = user.activeSubscriptionTier;
+
+  // TODO: move to utility function
+  const getDate = (date: number) => new Date(date * 1000).toDateString();
+
+  return (
+    <div>
+      <p>
+        Current Subscription Tier: {tierTitleMap[user.activeSubscriptionTier]}
+      </p>
+
+      {renewalDate && (
+        <p>
+          {tierTitleMap[tierToRenew]} renews on {getDate(renewalDate)}
+        </p>
+      )}
+
+      {canceledAt && plan && !isFreeTier && (
+        <p>
+          Subscription was canceled on {getDate(canceledAt)}. Subscription will
+          end on {getDate(plan.accessExpirationDate)}
+        </p>
+      )}
+    </div>
+  );
+};
 
 export default UserDashboard;

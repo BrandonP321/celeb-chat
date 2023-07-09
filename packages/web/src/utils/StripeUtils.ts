@@ -4,18 +4,20 @@ export class StripeUtils {
   public static useLivePricingTable =
     process.env.REACT_APP_STRIPE_VERSION !== "test";
 
-  private static pricingTableId = this.useLivePricingTable
-    ? process.env.REACT_APP_PRICING_TABLE_ID_LIVE
-    : process.env.REACT_APP_PRICING_TABLE_ID_TEST;
+  private static pricingTableId = (useTestTable: boolean) =>
+    useTestTable
+      ? process.env.REACT_APP_PRICING_TABLE_ID_TEST
+      : process.env.REACT_APP_PRICING_TABLE_ID_LIVE;
 
-  private static pricingTablePublishableKey = this.useLivePricingTable
-    ? process.env.REACT_APP_PRICING_TABLE_KEY_LIVE
-    : process.env.REACT_APP_PRICING_TABLE_KEY_TEST;
+  private static pricingTablePublishableKey = (useTestTable: boolean) =>
+    useTestTable
+      ? process.env.REACT_APP_PRICING_TABLE_KEY_TEST
+      : process.env.REACT_APP_PRICING_TABLE_KEY_LIVE;
 
-  public static pricingTable = {
-    id: this.pricingTableId,
-    key: this.pricingTablePublishableKey,
-  };
+  public static pricingTable = (useTestTable: boolean) => ({
+    id: this.pricingTableId(useTestTable),
+    key: this.pricingTablePublishableKey(useTestTable),
+  });
 
   private static subscriptionManagementUrlTest =
     process.env.REACT_APP_SUBSCRIPTION_MANAGEMENT_URL_TEST;
@@ -23,12 +25,16 @@ export class StripeUtils {
   private static subscriptionManagementUrlLive =
     process.env.REACT_APP_SUBSCRIPTION_MANAGEMENT_URL_LIVE;
 
-  private static subscriptionManagementUrl = this.useLivePricingTable
-    ? this.subscriptionManagementUrlLive
-    : this.subscriptionManagementUrlTest;
+  private static subscriptionManagementUrl = (useTestStripe: boolean) =>
+    useTestStripe
+      ? this.subscriptionManagementUrlTest
+      : this.subscriptionManagementUrlLive;
 
-  public static getSubscriptionManagementUrl = (prefilledEmail?: string) => {
-    const url = this.subscriptionManagementUrl;
+  public static getSubscriptionManagementUrl = (
+    useTest: boolean,
+    prefilledEmail?: string
+  ) => {
+    const url = this.subscriptionManagementUrl(useTest);
 
     return UrlUtils.url(url).addParam({
       key: "prefilled_email",

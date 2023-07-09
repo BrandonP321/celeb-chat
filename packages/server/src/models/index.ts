@@ -8,6 +8,8 @@ export const connectToMongoDb = () => {
     process.env.MONGODB_URI ?? "mongodb://127.0.0.1/celeb-chat",
     {}
   );
+
+  // mongoose.set("debug", true);
 };
 
 export default {

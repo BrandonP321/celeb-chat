@@ -5,6 +5,7 @@ import {
   TMongooseModel,
   TMongooseSchema,
 } from ".";
+import { SubScriptionTierMap, SubscriptionTier } from "../../utils/ChatUtils";
 
 export namespace UserModel {
   export type User = TDefaultModelProps & {
@@ -123,17 +124,16 @@ export namespace UserModel {
   };
 
   export type Subscription = {
-    /**
-     * Indicates whether the user either is subscribed
-     * or has subscribed at any point
-     */
-    hasSubscribed: boolean;
-    plan?: SubscriptionPlan;
+    canceledAt: number | null;
+    endedAt: number | null;
+    tierToRenew: SubscriptionTier;
+    renewalDate: number | null;
+    isActive: boolean;
+    plans: SubScriptionTierMap<SubscriptionPlan>;
   };
 
   export type SubscriptionPlan = {
-    subscriptionId: string;
-    planId: string;
-    productId: string;
+    accessExpirationDate: number;
+    accessStartDate: number;
   };
 }
