@@ -76,7 +76,7 @@ const SubscriptionDetails = ({ user }: SubscriptionDetailsProps) => {
     user.subscription ?? {};
   const plan = user.subscription?.plans?.[user.activeSubscriptionTier];
 
-  const isFreeTier = user.activeSubscriptionTier;
+  const isFreeTier = user.activeSubscriptionTier === "free";
 
   // TODO: move to utility function
   const getDate = (date: number) => new Date(date * 1000).toDateString();
@@ -87,7 +87,7 @@ const SubscriptionDetails = ({ user }: SubscriptionDetailsProps) => {
         Current Subscription Tier: {tierTitleMap[user.activeSubscriptionTier]}
       </p>
 
-      {renewalDate && (
+      {renewalDate && !canceledAt && (
         <p>
           {tierTitleMap[tierToRenew]} renews on {getDate(renewalDate)}
         </p>
