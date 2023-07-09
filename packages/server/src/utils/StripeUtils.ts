@@ -58,6 +58,7 @@ export class StripeUtils {
 
       if (
         userSubTier &&
+        user.subscription.isActive &&
         Math.round(Date.now() / 1000) <= userSubTier.accessExpirationDate
       ) {
         highestTierWithAccess = tier;
