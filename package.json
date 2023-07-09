@@ -11,7 +11,9 @@
     "web:client:dev": "yarn web start",
     "server:dev": "yarn server dev",
     "web:dev": "yarn updateIPEnvVars && yarn concurrently --kill-others-on-fail -n \"SERVER,WEB\" -c \"magenta,cyan\" \"yarn server:dev\" \"yarn web:client:dev\"",
-    "updateIPEnvVars": "ts-node ./scripts/setLocalIP.ts"
+    "web:dev:stripe": "yarn updateIPEnvVars && yarn concurrently --kill-others-on-fail -n \"SERVER,WEB,STRIPE\" -c \"magenta,cyan,yellow\" \"yarn server:dev\" \"yarn web:client:dev\" \"yarn stripe:webhooks:forward\"",
+    "updateIPEnvVars": "ts-node ./scripts/setLocalIP.ts",
+    "stripe:webhooks:forward": "stripe listen --forward-to localhost:8000/webhook/stripe"
   },
   "repository": "https://github.com/BrandonP321/celeb-chat.git",
   "author": "Brandon Phillips <brandon.phillips@bphillips.dev>",

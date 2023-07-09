@@ -30,14 +30,3 @@
     }
   }
 }
-
-.manageSubWrapper {
-  margin: 2rem auto 0 auto;
-  max-width: 40rem;
-
-  .manageBtn {
-    @include mobileVW() {
-      width: 100%;
-    }
-  }
-}

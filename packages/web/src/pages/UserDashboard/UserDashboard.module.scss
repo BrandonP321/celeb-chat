@@ -4,8 +4,8 @@
   position: relative;
   max-width: none;
 
-  h2 {
-    text-align: center;
+  h2,
+  .pageHeader {
     margin-top: 3rem;
     margin-bottom: 2rem;
 
@@ -18,6 +18,10 @@
       margin-bottom: 2rem;
     }
   }
+
+  h2 {
+    text-align: center;
+  }
 }
 
 .fixedWidthContent {
@@ -28,4 +32,38 @@
 .errorMsg {
   color: $colorDanger;
   margin: 1rem 0;
+}
+
+.subDetails {
+  .detail {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+
+    &.tier {
+    }
+  }
+
+  .alert {
+    margin-top: 2rem;
+
+    .content {
+      color: $textSecondary;
+    }
+  }
+}
+
+.manageSubWrapper {
+  margin: 1rem auto 2rem auto;
+  max-width: 40rem;
+
+  @include mobileVW() {
+    margin-bottom: 1rem;
+  }
+
+  .manageBtn {
+    @include mobileVW() {
+      width: 100%;
+    }
+  }
 }

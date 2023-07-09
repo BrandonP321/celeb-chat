@@ -12,4 +12,8 @@ export const UserDash = {
   Meta: {
     Title: "Dashboard",
   },
+
+  SubTitle: "Subscription Settings",
+  SubBlurb:
+    "From here, you can purchase, update, cancel, and renew your PeronaVerse subscription.  We currently partner with Stripe for handling secure payments, so any updates to your subscription will happen through their payment portals.",
 } as const;

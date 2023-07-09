@@ -37,27 +37,6 @@ export function PricingTable({ user }: PricingTable.Props) {
           publishable-key={StripeUtils.pricingTable(user.useStripeTest).key}
         ></stripe-pricing-table>
       )}
-
-      {!showTable && (
-        <ButtonsWrapper
-          className={styles.manageSubWrapper}
-          align={BtnAlign.Center}
-        >
-          <ButtonLink
-            classes={{ root: styles.manageBtn }}
-            rightIcon={faPenToSquare}
-            target="_blank"
-            to={
-              StripeUtils.getSubscriptionManagementUrl(
-                !!user?.useStripeTest,
-                user?.email
-              ) ?? "#"
-            }
-          >
-            Manage Subscription
-          </ButtonLink>
-        </ButtonsWrapper>
-      )}
     </div>
   );
 }
