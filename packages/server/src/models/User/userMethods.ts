@@ -1,4 +1,4 @@
-import { Mailer } from "@/Utils";
+import { Mailer, StripeUtils } from "@/Utils";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
 import bcrypt from "bcrypt";
 
@@ -22,6 +22,7 @@ const toShallowJSON: UserModel.InstanceMethods["toShallowJSON"] =
       username: this.username,
       isEmailVerified: this.isEmailVerified,
       subscription: this.subscription,
+      subscriptionTier: StripeUtils.getSubscriptionTier(this),
     };
   };
 
@@ -42,7 +43,10 @@ const removeSensitiveData = function (
     emailVerification: true,
   };
 
-  const strippedUser = { ...user };
+  const strippedUser = {
+    ...user,
+    subscriptionTier: StripeUtils.getSubscriptionTier(user),
+  };
 
   // remove each field from user JSON
   let field: UserModel.SensitiveFields;

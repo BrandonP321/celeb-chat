@@ -12,7 +12,7 @@ import { validateMsg } from "@celeb-chat/shared/src/schema";
 import Chat from "pages/Chat/Chat";
 import { APIFetcher } from "utils/APIFetcher";
 import { FormikSubmit } from "utils/UtilityTypes";
-import { useAppDispatch, useChat } from "@/Hooks";
+import { useAppDispatch, useChat, useUser } from "@/Hooks";
 import { AlertType } from "@/Slices/Alerts/AlertsSlice";
 import { Actions } from "@/Slices";
 import { useLocation } from "react-router-dom";
@@ -26,6 +26,7 @@ export namespace MessageBar {
 
 export function MessageBar({ chat }: MessageBar.Props) {
   const dispatch = useAppDispatch();
+  const { user } = useUser();
 
   const [pendingResponse, setPendingResponseState] = useState(false);
   const pendingResponseRef = useRef(false);
@@ -48,7 +49,9 @@ export function MessageBar({ chat }: MessageBar.Props) {
       return;
     }
 
-    const validationError = await validateMsg({ msgBody });
+    const validationError = await validateMsg(user?.subscriptionTier)({
+      msgBody,
+    });
 
     if (validationError) {
       return displayError(validationError);
@@ -103,6 +106,7 @@ function MessageBarInnerForm(props: MessageBarInnerForm.Props) {
   const { pendingResponse } = props;
 
   const location = useLocation();
+  const { user } = useUser();
   const { values, submitForm, resetForm } = useFormikContext<{
     msgBody: string;
   }>();
@@ -114,7 +118,8 @@ function MessageBarInnerForm(props: MessageBarInnerForm.Props) {
   }, [location, resetForm]);
 
   const showCharCount =
-    values.msgBody.length / ChatUtils.maxMsgCharCount >= 0.75;
+    values.msgBody.length / ChatUtils.maxMsgCharCount(user?.subscriptionTier) >=
+    0.75;
 
   return (
     <Form className={styles.form} autoComplete="off">
@@ -123,10 +128,12 @@ function MessageBarInnerForm(props: MessageBarInnerForm.Props) {
           className={classNames(
             styles.msgCharCount,
             showCharCount && styles.visible,
-            values.msgBody.length >= ChatUtils.maxMsgCharCount && styles.max
+            values.msgBody.length >=
+              ChatUtils.maxMsgCharCount(user?.subscriptionTier) && styles.max
           )}
         >
-          {(values.msgBody ?? "").length}/{ChatUtils.maxMsgCharCount}
+          {(values.msgBody ?? "").length}/
+          {ChatUtils.maxMsgCharCount(user?.subscriptionTier)}
         </p>
       </div>
 
@@ -143,7 +150,7 @@ function MessageBarInnerForm(props: MessageBarInnerForm.Props) {
             name="msgBody"
             className={styles.input}
             placeholder={Loc.Web.Chat.Message}
-            maxLength={ChatUtils.maxMsgCharCount}
+            maxLength={ChatUtils.maxMsgCharCount(user?.subscriptionTier)}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             onKeyDownCapture={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {

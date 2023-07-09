@@ -6,6 +6,7 @@ import { ChatRequest } from "@celeb-chat/shared/src/api/Requests/chat.requests";
 import { TUserDocLocals } from "./User.middleware";
 import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import { NextFunction, Response } from "express";
+import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 
 export type ChatResLocals = TUserDocLocals & {
   chat: Omit<ChatModel.Document, "messages">;
@@ -52,9 +53,10 @@ export const GetChatWithMsgHistoryMiddleware = Controller<
   ChatWithMsgsResLocals
 >(async (req, res, next) => {
   const { chatId } = req.body;
+  const { subscriptionTier } = res.locals;
   const { error } = new ControllerErrors(res, ChatRequest.Errors);
 
-  const msgHistoryLength = parseInt(process.env.CHAT_HISTORY_LENGTH ?? "20");
+  const msgHistoryLength = ChatUtils.getChatHistoryLength(subscriptionTier);
 
   res.locals.pageSize = msgHistoryLength;
   getChat(chatId, res, next, {

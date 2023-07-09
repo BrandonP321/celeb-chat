@@ -57,7 +57,7 @@ export const CreateChatController = Controller<
   const { error } = new ControllerErrors(res, CreateChatRequest.Errors);
 
   const { description, displayName } = req.body;
-  const { user, userId } = res.locals;
+  const { user, userId, subscriptionTier } = res.locals;
 
   const validationError = await validateCreateChatFields(req.body);
 
@@ -65,7 +65,7 @@ export const CreateChatController = Controller<
     return error.InvalidFieldInput(validationError);
   }
 
-  if (user.chats.length >= ChatUtils.maxChatCount) {
+  if (user.chats.length >= ChatUtils.maxChatCount(subscriptionTier)) {
     return error.MaxChatLimitReached();
   }
 

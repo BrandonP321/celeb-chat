@@ -107,7 +107,9 @@ export namespace VerifyEmailRequest {
 export namespace GetUserAuthRequest {
   type ReqBody = {};
 
-  export type Response = UserModel.ShallowJSON;
+  export type Response = UserModel.ShallowJSON & {
+    subscriptionTier: SubscriptionTier;
+  };
 
   export type Request = APIRequest<{}, ReqBody, Response>;
 

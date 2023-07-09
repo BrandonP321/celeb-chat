@@ -6,7 +6,7 @@ export const Chat = {
     "Whoa there, this chat isn't on your list. Let's stick to your own chats, okay?",
   CreateChat: {
     InvalidField: "Input does not match required format.",
-    MaxChatLimitReached: `Hold up, you've already got ${ChatUtils.maxChatCount} chats going! Need to clear some space before starting a new one.`,
+    MaxChatLimitReached: `Hold up, you've already got the maximum number of chats going! Need to clear some space before starting a new one.`,
   },
   DeleteChat: {
     InternalErr:

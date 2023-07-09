@@ -50,7 +50,7 @@ export class StripeUtils {
     return aIndex > bIndex;
   };
 
-  public static getSubscriptionTier = (user: UserModel.Document) => {
+  public static getSubscriptionTier = (user: UserModel.User) => {
     let highestTierWithAccess: SubscriptionTier = "free";
 
     this.orderedTiers.forEach((tier) => {

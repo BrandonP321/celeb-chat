@@ -68,12 +68,19 @@ export namespace UserModel {
   export type StaticMethods = {};
 
   /** User JSON with all data */
-  export type FullJSON = ResponseJSON<Omit<User, SensitiveFields>>;
+  export type FullJSON = ResponseJSON<Omit<User, SensitiveFields>> & {
+    subscriptionTier: SubscriptionTier;
+  };
   /** User JSON with only essential data for auth */
   export type ShallowJSON = ResponseJSON<
     Pick<
       FullJSON,
-      "email" | "username" | "id" | "isEmailVerified" | "subscription"
+      | "email"
+      | "username"
+      | "id"
+      | "isEmailVerified"
+      | "subscription"
+      | "subscriptionTier"
     >
   >;
   /** Includes chat properties found on User model */

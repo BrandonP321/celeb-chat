@@ -13,9 +13,9 @@ export const SendMsgController = Controller<
 >(async (req, res) => {
   const { error } = new ControllerErrors(res, SendMsgRequest.Errors);
   const { chatId, msgBody } = req.body;
-  const { chat, user } = res.locals;
+  const { chat, user, subscriptionTier } = res.locals;
 
-  const validationError = await validateMsg({ msgBody });
+  const validationError = await validateMsg(subscriptionTier)({ msgBody });
 
   if (validationError) {
     return error.InvalidMsgInput(validationError);

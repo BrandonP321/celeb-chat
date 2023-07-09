@@ -1,15 +1,18 @@
 import { UpdateUserRequest } from "@celeb-chat/shared/src/api/Requests/user.requests";
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
+import { SubscriptionTier } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type UserState = {
   user: UserModel.ShallowJSON | null;
+  subscriptionTier: SubscriptionTier;
   isFetching: boolean;
 };
 
 const initialState: UserState = {
   user: null,
   isFetching: true,
+  subscriptionTier: "free",
 };
 
 /** Returns basic user data to be displayed across site */
