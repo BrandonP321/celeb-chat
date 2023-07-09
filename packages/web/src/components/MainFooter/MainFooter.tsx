@@ -44,8 +44,14 @@ const socials = [
 
 const FooterSocials = () => (
   <div className={styles.socials}>
-    {socials.map((s) => (
-      <a href={s.url} aria-label={s.ariaLabel} target="_blank" rel="noreferrer">
+    {socials.map((s, i) => (
+      <a
+        key={i}
+        href={s.url}
+        aria-label={s.ariaLabel}
+        target="_blank"
+        rel="noreferrer"
+      >
         <FontAwesomeIcon className={styles.icon} icon={s.icon} />
       </a>
     ))}
