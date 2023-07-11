@@ -1,14 +1,139 @@
 @import "../../styles/uiBase.scss";
 
 .home {
-  padding-top: 1rem;
-  width: 90%;
+  padding: 0;
+  width: 100%;
   margin: 0 auto;
+  max-width: none;
 
   .pageTitle {
     text-align: center;
   }
 
   .startChatForm {
+  }
+}
+
+.homeSection,
+.desktopImg {
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+$sectionSidePadding: 7rem;
+
+.homeSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @include notMobileVW() {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  @include mobileVW() {
+    padding-top: 67%;
+    background-position: top;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 10rem;
+
+    @include mobileVW() {
+      margin-bottom: 5rem;
+    }
+  }
+
+  &.alignImageLeft {
+    flex-direction: row-reverse;
+
+    .content {
+      padding-left: $sectionSidePadding;
+      padding-right: 0;
+
+      @include mobileVW() {
+        padding-left: 0;
+      }
+    }
+  }
+
+  .desktopImgWrapper {
+    // width: 50%;
+    // max-width: 20rem;
+    width: 30rem;
+    flex-shrink: 0;
+
+    @include mobileVW() {
+      display: none;
+    }
+
+    .desktopImg {
+      // TODO: Make padding specific to each section
+      padding-top: 67%;
+    }
+  }
+
+  .content {
+    // width: 45%;
+    flex-grow: 1;
+    padding-right: $sectionSidePadding;
+
+    @include mobileVW() {
+      padding: 1rem 0 0 0;
+      width: 90%;
+      flex-grow: initial;
+      margin: 0 auto;
+    }
+
+    h2 {
+    }
+
+    .blurb {
+      margin: 0.5rem 0 1rem 0;
+    }
+  }
+}
+
+.hero {
+  background-color: black;
+  padding: 15rem 0 15rem 0;
+  margin-bottom: 5rem;
+
+  @include mobileVW() {
+    padding: 70% 0 2rem 0;
+  }
+
+  .inner {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .content {
+    h1 {
+      font-size: 3.5rem;
+      line-height: 3.75rem;
+
+      @include largeVW() {
+        font-size: 2.5rem;
+        line-height: 2.75rem;
+      }
+
+      @include mobileVW() {
+        font-size: 2rem;
+        line-height: 2.25rem;
+      }
+    }
+
+    .blurb {
+      font-size: 2rem;
+      line-height: 2.25rem;
+
+      @include largeVW() {
+        font-size: 1.5rem;
+        line-height: 1.75rem;
+      }
+    }
   }
 }

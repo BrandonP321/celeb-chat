@@ -24,7 +24,7 @@ export function MainFooter(props: MainFooter.Props) {
   );
 }
 
-const socials = [
+export const socials = [
   {
     icon: faFacebook,
     url: "https://www.facebook.com/profile.php?id=100094220500581",
