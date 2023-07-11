@@ -26,6 +26,12 @@ declare global {
       STRIPE_LIVE_PRODUCT_TIER_FREE?: string;
       STRIPE_LIVE_PRODUCT_TIER_TWO?: string;
       STRIPE_LIVE_PRODUCT_TIER_THREE?: string;
+      STRIPE_TEST_PRICE_TIER_FREE?: string;
+      STRIPE_TEST_PRICE_TIER_TWO?: string;
+      STRIPE_TEST_PRICE_TIER_THREE?: string;
+      STRIPE_LIVE_PRICE_TIER_FREE?: string;
+      STRIPE_LIVE_PRICE_TIER_TWO?: string;
+      STRIPE_LIVE_PRICE_TIER_THREE?: string;
     }
   }
 }

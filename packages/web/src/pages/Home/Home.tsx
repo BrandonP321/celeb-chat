@@ -6,6 +6,7 @@ import {
   AppHelmet,
   Button,
   ButtonsWrapper,
+  PricingTable,
   ScrollablePage,
 } from "@/Components";
 import { useResponsive } from "@/Hooks";
@@ -45,6 +46,8 @@ export function Home(props: Home.Props) {
           </ButtonsWrapper>
         </HomeSection>
       </div>
+
+      <PricingTable classes={{ root: styles.pricingTable }} />
     </ScrollablePage>
   );
 }

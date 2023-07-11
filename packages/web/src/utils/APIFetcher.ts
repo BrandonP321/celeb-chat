@@ -25,6 +25,10 @@ import {
 import { DefaultErrors } from "@celeb-chat/shared/src/api/Requests";
 import { Routes } from "@celeb-chat/shared/src/api/routes";
 import { UrlUtils } from "./UrlUtils";
+import {
+  CreateCheckoutSessionRequest,
+  CreatePortalSessionRequest,
+} from "@celeb-chat/shared/src/api/Requests/stripe.requests";
 
 const apiDomain = process.env.REACT_APP_API_DOMAIN;
 
@@ -167,4 +171,20 @@ export class APIFetcher {
 
   public static verifyEmail = (params: VerifyEmailRequest.ReqBody) =>
     APIFetcher.post<{}>(Routes.User.VerifyEmail(), params);
+
+  public static CreateCheckoutSession = (
+    params: CreateCheckoutSessionRequest.ReqBody
+  ) =>
+    APIFetcher.post<CreateCheckoutSessionRequest.Response>(
+      Routes.Stripe.CreateCheckoutSession(),
+      params
+    );
+
+  public static CreatePortalSession = (
+    params: CreatePortalSessionRequest.ReqBody
+  ) =>
+    APIFetcher.post<CreatePortalSessionRequest.Response>(
+      Routes.Stripe.CreatePortalSession(),
+      params
+    );
 }

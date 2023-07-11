@@ -78,6 +78,7 @@ export const RegisterUserController =
 
         try {
           await user.sendVerificationEmail();
+          await user.save();
         } catch (err) {
           ControllerErrors.logError(err);
         }

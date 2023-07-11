@@ -21,3 +21,4 @@ export * from "./ChatNoMatch/ChatNoMatch";
 export * from "./AppHelmet/AppHelmet";
 export * from "./Alert/Alert";
 export * from "./MainFooter/MainFooter";
+export * from "./PricingTable/PricingTable";

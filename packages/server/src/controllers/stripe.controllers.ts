@@ -1,5 +1,7 @@
 import { Controller, ControllerErrors, EnvUtils, StripeUtils } from "@/Utils";
 import {
+  CreateCheckoutSessionRequest,
+  CreatePortalSessionRequest,
   CustomerCreatedRequest,
   InvoicePaidRequest,
   StripeEventEnum,
@@ -14,6 +16,7 @@ import retry from "async-retry";
 import { DefaultErrors } from "@celeb-chat/shared/src/api/Requests";
 import { Stripe } from "stripe";
 import _ from "lodash";
+import { TUserDocLocals } from "../middleware";
 
 export const StripeWebhookController = Controller<StripeWebhookRequest.Request>(
   async (...params) => {
@@ -145,3 +148,59 @@ export const CustomerCreatedController =
 
     return res.json({}).end();
   });
+
+export const CreateCheckoutSessionController = Controller<
+  CreateCheckoutSessionRequest.Request,
+  TUserDocLocals
+>(async (req, res) => {
+  const { returnUrl, tier = "free" } = req.body;
+  const { user } = res.locals;
+
+  if (user.stripeCustomerId) {
+    return res.json({}).end();
+  }
+
+  const stripe = new Stripe(StripeUtils.apiKey, { apiVersion: "2022-11-15" });
+
+  const portalSession = await stripe.checkout.sessions.create({
+    billing_address_collection: "auto",
+    success_url: returnUrl,
+    customer_email: user.email,
+    allow_promotion_codes: true,
+    automatic_tax: { enabled: true },
+    cancel_url: returnUrl,
+    phone_number_collection: {
+      enabled: true,
+    },
+    mode: "subscription",
+    line_items: [
+      {
+        price: StripeUtils.priceTierIDs[tier],
+        quantity: 1,
+      },
+    ],
+  });
+
+  return res.json({ sessionUrl: portalSession.url ?? undefined });
+});
+
+export const CreatePortalSessionController = Controller<
+  CreatePortalSessionRequest.Request,
+  TUserDocLocals
+>(async (req, res) => {
+  const { returnUrl } = req.body;
+  const { user } = res.locals;
+
+  if (!user.stripeCustomerId) {
+    return res.json({}).end();
+  }
+
+  const stripe = new Stripe(StripeUtils.apiKey, { apiVersion: "2022-11-15" });
+
+  const portalSession = await stripe.billingPortal.sessions.create({
+    customer: user.stripeCustomerId,
+    return_url: returnUrl,
+  });
+
+  return res.json({ sessionUrl: portalSession.url });
+});

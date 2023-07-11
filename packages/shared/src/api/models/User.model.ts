@@ -81,6 +81,7 @@ export namespace UserModel {
       | "isEmailVerified"
       | "subscription"
       | "subscriptionTier"
+      | "stripeCustomerId"
     >
   >;
   /** Includes chat properties found on User model */

@@ -23,6 +23,7 @@ const toShallowJSON: UserModel.InstanceMethods["toShallowJSON"] =
       isEmailVerified: this.isEmailVerified,
       subscription: this.subscription,
       subscriptionTier: StripeUtils.getSubscriptionTier(this),
+      stripeCustomerId: this.stripeCustomerId,
     };
   };
 
@@ -238,6 +239,7 @@ const updateVerificationRequest: UserModel.InstanceMethods["updateVerificationRe
 const sendVerificationEmail: UserModel.InstanceMethods["sendVerificationEmail"] =
   async function () {
     const { encodedHash } = await this.updateVerificationRequest();
+    console.log(this.id);
 
     Mailer.sendEmailVerificationEmail({
       to: this.email,

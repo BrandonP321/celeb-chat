@@ -22,6 +22,7 @@ const UserSchema: UserModel.Schema = new Schema(
     email: {
       type: String,
       lowercase: true,
+      trim: true,
       required: [true, "Email required"],
       index: true,
       unique: true,
@@ -29,7 +30,7 @@ const UserSchema: UserModel.Schema = new Schema(
     stripeCustomerId: {
       type: String,
       index: true,
-      unique: true,
+      unique: false,
     },
     subscription: {
       type: Schema.Types.Mixed,

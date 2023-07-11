@@ -102,4 +102,12 @@ export class UrlUtils {
   public static queryParamKeys = {
     redirectTo: "redirectTo",
   };
+
+  public static redirectTo = (url: string) => {
+    window.location.href = url;
+  };
+
+  public static openInNewTab = (url: string) => {
+    window.open(url);
+  };
 }

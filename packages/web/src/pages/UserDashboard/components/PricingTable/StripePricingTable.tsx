@@ -3,22 +3,20 @@ import {
   GetUserRequest,
   SendEmailVerificationRequest,
 } from "@celeb-chat/shared/src/api/Requests/user.requests";
-import { Alert, Button, ButtonLink, ButtonsWrapper } from "@/Components";
-import styles from "./PricingTable.module.scss";
+import { Alert, Button, ButtonsWrapper } from "@/Components";
+import styles from "./StripePricingTable.module.scss";
 import { Loc } from "@/Loc";
 import { APIFetcher, StripeUtils } from "@/Utils";
 import { useAppDispatch } from "@/Hooks";
 import { Actions } from "@/Slices";
-import { BtnAlign } from "components/Button/ButtonsWrapper/ButtonsWrapper";
-import { faPenToSquare } from "@fortawesome/pro-solid-svg-icons";
 
-export namespace PricingTable {
+export namespace StripePricingTable {
   export type Props = {
     user: GetUserRequest.Response | null;
   };
 }
 
-export function PricingTable({ user }: PricingTable.Props) {
+export function StripePricingTable({ user }: StripePricingTable.Props) {
   const disabledStyle: CSSProperties = {
     opacity: "0.5",
     pointerEvents: "none",

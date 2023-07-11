@@ -5,25 +5,22 @@ import { APIFetcher } from "utils/APIFetcher";
 import {
   Alert,
   AppHelmet,
-  ButtonLink,
   ButtonsWrapper,
   LoadingContainer,
   PageHeader,
+  PricingTable,
   ScrollablePage,
+  StripePortalButton,
   TextAccentPrimary,
   TextAccentSecondary,
 } from "@/Components";
 import { Loc } from "@/Loc";
 import { EditUserForm } from "./components/EditUserForm/EditUserForm";
-import {
-  PricingTable,
-  VerifyEmailAlert,
-} from "./components/PricingTable/PricingTable";
+import { VerifyEmailAlert } from "./components/PricingTable/StripePricingTable";
 import { SubScriptionTierMap } from "@celeb-chat/shared/src/utils/ChatUtils";
 import classNames from "classnames";
 import { BtnAlign } from "components/Button/ButtonsWrapper/ButtonsWrapper";
 import { faPenToSquare } from "@fortawesome/pro-solid-svg-icons";
-import { StripeUtils } from "@/Utils";
 
 namespace UserDashboard {
   export type Props = {};
@@ -55,7 +52,7 @@ function UserDashboard(props: UserDashboard.Props) {
 
         <Alert
           title="Something not looking quite right?"
-          classes={{ root: styles.alert }}
+          classes={{ root: classNames(styles.alert, styles.incorrectInfo) }}
         >
           <p className={styles.content}>
             If any of the details displayed on this dashboard look wrong, try
@@ -65,6 +62,8 @@ function UserDashboard(props: UserDashboard.Props) {
             </a>
           </p>
         </Alert>
+
+        {user && <EditUserForm user={user} />}
 
         <PageHeader
           classes={{ root: styles.pageHeader }}
@@ -76,13 +75,7 @@ function UserDashboard(props: UserDashboard.Props) {
         {user?.stripeCustomerId && <SubscriptionDetails user={user} />}
       </div>
 
-      <PricingTable user={user} />
-
-      <div className={styles.fixedWidthContent}>
-        <h2 className={styles.account}>Account Settings</h2>
-
-        {user && <EditUserForm user={user} />}
-      </div>
+      <PricingTable classes={{ root: styles.table }} />
     </ScrollablePage>
   );
 }
@@ -110,28 +103,21 @@ const SubscriptionDetails = ({ user }: SubscriptionDetailsProps) => {
 
   return (
     <div className={styles.subDetails}>
-      <ButtonsWrapper className={styles.manageSubWrapper} align={BtnAlign.Left}>
-        <ButtonLink
-          classes={{ root: styles.manageBtn }}
-          rightIcon={faPenToSquare}
-          target="_blank"
-          to={
-            StripeUtils.getSubscriptionManagementUrl(
-              !!user?.useStripeTest,
-              user?.email
-            ) ?? "#"
-          }
-        >
-          Manage Subscription
-        </ButtonLink>
-      </ButtonsWrapper>
-
       <p className={classNames(styles.detail, styles.tier)}>
         <strong>Current Subscription:</strong>{" "}
         <TextAccentSecondary>
           {tierTitleMap[user.activeSubscriptionTier]}
         </TextAccentSecondary>
       </p>
+
+      <ButtonsWrapper className={styles.manageSubWrapper} align={BtnAlign.Left}>
+        <StripePortalButton
+          rightIcon={faPenToSquare}
+          classes={{ root: styles.manageBtn }}
+        >
+          Manage Subscription
+        </StripePortalButton>
+      </ButtonsWrapper>
 
       {renewalDate && !canceledAt && (
         <Alert

@@ -48,6 +48,10 @@
 .alert {
   margin-top: 2rem;
 
+  &.incorrectInfo {
+    margin-bottom: 4rem;
+  }
+
   .content {
     color: $textSecondary;
 
@@ -74,4 +78,8 @@
       width: 100%;
     }
   }
+}
+
+.table {
+  margin-top: 3rem;
 }

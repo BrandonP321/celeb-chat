@@ -24,6 +24,22 @@ export class StripeUtils {
     three: process.env.STRIPE_LIVE_PRODUCT_TIER_THREE,
   };
 
+  private static testPriceTierIDs = {
+    free: process.env.STRIPE_TEST_PRICE_TIER_FREE,
+    two: process.env.STRIPE_TEST_PRICE_TIER_TWO,
+    three: process.env.STRIPE_TEST_PRICE_TIER_THREE,
+  };
+
+  private static livePriceTierIDs = {
+    free: process.env.STRIPE_TEST_PRICE_TIER_FREE,
+    two: process.env.STRIPE_TEST_PRICE_TIER_TWO,
+    three: process.env.STRIPE_TEST_PRICE_TIER_THREE,
+  };
+
+  public static priceTierIDs = this.useLiveStripeVersion
+    ? this.livePriceTierIDs
+    : this.testPriceTierIDs;
+
   public static allProductIds = [
     ...Object.values(this.testProductTierIDs),
     ...Object.values(this.liveProductTierIDs),

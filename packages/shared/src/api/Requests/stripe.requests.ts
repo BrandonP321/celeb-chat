@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { APIErrorResponse, APIErrors, APIRequest, DefaultErrors } from ".";
+import { SubscriptionTier } from "../../utils/ChatUtils";
 
 export enum StripeSubStatus {
   Active = "active",
@@ -64,4 +65,49 @@ export namespace CustomerCreatedRequest {
   type ReqBody = StripeEvent<Stripe.Customer>;
 
   export type Request = APIRequest<{}, ReqBody, {}>;
+}
+
+export namespace CreateCheckoutSessionRequest {
+  export type ReqBody = {
+    returnUrl: string;
+    tier: SubscriptionTier;
+  };
+
+  export type Response = {
+    sessionUrl?: string;
+  };
+
+  export type Request = APIRequest<{}, ReqBody, Response>;
+
+  export const ErrorCode = {
+    ...DefaultErrors.ErrorCode,
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...DefaultErrors.Errors,
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
+}
+
+export namespace CreatePortalSessionRequest {
+  export type ReqBody = {
+    returnUrl: string;
+  };
+
+  export type Response = {
+    sessionUrl?: string;
+  };
+
+  export type Request = APIRequest<{}, ReqBody, Response>;
+
+  export const ErrorCode = {
+    ...DefaultErrors.ErrorCode,
+  } as const;
+
+  export const Errors: APIErrors<typeof ErrorCode> = {
+    ...DefaultErrors.Errors,
+  } as const;
+
+  export type Error = APIErrorResponse<typeof ErrorCode>;
 }

@@ -13,6 +13,16 @@ import { useFormikContext } from "formik";
 import { Loc } from "@/Loc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { useAppDispatch, useUser } from "@/Hooks";
+import { APIFetcher } from "utils/APIFetcher";
+import {
+  CreateCheckoutSessionRequest,
+  CreatePortalSessionRequest,
+} from "@celeb-chat/shared/src/api/Requests/stripe.requests";
+import { UrlUtils } from "utils/UrlUtils";
+import { Actions } from "@/Slices";
+import { SubscriptionTier } from "@celeb-chat/shared/src/utils/ChatUtils";
+import { faChevronsUp } from "@fortawesome/pro-solid-svg-icons";
 
 type ButtonHTMLProps = HTMLButtonProps & {
   to?: undefined;
@@ -174,5 +184,64 @@ export function SubmitButton({
       loading={isSubmitting}
       disabled={disabled || (disabledWhenDirty && !dirty)}
     />
+  );
+}
+
+export namespace StripePortalButton {
+  export type Props = Partial<Button.Props> & {
+    tier?: SubscriptionTier;
+  };
+}
+
+export function StripePortalButton({
+  tier,
+  children,
+  ...rest
+}: StripePortalButton.Props) {
+  const { user } = useUser();
+  const dispatch = useAppDispatch();
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const handleClick = () => {
+    const hasUserSubscribed = !!user?.stripeCustomerId;
+    const returnUrl = UrlUtils.url().setPath("/user/dashboard").href;
+
+    if (user && !hasUserSubscribed && tier) {
+      setIsRedirecting(true);
+
+      APIFetcher.CreateCheckoutSession({ returnUrl, tier })
+        .then((res) => {
+          UrlUtils.openInNewTab(res.sessionUrl ?? "");
+        })
+        .catch((err: CreateCheckoutSessionRequest.Error) => {
+          dispatch(Actions.Alert.addErrorAlert({ msg: err.msg }));
+        })
+        .finally(() => setIsRedirecting(false));
+    } else if (user && hasUserSubscribed) {
+      setIsRedirecting(true);
+
+      APIFetcher.CreatePortalSession({ returnUrl })
+        .then((res) => UrlUtils.openInNewTab(res.sessionUrl ?? ""))
+        .catch((err: CreatePortalSessionRequest.Error) => {
+          dispatch(Actions.Alert.addErrorAlert({ msg: err.msg }));
+        })
+        .finally(() => setIsRedirecting(false));
+    }
+  };
+
+  const defaultChildren =
+    user?.subscriptionTier === tier ? "Active" : "Subscribe";
+
+  return (
+    <Button
+      rightIcon={faChevronsUp}
+      onClick={handleClick}
+      disabled={user?.subscriptionTier === tier}
+      loading={isRedirecting}
+      loadingText="Redirecting"
+      {...rest}
+    >
+      {children ?? defaultChildren}
+    </Button>
   );
 }

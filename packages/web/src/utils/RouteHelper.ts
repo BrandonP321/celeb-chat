@@ -18,6 +18,10 @@ export class RouteHelper {
     return `/chat/${chatId}`;
   };
 
+  public static UserDashboard = () => {
+    return `/user/dashboard`;
+  };
+
   public static Login = (withRedirect?: boolean) => {
     if (withRedirect) {
       return (window.location.href = UrlUtils.url()

@@ -1,0 +1,99 @@
+@import "../../styles/uiBase.scss";
+
+$freeTierColor: red;
+$standardTierColor: green;
+$premiumTierColor: blue;
+
+.table {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tier {
+  box-shadow: 0 0 1rem 0 rgba(black, 0.5);
+  background-color: hsl(0, 0%, 12%);
+  border-radius: 0.5rem;
+  border: 2px solid $colorAccentPrimary;
+  width: 23rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0 2rem 3rem 2rem;
+
+  @include mobileVW() {
+    margin: 0 0 3rem 0;
+  }
+
+  &:nth-child(1) {
+    border-color: hsl(0, 0%, 20%);
+  }
+
+  &:nth-child(2) {
+    border-color: $colorAccentPrimary;
+
+    .title {
+      color: $colorAccentPrimary;
+    }
+  }
+
+  &:nth-child(3) {
+    border-color: $colorAccentSecondary;
+
+    .title {
+      color: $colorAccentSecondary;
+    }
+  }
+
+  .upperContent {
+    padding: 2rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .priceWrapper {
+    display: flex;
+    align-items: flex-end;
+    margin: 1.5rem 0 0 0;
+
+    .price {
+      font-size: 3rem;
+      line-height: 2.5rem;
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+
+    .period {
+      font-size: 1rem;
+      color: $textSecondary;
+    }
+  }
+
+  .desc {
+    color: $textSecondary;
+    margin: 0.5rem 0 1rem 0;
+  }
+
+  .features {
+    background-color: $bodyBgPrimary;
+    padding: 2rem;
+    flex-grow: 1;
+
+    .feature {
+      color: $textSecondary;
+      font-size: 1.25rem;
+
+      &:not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
+
+      .icon {
+        margin-right: 0.75rem;
+        color: $colorSuccess;
+      }
+    }
+  }
+}
