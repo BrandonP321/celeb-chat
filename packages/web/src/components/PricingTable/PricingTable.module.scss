@@ -4,10 +4,26 @@ $freeTierColor: red;
 $standardTierColor: green;
 $premiumTierColor: blue;
 
+.tableWrapper {
+}
+
+.disclaimer {
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  text-align: center;
+  color: rgba($textPrimary, 0.8);
+}
+
 .table {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+
+  @include mobileVW() {
+    width: 90%;
+    margin: 0 auto;
+  }
 }
 
 .tier {
@@ -19,10 +35,10 @@ $premiumTierColor: blue;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin: 0 2rem 3rem 2rem;
+  margin: 3rem 2rem 0 2rem;
 
   @include mobileVW() {
-    margin: 0 0 3rem 0;
+    margin: 3rem 0 0 0;
   }
 
   &:nth-child(1) {

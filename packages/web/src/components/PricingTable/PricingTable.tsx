@@ -57,10 +57,18 @@ export function PricingTable({ classes }: PricingTable.Props) {
   ];
 
   return (
-    <div className={classNames(styles.table, classes?.root)}>
-      {tiers.map((t, i) => (
-        <SubscriptionItem {...t} key={i} />
-      ))}
+    <div className={classNames(styles.tableWrapper, classes?.root)}>
+      <div className={classNames(styles.table)}>
+        {tiers.map((t, i) => (
+          <SubscriptionItem {...t} key={i} />
+        ))}
+      </div>
+
+      {/* // TODO: Update disclaimer wording */}
+      <p className={styles.disclaimer}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </p>
     </div>
   );
 }
