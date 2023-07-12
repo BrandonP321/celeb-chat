@@ -13,12 +13,13 @@ export namespace ChatModel {
     description?: string;
     chatSummary?: string;
     ownerId: string;
+    customMsg?: string;
     messagesSinceLastSummary: number;
     msgCount: number;
     messages: Message[];
   };
 
-  export type NewChat = Pick<Chat, "ownerId" | "description">;
+  export type NewChat = Pick<Chat, "ownerId" | "description" | "customMsg">;
 
   export type Document = TMongooseDoc<Chat, InstanceMethods>;
   export type Schema = TMongooseSchema<Chat, InstanceMethods, StaticMethods>;
@@ -42,7 +43,8 @@ export namespace ChatModel {
     addMsg: (this: Document, ...msg: IndexlessMessage[]) => Promise<boolean>;
     getTrainingMsg: (
       this: Document,
-      user: UserModel.Document
+      user: UserModel.Document,
+      customMsg?: string
     ) => Promise<IndexlessMessage>;
     incrememtMsgCount: (this: Document, add?: number) => void;
     updateChat: (

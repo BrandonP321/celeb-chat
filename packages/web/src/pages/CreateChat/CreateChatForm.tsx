@@ -20,20 +20,27 @@ import { Loc } from "@/Loc";
 export enum CreateChatField {
   DisplayName = "displayName",
   Description = "description",
+  CustomTrainingMsg = "customMsg",
 }
 
 namespace CreateChatForm {
+  export type Props = {
+    showCustomMsgField?: boolean;
+  };
+
   export type Values = FormikStringValues<CreateChatField>;
 }
 
-export default function CreateChatForm() {
+export default function CreateChatForm({
+  showCustomMsgField,
+}: CreateChatForm.Props) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const handleSubmit: FormikSubmit<CreateChatForm.Values> = async (values) => {
-    const { description, displayName } = values;
+    const { description, displayName, customMsg } = values;
 
-    return APIFetcher.createChat({ description, displayName }).then(
+    return APIFetcher.createChat({ description, displayName, customMsg }).then(
       ({ id, displayName }) => {
         dispatch(Actions.Chat.addChat({ id, displayName }));
         navigate(`/chat/${id}`);
@@ -46,6 +53,7 @@ export default function CreateChatForm() {
       UrlUtils.getParam(CreateChatField.DisplayName) ?? "",
     [CreateChatField.Description]:
       UrlUtils.getParam(CreateChatField.Description) ?? "",
+    [CreateChatField.CustomTrainingMsg]: "",
   };
 
   return (
@@ -70,6 +78,14 @@ export default function CreateChatForm() {
           label={Loc.Common.Desc}
           hintText={Loc.Web.CreateChat.DescHintText}
         />
+
+        {showCustomMsgField && (
+          <InputField
+            name={CreateChatField.CustomTrainingMsg}
+            label="AI training message"
+            hintText="Use {{name}} and {{desc}} to indicate the position of the character name and description."
+          />
+        )}
 
         <ButtonsWrapper>
           <HelpButton HelpModal={CreateChatHelpModal} />

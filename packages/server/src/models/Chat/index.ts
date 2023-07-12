@@ -10,6 +10,9 @@ const ChatSchema: ChatModel.Schema = new Schema(
     chatSummary: {
       type: String,
     },
+    customMsg: {
+      type: String,
+    },
     messages: {
       type: Schema.Types.Mixed,
       default: [],

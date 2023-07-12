@@ -42,6 +42,7 @@ export namespace CreateChatRequest {
   export type ReqBody = {
     description: string;
     displayName: string;
+    customMsg?: string;
   };
 
   export type Response = ChatModel.FullChatJSON & TChat & {};

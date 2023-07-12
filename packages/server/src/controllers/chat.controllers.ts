@@ -20,6 +20,7 @@ import {
 } from "@celeb-chat/shared/src/schema";
 import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
 import { Controller, ControllerErrors, Loc } from "@/Utils";
+import { isCustomTrainingEnabled } from "@celeb-chat/shared/src/fac";
 
 /** Returns a chat without its first page of messages */
 export const GetChatController = Controller<
@@ -56,7 +57,7 @@ export const CreateChatController = Controller<
 >(async (req, res) => {
   const { error } = new ControllerErrors(res, CreateChatRequest.Errors);
 
-  const { description, displayName } = req.body;
+  const { description, displayName, customMsg } = req.body;
   const { user, userId, subscriptionTier } = res.locals;
 
   const validationError = await validateCreateChatFields(req.body);
@@ -73,6 +74,10 @@ export const CreateChatController = Controller<
     description,
     ownerId: userId,
   };
+
+  if (isCustomTrainingEnabled(user) && customMsg) {
+    newChat.customMsg = customMsg;
+  }
 
   db.Chat.create(newChat, async (err, chat) => {
     if (err ?? !chat) {

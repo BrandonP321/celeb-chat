@@ -66,13 +66,20 @@ function App() {
 
           <Route element={<AuthenticatedAppLayout withChatSidebar />}>
             <Route path="/chats" element={<ChatHome />} />
+
             <Route path="/chat/new" element={<CreateChat />} />
+            <Route
+              path="/_dev/chat/new"
+              element={<CreateChat withCustomMsg />}
+            />
+
             <Route path="/chat/:chatId/edit" element={<EditChat />} />
             <Route path="/chat/:chatId" element={<Chat />} />
             <Route path="/user/dashboard" element={<UserDashboard />} />
           </Route>
 
           {/* DEV PAGES */}
+
           <Route element={<EmailBody />}>
             <Route
               path="/_dev/email/password-reset"

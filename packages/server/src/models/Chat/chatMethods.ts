@@ -2,6 +2,7 @@ import { ChatModel } from "@celeb-chat/shared/src/api/models/Chat.model";
 import { ChatUtils, Message } from "@celeb-chat/shared/src/utils/ChatUtils";
 import db from "@/Models";
 import mongoose from "mongoose";
+import { isCustomTrainingEnabled } from "@celeb-chat/shared/src/fac";
 
 const toFullChatJSON: ChatModel.InstanceMethods["toFullChatJSON"] =
   async function (user) {
@@ -60,8 +61,17 @@ const addMsg: ChatModel.InstanceMethods["addMsg"] = async function (...msg) {
 
 const getTrainingMsg: ChatModel.InstanceMethods["getTrainingMsg"] =
   async function (user) {
-    const displayName = (await user.getChatJSON(this.id))?.displayName;
-    return ChatUtils.getTrainingMsg(displayName ?? "", this.description);
+    const displayName = (await user.getChatJSON(this.id))?.displayName ?? "";
+
+    if (this.customMsg && isCustomTrainingEnabled(user)) {
+      const msg = this.customMsg
+        .replace(/{{name}}/g, displayName)
+        .replace(/{{desc}}/g, this.description ?? "");
+
+      return ChatUtils.constructMsg(msg);
+    }
+
+    return ChatUtils.getTrainingMsg(displayName, this.description);
   };
 
 const incrememtMsgCount: ChatModel.InstanceMethods["incrememtMsgCount"] =
