@@ -9,6 +9,7 @@ import { RouteHelper } from "utils/RouteHelper";
 import { Actions } from "@/Slices";
 import { Loc } from "@/Loc";
 import { WebChatUtils } from "@/Utils";
+import { ButtonLink } from "@/Components";
 
 export namespace MainNav {
   export type Props = {
@@ -60,13 +61,14 @@ function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
       )}
 
       {showChatNavLink && (
-        <Link
-          to={"/chats"}
-          className={styles.msgNavIcon}
-          aria-label="Go to chats"
+        <ButtonLink
+          to="/chats"
+          rightIcon={faMessage}
+          style={{ fontSize: "1rem" }}
+          classes={{ root: styles.chatBtn }}
         >
-          <FontAwesomeIcon icon={faMessage} className={styles.icon} />
-        </Link>
+          Let's Chat
+        </ButtonLink>
       )}
     </div>
   );

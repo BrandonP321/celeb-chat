@@ -27,6 +27,11 @@ $navIconHeight: 1.7rem;
   width: $navIconHeight;
 }
 
+.chatBtn {
+  flex-shrink: 0;
+  padding: 0.4rem 0.75rem;
+}
+
 .homeBtn {
   span {
     display: none;
