@@ -31,9 +31,9 @@ export class StripeUtils {
   };
 
   private static livePriceTierIDs = {
-    free: process.env.STRIPE_TEST_PRICE_TIER_FREE,
-    two: process.env.STRIPE_TEST_PRICE_TIER_TWO,
-    three: process.env.STRIPE_TEST_PRICE_TIER_THREE,
+    free: process.env.STRIPE_LIVE_PRICE_TIER_FREE,
+    two: process.env.STRIPE_LIVE_PRICE_TIER_TWO,
+    three: process.env.STRIPE_LIVE_PRICE_TIER_THREE,
   };
 
   public static priceTierIDs = this.useLiveStripeVersion
