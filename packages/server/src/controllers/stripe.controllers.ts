@@ -27,6 +27,7 @@ export const StripeWebhookController = Controller<StripeWebhookRequest.Request>(
       case StripeEventEnum.CustomerCreated:
         return await CustomerCreatedController(...params);
       // Also includes subscription getting cancelled (not when actually deleted)
+      case StripeEventEnum.SubscriptionCreated:
       case StripeEventEnum.SubscriptionUpdated:
         return await SubscriptionUpdatedController(...params);
     }
