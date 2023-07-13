@@ -110,14 +110,19 @@ const SubscriptionDetails = ({ user }: SubscriptionDetailsProps) => {
         </TextAccentSecondary>
       </p>
 
-      <ButtonsWrapper className={styles.manageSubWrapper} align={BtnAlign.Left}>
-        <StripePortalButton
-          rightIcon={faPenToSquare}
-          classes={{ root: styles.manageBtn }}
+      {user.stripeCustomerId && (
+        <ButtonsWrapper
+          className={styles.manageSubWrapper}
+          align={BtnAlign.Left}
         >
-          Manage Subscription
-        </StripePortalButton>
-      </ButtonsWrapper>
+          <StripePortalButton
+            rightIcon={faPenToSquare}
+            classes={{ root: styles.manageBtn }}
+          >
+            Manage Subscription
+          </StripePortalButton>
+        </ButtonsWrapper>
+      )}
 
       {renewalDate && !canceledAt && (
         <Alert
