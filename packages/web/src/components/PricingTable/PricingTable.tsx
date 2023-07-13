@@ -66,8 +66,8 @@ export function PricingTable({ classes }: PricingTable.Props) {
 
       {/* // TODO: Update disclaimer wording */}
       <p className={styles.disclaimer}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
+        *Prices, features, and terms of PersonaVerse subscriptions may change
+        without prior notice.
       </p>
     </div>
   );
