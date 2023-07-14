@@ -8,6 +8,9 @@
 .content {
   width: 90%;
   margin: 0 auto;
+}
+
+.upperContent {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -35,11 +38,31 @@
   }
 }
 
+$linkColor: rgba($textPrimary, 0.6);
+
 .support {
-  color: rgba($textPrimary, 0.6);
+  color: $linkColor;
   transition: all 0.15s;
 
   &:hover {
+    color: $textPrimary;
+  }
+}
+
+.legalLinks {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  a,
+  p {
+    color: $linkColor;
+    margin: 0 1rem;
+    transition: all 0.15s;
+    margin-top: 1rem;
+  }
+
+  a:hover {
     color: $textPrimary;
   }
 }

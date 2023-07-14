@@ -6,6 +6,8 @@ import {
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { RouteHelper } from "utils/RouteHelper";
+import { Link } from "react-router-dom";
 
 export namespace MainFooter {
   export type Props = {};
@@ -15,10 +17,13 @@ export function MainFooter(props: MainFooter.Props) {
   return (
     <div className={styles.footer}>
       <div className={styles.content}>
-        <FooterSocials />
-        <a href="mailto:support@personaverse.com" className={styles.support}>
-          Contact support
-        </a>
+        <div className={styles.upperContent}>
+          <FooterSocials />
+          <a href="mailto:support@personaverse.com" className={styles.support}>
+            Contact support
+          </a>
+        </div>
+        <LegalLinks />
       </div>
     </div>
   );
@@ -54,6 +59,22 @@ const FooterSocials = () => (
       >
         <FontAwesomeIcon className={styles.icon} icon={s.icon} />
       </a>
+    ))}
+  </div>
+);
+
+const legalLinks = [
+  { text: <>&copy; PersonaVerse {new Date().getFullYear()}</> },
+  { text: "Privacy Policy", url: RouteHelper.PrivacyPolicy() },
+];
+
+const LegalLinks = () => (
+  <div className={styles.legalLinks}>
+    {legalLinks.map((l, i) => (
+      <>
+        {l.url && <Link to={l.url}>{l.text}</Link>}
+        {!l.url && <p>{l.text}</p>}
+      </>
     ))}
   </div>
 );
