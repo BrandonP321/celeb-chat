@@ -66,6 +66,7 @@ const FooterSocials = () => (
 const legalLinks = [
   { text: <>&copy; PersonaVerse {new Date().getFullYear()}</> },
   { text: "Privacy Policy", url: RouteHelper.PrivacyPolicy() },
+  { text: "Terms & Conditions", url: RouteHelper.TermsAndConditions() },
 ];
 
 const LegalLinks = () => (

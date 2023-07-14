@@ -35,4 +35,5 @@ export class RouteHelper {
   };
 
   public static PrivacyPolicy = () => `/legal/privacy`;
+  public static TermsAndConditions = () => `/legal/terms`;
 }

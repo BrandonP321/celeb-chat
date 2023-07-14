@@ -12,6 +12,7 @@ import {
   ChatHome,
   PageNotFound,
   PrivacyPolicy,
+  TermsAndConditions,
 } from "@/Pages";
 import {
   EmailBody,
@@ -62,6 +63,7 @@ function App() {
 
             {/* LEGAL */}
             <Route path="/legal/privacy" element={<PrivacyPolicy />} />
+            <Route path="/legal/terms" element={<TermsAndConditions />} />
           </Route>
 
           <Route element={<AppLayout />}>
