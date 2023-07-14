@@ -18,6 +18,8 @@ export class RouteHelper {
     return `/chat/${chatId}`;
   };
 
+  public static Chats = () => `/chats`;
+
   public static UserDashboard = () => {
     return `/user/dashboard`;
   };

@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./MainNav.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faHome, faMessage } from "@fortawesome/pro-solid-svg-icons";
+import { faBars, faMessage, faUser } from "@fortawesome/pro-solid-svg-icons";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useChat, useChatSidebar } from "@/Hooks";
+import { useAppDispatch, useChat, useChatSidebar, useUser } from "@/Hooks";
 import { RouteHelper } from "utils/RouteHelper";
 import { Actions } from "@/Slices";
 import { Loc } from "@/Loc";
@@ -20,6 +20,7 @@ export namespace MainNav {
 
 function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
   const { chat } = useChat();
+  const { user } = useUser();
   const sidebar = useChatSidebar();
   const dispatch = useAppDispatch();
 
@@ -62,12 +63,12 @@ function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
 
       {showChatNavLink && (
         <ButtonLink
-          to="/chats"
-          rightIcon={faMessage}
+          to={!!user ? RouteHelper.Chats() : RouteHelper.Login()}
+          rightIcon={!!user ? faMessage : faUser}
           style={{ fontSize: "1rem" }}
           classes={{ root: styles.chatBtn }}
         >
-          Let's Chat
+          {!!user ? "Chats" : "Login"}
         </ButtonLink>
       )}
     </div>
