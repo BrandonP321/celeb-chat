@@ -11,6 +11,7 @@ import {
   Home,
   ChatHome,
   PageNotFound,
+  PrivacyPolicy,
 } from "@/Pages";
 import {
   EmailBody,
@@ -50,18 +51,23 @@ function App() {
         <Routes>
           <Route element={<AppLayout showChatNavLink />}>
             <Route path="/" element={<Home />} />
-          </Route>
 
-          <Route element={<AppLayout />}>
-            <Route path="/login" element={<Authentication isLogin />} />
-            <Route path="/register" element={<Authentication />} />
-
+            {/* PASSWORD RESET */}
             <Route path="/password/reset" element={<PasswordReset />} />
             <Route
               path="/password/reset/request"
               element={<RequestPasswordReset />}
             />
             <Route path="/email/verify" element={<EmailVerification />} />
+
+            {/* LEGAL */}
+            <Route path="/legal/privacy" element={<PrivacyPolicy />} />
+          </Route>
+
+          <Route element={<AppLayout />}>
+            {/* AUTH */}
+            <Route path="/login" element={<Authentication isLogin />} />
+            <Route path="/register" element={<Authentication />} />
           </Route>
 
           <Route element={<AuthenticatedAppLayout withChatSidebar />}>

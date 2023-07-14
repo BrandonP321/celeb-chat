@@ -8,3 +8,4 @@ export * from "./RequestPasswordReset/RequestPasswordReset";
 export * from "./Home/Home";
 export * from "./ChatHome/ChatHome";
 export * from "./PageNotFound/PageNotFound";
+export * from "./Legal/PrivacyPolicy";

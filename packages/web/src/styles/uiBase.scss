@@ -15,6 +15,9 @@ $inputFieldHeight: calc(
   $lineHeightNormal + (($inputPadding + $inputBorderWidth) * 2)
 );
 
+$contentMaxWidth: 40rem;
+$contentWidth: 90%;
+
 .pageMain {
   padding: 1rem;
   overflow-y: auto;

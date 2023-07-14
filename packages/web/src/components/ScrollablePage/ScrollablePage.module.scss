@@ -9,8 +9,8 @@
 
 .content {
   flex-grow: 1;
-  width: 90%;
-  max-width: 40rem;
+  width: $contentWidth;
+  max-width: $contentMaxWidth;
   margin: 0 auto;
   padding: 1rem 0 4rem 0;
 }

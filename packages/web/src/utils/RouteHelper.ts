@@ -33,4 +33,6 @@ export class RouteHelper {
       return "/login";
     }
   };
+
+  public static PrivacyPolicy = () => `/legal/privacy`;
 }

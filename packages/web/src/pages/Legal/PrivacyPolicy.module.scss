@@ -1,0 +1,58 @@
+@import "../../styles/uiBase.scss";
+
+.policy {
+  max-width: 60rem;
+
+  * {
+    word-wrap: break-word;
+  }
+
+  h1 {
+    margin: 2rem 0 1rem 0;
+    font-size: 2.5rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    @include mobileVW() {
+      font-size: 2rem;
+    }
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    margin: 2rem 0 0.5rem 0;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 1rem 0;
+  }
+
+  p,
+  li {
+    margin: 0.75rem 0;
+    color: rgba($textPrimary, 0.85);
+  }
+
+  strong {
+    color: $textPrimary;
+  }
+
+  ul,
+  ol {
+    list-style: initial;
+    padding: 0;
+    padding-inline-start: 2.25rem;
+  }
+
+  a {
+    color: $colorAccentSecondaryLight;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
