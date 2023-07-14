@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./PrivacyPolicy.module.scss";
-import { ScrollablePage } from "@/Components";
+import { AppHelmet, ScrollablePage } from "@/Components";
 
 export namespace TermsAndConditions {
   export type Props = {};
@@ -9,6 +9,7 @@ export namespace TermsAndConditions {
 export function TermsAndConditions(props: TermsAndConditions.Props) {
   return (
     <ScrollablePage className={styles.policy}>
+      <AppHelmet title="Terms & Conditions" />
       <PolicyHTML />
     </ScrollablePage>
   );
