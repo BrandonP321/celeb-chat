@@ -167,6 +167,9 @@ export const CreateCheckoutSessionController = Controller<
     billing_address_collection: "auto",
     success_url: returnUrl,
     customer_email: user.email,
+    consent_collection: {
+      terms_of_service: "required",
+    },
     allow_promotion_codes: true,
     automatic_tax: { enabled: true },
     cancel_url: returnUrl,

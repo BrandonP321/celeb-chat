@@ -11,10 +11,10 @@
     "web:client:dev": "yarn web start",
     "server:dev": "yarn server dev",
     "web:dev": "yarn updateIPEnvVars && yarn concurrently --kill-others-on-fail -n \"SERVER,WEB\" -c \"magenta,cyan\" \"yarn server:dev\" \"yarn web:client:dev\"",
-    "web:dev:stripe": "yarn updateIPEnvVars && yarn concurrently --kill-others-on-fail -n \"SERVER,WEB,STRIPE\" -c \"magenta,cyan,yellow\" \"yarn server:dev\" \"yarn web:client:dev\" \"yarn stripe:webhooks:live\"",
-    "web:dev:stripe-test": "yarn updateIPEnvVars && yarn concurrently --kill-others-on-fail -n \"SERVER,WEB,STRIPE\" -c \"magenta,cyan,yellow\" \"yarn server:dev\" \"yarn web:client:dev\" \"yarn stripe:webhooks:forward\"",
+    "web:dev:stripe": "yarn updateIPEnvVars && yarn concurrently --kill-others-on-fail -n \"SERVER,WEB,STRIPE\" -c \"magenta,cyan,yellow\" \"yarn server:dev\" \"yarn web:client:dev\" \"yarn stripe:webhooks:test\"",
+    "web:dev:stripe-live": "yarn updateIPEnvVars && yarn concurrently --kill-others-on-fail -n \"SERVER,WEB,STRIPE\" -c \"magenta,cyan,yellow\" \"yarn server:dev\" \"yarn web:client:dev\" \"yarn stripe:webhooks:live\"",
     "updateIPEnvVars": "ts-node ./scripts/setLocalIP.ts",
-    "stripe:webhooks:forward": "stripe listen --forward-to localhost:8000/webhook/stripe",
+    "stripe:webhooks:test": "stripe listen --forward-to localhost:8000/webhook/stripe",
     "stripe:webhooks:live": "stripe listen --forward-to localhost:8000/webhook/stripe --live"
   },
   "repository": "https://github.com/BrandonP321/celeb-chat.git",
