@@ -9,6 +9,7 @@ import {
   Button,
   ButtonLink,
   ButtonsWrapper,
+  QuestionIconToolTip,
   Sheen,
   StripePortalButton,
 } from "..";
@@ -61,10 +62,13 @@ const subscriptionTiers: SubscriptionTierData[] = [
     features: [
       <>
         Persona maintains an{" "}
-        <span>unrestricted degree of conversation history</span>
+        <span className={styles.bold}>
+          unrestricted degree of conversation history
+        </span>
       </>,
       <>
-        <span>Ultimate</span> level of <span>persona customization</span>
+        <span className={styles.bold}>Ultimate</span> level of{" "}
+        <span>persona customization</span>
       </>,
     ],
   },
@@ -84,16 +88,20 @@ export function PricingTable({ classes }: PricingTable.Props) {
             ...t.features,
             <>
               Compose{" "}
-              <span>
+              <span className={styles.bold}>
                 messages up to {ChatUtils.maxMsgCharCount(t.tier)} characters
-                long
+                long{" "}
               </span>
+              <QuestionIconToolTip>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </QuestionIconToolTip>
             </>,
             <>
               Maintain{" "}
               {maxChats > 1 ? (
                 <>
-                  up to <span>{maxChats} chats</span> at once
+                  up to <span className={styles.bold}>{maxChats} chats</span> at
+                  once
                 </>
               ) : (
                 "a single chat at a time"
@@ -101,8 +109,10 @@ export function PricingTable({ classes }: PricingTable.Props) {
             </>,
             <>
               Unlock{" "}
-              <span>{maxFeaturedChats ?? "unlimited"} featured chats</span> each
-              month (coming soon!)
+              <span className={styles.bold}>
+                {maxFeaturedChats ?? "unlimited"} featured chats
+              </span>{" "}
+              each month (coming soon!)
             </>,
           ],
         };

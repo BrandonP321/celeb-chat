@@ -99,7 +99,7 @@ $premiumTierColor: blue;
   }
 
   &:last-child {
-    .feature span {
+    .feature .bold {
       color: $textPrimary;
       font-weight: bold;
     }

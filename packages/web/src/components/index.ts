@@ -24,3 +24,4 @@ export * from "./MainFooter/MainFooter";
 export * from "./PricingTable/PricingTable";
 export * from "./CookiePopup/CookiePopup";
 export * from "./Sheen/Sheen";
+export * from "./ToolTip/ToolTip";

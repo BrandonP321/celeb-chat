@@ -1,0 +1,50 @@
+@import "../../styles/uiBase.scss";
+
+$tooltipBg: hsl(0, 0%, 15%);
+
+.tooltip {
+  position: absolute;
+  top: -0.75rem;
+  left: 50%;
+  width: 90vw;
+  max-width: 13rem;
+  transform: translate(-50%, -100%);
+  background-color: $tooltipBg;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 1rem 0 rgba(black, 1);
+  border: 2px solid $colorAccentSecondary;
+  transition: all 0.25s;
+
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    background-color: $tooltipBg;
+    bottom: 0;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.125rem;
+    left: 50%;
+    transform: translate(-50%, 56%) rotate(45deg);
+    border: 2px solid $colorAccentSecondary;
+    border-left: none;
+    border-top: none;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    color: $textSecondary;
+  }
+}
+
+.tooltipWrapper {
+  position: relative;
+}
