@@ -33,6 +33,10 @@ $navIconHeight: 1.7rem;
 }
 
 .homeBtn {
+  &:hover {
+    text-decoration: none;
+  }
+
   span {
     display: none;
   }

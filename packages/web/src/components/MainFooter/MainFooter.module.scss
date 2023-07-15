@@ -21,6 +21,10 @@
   a {
     font-size: 2rem;
 
+    @include mobileVW() {
+      font-size: 1.75rem;
+    }
+
     &:hover {
       .icon {
         color: $textPrimary;
@@ -46,6 +50,7 @@ $linkColor: rgba($textPrimary, 0.6);
 
   &:hover {
     color: $textPrimary;
+    text-decoration: none;
   }
 }
 
@@ -53,17 +58,24 @@ $linkColor: rgba($textPrimary, 0.6);
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 1rem;
+
+  @include largeVW() {
+    margin-top: 1rem;
+  }
 
   a,
   p {
     color: $linkColor;
     margin: 0 1rem;
     transition: all 0.15s;
-    margin-top: 1rem;
+
+    @include largeVW() {
+      margin-top: 1rem;
+    }
   }
 
   a:hover {
     color: $textPrimary;
+    text-decoration: none;
   }
 }

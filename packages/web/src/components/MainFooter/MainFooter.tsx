@@ -8,22 +8,26 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RouteHelper } from "utils/RouteHelper";
 import { Link } from "react-router-dom";
+import { useResponsive } from "@/Hooks";
 
 export namespace MainFooter {
   export type Props = {};
 }
 
 export function MainFooter(props: MainFooter.Props) {
+  const { max } = useResponsive();
+
   return (
     <div className={styles.footer}>
       <div className={styles.content}>
         <div className={styles.upperContent}>
           <FooterSocials />
+          {!max && <LegalLinks />}
           <a href="mailto:support@personaverse.com" className={styles.support}>
             Contact support
           </a>
         </div>
-        <LegalLinks />
+        {max && <LegalLinks />}
       </div>
     </div>
   );
