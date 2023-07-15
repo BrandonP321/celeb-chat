@@ -11,8 +11,8 @@ export class SubscriptionUtils {
   /** Max message length */
   public static maxMsgCharCountMap: SubScriptionTierMap<number> = {
     free: 250,
-    two: 300,
-    three: 400,
+    two: 350,
+    three: 450,
   };
 
   /** Number of previous message to send to OpenAI with each request */
