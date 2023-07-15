@@ -9,8 +9,13 @@
 
 .content {
   flex-grow: 1;
+  flex-shrink: 0;
   width: $contentWidth;
   max-width: $contentMaxWidth;
   margin: 0 auto;
   padding: 1rem 0 4rem 0;
+
+  @include mobileVW() {
+    min-height: 100%;
+  }
 }
