@@ -25,6 +25,15 @@
     pointer-events: all;
   }
 
+  p {
+    align-self: center;
+    margin-right: 2rem;
+
+    @include mobileVW() {
+      margin-right: 0;
+    }
+  }
+
   .btns {
     @include mobileVW() {
       width: 100%;
