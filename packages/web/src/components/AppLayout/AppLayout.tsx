@@ -4,6 +4,7 @@ import {
   ChatSideBar,
   AlertToasts,
   LoadingContainer,
+  CookiePopup,
 } from "@/Components";
 import styles from "./AppLayout.module.scss";
 import { Outlet, useLocation } from "react-router-dom";
@@ -17,12 +18,12 @@ const useGoogleAnalytics = () => {
   useEffect(() => {
     const path = UrlUtils.url().path;
 
-    ReactGA.send({ 
-      hitType: "pageview", 
-      page: path, 
+    ReactGA.send({
+      hitType: "pageview",
+      page: path,
     });
-  }, [location])
-}
+  }, [location]);
+};
 
 export namespace AppLayout {
   export type Props = {
@@ -37,7 +38,7 @@ function AppLayout({
   renderOutlet = true,
   showChatNavLink,
 }: AppLayout.Props) {
-  useGoogleAnalytics()
+  useGoogleAnalytics();
 
   return (
     <div className={styles.layout}>
@@ -52,6 +53,7 @@ function AppLayout({
           <LoadingContainer loading={!renderOutlet} />
           <AlertToasts />
           {renderOutlet && <Outlet />}
+          <CookiePopup />
         </div>
       </div>
     </div>

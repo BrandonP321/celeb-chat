@@ -112,6 +112,10 @@
     color: $colorAccentSecondaryLight;
   }
 
+  &:hover {
+    text-decoration: none;
+  }
+
   span {
     position: relative;
   }
