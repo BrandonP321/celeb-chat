@@ -7,7 +7,7 @@ import {
   HTMLProps,
 } from "utils/UtilityTypes";
 import styles from "./Button.module.scss";
-import { Modal, Spinner } from "@/Components";
+import { Modal, Sheen, Spinner } from "@/Components";
 import { Link } from "react-router-dom";
 import { useFormikContext } from "formik";
 import { Loc } from "@/Loc";
@@ -38,6 +38,7 @@ export namespace ButtonBase {
     classes?: ClassesProp<"root">;
     leftIcon?: IconProp;
     rightIcon?: IconProp;
+    withSheen?: boolean;
     variant?:
       | "primary"
       | "primaryGradient"
@@ -60,6 +61,7 @@ export function ButtonBase(props: ButtonBase.OwnProps) {
     variant = "primaryGradient",
     leftIcon,
     rightIcon,
+    withSheen,
     ...rest
   } = props;
 
@@ -70,6 +72,7 @@ export function ButtonBase(props: ButtonBase.OwnProps) {
 
   const inner = (
     <>
+      {withSheen && <Sheen duration={3} />}
       <div className={styles.btnBg} />
       <span>
         {leftIcon && (

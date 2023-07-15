@@ -27,6 +27,7 @@ $premiumTierColor: blue;
 }
 
 .tier {
+  position: relative;
   box-shadow: 0 0 1rem 0 rgba(black, 0.5);
   background-color: hsl(0, 0%, 12%);
   border-radius: 0.5rem;
@@ -97,6 +98,13 @@ $premiumTierColor: blue;
     margin: 0.5rem 0 1.5rem 0;
   }
 
+  &:last-child {
+    .feature span {
+      color: $textPrimary;
+      font-weight: bold;
+    }
+  }
+
   .features {
     background-color: $bodyBgPrimary;
     padding: 2rem;
@@ -121,6 +129,7 @@ $premiumTierColor: blue;
       }
 
       .text {
+        color: $textSecondary;
       }
     }
   }

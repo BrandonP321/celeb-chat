@@ -1,0 +1,47 @@
+@import "../../styles/uiBase.scss";
+
+.sheenWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 2;
+  transition: 0.25s;
+  pointer-events: none;
+
+  &.hideOnHover {
+    pointer-events: all;
+  }
+
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.sheen {
+  position: absolute;
+  top: 50%;
+  left: -55%;
+  width: 500%;
+  height: 10rem;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(white, 0.4),
+    transparent
+  );
+  animation: Sheen 4.5s linear infinite;
+}
+
+@keyframes Sheen {
+  from {
+    left: -400%;
+  }
+  to {
+    left: 400%;
+  }
+}

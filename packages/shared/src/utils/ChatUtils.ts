@@ -4,6 +4,7 @@ import {
 } from "openai";
 import { ChatModel } from "../api/models/Chat.model";
 import { UserModel } from "../api/models/User.model";
+import { SubscriptionUtils } from "./SubscriptionUtils";
 
 export type SubscriptionTier = "free" | "two" | "three";
 
@@ -20,30 +21,14 @@ export type TChat = Pick<
 export type Message = ChatCompletionResponseMessage & { index: number };
 
 export class ChatUtils {
-  public static maxMsgCharCountMap: SubScriptionTierMap<number> = {
-    free: 250,
-    two: 400,
-    three: 400,
-  };
   public static maxMsgCharCount = (tier: SubscriptionTier = "free") =>
-    this.maxMsgCharCountMap[tier];
+    SubscriptionUtils.maxMsgCharCountMap[tier];
 
-  public static maxChatTierMap: SubScriptionTierMap<number> = {
-    free: 1,
-    two: 5,
-    three: 10,
-  };
   public static maxChatCount = (tier: SubscriptionTier = "free") =>
-    this.maxChatTierMap[tier];
-
-  public static chatHistoryLengthMap: SubScriptionTierMap<number> = {
-    free: 0,
-    two: 10,
-    three: 20,
-  };
+    SubscriptionUtils.maxChatTierMap[tier];
 
   public static getChatHistoryLength = (tier: SubscriptionTier = "free") =>
-    this.chatHistoryLengthMap[tier];
+    SubscriptionUtils.chatHistoryLengthMap[tier];
 
   public static constructMsg = (
     msg: string,
