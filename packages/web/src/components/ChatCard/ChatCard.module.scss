@@ -8,6 +8,7 @@
   &:hover,
   &.selected {
     background-color: $primaryHover;
+    text-decoration: none;
 
     .textWrapper::after {
       background: linear-gradient(
@@ -56,6 +57,7 @@
 
 .recipientName {
   font-weight: bold;
+  color: $textPrimary;
   margin-top: 1rem;
 }
 

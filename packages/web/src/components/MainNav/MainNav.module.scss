@@ -104,6 +104,7 @@ $navIconHeight: 1.7rem;
   min-width: 0;
   overflow: hidden;
   font-weight: bold;
+  color: $textPrimary;
 
   @include mobileVW() {
     display: block;
