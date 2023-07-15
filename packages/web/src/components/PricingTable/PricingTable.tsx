@@ -63,7 +63,9 @@ const subscriptionTiers: SubscriptionTierData[] = [
         Persona maintains an{" "}
         <span>unrestricted degree of conversation history</span>
       </>,
-      <>Ultimate level of persona customization</>,
+      <>
+        <span>Ultimate</span> level of <span>persona customization</span>
+      </>,
     ],
   },
 ];
@@ -81,8 +83,11 @@ export function PricingTable({ classes }: PricingTable.Props) {
           features: [
             ...t.features,
             <>
-              Compose messages up to {ChatUtils.maxMsgCharCount(t.tier)}{" "}
-              characters long
+              Compose{" "}
+              <span>
+                messages up to {ChatUtils.maxMsgCharCount(t.tier)} characters
+                long
+              </span>
             </>,
             <>
               Maintain{" "}
@@ -96,7 +101,7 @@ export function PricingTable({ classes }: PricingTable.Props) {
             </>,
             <>
               Unlock{" "}
-              <span>{maxFeaturedChats ?? "unlimited"} featured chats</span> per
+              <span>{maxFeaturedChats ?? "unlimited"} featured chats</span> each
               month (coming soon!)
             </>,
           ],

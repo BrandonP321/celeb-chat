@@ -11,7 +11,7 @@ export class SubscriptionUtils {
   /** Max message length */
   public static maxMsgCharCountMap: SubScriptionTierMap<number> = {
     free: 250,
-    two: 400,
+    two: 300,
     three: 400,
   };
 
