@@ -76,10 +76,10 @@ const legalLinks = [
 const LegalLinks = () => (
   <div className={styles.legalLinks}>
     {legalLinks.map((l, i) => (
-      <>
+      <div key={i}>
         {l.url && <Link to={l.url}>{l.text}</Link>}
         {!l.url && <p>{l.text}</p>}
-      </>
+      </div>
     ))}
   </div>
 );
