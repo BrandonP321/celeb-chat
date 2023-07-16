@@ -1,5 +1,8 @@
 import { UserModel } from "@celeb-chat/shared/src/api/models/User.model";
-import { SubscriptionTier } from "@celeb-chat/shared/src/utils/ChatUtils";
+import {
+  SubScriptionTierMap,
+  SubscriptionTier,
+} from "@celeb-chat/shared/src/utils/ChatUtils";
 
 export class StripeUtils {
   public static useLiveStripeVersion = process.env.STRIPE_VERSION !== "test";
@@ -12,28 +15,28 @@ export class StripeUtils {
   public static apiKey =
     (this.useLiveStripeVersion ? this.apiKeys.live : this.apiKeys.test) ?? "";
 
-  private static testProductTierIDs = {
-    free: process.env.STRIPE_TEST_PRODUCT_TIER_FREE,
-    two: process.env.STRIPE_TEST_PRODUCT_TIER_TWO,
-    three: process.env.STRIPE_TEST_PRODUCT_TIER_THREE,
+  private static testProductTierIDs: SubScriptionTierMap<string> = {
+    free: "prod_OGMhdZsVZ2guyn",
+    two: "prod_OGMijh5CGBpUEP",
+    three: "prod_OGMiVwyNRt0IEJ",
   };
 
-  private static liveProductTierIDs = {
-    free: process.env.STRIPE_LIVE_PRODUCT_TIER_FREE,
-    two: process.env.STRIPE_LIVE_PRODUCT_TIER_TWO,
-    three: process.env.STRIPE_LIVE_PRODUCT_TIER_THREE,
+  private static liveProductTierIDs: SubScriptionTierMap<string> = {
+    free: "prod_OFSfuJoAPMlEhu",
+    two: "prod_OFUYQShTs22YiG",
+    three: "prod_OFUYketagih4ok",
   };
 
-  private static testPriceTierIDs = {
-    free: process.env.STRIPE_TEST_PRICE_TIER_FREE,
-    two: process.env.STRIPE_TEST_PRICE_TIER_TWO,
-    three: process.env.STRIPE_TEST_PRICE_TIER_THREE,
+  private static testPriceTierIDs: SubScriptionTierMap<string> = {
+    free: "price_1NTpxgIgIBGcrWnuUi0UFjqb",
+    two: "price_1NTpyfIgIBGcrWnuI9yOpieA",
+    three: "price_1NTpzHIgIBGcrWnupchfzckU",
   };
 
-  private static livePriceTierIDs = {
-    free: process.env.STRIPE_LIVE_PRICE_TIER_FREE,
-    two: process.env.STRIPE_LIVE_PRICE_TIER_TWO,
-    three: process.env.STRIPE_LIVE_PRICE_TIER_THREE,
+  private static livePriceTierIDs: SubScriptionTierMap<string> = {
+    free: "price_1NSxkDIgIBGcrWnuVO4AI9X9",
+    two: "price_1NSzZ7IgIBGcrWnu6RXPAL8v",
+    three: "price_1NSzZlIgIBGcrWnuR0qdKEd0",
   };
 
   public static priceTierIDs = this.useLiveStripeVersion

@@ -31,7 +31,7 @@ export const GetChatWithMsgPageMiddleware = Controller<
   const { chatId, marker } = req.body;
   const { error } = new ControllerErrors(res, ChatRequest.Errors);
 
-  const pageSize = parseInt(process.env.PAGINATION_PAGE_SIZE ?? "20");
+  const pageSize = 20;
 
   let newMarker: number;
   let newPageSize: number;
