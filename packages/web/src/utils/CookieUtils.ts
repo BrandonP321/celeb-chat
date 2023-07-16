@@ -25,7 +25,9 @@ export class CookieUtils {
     this.get<ComplianceCookieBody>(this.complianceCookieKey, true);
 
   public static setComplianceCookie = (params: ComplianceCookieBody) =>
-    Cookie.set(this.complianceCookieKey, JSON.stringify(params));
+    Cookie.set(this.complianceCookieKey, JSON.stringify(params), {
+      expires: 365,
+    });
 
   public static setUserHasSeenCookiePopup = () =>
     this.setComplianceCookie({ accepted: true });
