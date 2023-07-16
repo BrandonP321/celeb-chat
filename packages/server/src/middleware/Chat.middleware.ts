@@ -60,7 +60,7 @@ export const GetChatWithMsgHistoryMiddleware = Controller<
 
   res.locals.pageSize = msgHistoryLength;
   getChat(chatId, res, next, {
-    marker: msgHistoryLength,
+    marker: msgHistoryLength * -1,
     pageSize: msgHistoryLength,
   });
 });
