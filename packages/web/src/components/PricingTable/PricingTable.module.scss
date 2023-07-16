@@ -35,7 +35,6 @@ $premiumTierColor: blue;
   width: 23rem;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   margin: 3rem 2rem 0 2rem;
 
   @include mobileVW() {
@@ -107,6 +106,7 @@ $premiumTierColor: blue;
 
   .features {
     background-color: $bodyBgPrimary;
+    border-radius: inherit;
     padding: 2rem;
     flex-grow: 1;
 

@@ -60,7 +60,9 @@ export const CreateChatController = Controller<
   const { description, displayName, customMsg } = req.body;
   const { user, userId, subscriptionTier } = res.locals;
 
-  const validationError = await validateCreateChatFields(req.body);
+  const validationError = await validateCreateChatFields(subscriptionTier)(
+    req.body
+  );
 
   if (validationError) {
     return error.InvalidFieldInput(validationError);
@@ -134,11 +136,11 @@ export const UpdateChatController = Controller<
   ChatResLocals
 >(async (req, res) => {
   const { chatId, ...updates } = req.body;
-  const { chat, user } = res.locals;
+  const { chat, user, subscriptionTier } = res.locals;
 
   const { error } = new ControllerErrors(res, UpdateChatRequest.Errors);
 
-  const validationError = await validateChatUpdates(updates);
+  const validationError = await validateChatUpdates(subscriptionTier)(updates);
 
   if (validationError) {
     return error.InvalidInput(validationError);

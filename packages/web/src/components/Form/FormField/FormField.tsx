@@ -17,6 +17,8 @@ namespace FormField {
     initialValue?: string;
     id?: string;
     required?: boolean;
+    maxLength?: number;
+    charLimitPostText?: string | React.ReactNode | undefined;
     disabled?: boolean;
   }>;
 }
@@ -33,6 +35,8 @@ function FormField(props: FormField.Props) {
     name,
     id,
     required,
+    maxLength,
+    charLimitPostText,
     ...rest
   } = props;
 
@@ -55,39 +59,58 @@ function FormField(props: FormField.Props) {
   const inputId = id ?? name;
   const fieldLabel = required && !isFocused && !value ? `${label}*` : label;
 
+  const showCharsUsed = maxLength && value?.length >= maxLength * 0.75;
+  const hasReachedMaxLength = maxLength && value?.length >= maxLength;
+
   return (
-    <div
-      className={classNames(
-        styles.formFieldWrapper,
-        classes?.root,
-        isFocused && styles.focused,
-        !value && styles.empty,
-        error && styles.error,
-        props.disabled && styles.disabled
+    <div className={classNames(styles.outerWrapper, classes?.root)}>
+      {showCharsUsed && (
+        <p className={styles.charsUsedWrapper}>
+          <span
+            className={classNames(
+              styles.chars,
+              hasReachedMaxLength && styles.max
+            )}
+          >
+            {value?.length} / {maxLength}
+          </span>
+          &nbsp;
+          {charLimitPostText}
+        </p>
       )}
-    >
-      <label
-        className={classNames(styles.label, classes?.label)}
-        htmlFor={inputId}
+      <div
+        className={classNames(
+          styles.formFieldWrapper,
+          isFocused && styles.focused,
+          !value && styles.empty,
+          error && styles.error,
+          props.disabled && styles.disabled
+        )}
       >
-        {fieldLabel}
-      </label>
+        <label
+          className={classNames(styles.label, classes?.label)}
+          htmlFor={inputId}
+        >
+          {fieldLabel}
+        </label>
 
-      <Field
-        {...rest}
-        id={inputId}
-        name={name}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
-          !!onChange && onChange(e.currentTarget.value)
-        }
-        onLoad={(e: any) => console.log({ e })}
-        className={classNames(styles.formField, classes?.input)}
-      />
+        <Field
+          {...rest}
+          id={inputId}
+          name={name}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          maxLength={maxLength}
+          onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
+            !!onChange && onChange(e.currentTarget.value)
+          }
+          onLoad={(e: any) => console.log({ e })}
+          className={classNames(styles.formField, classes?.input)}
+        />
 
-      {error && <p className={styles.errorMsg}>{error}</p>}
-      {hintText && <p className={styles.hintText}>{hintText}</p>}
+        {error && <p className={styles.errorMsg}>{error}</p>}
+        {hintText && <p className={styles.hintText}>{hintText}</p>}
+      </div>
     </div>
   );
 }

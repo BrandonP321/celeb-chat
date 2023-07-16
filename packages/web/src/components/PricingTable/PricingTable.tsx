@@ -36,45 +36,73 @@ export namespace PricingTable {
   };
 }
 
-const subscriptionTiers: SubscriptionTierData[] = [
-  {
-    tier: "free",
-    title: "Explorer Plan",
-    desc: "Your Adventure Begins Here",
-    price: "$0",
-    features: ["Persona maintains a limited degree of conversation history"],
-  },
-  {
-    tier: "two",
-    title: "Journeyman Plan",
-    desc: "Unlock More, Discover More",
-    price: "$5",
-    features: [
-      "Persona maintains an expanded degree of conversation history",
-      "Enhanced level of persona customization",
-    ],
-  },
-  {
-    tier: "three",
-    title: "Zenith Plan",
-    desc: "Peak Experience, No Limits",
-    price: "$9",
-    features: [
-      <>
-        Persona maintains an{" "}
-        <span className={styles.bold}>
-          unrestricted degree of conversation history
-        </span>
-      </>,
-      <>
-        <span className={styles.bold}>Ultimate</span> level of{" "}
-        <span>persona customization</span>
-      </>,
-    ],
-  },
-];
-
 export function PricingTable({ classes }: PricingTable.Props) {
+  const subscriptionTiers: SubscriptionTierData[] = [
+    {
+      tier: "free",
+      title: SubscriptionUtils.getTierName("free"),
+      desc: "Your Adventure Begins Here",
+      price: "$0",
+      features: [
+        <QuestionIconToolTip preText="Persona maintains a limited degree of conversation history">
+          Personas will only retain context of the most recent message sent
+        </QuestionIconToolTip>,
+        <QuestionIconToolTip preText="Basic persona customization">
+          Further customize your persona with a tailored description up to{" "}
+          {ChatUtils.chatDescLength("free")} characters in length
+        </QuestionIconToolTip>,
+      ],
+    },
+    {
+      tier: "two",
+      title: SubscriptionUtils.getTierName("two"),
+      desc: "Unlock More, Discover More",
+      price: "$5",
+      features: [
+        <QuestionIconToolTip preText="Persona maintains an expanded degree of conversation history">
+          Personas will retain context of a modest amount of the most recently
+          sent messages
+        </QuestionIconToolTip>,
+        <QuestionIconToolTip preText="Enhanced level of persona customization">
+          Further customize your persona with a tailored description up to{" "}
+          {ChatUtils.chatDescLength("two")} characters in length
+        </QuestionIconToolTip>,
+      ],
+    },
+    {
+      tier: "three",
+      title: SubscriptionUtils.getTierName("three"),
+      desc: "Peak Experience, No Limits",
+      price: "$9",
+      features: [
+        <QuestionIconToolTip
+          preText={
+            <>
+              Persona maintains an{" "}
+              <span className={styles.bold}>
+                unrestricted degree of conversation history
+              </span>
+            </>
+          }
+        >
+          Personas will retain context of a significant amount of the
+          conversation
+        </QuestionIconToolTip>,
+        <QuestionIconToolTip
+          preText={
+            <>
+              <span className={styles.bold}>Ultimate</span> level of{" "}
+              <span className={styles.bold}>persona customization</span>
+            </>
+          }
+        >
+          Further customize your persona with a tailored description up to{" "}
+          {ChatUtils.chatDescLength("three")} characters in length
+        </QuestionIconToolTip>,
+      ],
+    },
+  ];
+
   const tiers = useMemo(
     () =>
       subscriptionTiers.map((t: SubscriptionTierData) => {
@@ -92,27 +120,43 @@ export function PricingTable({ classes }: PricingTable.Props) {
                 messages up to {ChatUtils.maxMsgCharCount(t.tier)} characters
                 long{" "}
               </span>
-              <QuestionIconToolTip>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </>,
+            <>
+              <QuestionIconToolTip
+                preText={
+                  <>
+                    Maintain{" "}
+                    {maxChats > 1 ? (
+                      <>
+                        up to{" "}
+                        <span className={styles.bold}>{maxChats} chats</span> at
+                        once
+                      </>
+                    ) : (
+                      "a single chat at a time"
+                    )}
+                  </>
+                }
+              >
+                Once you've reached this many chats, you'll have to delete one
+                before creating any more.
               </QuestionIconToolTip>
             </>,
             <>
-              Maintain{" "}
-              {maxChats > 1 ? (
-                <>
-                  up to <span className={styles.bold}>{maxChats} chats</span> at
-                  once
-                </>
-              ) : (
-                "a single chat at a time"
-              )}
-            </>,
-            <>
-              Unlock{" "}
-              <span className={styles.bold}>
-                {maxFeaturedChats ?? "unlimited"} featured chats
-              </span>{" "}
-              each month (coming soon!)
+              <QuestionIconToolTip
+                preText={
+                  <>
+                    Unlock{" "}
+                    <span className={styles.bold}>
+                      {maxFeaturedChats ?? "unlimited"} featured chats
+                    </span>{" "}
+                    each month (coming soon!)
+                  </>
+                }
+              >
+                Featured Personas are special, hand-crafted personas that are
+                exclusively designed by our team.
+              </QuestionIconToolTip>
             </>,
           ],
         };

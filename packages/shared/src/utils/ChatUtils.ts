@@ -21,8 +21,16 @@ export type TChat = Pick<
 export type Message = ChatCompletionResponseMessage & { index: number };
 
 export class ChatUtils {
+  public static nameMaxLength = 50;
+
   public static maxMsgCharCount = (tier: SubscriptionTier = "free") =>
     SubscriptionUtils.maxMsgCharCountMap[tier];
+
+  public static chatDescLength = (tier: SubscriptionTier = "free") =>
+    SubscriptionUtils.chatDescLengthTierMap[tier];
+
+  public static nextTierChatDescLength = (tier: SubscriptionTier = "free") =>
+    this.chatDescLength(SubscriptionUtils.getNextTier(tier));
 
   public static maxChatCount = (tier: SubscriptionTier = "free") =>
     SubscriptionUtils.maxChatTierMap[tier];

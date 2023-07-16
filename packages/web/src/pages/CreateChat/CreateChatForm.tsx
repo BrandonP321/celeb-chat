@@ -9,13 +9,15 @@ import {
   SubmitButton,
 } from "@/Components";
 import { CreateChatSchema } from "@celeb-chat/shared/src/schema";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { APIFetcher } from "utils/APIFetcher";
 import { FormikStringValues, FormikSubmit } from "utils/UtilityTypes";
-import { useAppDispatch } from "@/Hooks";
+import { useAppDispatch, useUser } from "@/Hooks";
 import { Actions } from "@/Slices";
-import { UrlUtils } from "@/Utils";
+import { RouteHelper, UrlUtils } from "@/Utils";
 import { Loc } from "@/Loc";
+import { ChatUtils } from "@celeb-chat/shared/src/utils/ChatUtils";
+import { SubscriptionUtils } from "@celeb-chat/shared/src/utils";
 
 export enum CreateChatField {
   DisplayName = "displayName",
@@ -36,6 +38,7 @@ export default function CreateChatForm({
 }: CreateChatForm.Props) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { user } = useUser();
 
   const handleSubmit: FormikSubmit<CreateChatForm.Values> = async (values) => {
     const { description, displayName, customMsg } = values;
@@ -56,11 +59,17 @@ export default function CreateChatForm({
     [CreateChatField.CustomTrainingMsg]: "",
   };
 
+  const nextTier = SubscriptionUtils.getNextTier(user?.subscriptionTier);
+  const nextTierName = SubscriptionUtils.getTierName(nextTier);
+  const nextTierMaxDescLength = ChatUtils.nextTierChatDescLength(
+    user?.subscriptionTier
+  );
+
   return (
     <FormikFormWrapper
       fields={CreateChatField}
       initialValues={initialValues}
-      validationSchema={CreateChatSchema}
+      validationSchema={CreateChatSchema(user?.subscriptionTier)}
       defaultOnSubmit={handleSubmit}
     >
       <FormikForm
@@ -71,12 +80,25 @@ export default function CreateChatForm({
           name={CreateChatField.DisplayName}
           label={Loc.Common.Name}
           hintText={Loc.Web.CreateChat.NameHintText}
+          maxLength={ChatUtils.nameMaxLength}
           required
         />
         <InputField
           name={CreateChatField.Description}
           label={Loc.Common.Desc}
           hintText={Loc.Web.CreateChat.DescHintText}
+          maxLength={ChatUtils.chatDescLength(user?.subscriptionTier)}
+          charLimitPostText={
+            <>
+              {nextTier && (
+                <>
+                  Upgrade to the{" "}
+                  <Link to={RouteHelper.UserDashboard()}>{nextTierName}</Link>{" "}
+                  to increase this limit to {nextTierMaxDescLength} characters
+                </>
+              )}
+            </>
+          }
         />
 
         {showCustomMsgField && (

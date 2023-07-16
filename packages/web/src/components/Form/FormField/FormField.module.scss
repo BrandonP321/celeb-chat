@@ -2,6 +2,12 @@
 
 $disabledBgColor: hsl(0, 1%, 19%);
 
+.outerWrapper {
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+}
+
 .formFieldWrapper {
   position: relative;
   background-color: $bodyBgPrimary;
@@ -9,10 +15,6 @@ $disabledBgColor: hsl(0, 1%, 19%);
   * {
     font-size: $fontSizeNormal;
     line-height: $lineHeightNormal;
-  }
-
-  &:not(:last-child) {
-    margin-bottom: 1.5rem;
   }
 
   &.focused,
@@ -46,7 +48,13 @@ $disabledBgColor: hsl(0, 1%, 19%);
     }
 
     .label {
-      background: linear-gradient(to top, $disabledBgColor, $disabledBgColor, $bodyBgPrimary, $bodyBgPrimary);
+      background: linear-gradient(
+        to top,
+        $disabledBgColor,
+        $disabledBgColor,
+        $bodyBgPrimary,
+        $bodyBgPrimary
+      );
     }
   }
 }
@@ -60,6 +68,24 @@ $disabledBgColor: hsl(0, 1%, 19%);
 
   &::placeholder {
     color: $textSecondary;
+  }
+}
+
+.charsUsedWrapper {
+  margin-bottom: 0.75rem;
+  padding-left: $inputPadding;
+  color: rgba($textSecondary, 1);
+
+  &,
+  a {
+    font-size: 1rem;
+    line-height: 1.25rem;
+  }
+
+  .chars {
+    &.max {
+      color: $colorDanger;
+    }
   }
 }
 

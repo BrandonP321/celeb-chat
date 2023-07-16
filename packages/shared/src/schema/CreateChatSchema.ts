@@ -6,11 +6,17 @@ import {
 import { SchemaUtils } from "../utils";
 import { CreateChatRequest } from "../api/Requests/chat.requests";
 import { Loc } from "../../loc";
+import { SubscriptionTier } from "../utils/ChatUtils";
 
-export const CreateChatSchema = Yup.object().shape({
-  displayName: chatDisplayNameSchema.required(Loc.Web.Chat.Schema.NameRequired),
-  description: chatDescriptionSchema,
-});
+export const CreateChatSchema = (tier: SubscriptionTier = "free") =>
+  Yup.object().shape({
+    displayName: chatDisplayNameSchema.required(
+      Loc.Web.Chat.Schema.NameRequired
+    ),
+    description: chatDescriptionSchema(tier),
+  });
 
-export const validateCreateChatFields =
-  SchemaUtils.getValidationFunc<CreateChatRequest.ReqBody>(CreateChatSchema);
+export const validateCreateChatFields = (tier: SubscriptionTier = "free") =>
+  SchemaUtils.getValidationFunc<CreateChatRequest.ReqBody>(
+    CreateChatSchema(tier)
+  );

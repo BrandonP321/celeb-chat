@@ -4,17 +4,23 @@ $tooltipBg: hsl(0, 0%, 15%);
 
 .tooltip {
   position: absolute;
+  z-index: 5;
   top: -0.75rem;
   left: 50%;
-  width: 90vw;
-  max-width: 13rem;
+  width: 80vw;
+  max-width: 15rem;
   transform: translate(-50%, -100%);
   background-color: $tooltipBg;
-  padding: 0.5rem;
+  padding: 1rem;
   border-radius: 0.25rem;
   box-shadow: 0 0 1rem 0 rgba(black, 1);
-  border: 2px solid $colorAccentSecondary;
+  border: 1px solid $colorAccentSecondary;
   transition: all 0.25s;
+
+  @include mobileVW() {
+    padding: 0.75rem;
+    max-width: none;
+  }
 
   &.hide {
     opacity: 0;
@@ -47,4 +53,15 @@ $tooltipBg: hsl(0, 0%, 15%);
 
 .tooltipWrapper {
   position: relative;
+  display: inline-block;
+}
+
+.questionIcon {
+  font-size: 1rem;
+  color: $colorAccentPrimary;
+  transition: all 0.2s;
+
+  &:hover {
+    color: hsl(0, 0%, 50%);
+  }
 }

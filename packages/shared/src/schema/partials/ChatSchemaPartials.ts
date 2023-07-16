@@ -1,13 +1,18 @@
 import * as Yup from "yup";
 import { RegexUtils } from "../../utils";
 import { Loc } from "../../../loc";
-
-const nameMaxLength = 30;
-const descMaxLength = 200;
+import { ChatUtils, SubscriptionTier } from "../../utils/ChatUtils";
 
 export const chatDisplayNameSchema = Yup.string()
-  .max(nameMaxLength, Loc.Web.Chat.Schema.NameMaxLength(nameMaxLength))
+  .max(
+    ChatUtils.nameMaxLength,
+    Loc.Web.Chat.Schema.NameMaxLength(ChatUtils.nameMaxLength)
+  )
   .matches(RegexUtils.chatNameRegex, Loc.Web.Chat.Schema.NameRegexMatch);
-export const chatDescriptionSchema = Yup.string()
-  .max(descMaxLength, Loc.Web.Chat.Schema.DescMaxLength(descMaxLength))
-  .matches(RegexUtils.chatDescRegex, Loc.Web.Chat.Schema.NameRegexMatch);
+export const chatDescriptionSchema = (tier: SubscriptionTier) =>
+  Yup.string()
+    .max(
+      ChatUtils.chatDescLength(tier),
+      Loc.Web.Chat.Schema.DescMaxLength(ChatUtils.chatDescLength(tier))
+    )
+    .matches(RegexUtils.chatDescRegex, Loc.Web.Chat.Schema.NameRegexMatch);
