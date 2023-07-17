@@ -27,6 +27,9 @@ export namespace ChatAnimation {
 
 export function ChatAnimation(props: ChatAnimation.Props) {
   const [messages, setMessages] = useState<ChatModel.IndexlessMessage[]>([]);
+  const [personaImg, setPersonaImg] = useState("");
+  const [title, setTitle] = useState("");
+
   const messagesInput = useRef("");
   const msgRefs = useRef<(HTMLElement | null)[]>(
     Array(messages.length).fill(null)
@@ -35,6 +38,7 @@ export function ChatAnimation(props: ChatAnimation.Props) {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(true);
+  const [showOverlay, setShowOverlay] = useState(false);
 
   const translateUp = useCallback(
     (msgIndex: number, currentTranslationPx: number) => {
@@ -94,14 +98,28 @@ export function ChatAnimation(props: ChatAnimation.Props) {
 
   useEffect(() => {
     if (messages.length) {
+      setShowOverlay(true);
+
       setTimeout(() => {
-        translateUp(0, -16);
-      }, 1000);
+        setShowOverlay(false);
+
+        setTimeout(() => {
+          translateUp(0, -16);
+        }, 1250);
+      }, 5000);
     }
   }, [messages, translateUp]);
 
   return (
     <ScrollablePage withFooter={false} className={styles.page}>
+      <div className={classNames(styles.overlay, !showOverlay && styles.hide)}>
+        <div
+          className={styles.img}
+          style={{ backgroundImage: `url(${personaImg})` }}
+        />
+        <p className={styles.title}>{title}</p>
+      </div>
+
       <AnimationMsgBar text={text} timeToPrintText={500} loading={loading} />
       <div
         className={styles.messages}
@@ -118,6 +136,8 @@ export function ChatAnimation(props: ChatAnimation.Props) {
       <Formik
         initialValues={{
           messages: "",
+          title: "",
+          image: "",
         }}
         onSubmit={() => {}}
       >
@@ -147,6 +167,16 @@ export function ChatAnimation(props: ChatAnimation.Props) {
               name="messages"
               label="Messages"
               onChange={(v) => (messagesInput.current = v)}
+            />
+            <InputField
+              name="title"
+              label="Title"
+              onChange={(v) => setTitle(v)}
+            />
+            <InputField
+              name="image"
+              label="Image"
+              onChange={(v) => setPersonaImg(v)}
             />
           </Form>
         </SaveModal>
