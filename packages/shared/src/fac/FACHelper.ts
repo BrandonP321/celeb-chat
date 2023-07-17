@@ -2,7 +2,7 @@ const allowedAccounts: string[] = [
   "bphillips@personaverse.com",
   "dsandbak@personaverse.com",
   "sandbak15@gmail.com",
-  "brandon.phillips@bhillips.dev",
+  "brandon.phillips@bphillips.dev",
   "gpiampanichwat@gmail.com",
 ];
 
