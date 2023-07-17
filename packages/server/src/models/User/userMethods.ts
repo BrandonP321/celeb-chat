@@ -239,7 +239,6 @@ const updateVerificationRequest: UserModel.InstanceMethods["updateVerificationRe
 const sendVerificationEmail: UserModel.InstanceMethods["sendVerificationEmail"] =
   async function () {
     const { encodedHash } = await this.updateVerificationRequest();
-    console.log(this.id);
 
     Mailer.sendEmailVerificationEmail({
       to: this.email,

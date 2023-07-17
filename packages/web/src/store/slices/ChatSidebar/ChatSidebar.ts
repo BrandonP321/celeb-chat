@@ -19,7 +19,6 @@ const chatSidebarSlice = createSlice({
       state.show = false;
     },
     toggle: (state) => {
-      console.log(state.show);
       state.show = !state.show;
     },
   },

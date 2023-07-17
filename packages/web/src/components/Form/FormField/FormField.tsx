@@ -104,7 +104,6 @@ function FormField(props: FormField.Props) {
           onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
             !!onChange && onChange(e.currentTarget.value)
           }
-          onLoad={(e: any) => console.log({ e })}
           className={classNames(styles.formField, classes?.input)}
         />
 

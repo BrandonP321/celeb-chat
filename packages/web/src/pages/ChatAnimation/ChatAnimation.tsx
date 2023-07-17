@@ -94,7 +94,6 @@ export function ChatAnimation(props: ChatAnimation.Props) {
 
   useEffect(() => {
     if (messages.length) {
-      console.log(messages);
       setTimeout(() => {
         translateUp(0, -16);
       }, 1000);
