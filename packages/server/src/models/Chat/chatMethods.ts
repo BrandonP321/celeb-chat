@@ -63,7 +63,7 @@ const getTrainingMsg: ChatModel.InstanceMethods["getTrainingMsg"] =
   async function (user) {
     const displayName = (await user.getChatJSON(this.id))?.displayName ?? "";
 
-    if (this.customMsg && isCustomTrainingEnabled(user)) {
+    if (this.customMsg && isCustomTrainingEnabled(user?.email)) {
       const msg = this.customMsg
         .replace(/{{name}}/g, displayName)
         .replace(/{{desc}}/g, this.description ?? "");

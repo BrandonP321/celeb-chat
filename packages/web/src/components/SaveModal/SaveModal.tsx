@@ -21,7 +21,7 @@ function SaveModal(props: SaveModal.Props) {
   const {
     saveBtnText = Loc.Common.Save,
     savingBtnText = Loc.Common.Saving,
-    saveBtnVariant = "primary",
+    saveBtnVariant = "primaryGradient",
     saving,
     onSave,
     cancelBtnText = Loc.Common.Cancel,

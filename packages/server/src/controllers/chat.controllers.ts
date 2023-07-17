@@ -77,7 +77,7 @@ export const CreateChatController = Controller<
     ownerId: userId,
   };
 
-  if (isCustomTrainingEnabled(user) && customMsg) {
+  if (isCustomTrainingEnabled(user.email) && customMsg) {
     newChat.customMsg = customMsg;
   }
 

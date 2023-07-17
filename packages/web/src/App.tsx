@@ -13,6 +13,7 @@ import {
   PageNotFound,
   PrivacyPolicy,
   TermsAndConditions,
+  ChatAnimation,
 } from "@/Pages";
 import {
   EmailBody,
@@ -30,11 +31,13 @@ import { useUser } from "@/Hooks";
 import styles from "./App.module.scss";
 import ReactGA from "react-ga4";
 import { EmailVerification } from "./pages/EmailVerification/EmailVerification";
+import { FACHelper } from "@celeb-chat/shared/src/fac/FACHelper";
 
 ReactGA.initialize("G-V0DL9827RG");
 
 function App() {
   const { isFetching } = useUser({ fetchIfNotExists: true });
+  const { user } = useUser();
 
   useEffect(() => {
     Responsive.startDataStoreListeners();
@@ -80,6 +83,10 @@ function App() {
               path="/_dev/chat/new"
               element={<CreateChat withCustomMsg />}
             />
+
+            {FACHelper.isAllowedAccount(user?.email) && (
+              <Route path="/chat/animation" element={<ChatAnimation />} />
+            )}
 
             <Route path="/chat/:chatId/edit" element={<EditChat />} />
             <Route path="/chat/:chatId" element={<Chat />} />

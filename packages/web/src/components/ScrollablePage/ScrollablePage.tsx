@@ -18,7 +18,7 @@ export function ScrollablePage({
   return (
     <div className={styles.page}>
       <div className={classNames(styles.content, className)}>{children}</div>
-      <MainFooter />
+      {withFooter && <MainFooter />}
     </div>
   );
 }

@@ -10,3 +10,4 @@ export * from "./ChatHome/ChatHome";
 export * from "./PageNotFound/PageNotFound";
 export * from "./Legal/PrivacyPolicy";
 export * from "./Legal/TermsAndConditions";
+export * from "./ChatAnimation/ChatAnimation";

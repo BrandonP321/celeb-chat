@@ -1,0 +1,267 @@
+@import "../../styles/uiBase.scss";
+
+.page {
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 0;
+  overflow: hidden;
+}
+
+$inputFontSize: 1.2rem;
+$inputLineHeight: 1.5rem;
+$inputVerticalPadding: 0.5rem;
+$inputHorizontalPadding: 1rem;
+$defaultFormHeight: calc(
+  $inputLineHeight + (($inputVerticalPadding + 2px) * 2)
+);
+$maxInputHeight: calc(
+  ($inputLineHeight * 5) + (($inputVerticalPadding + 2px) * 2)
+);
+
+.input,
+.inputWrapper {
+  font-size: $inputFontSize;
+  line-height: $inputLineHeight;
+}
+
+.inputWrapper,
+.sendBtn {
+  min-width: 0;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  min-height: $defaultFormHeight;
+  max-height: $maxInputHeight;
+  padding: $inputVerticalPadding $inputHorizontalPadding;
+  margin-right: 1rem;
+  border: 2px solid $primaryHover;
+  border-radius: 0.5rem;
+  pointer-events: none;
+  background-color: $bodyBgPrimary;
+  color: transparent;
+  word-wrap: break-word;
+  flex: 1 1 0;
+  transition: all 0.15s;
+
+  // This unique handling avoids weird jumps in the UI as textarea grows
+  &::after {
+    content: attr(data-replicated-value) " ";
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  &.focused {
+    border-color: $colorAccentPrimary;
+  }
+}
+
+.input {
+  position: absolute;
+  top: $inputVerticalPadding;
+  right: 0;
+  left: 0;
+  padding: 0 $inputHorizontalPadding;
+  bottom: $inputVerticalPadding;
+  min-height: $inputLineHeight;
+  resize: none;
+  color: $textPrimary;
+  pointer-events: all;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.sendBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 0 1rem;
+  height: $defaultFormHeight;
+  width: $defaultFormHeight;
+  transition: all 0.2s;
+
+  .icon {
+  }
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  transition: all 0.5s;
+
+  .msg {
+    position: relative;
+    margin-bottom: 20px;
+    max-width: 70%;
+    background: ColorAccentPrimaryGradient();
+    border-radius: 2px 0.75rem 0.75rem 0.75rem;
+    overflow-wrap: break-word;
+    padding: 0.75rem;
+    align-self: flex-start;
+
+    @include tinyVW() {
+      max-width: 85%;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.user {
+      background: ColorAccentSecondaryGradient(to bottom left);
+      border-radius: 0.75rem 2px 0.75rem 0.75rem;
+      align-self: flex-end;
+      text-align: right;
+
+      .options {
+        left: auto;
+        right: 0;
+        transform: translate(50%, -50%);
+      }
+    }
+
+    &:hover {
+      @include nonTouchDevice() {
+        .options {
+          opacity: 1;
+          pointer-events: all;
+        }
+      }
+    }
+
+    .options {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      $btnWidth: 1.5rem;
+      width: $btnWidth;
+      height: $btnWidth;
+
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      background-color: $bodyBgPrimary;
+      border: 1px solid $primaryHover;
+      box-shadow: 0 0 0.25rem rgba(black, 0.75);
+      transition: 0.2s background-color;
+
+      &:hover {
+        background-color: $primaryHover;
+      }
+
+      .icon {
+      }
+    }
+  }
+}
+
+.pageMain {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  position: relative;
+  padding-bottom: 0;
+
+  * {
+    overflow-anchor: none;
+  }
+}
+
+.stickyInputWrapper {
+  position: sticky;
+  bottom: 0;
+  top: 0;
+  padding-top: 0.5rem;
+  z-index: 10;
+}
+
+.form {
+}
+
+.formLowerContent {
+  display: flex;
+  align-items: flex-end;
+  background-color: $bodyBgPrimary;
+  padding-bottom: 1rem;
+}
+
+.formUpperContent {
+  padding: 1rem 0 0.25rem 0;
+  background: linear-gradient(
+    to top,
+    $bodyBgPrimary,
+    rgba($bodyBgPrimary, 0.75),
+    transparent
+  );
+}
+
+.scrollableContentWrapper {
+  max-width: 50rem;
+  width: 100%;
+
+  &.empty {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.firstMsgNotice {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+  flex-grow: 1;
+
+  .desc {
+    text-align: center;
+  }
+}
+
+.scrollingAnchor {
+  overflow-anchor: auto;
+  height: 1px;
+}
+
+.loadMoreMsgs {
+  align-self: center;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: $textSecondary;
+  transition: all 0.2s;
+
+  &:hover {
+    color: $textPrimary;
+  }
+
+  .spinner {
+    font-size: 1rem;
+  }
+}
+
+.msgCharCount {
+  padding-left: $inputHorizontalPadding;
+  font-size: 0.9rem;
+  color: $textSecondary;
+  opacity: 0;
+  pointer-events: none;
+
+  &.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &.max {
+    color: $colorDanger;
+  }
+}
