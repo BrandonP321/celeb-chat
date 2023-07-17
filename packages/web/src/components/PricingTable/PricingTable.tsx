@@ -182,7 +182,6 @@ export function PricingTable({ classes }: PricingTable.Props) {
 
 type SubscriptionItemProps = SubscriptionTierData & {
   isTest?: boolean;
-  user?: GetUserRequest.Response;
 };
 
 const SubscriptionItem = (props: SubscriptionItemProps) => {
@@ -220,7 +219,12 @@ const SubscriptionItem = (props: SubscriptionItemProps) => {
         </div>
 
         <ButtonsWrapper align={BtnAlign.Left}>
-          {user && <StripePortalButton tier={tier} withSheen={showBtnSheen} />}
+          {user && user?.isEmailVerified && (
+            <StripePortalButton tier={tier} withSheen={showBtnSheen} />
+          )}
+          {user && !user?.isEmailVerified && (
+            <Button disabled>Verify email to subscribe</Button>
+          )}
           {!user && (
             <ButtonLink {...btnProps} to={RouteHelper.UserDashboard()} />
           )}

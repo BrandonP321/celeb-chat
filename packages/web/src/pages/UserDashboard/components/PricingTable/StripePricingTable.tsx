@@ -65,7 +65,7 @@ export const VerifyEmailAlert = () => {
   return (
     <Alert
       type="warning"
-      title="Email not verified"
+      title="Email Verification Required for Subscription"
       classes={{ root: styles.emailAlert }}
     >
       <div className={styles.emailAlertBody}>

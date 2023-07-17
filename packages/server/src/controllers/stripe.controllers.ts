@@ -156,9 +156,14 @@ export const CreateCheckoutSessionController = Controller<
 >(async (req, res) => {
   const { returnUrl, tier = "free" } = req.body;
   const { user } = res.locals;
+  const { error } = new ControllerErrors(res, DefaultErrors.Errors);
 
   if (user.stripeCustomerId) {
     return res.json({}).end();
+  } else if (!user.isEmailVerified) {
+    return error.InternalServerError(
+      "You must verify your email before subscribing"
+    );
   }
 
   const stripe = new Stripe(StripeUtils.apiKey, { apiVersion: "2022-11-15" });
