@@ -20,17 +20,58 @@
   flex-direction: column;
   align-items: center;
   background-color: $bodyBgPrimary;
-  transition: all 0.5s;
+  transition: opacity 0.5s;
   padding: 1rem 1rem 5rem 1rem;
 
   &.hide {
     opacity: 0;
     pointer-events: none;
+
+    .imgWrapper {
+      transform: scale(1.2);
+    }
+  }
+
+  & > * {
+    opacity: 0;
+  }
+
+  &.ready > * {
+    opacity: 1;
+
+    &.imgWrapper {
+      box-shadow: 0 0 2rem rgba(black, 0.8), inset 0 0 0.5rem rgba(black, 0.5);
+    }
+  }
+
+  .imgWrapper {
+    position: relative;
+    width: 16rem;
+    height: 16rem;
+    border-radius: 50%;
+    padding: 3px;
+    transition: transform 0.5s;
+  }
+
+  .imgBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: linear-gradient(
+      to bottom,
+      $colorAccentSecondary,
+      $colorAccentSecondaryDark
+    );
+    animation: Spin 1s ease-out infinite;
+    // background: ColorAccentSecondaryGradient();
   }
 
   .img {
-    width: 12rem;
-    height: 12rem;
+    position: relative;
+    height: 100%;
     background-size: 100% auto;
     background-position: center;
     background-repeat: no-repeat;

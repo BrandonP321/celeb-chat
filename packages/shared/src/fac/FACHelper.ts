@@ -2,6 +2,8 @@ const allowedAccounts: string[] = [
   "bphillips@personaverse.com",
   "dsandbak@personaverse.com",
   "sandbak15@gmail.com",
+  "brandon.phillips@bhillips.dev",
+  "gpiampanichwat@gmail.com",
 ];
 
 export class FACHelper {

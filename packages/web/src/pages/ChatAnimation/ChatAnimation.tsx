@@ -25,10 +25,15 @@ export namespace ChatAnimation {
   export type Props = {};
 }
 
+const tempMessages = `["Hello, how are you today?", "Could be worse, just chugging along.  How about you?", "Can't complain, just losing sleep working on this app", "Well this app is getting close to being finished!"]`;
+const tempImg =
+  "https://cdn.discordapp.com/attachments/995431274267279440/1130295330865414164/PeaceKeeper4000_Dumbledore_on_a_dimly_lit_solid_color_backdrop__1fda31b0-ec0e-40cf-8af3-145a52bb08be.png";
+const tempTitle = "Dumbledore";
+
 export function ChatAnimation(props: ChatAnimation.Props) {
   const [messages, setMessages] = useState<ChatModel.IndexlessMessage[]>([]);
-  const [personaImg, setPersonaImg] = useState("");
-  const [title, setTitle] = useState("");
+  const [personaImg, setPersonaImg] = useState(tempImg);
+  const [title, setTitle] = useState(tempTitle);
 
   const messagesInput = useRef("");
   const msgRefs = useRef<(HTMLElement | null)[]>(
@@ -39,12 +44,19 @@ export function ChatAnimation(props: ChatAnimation.Props) {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(true);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [ready, setReady] = useState(false);
 
   const translateUp = useCallback(
     (msgIndex: number, currentTranslationPx: number) => {
       const ele = msgRefs.current?.[msgIndex];
 
       if (msgIndex > messages.length - 1 || !ele) {
+        setTimeout(() => {
+          setReady(false);
+          setShowOverlay(false);
+          setShowModal(true);
+          setMsgsPxTranslate(-16);
+        }, 3000);
         return;
       }
 
@@ -101,6 +113,10 @@ export function ChatAnimation(props: ChatAnimation.Props) {
       setShowOverlay(true);
 
       setTimeout(() => {
+        setReady(true);
+      }, 2500);
+
+      setTimeout(() => {
         setShowOverlay(false);
 
         setTimeout(() => {
@@ -112,11 +128,20 @@ export function ChatAnimation(props: ChatAnimation.Props) {
 
   return (
     <ScrollablePage withFooter={false} className={styles.page}>
-      <div className={classNames(styles.overlay, !showOverlay && styles.hide)}>
-        <div
-          className={styles.img}
-          style={{ backgroundImage: `url(${personaImg})` }}
-        />
+      <div
+        className={classNames(
+          styles.overlay,
+          !showOverlay && styles.hide,
+          ready && styles.ready
+        )}
+      >
+        <div className={styles.imgWrapper}>
+          <div className={styles.imgBg} />
+          <div
+            className={styles.img}
+            style={{ backgroundImage: `url(${personaImg})` }}
+          />
+        </div>
         <p className={styles.title}>{title}</p>
       </div>
 
@@ -135,9 +160,9 @@ export function ChatAnimation(props: ChatAnimation.Props) {
       </div>
       <Formik
         initialValues={{
-          messages: "",
-          title: "",
-          image: "",
+          messages: tempMessages,
+          title: tempTitle,
+          image: tempImg,
         }}
         onSubmit={() => {}}
       >
@@ -148,7 +173,8 @@ export function ChatAnimation(props: ChatAnimation.Props) {
           onSave={() => {
             setShowModal(false);
             try {
-              const parsed: string[] = JSON.parse(messagesInput.current);
+              const parsed: string[] = JSON.parse(tempMessages);
+              // const parsed: string[] = JSON.parse(messagesInput.current);
               setMessages(
                 parsed.map((p, i) => ({
                   content: p,
