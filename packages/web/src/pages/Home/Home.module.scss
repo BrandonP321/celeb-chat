@@ -14,6 +14,35 @@
   }
 }
 
+.contentWrapper {
+  width: 90%;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 0;
+}
+.title {
+  font-size: 2.5rem;
+
+  @include mobileVW() {
+    font-size: 1.5rem;
+  }
+}
+
+.desc {
+  text-align: center;
+}
+
+.desc,
+.blurb {
+  @include notMobileVW() {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+  }
+}
+
 .homeSection,
 .desktopImg {
   background-size: 100% auto;
@@ -28,22 +57,18 @@ $sectionSidePadding: 7rem;
   align-items: center;
   justify-content: space-between;
 
+  @include mobileVW() {
+    margin-bottom: 5rem;
+  }
+
   @include notMobileVW() {
     width: 90%;
-    margin: 0 auto;
+    margin: 0 auto 10rem auto;
   }
 
   @include mobileVW() {
-    padding-top: 67%;
+    padding-top: 100%;
     background-position: top;
-  }
-
-  &:not(:last-child) {
-    margin-bottom: 10rem;
-
-    @include mobileVW() {
-      margin-bottom: 5rem;
-    }
   }
 
   &.alignImageLeft {
@@ -60,10 +85,12 @@ $sectionSidePadding: 7rem;
   }
 
   .desktopImgWrapper {
-    // width: 50%;
-    // max-width: 20rem;
-    width: 30rem;
+    width: 40rem;
     flex-shrink: 0;
+
+    @include largeVW() {
+      width: 50%;
+    }
 
     @include mobileVW() {
       display: none;
@@ -71,7 +98,7 @@ $sectionSidePadding: 7rem;
 
     .desktopImg {
       // TODO: Make padding specific to each section
-      padding-top: 67%;
+      padding-top: 96%;
     }
   }
 
@@ -92,25 +119,56 @@ $sectionSidePadding: 7rem;
 
     .blurb {
       margin: 0.5rem 0 1rem 0;
+      max-width: 60rem;
     }
   }
 }
 
 .hero {
-  background-color: black;
+  position: relative;
+  background: linear-gradient(to bottom, $bodyBgPrimary, hsl(0, 0%, 6%));
   padding: 15rem 0 15rem 0;
   margin-bottom: 5rem;
 
   @include mobileVW() {
-    padding: 70% 0 2rem 0;
+    margin-bottom: 3rem;
+    padding: 100% 0 2rem 0;
+  }
+
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("https://personaverse.com/appLogo.svg");
+    background-position: right 19% top 50%;
+    background-size: auto 90%;
+    background-repeat: no-repeat;
+
+    @include largeVW() {
+      background-position: right 5% top 50%;
+    }
+
+    @include mobileVW() {
+      background-size: 73% auto;
+      background-position: top 10% right 50%;
+    }
   }
 
   .inner {
     width: 90%;
     margin: 0 auto;
+    position: relative;
   }
 
   .content {
+    width: 50%;
+
+    @include mobileVW() {
+      width: 100%;
+    }
+
     h1 {
       font-size: 3.5rem;
       line-height: 3.75rem;
@@ -129,12 +187,26 @@ $sectionSidePadding: 7rem;
     .blurb {
       font-size: 2rem;
       line-height: 2.25rem;
+      margin-top: 0.25rem;
+      color: $colorAccentSecondary;
 
       @include largeVW() {
         font-size: 1.5rem;
         line-height: 1.75rem;
       }
     }
+  }
+}
+
+.startChattingCta {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+
+  @include mobileVW() {
+    width: 100%;
   }
 }
 

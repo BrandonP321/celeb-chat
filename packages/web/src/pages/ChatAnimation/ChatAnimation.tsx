@@ -25,7 +25,7 @@ export namespace ChatAnimation {
   export type Props = {};
 }
 
-const tempMessages = `["Hello, how are you today?", "Could be worse, just chugging along.  How about you?", "Can't complain, just losing sleep working on this app", "Well this app is getting close to being finished!"]`;
+const tempMessages = `["When will we finally colonize Mars?", "I aim to see a thriving and self-sustaining colony on the Red Planet within the next 10 to 20 years, if all goes according to plan.", "Do you think we'll find any aliens?", "It's an exciting prospect, to say the least!"]`;
 const tempImg =
   "https://cdn.discordapp.com/attachments/995431274267279440/1130295330865414164/PeaceKeeper4000_Dumbledore_on_a_dimly_lit_solid_color_backdrop__1fda31b0-ec0e-40cf-8af3-145a52bb08be.png";
 const tempTitle = "Dumbledore";

@@ -87,6 +87,13 @@
     );
   }
 
+  &.secondaryGradient {
+    @include ButtonGradientColorScheme(
+      linear-gradient(to bottom left, #fba672, #664348),
+      ColorAccentPrimaryDisabledGradient()
+    );
+  }
+
   &.danger {
     @include ButtonGradientColorScheme(
       ColorDangerGradient(),
