@@ -36,17 +36,7 @@ export function Home(props: Home.Props) {
           heading="Discover Your PersonaVerse!"
           blurb="Dive into endless conversations with iconic personas. From historical figures to pop culture icons, you choose who to chat with. At PersonaVerse, the conversation universe is yours to explore!"
         >
-          <ButtonsWrapper align={!mobile ? BtnAlign.Left : BtnAlign.Right}>
-            <ButtonLink
-              to={RouteHelper.Chats()}
-              classes={{ root: styles.startChattingCta }}
-              variant="secondaryGradient"
-              rightIcon={faComments}
-              withSheen
-            >
-              Create your first chat now
-            </ButtonLink>
-          </ButtonsWrapper>
+          {/* <CreateChatCTA /> */}
         </HomeSection>
       </div>
 
@@ -66,6 +56,24 @@ export function Home(props: Home.Props) {
   );
 }
 
+const CreateChatCTA = () => {
+  const { mobile } = useResponsive();
+
+  return (
+    <ButtonsWrapper align={!mobile ? BtnAlign.Left : BtnAlign.Right}>
+      <ButtonLink
+        to={RouteHelper.Chats()}
+        classes={{ root: styles.startChattingCta }}
+        variant="secondaryGradient"
+        rightIcon={faComments}
+        withSheen
+      >
+        Create your first chat now
+      </ButtonLink>
+    </ButtonsWrapper>
+  );
+};
+
 const HomeHero = () => {
   return (
     <div className={styles.hero}>
@@ -74,6 +82,7 @@ const HomeHero = () => {
         <div className={styles.content}>
           <h1>Welcome to PersonaVerse</h1>
           <p className={styles.blurb}>Chat Reimagined</p>
+          <CreateChatCTA />
         </div>
       </div>
     </div>

@@ -92,6 +92,9 @@
       linear-gradient(to bottom left, #fba672, #664348),
       ColorAccentPrimaryDisabledGradient()
     );
+
+    color: $bodyBgPrimary;
+    font-weight: bold;
   }
 
   &.danger {

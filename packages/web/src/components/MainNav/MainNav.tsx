@@ -63,6 +63,7 @@ function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
 
       {showChatNavLink && (
         <ButtonLink
+          // variant="secondaryGradient"
           to={!!user ? RouteHelper.Chats() : RouteHelper.Login()}
           rightIcon={!!user ? faMessage : faUser}
           style={{ fontSize: "1rem" }}

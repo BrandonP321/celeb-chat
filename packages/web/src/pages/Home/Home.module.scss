@@ -177,11 +177,6 @@ $sectionSidePadding: 7rem;
         font-size: 2.5rem;
         line-height: 2.75rem;
       }
-
-      @include mobileVW() {
-        font-size: 2rem;
-        line-height: 2.25rem;
-      }
     }
 
     .blurb {
@@ -201,9 +196,7 @@ $sectionSidePadding: 7rem;
 .startChattingCta {
   padding: 0.75rem 1.5rem;
   font-size: 1.25rem;
-  font-weight: bold;
   margin-top: 1rem;
-  text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
 
   @include mobileVW() {
     width: 100%;
