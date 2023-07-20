@@ -7,6 +7,7 @@ import {
   Button,
   ButtonLink,
   ButtonsWrapper,
+  FeaturedPersonasCarousel,
   PageHeader,
   PricingTable,
   ScrollablePage,
@@ -31,6 +32,7 @@ export function Home(props: Home.Props) {
       <HomeHero />
 
       <div>
+        <FeaturedPersonasCarousel />
         <HomeSection
           image="/elon_chat.png"
           heading="Discover Your PersonaVerse!"

@@ -1,0 +1,75 @@
+@import "../../styles/uiBase.scss";
+
+.outerWrapper {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    z-index: 1;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10rem;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, $bodyBgPrimary, transparent);
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, $bodyBgPrimary, transparent);
+  }
+}
+
+.carousel {
+  position: relative;
+  margin-bottom: 5rem;
+  max-width: 30rem;
+  margin: 0 auto;
+
+  .slidesWrapper {
+    width: 100%;
+    display: flex;
+    transition: all 0.5s;
+  }
+}
+
+.slide {
+  border: 2px solid black;
+  flex-shrink: 0;
+  width: 100%;
+  height: 20rem;
+  background-color: red;
+
+  &.current {
+  }
+}
+
+.carouselArrow {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $primaryHover;
+  border-radius: 50%;
+  transition: all 0.25s;
+
+  &.right {
+    left: auto;
+    right: 1rem;
+  }
+
+  &:disabled {
+    opacity: 0.25;
+  }
+}
