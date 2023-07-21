@@ -1,12 +1,7 @@
 import React from "react";
 import styles from "./MainNav.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faComments,
-  faMessage,
-  faUser,
-} from "@fortawesome/pro-solid-svg-icons";
+import { faBars, faComments, faUser } from "@fortawesome/pro-solid-svg-icons";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useChat, useChatSidebar, useUser } from "@/Hooks";
