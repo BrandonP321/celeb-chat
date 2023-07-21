@@ -22,17 +22,35 @@
 
 .header {
   margin-bottom: 0;
+
+  &.spotlight {
+    @include notMobileVW() {
+      margin-bottom: 2rem;
+    }
+  }
 }
+
 .title {
   font-size: 2.5rem;
 
   @include mobileVW() {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 }
 
 .desc {
   text-align: center;
+}
+
+.centeredHeader {
+  .blurb {
+    max-width: 60rem;
+    margin: 0 auto;
+
+    text-align: center;
+    @include notMobileVW() {
+    }
+  }
 }
 
 .desc,
@@ -207,4 +225,12 @@ $sectionSidePadding: 7rem;
   margin: 5rem 0;
   width: 90%;
   margin: 0 auto;
+}
+
+.featuredCarousel {
+  margin-bottom: 5rem;
+
+  &:last-child {
+    margin-bottom: 5rem;
+  }
 }

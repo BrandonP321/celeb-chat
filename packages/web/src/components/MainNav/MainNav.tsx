@@ -1,7 +1,12 @@
 import React from "react";
 import styles from "./MainNav.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faMessage, faUser } from "@fortawesome/pro-solid-svg-icons";
+import {
+  faBars,
+  faComments,
+  faMessage,
+  faUser,
+} from "@fortawesome/pro-solid-svg-icons";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useChat, useChatSidebar, useUser } from "@/Hooks";
@@ -65,7 +70,7 @@ function MainNav({ showChatNavLink, withChatSidebar }: MainNav.Props) {
         <ButtonLink
           // variant="secondaryGradient"
           to={!!user ? RouteHelper.Chats() : RouteHelper.Login()}
-          rightIcon={!!user ? faMessage : faUser}
+          rightIcon={!!user ? faComments : faUser}
           style={{ fontSize: "1rem" }}
           classes={{ root: styles.chatBtn }}
         >

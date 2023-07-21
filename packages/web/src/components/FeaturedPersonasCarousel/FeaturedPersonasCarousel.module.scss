@@ -2,26 +2,38 @@
 
 .outerWrapper {
   position: relative;
+  overflow-x: hidden;
 
-  &::before,
-  &::after {
-    content: "";
-    z-index: 1;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 10rem;
+  @include notMobileVW() {
+    &::before,
+    &::after {
+      content: "";
+      z-index: 1;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 10rem;
+    }
+
+    &::before {
+      left: 0;
+      background: linear-gradient(to right, $bodyBgPrimary, transparent);
+    }
+
+    &::after {
+      right: 0;
+      background: linear-gradient(to left, $bodyBgPrimary, transparent);
+    }
   }
+}
 
-  &::before {
-    left: 0;
-    background: linear-gradient(to right, $bodyBgPrimary, transparent);
-  }
+.upperContent {
+  position: relative;
 
-  &::after {
-    right: 0;
-    background: linear-gradient(to left, $bodyBgPrimary, transparent);
+  @include mobileVW() {
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -29,6 +41,8 @@
   position: relative;
   margin-bottom: 5rem;
   max-width: 30rem;
+  min-width: 0;
+  width: 100%;
   margin: 0 auto;
 
   .slidesWrapper {
@@ -39,37 +53,152 @@
 }
 
 .slide {
-  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   flex-shrink: 0;
   width: 100%;
-  height: 20rem;
-  background-color: red;
+  padding: 2rem 0 0 0;
+  transform: scale(0.8);
+  opacity: 0.6;
+  transition: all 0.5s;
+
+  @include mobileVW() {
+    opacity: 0;
+  }
 
   &.current {
+    transform: scale(1);
+    opacity: 1;
+
+    .imgWrapper::before {
+      opacity: 1;
+    }
+  }
+
+  .imgWrapper {
+    position: relative;
+    width: 70%;
+    max-width: 20rem;
+    padding: 0.25rem;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.3;
+      background: linear-gradient(
+        to bottom right,
+        $colorAccentSecondary,
+        $colorAccentSecondaryDark
+      );
+      border-radius: 50%;
+      transition: all 0.5s;
+    }
+  }
+
+  .img {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+  }
+
+  .name {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 1.5rem;
   }
 }
 
 .carouselArrow {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 1rem;
-  transform: translateY(-50%);
-  width: 5rem;
-  height: 5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: $primaryHover;
-  border-radius: 50%;
+  background-color: $bodyBgPrimary;
+  z-index: 2;
   transition: all 0.25s;
+  border: 2px solid hsl(0, 0%, 15%);
 
-  &.right {
-    left: auto;
-    right: 1rem;
+  @include notMobileVW() {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    width: 5rem;
+    height: 5rem;
+    box-shadow: 0 0 1rem 0 rgba(black, 0.75);
+    border-radius: 50%;
+
+    &.right {
+      left: auto;
+      right: 1rem;
+    }
+  }
+
+  @include mobileVW() {
+    position: relative;
+    flex-shrink: 0;
+    padding: 1.5rem 0.5rem;
+    margin: 0 0.5rem;
+    border-radius: 0.25rem;
+    border: none;
+    background-color: transparent;
+
+    .icon {
+      font-size: 1.5rem;
+    }
+  }
+
+  &:hover:not(:disabled) {
+    .icon {
+      opacity: 1;
+    }
   }
 
   &:disabled {
     opacity: 0.25;
+  }
+
+  .icon {
+    opacity: 0.5;
+    font-size: 2rem;
+    transition: all 0.2s;
+
+    @include mobileVW() {
+      opacity: 0.9;
+    }
+  }
+}
+
+$paginatorWidth: 0.5rem;
+
+.paginators {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+
+  .pip {
+    width: $paginatorWidth;
+    height: $paginatorWidth;
+    border-radius: 50%;
+    background-color: rgba(white, 0.5);
+    transition: all 0.5s;
+
+    &:not(:last-child) {
+      margin-right: 0.5rem;
+    }
+
+    &.current {
+      background-color: white;
+    }
   }
 }

@@ -7,6 +7,7 @@ import {
   Button,
   ButtonLink,
   ButtonsWrapper,
+  FeaturedPersona,
   FeaturedPersonasCarousel,
   PageHeader,
   PricingTable,
@@ -22,6 +23,16 @@ export namespace Home {
   export type Props = {};
 }
 
+const tempImg =
+  "https://cdn.discordapp.com/attachments/995431274267279440/1130295330865414164/PeaceKeeper4000_Dumbledore_on_a_dimly_lit_solid_color_backdrop__1fda31b0-ec0e-40cf-8af3-145a52bb08be.png";
+
+const featuredPersonas: FeaturedPersona[] = [
+  { name: "Persona 1", img: tempImg },
+  { name: "Persona 2", img: tempImg },
+  { name: "Persona 3", img: tempImg },
+  { name: "Persona 4", img: tempImg },
+];
+
 export function Home(props: Home.Props) {
   const { mobile } = useResponsive();
 
@@ -32,7 +43,28 @@ export function Home(props: Home.Props) {
       <HomeHero />
 
       <div>
-        <FeaturedPersonasCarousel />
+        <div className={styles.contentWrapper}>
+          <PageHeader
+            classes={{
+              root: classNames(
+                styles.centeredHeader,
+                styles.header,
+                styles.spotlight
+              ),
+              title: styles.title,
+              desc: styles.blurb,
+            }}
+            title="Spotlight Personas"
+            desc={
+              "Masterfully designed personas that go beyond standard customizations."
+            }
+          />
+        </div>
+
+        <FeaturedPersonasCarousel
+          items={featuredPersonas}
+          classes={{ root: styles.featuredCarousel }}
+        />
         <HomeSection
           image="/elon_chat.png"
           heading="Discover Your PersonaVerse!"
